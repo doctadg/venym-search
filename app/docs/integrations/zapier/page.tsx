@@ -20,6 +20,7 @@ import { Callout } from '../../components/Callout'
 
 
 export default function ZapierIntegrationPage() {
+
   const webhookCode = `// Trigger example - New search results found
 {
   "event": "new_search_results",

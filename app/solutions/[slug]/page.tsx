@@ -8,6 +8,7 @@ import type { Metadata } from 'next'
 
 
 interface PageProps {
+
   params: Promise<{ slug: string }>
 }
 

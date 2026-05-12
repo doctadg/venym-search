@@ -318,6 +318,7 @@ import json
 
 from datetime import datetime, timedelta
 
+
 st.set_page_config(page_title="E-commerce Price Monitor", page_icon="🛒", layout="wide")
 
 st.title("🛒 E-commerce Price Monitor Dashboard")

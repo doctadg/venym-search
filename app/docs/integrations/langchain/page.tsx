@@ -164,6 +164,7 @@ import requests
 
 
     topic: str = Field(description="Research topic")
+
     max_sources: Optional[int] = Field(default=5, description="Maximum sources to analyze")
 
 class ResearchTool(BaseTool):

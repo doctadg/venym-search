@@ -19,6 +19,7 @@ import { Callout } from '../../components/Callout'
 
 
 export default function JavaScriptSDKPage() {
+
   const installCode = {
     npm: `npm install VENYM_SEARCH-js`,
     yarn: `yarn add VENYM_SEARCH-js`,

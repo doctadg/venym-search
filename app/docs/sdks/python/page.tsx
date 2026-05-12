@@ -248,6 +248,7 @@ import random
 
 
 def search_with_retry(query, max_retries=3):
+
     for attempt in range(max_retries):
         try:
             return client.venym_search(query)

@@ -7,6 +7,7 @@ import type { Metadata } from 'next'
 
 
 export const metadata: Metadata = {
+
   title: 'OpenClaw Integration — AI Agent Search & Scraping API | Venym Search',
   description: 'Add web search, web scraping, and deep research to your OpenClaw agent. Direct Brave Search API replacement with built-in web crawling, content extraction, and LLM-optimized output. Free to start, no Python or Node dependencies.',
   keywords: [

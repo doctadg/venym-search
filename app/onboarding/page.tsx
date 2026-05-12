@@ -39,6 +39,7 @@ import Image from "next/image";
 
 
 const onboardingSteps = [
+
   {
     id: "welcome",
     title: "Welcome to Venym Search!",

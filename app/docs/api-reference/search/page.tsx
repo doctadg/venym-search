@@ -16,6 +16,7 @@ import { ParameterTable, ResponseTable } from '../../components/ParameterTable'
 
 
 export default function SearchAPIReferencePage() {
+
   const parameters = [
     {
       name: "query",

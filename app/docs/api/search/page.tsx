@@ -19,6 +19,7 @@ import { ParameterTable, ResponseTable } from '../../components/ParameterTable'
 
 
 export default function SearchPage() {
+
   const quickExample = {
     python: `import requests
 

@@ -873,6 +873,7 @@ func middlewareExample() {
                   <code className="bg-gray-100 px-2 py-1 rounded text-xs">
                     import "github.com/VENYM_SEARCH/VENYM_SEARCH-go/examples"
                   </code>
+
                   <p className="text-gray-600 mt-1">Code examples</p>
                 </div>
               </div>

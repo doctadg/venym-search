@@ -16,6 +16,7 @@ import {
   Palette,
 } from 'lucide-react'
 
+
 export const metadata: Metadata = {
   title: 'Free Developer Tools - JSON, Base64, Regex, UUID & More | Venym Search',
   description:

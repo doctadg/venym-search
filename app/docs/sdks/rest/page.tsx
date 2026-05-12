@@ -15,6 +15,7 @@ import { APIMethod } from '../../components/APIMethod'
 
 
 export default function RESTAPIPage() {
+
   const authExample = `# Authentication Header
 Authorization: Bearer sk_live_YOUR_API_KEY_API_KEY_api_key_here
 

@@ -15,6 +15,7 @@ import { competitors } from "@/lib/compare-data";
 
 
 export const metadata = {
+
   title: "Venym Search vs Competitors — Compare Web Scraping & Search APIs",
   description:
     "Side-by-side comparison of Venym Search against SerpAPI, ScrapingBee, Bright Data, Firecrawl, Tavily, and 10 more APIs. See pricing, features, and code examples.",

@@ -181,6 +181,7 @@ import time
 
 
 st.title("🔍 AI Research Assistant")
+
 st.caption("Powered by OpenAI GPT-4 + Venym Search APIs")
 
 # Initialize session state

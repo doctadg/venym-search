@@ -7,6 +7,7 @@ import type { Metadata } from 'next'
 
 
 export const metadata: Metadata = {
+
   title: 'Integrations - Venym Search',
   description: 'Integrate Venym Search with LangChain, CrewAI, n8n, Zapier, OpenAI, and more. Connect web data to your favorite tools.',
   openGraph: {

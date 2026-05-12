@@ -424,6 +424,7 @@ import argparse
 
 
 def main():
+
     parser = argparse.ArgumentParser(description='Bitcoin Price Tracker')
     parser.add_argument('--collect', action='store_true', help='Run one-time data collection')
     parser.add_argument('--report', action='store_true', help='Show summary report')

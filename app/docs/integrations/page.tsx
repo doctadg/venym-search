@@ -16,6 +16,7 @@ import {
   Puzzle,
   Globe,
   Cpu
+
 } from 'lucide-react'
 
 export default function IntegrationsPage() {

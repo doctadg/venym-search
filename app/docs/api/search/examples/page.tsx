@@ -337,6 +337,7 @@ import re
 
 from datetime import datetime
 
+
 # E-commerce price monitoring
 products_to_monitor = [
     "iPhone 15 Pro price",

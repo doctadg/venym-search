@@ -21,6 +21,7 @@ import { Callout } from '../../components/Callout'
 
 
 export default function N8nIntegrationPage() {
+
   const nodeStructureCode = `// Venym Search Search Node Structure
 export class VenymSearchSearch implements INodeType {
   description: INodeTypeDescription = {

@@ -22,6 +22,7 @@ import { ParameterTable, ResponseTable } from '../../../components/ParameterTabl
 
 
 export default function ScrapeParametersPage() {
+
   const coreParameters = [
     {
       name: "url",

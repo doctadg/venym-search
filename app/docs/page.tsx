@@ -1,5 +1,6 @@
 import Link from 'next/link'
 
+
 import {
   Rocket,
   Code2,
@@ -16,6 +17,8 @@ import {
   ChevronRight,
 } from 'lucide-react'
 import { CodeBlock } from './components/CodeBlock'
+
+export const dynamic = 'force-dynamic'
 
 export default function DocsHomePage() {
   const quickStartCode = {

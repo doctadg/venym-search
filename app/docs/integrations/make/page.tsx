@@ -20,6 +20,7 @@ import { Callout } from '../../components/Callout'
 
 
 export default function MakeIntegrationPage() {
+
   const httpModuleCode = `{
   "url": "https://www.search.venym.io/api/v1/search",
   "method": "POST",

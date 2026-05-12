@@ -16,6 +16,7 @@ import { competitors, getCompetitor } from "@/lib/compare-data";
 
 /* ── static params & metadata ── */
 
+
 export function generateStaticParams() {
   return competitors.map((c) => ({ slug: c.slug }));
 }

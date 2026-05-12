@@ -370,6 +370,7 @@ for item in sorted(price_comparison, key=lambda x: x['domain']):
 import json
 
 with open('price_comparison.json', 'w') as f:
+
     json.dump(price_comparison, f, indent=2)
 
 print(f"\\nSaved {len(price_comparison)} product comparisons to price_comparison.json")`,

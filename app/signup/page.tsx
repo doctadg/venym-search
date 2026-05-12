@@ -28,6 +28,7 @@ import { useUser, useSignUp } from "@clerk/nextjs";
 
 
 const plans = [
+
   {
     id: "starter",
     name: "Starter",

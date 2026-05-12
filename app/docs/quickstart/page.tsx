@@ -18,6 +18,7 @@ import { APIMethod } from '../components/APIMethod'
 
 
 export default function QuickStartPage() {
+
   const firstCallCode = {
     python: `import requests
 

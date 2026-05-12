@@ -22,6 +22,7 @@ import { Callout } from '../../components/Callout'
 
 
 export default function PHPSDKPage() {
+
   const installCode = {
     composer: `# Install via Composer
 composer require VENYM_SEARCH/VENYM_SEARCH-php

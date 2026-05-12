@@ -24,6 +24,7 @@ import BlogMarkdown from '@/components/blog-markdown'
 
 
 interface BlogPostPageProps {
+
   params: Promise<{ slug: string }>
 }
 

@@ -10,6 +10,7 @@ import {
   Zap,
   Shield,
   Calendar
+
 } from 'lucide-react'
 
 export default function ChangelogPage() {

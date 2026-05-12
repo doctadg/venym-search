@@ -23,6 +23,7 @@ import { ParameterTable, ResponseTable } from '../../components/ParameterTable'
 
 
 export default function ScrapeAPIPage() {
+
   const quickExample = {
     python: `import requests
 

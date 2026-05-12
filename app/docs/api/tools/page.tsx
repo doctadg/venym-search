@@ -8,6 +8,7 @@ import { ArrowRight, Wrench, Zap } from 'lucide-react'
 
 
 const tools = [
+
   {
     id: 1,
     name: 'JSON Formatter & Validator',

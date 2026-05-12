@@ -19,6 +19,7 @@ import { Callout } from '../../components/Callout'
 
 
 export default function MCPIntegrationPage() {
+
   const installCode = {
     npm: `npm install -g @VENYM_SEARCH/mcp-server`,
     npx: `npx @VENYM_SEARCH/mcp-server`,
