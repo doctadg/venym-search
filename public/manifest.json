@@ -1,0 +1,16 @@
+{
+  "name": "Venym Search",
+  "short_name": "Venym Search",
+  "description": "Enterprise-grade web scraping, search, and AI research APIs by Venym Labs",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "buildCommand": "prisma generate && next build",
+  "framework": "nextjs",
+  "functions": {
+    "app/api/**/*.ts": {
+      "maxDuration": 60
+    }
+  },
+  "crons": [
+    {
+      "path": "/api/health",
+      "schedule": "*/5 * * * *"
+    },
+    {
+      "path": "/api/cron/generate-content",
+      "schedule": "0 9-21 * * 1-5"
+    },
+    {
+      "path": "/api/cron/daily-maintenance", 
+      "schedule": "0 2 * * *"
+    }
+  ],
+  "env": {},
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/docs/:path*",
+      "destination": "/docs/:path*"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/dashboard/(.*)",
+      "has": [
+        {
+          "type": "header",
+          "key": "x-middleware-subrequest"
+        }
+      ],
+      "destination": "/login",
+      "permanent": false
+    }
+  ]
+}

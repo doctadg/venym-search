@@ -1,0 +1,39 @@
+# Venym Search
+
+> Enterprise-grade web scraping, real-time search, and AI-powered research APIs by Venym Labs.
+
+## Products
+
+### SwiftSearch
+Real-time web search across 8 engines in parallel. Sub-second results with intelligent merging.
+- Endpoint: POST /api/v1/swiftsearch
+- Auth: Bearer token (API key)
+
+### ScrapeForge
+Bypass any anti-bot protection. JavaScript rendering, CAPTCHA handling, contact extraction.
+- Endpoint: POST /api/v1/scrapeforge
+- Auth: Bearer token (API key)
+
+### DeepDive
+Multi-source AI research. Search, scrape top results, and synthesize findings in one call.
+- Endpoint: POST /api/v1/deepdive
+- Auth: Bearer token (API key)
+
+## Quick Start
+1. Sign up at https://search.venym.io/signup
+2. Get your API key from the dashboard
+3. Make your first request:
+   curl -X POST https://search.venym.io/api/v1/swiftsearch \
+     -H "Authorization: Bearer YOUR_API_KEY" \
+     -H "Content-Type: application/json" \
+     -d '{"query": "your search query"}'
+
+## Docs
+- Quickstart: https://search.venym.io/docs/quickstart
+- API Reference: https://search.venym.io/docs/api-reference/swiftsearch
+- Pricing: https://search.venym.io/pricing
+
+## Contact
+- Twitter: @RealDoctaDG
+- GitHub: doctadg
+- Telegram: @RealDoctaDG

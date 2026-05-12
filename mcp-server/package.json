@@ -1,0 +1,63 @@
+{
+  "name": "@searchhive/mcp-server",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Model Context Protocol server for SearchHive APIs - connect any AI agent to powerful web search and scraping capabilities",
+  "main": "dist/index.js",
+  "bin": {
+    "searchhive-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "package.json",
+    ".env.example"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch", 
+    "start": "node dist/index.js",
+    "test": "node --test dist/test.js",
+    "inspect": "npx @modelcontextprotocol/inspector node dist/index.js",
+    "prepublishOnly": "npm run build && npm test",
+    "postinstall": "echo '\n🔧 Configure your SearchHive API key:\n   export SEARCHHIVE_API_KEY=sk_live_your_key_here\n\n📚 Documentation: https://searchhive.com/docs/integrations/mcp\n'"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol", 
+    "searchhive",
+    "web-scraping",
+    "search",
+    "ai-tools",
+    "claude",
+    "cursor",
+    "ai-agent"
+  ],
+  "author": {
+    "name": "SearchHive",
+    "email": "support@searchhive.com",
+    "url": "https://searchhive.com"
+  },
+  "license": "MIT",
+  "homepage": "https://searchhive.com/docs/integrations/mcp",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/doctadg/searchhive.git",
+    "directory": "mcp-server"
+  },
+  "bugs": {
+    "url": "https://github.com/doctadg/searchhive/issues"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^3.24.1",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

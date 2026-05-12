@@ -1,26 +1,126 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-background: hsl(0 0% 2%);
+  --color-foreground: hsl(0 0% 98%);
+  --color-card: hsl(0 0% 3%);
+  --color-card-foreground: hsl(0 0% 98%);
+  --color-popover: hsl(0 0% 3%);
+  --color-popover-foreground: hsl(0 0% 98%);
+  --color-primary: hsl(0 0% 98%);
+  --color-primary-foreground: hsl(0 0% 2%);
+  --color-secondary: hsl(0 0% 8%);
+  --color-secondary-foreground: hsl(0 0% 98%);
+  --color-muted: hsl(0 0% 8%);
+  --color-muted-foreground: hsl(0 0% 55%);
+  --color-accent: hsl(0 0% 12%);
+  --color-accent-foreground: hsl(0 0% 98%);
+  --color-destructive: hsl(0 84% 60%);
+  --color-destructive-foreground: hsl(0 0% 98%);
+  --color-border: hsl(0 0% 15%);
+  --color-input: hsl(0 0% 15%);
+  --color-ring: hsl(0 0% 83%);
+  --color-chart-1: hsl(0 0% 100%);
+  --color-chart-2: hsl(0 0% 70%);
+  --color-chart-3: hsl(0 0% 50%);
+  --color-chart-4: hsl(0 0% 30%);
+  --color-chart-5: hsl(0 0% 15%);
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Venym26 Design System */
+@layer components {
+  .venym-btn-primary {
+    padding: 0.75rem 1.5rem;
+    background-color: white;
+    color: black;
+    font-size: 9px;
+    font-family: monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    font-weight: 700;
+    transition: background-color 0.15s;
+    cursor: pointer;
+    display: inline-block;
+  }
+  .venym-btn-primary:hover {
+    background-color: #e5e5e5;
+  }
+  .venym-btn-secondary {
+    padding: 0.75rem 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 9px;
+    font-family: monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    font-weight: 700;
+    transition: border-color 0.15s;
+    cursor: pointer;
+    display: inline-block;
+  }
+  .venym-btn-secondary:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+  .venym-card {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background-color: #080808;
+  }
+  .venym-meta {
+    font-size: 10px;
+    font-family: monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: #4b5563;
+  }
+  .venym-divider {
+    width: 100%;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: #050505;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Selection */
+::selection {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+}
+
+/* Noise overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.4;
 }
