@@ -268,6 +268,124 @@
 
 .bento-card:hover::after { opacity: 1; }
 
+/* ─── SVG / SCENE ANIMATIONS ─── */
+@keyframes radar-spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }
+.radar-spin { transform-origin: center; animation: radar-spin 6s linear infinite; }
+
+@keyframes ping-soft { 0% { transform: scale(1); opacity: 0.55 } 100% { transform: scale(2.6); opacity: 0 } }
+.ping-soft { transform-box: fill-box; transform-origin: center; animation: ping-soft 2.4s cubic-bezier(0,0,0.2,1) infinite; }
+
+@keyframes flow-dash { to { stroke-dashoffset: -240; } }
+.flow-dash { stroke-dasharray: 4 8; animation: flow-dash 6s linear infinite; }
+
+@keyframes flow-dash-fast { to { stroke-dashoffset: -200; } }
+.flow-dash-fast { stroke-dasharray: 3 6; animation: flow-dash-fast 2.4s linear infinite; }
+
+@keyframes draw-stroke {
+  from { stroke-dashoffset: var(--len, 600); }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes blip { 0%, 75% { opacity: 0; r: 0 } 80% { opacity: 1; r: 3 } 100% { opacity: 0.4; r: 2.5 } }
+.blip-a { animation: blip 6s ease-out infinite; transform-box: fill-box; }
+.blip-b { animation: blip 6s ease-out infinite; animation-delay: 1.2s; transform-box: fill-box; }
+.blip-c { animation: blip 6s ease-out infinite; animation-delay: 2.4s; transform-box: fill-box; }
+.blip-d { animation: blip 6s ease-out infinite; animation-delay: 3.6s; transform-box: fill-box; }
+.blip-e { animation: blip 6s ease-out infinite; animation-delay: 4.8s; transform-box: fill-box; }
+
+@keyframes scanline-y { 0% { transform: translateY(0); opacity: 0 } 10%, 90% { opacity: 1 } 100% { transform: translateY(160px); opacity: 0 } }
+.scanline-y { animation: scanline-y 3.6s ease-in-out infinite; }
+
+@keyframes star-twinkle { 0%, 70% { opacity: 0.25 } 85% { opacity: 1 } 100% { opacity: 0.25 } }
+.star-twinkle { animation: star-twinkle 3.4s ease-in-out infinite; }
+
+@keyframes constellation-pulse { 0%, 100% { opacity: 0.35 } 50% { opacity: 1 } }
+.constellation-pulse { animation: constellation-pulse 3s ease-in-out infinite; }
+
+@keyframes bar-rise { 0%, 100% { transform: scaleY(var(--from, 0.5)) } 50% { transform: scaleY(var(--to, 1)) } }
+.bar-rise { transform-origin: bottom; animation: bar-rise 3s ease-in-out infinite; }
+
+@keyframes wave-shift { 0% { transform: translateX(0) } 100% { transform: translateX(-160px) } }
+.wave-shift { animation: wave-shift 8s linear infinite; }
+
+@keyframes float-y { 0%, 100% { transform: translateY(0) } 50% { transform: translateY(-8px) } }
+.float-y { animation: float-y 5s ease-in-out infinite; }
+
+@keyframes orbit-ring { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }
+.orbit-ring { transform-origin: center; animation: orbit-ring 18s linear infinite; }
+
+@keyframes shimmer-bg { 0% { background-position: -200% 0 } 100% { background-position: 200% 0 } }
+.shimmer-text {
+  background: linear-gradient(90deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0.4) 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer-bg 3s linear infinite;
+}
+
+@keyframes glow-pulse { 0%, 100% { opacity: 0.4; filter: blur(20px); } 50% { opacity: 0.7; filter: blur(28px); } }
+.glow-pulse { animation: glow-pulse 5s ease-in-out infinite; }
+
+/* Bento card variant: stronger */
+.bento-card-lg::after {
+  background: radial-gradient(800px circle at var(--mx, 50%) var(--my, 50%),
+              rgba(170, 140, 255, 0.12), transparent 40%) !important;
+}
+
+/* Soft gradient border (Linear-style rotating) */
+.linear-border {
+  position: relative;
+  background: #0a0a0c;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.linear-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 12px;
+  padding: 1px;
+  background: conic-gradient(from var(--border-angle, 0deg) at 50% 50%,
+    rgba(255,255,255,0) 0deg,
+    rgba(180,160,255,0.35) 60deg,
+    rgba(255,255,255,0) 120deg,
+    rgba(120,200,255,0.25) 240deg,
+    rgba(255,255,255,0) 320deg);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  animation: border-rotate 7s linear infinite;
+  pointer-events: none;
+}
+
+/* CTA gradient button glow */
+.cta-glow {
+  position: relative;
+  isolation: isolate;
+}
+.cta-glow::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(120deg, rgba(180,160,255,0.4), rgba(120,200,255,0.25), rgba(255,255,255,0.4));
+  filter: blur(14px);
+  opacity: 0.35;
+  z-index: -1;
+  transition: opacity 0.4s ease;
+}
+.cta-glow:hover::after { opacity: 0.7; }
+
+/* Subtle vertical line decorations */
+.col-rule-l { background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.06) 20%, rgba(255,255,255,0.06) 80%, transparent); }
+
+/* Marquee fade */
+.marquee-fade {
+  mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+}
+
 /* ─── PROSE (for docs/blog) ─── */
 .prose-docs {
   @apply text-white/70 leading-relaxed;
