@@ -1,476 +1,770 @@
-"use client";
+'use client'
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button"
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Check, Zap, Users, Building2, ArrowRight, Search, Code2, Database, ChevronDown, Target, Menu } from "lucide-react";
-import Link from "next/link";
-import Image from "next/image";
-import { useUser } from "@clerk/nextjs";
-import { useState } from "react";
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
+import { Slider } from "@/components/ui/slider"
+import { Switch } from "@/components/ui/switch"
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+  Accordion, AccordionContent, AccordionItem, AccordionTrigger,
+} from "@/components/ui/accordion"
+import {
+  Search, Code2, Database, ArrowRight, ChevronDown, Menu,
+  Check, X, Sparkles, Zap, Building2, Rocket, Terminal,
+  ArrowUpRight, CheckCircle2, Layers, Infinity as InfinityIcon,
+  Wallet, LineChart, ShieldCheck, Globe, Cpu, Gauge,
+} from "lucide-react"
+import Link from "next/link"
+import { useUser } from "@clerk/nextjs"
+import { Fragment, useMemo, useState } from "react"
 
+/* ───────────── DATA ───────────── */
 
-export default function PricingPage() {
-  const { user, isLoaded } = useUser();
-  const isAuthenticated = !!user;
-  const loading = !isLoaded;
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+const PRODUCTS = [
+  { name: "SwiftSearch", icon: Search, href: "/products/swiftsearch", tag: "SEARCH", credits: "2 cr/req" },
+  { name: "ScrapeForge", icon: Code2, href: "/products/scrapeforge", tag: "SCRAPE", credits: "5 cr/req" },
+  { name: "DeepDive", icon: Database, href: "/products/deepdive", tag: "RESEARCH", credits: "10 cr/req" },
+]
+
+type Plan = {
+  id: 'free' | 'starter' | 'pro' | 'enterprise'
+  name: string
+  tagline: string
+  monthly: number | null
+  annual: number | null
+  credits: string
+  creditsNum: number
+  icon: typeof Rocket
+  cta: string
+  href?: string
+  featured?: boolean
+  features: { label: string; value?: string | boolean }[]
+}
+
+const PLANS: Plan[] = [
+  {
+    id: 'free',
+    name: 'Free',
+    tagline: 'Kick the tires.',
+    monthly: 0,
+    annual: 0,
+    credits: '5,000',
+    creditsNum: 5_000,
+    icon: Rocket,
+    cta: 'Start Free',
+    features: [
+      { label: 'Credits per month', value: '5,000' },
+      { label: 'All three APIs' },
+      { label: 'Community support' },
+      { label: 'Rate limit', value: '20 req/min' },
+      { label: 'Dashboard analytics' },
+      { label: 'Webhooks', value: false },
+      { label: 'SLA', value: false },
+    ],
+  },
+  {
+    id: 'starter',
+    name: 'Starter',
+    tagline: 'Ship a side project.',
+    monthly: 29,
+    annual: 24,
+    credits: '100,000',
+    creditsNum: 100_000,
+    icon: Zap,
+    cta: 'Start Building',
+    features: [
+      { label: 'Credits per month', value: '100,000' },
+      { label: 'All three APIs' },
+      { label: 'Email support' },
+      { label: 'Rate limit', value: '120 req/min' },
+      { label: 'Dashboard analytics' },
+      { label: 'Webhooks' },
+      { label: 'SLA', value: false },
+    ],
+  },
+  {
+    id: 'pro',
+    name: 'Pro',
+    tagline: 'Scale to production.',
+    monthly: 99,
+    annual: 79,
+    credits: '500,000',
+    creditsNum: 500_000,
+    icon: Sparkles,
+    cta: 'Go Pro',
+    featured: true,
+    features: [
+      { label: 'Credits per month', value: '500,000' },
+      { label: 'All three APIs' },
+      { label: 'Priority support, < 4h' },
+      { label: 'Rate limit', value: '600 req/min' },
+      { label: 'Dashboard analytics' },
+      { label: 'Webhooks' },
+      { label: 'SLA', value: '99.9%' },
+    ],
+  },
+  {
+    id: 'enterprise',
+    name: 'Enterprise',
+    tagline: 'Bend the platform.',
+    monthly: null,
+    annual: null,
+    credits: 'Custom',
+    creditsNum: 0,
+    icon: Building2,
+    cta: 'Talk to Sales',
+    href: 'mailto:sales@venym.io',
+    features: [
+      { label: 'Credits per month', value: 'Custom' },
+      { label: 'All three APIs' },
+      { label: 'Dedicated engineer' },
+      { label: 'Rate limit', value: 'Custom' },
+      { label: 'Advanced analytics' },
+      { label: 'Webhooks & custom integrations' },
+      { label: 'SLA', value: '99.99%' },
+    ],
+  },
+]
+
+const COMPARE_ROWS: { label: string; values: (string | boolean)[]; group?: string }[] = [
+  { group: 'Credits & APIs', label: 'Monthly credits', values: ['5,000', '100,000', '500,000', 'Custom'] },
+  { label: 'SwiftSearch (search)', values: [true, true, true, true] },
+  { label: 'ScrapeForge (scrape)', values: [true, true, true, true] },
+  { label: 'DeepDive (research)', values: [true, true, true, true] },
+  { label: 'Rate limit', values: ['20 / min', '120 / min', '600 / min', 'Custom'] },
+  { group: 'Platform', label: 'Dashboard analytics', values: [true, true, true, true] },
+  { label: 'Multiple API keys', values: ['2', '10', 'Unlimited', 'Unlimited'] },
+  { label: 'Webhooks', values: [false, true, true, true] },
+  { label: 'Team seats', values: ['1', '3', '10', 'Custom'] },
+  { group: 'Support & SLA', label: 'Support', values: ['Community', 'Email', 'Priority < 4h', 'Dedicated'] },
+  { label: 'Uptime SLA', values: [false, false, '99.9%', '99.99%'] },
+  { label: 'Audit logs & SSO', values: [false, false, false, true] },
+  { label: 'Custom contract', values: [false, false, false, true] },
+]
+
+const FAQS = [
+  {
+    q: 'How do credits work?',
+    a: 'One credit = $0.0001. SwiftSearch costs 2 credits per request, ScrapeForge 5, DeepDive 10. You only pay for successful responses — failed requests are free. Credits reset at the start of each billing cycle.',
+  },
+  {
+    q: 'What happens when I run out of credits?',
+    a: 'Your API returns a 402. No surprise charges. You can either upgrade your plan or top up with overage credits ($1 per 10,000) — whichever is cheaper for your traffic.',
+  },
+  {
+    q: 'Can I switch or cancel plans anytime?',
+    a: 'Yes. Upgrades are immediate and prorated. Downgrades take effect at the next billing cycle. No phone calls, no retention scripts — just a button in your dashboard.',
+  },
+  {
+    q: 'Do you offer annual discounts?',
+    a: 'Yes. Switch to annual billing to save ~20% on every paid plan. Enterprise contracts are negotiated separately based on volume commit.',
+  },
+  {
+    q: 'Is there a free trial for paid plans?',
+    a: 'Every account starts with 5,000 free credits — enough to evaluate all three APIs in production conditions. No card required to start.',
+  },
+  {
+    q: 'How is Enterprise different?',
+    a: 'Volume pricing, custom rate limits, on-prem or VPC deployment, SSO, audit logs, dedicated solutions engineering, and a signed MSA. Built for teams running 50M+ requests/month.',
+  },
+]
+
+/* ───────────── HELPERS ───────────── */
+
+function fmt(n: number) {
+  if (n >= 1_000_000) return (n / 1_000_000).toFixed(n % 1_000_000 ? 1 : 0) + 'M'
+  if (n >= 1_000) return (n / 1_000).toFixed(0) + 'K'
+  return n.toString()
+}
+
+function valueCell(v: string | boolean | undefined) {
+  if (v === true) return <Check className="h-4 w-4 text-emerald-400/80 mx-auto" />
+  if (v === false) return <X className="h-3.5 w-3.5 text-white/15 mx-auto" />
+  if (v === undefined) return <Check className="h-4 w-4 text-emerald-400/80 mx-auto" />
+  return <span className="text-[12px] text-white/70 font-mono">{v}</span>
+}
+
+/* ───────────── CREDIT CALCULATOR ───────────── */
+
+function CreditCalculator() {
+  const [search, setSearch] = useState(20000)
+  const [scrape, setScrape] = useState(5000)
+  const [research, setResearch] = useState(500)
+
+  const totalCredits = search * 2 + scrape * 5 + research * 10
+  const overage = totalCredits * 0.0001
+
+  const recommended = useMemo(() => {
+    if (totalCredits <= 5_000) return PLANS[0]
+    if (totalCredits <= 100_000) return PLANS[1]
+    if (totalCredits <= 500_000) return PLANS[2]
+    return PLANS[3]
+  }, [totalCredits])
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#17457c] text-[#edf3f1]">
-      {/* Header */}
-      <header className="px-4 lg:px-6 h-16 md:h-20 flex items-center border-b-4 border-[#efa72d] bg-[#17457c]">
-        <Link href="/" className="flex items-center justify-center">
-          <div className="flex items-center space-x-2 md:space-x-3">
-            <div className="w-8 h-8 md:w-12 md:h-12 relative">
-              <Image
-                src="/VENYM_SEARCH-logo.png"
-                alt="Venym Search Logo"
-                width={48}
-                height={48}
-                className="w-8 h-8 md:w-12 md:h-12 brightness-0 invert"
-              />
+    <div className="grid lg:grid-cols-[1.1fr_1fr] gap-6">
+      {/* Sliders */}
+      <div className="venym-card !p-7 md:!p-9 space-y-7">
+        {[
+          { icon: Search, label: 'SwiftSearch', sub: '2 cr / req', val: search, max: 200_000, set: setSearch, step: 500 },
+          { icon: Code2, label: 'ScrapeForge', sub: '5 cr / req', val: scrape, max: 100_000, set: setScrape, step: 100 },
+          { icon: Database, label: 'DeepDive', sub: '10 cr / req', val: research, max: 50_000, set: setResearch, step: 50 },
+        ].map(row => (
+          <div key={row.label}>
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-3">
+                <div className="h-9 w-9 rounded-md bg-white/[0.04] border border-white/[0.06] flex items-center justify-center">
+                  <row.icon className="h-4 w-4 text-white/60" />
+                </div>
+                <div>
+                  <div className="text-[13px] font-medium text-white/90">{row.label}</div>
+                  <div className="text-[10px] font-mono text-white/30 tracking-wider uppercase">{row.sub}</div>
+                </div>
+              </div>
+              <div className="text-right">
+                <div className="text-[18px] font-bold tabular-nums">{fmt(row.val)}</div>
+                <div className="text-[10px] font-mono text-white/30 tracking-wider uppercase">req / mo</div>
+              </div>
             </div>
-            <span className="font-black text-lg md:text-2xl tracking-tight">VENYM_SEARCH</span>
+            <Slider
+              value={[row.val]}
+              max={row.max}
+              step={row.step}
+              onValueChange={(v) => row.set(v[0])}
+              className="cursor-pointer"
+            />
           </div>
-        </Link>
-        {/* Desktop Navigation */}
-        <nav className="absolute left-1/2 transform -translate-x-1/2 hidden lg:flex gap-6 xl:gap-8 items-center">
-          <DropdownMenu>
-            <DropdownMenuTrigger className="text-base xl:text-lg font-black hover:text-[#efa72d] transition-colors border-b-2 border-transparent hover:border-[#efa72d] pb-1 text-[#edf3f1] flex items-center gap-1 bg-transparent">
-              PRODUCTS
-              <ChevronDown className="h-4 w-4" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              align="center"
-              className="bg-[#17457c] border-2 border-[#efa72d] shadow-[4px_4px_0px_0px_#efa72d] mt-2"
-            >
-              <DropdownMenuItem asChild>
-                <Link
-                  href="/products/swiftsearch"
-                  className="text-base font-black text-[#edf3f1] hover:text-[#efa72d] hover:bg-[#6b839a] cursor-pointer focus:bg-[#6b839a] focus:text-[#efa72d] flex items-center gap-2"
-                >
-                  <Search className="h-4 w-4" />
-                  SWIFTSEARCH
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link
-                  href="/products/scrapeforge"
-                  className="text-base font-black text-[#edf3f1] hover:text-[#efa72d] hover:bg-[#6b839a] cursor-pointer focus:bg-[#6b839a] focus:text-[#efa72d] flex items-center gap-2"
-                >
-                  <Code2 className="h-4 w-4" />
-                  SCRAPEFORGE
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link
-                  href="/products/deepdive"
-                  className="text-base font-black text-[#edf3f1] hover:text-[#efa72d] hover:bg-[#6b839a] cursor-pointer focus:bg-[#6b839a] focus:text-[#efa72d] flex items-center gap-2"
-                >
-                  <Database className="h-4 w-4" />
-                  DEEPDIVE
-                </Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <Link
-            href="/pricing"
-            className="text-base xl:text-lg font-black text-[#efa72d] border-b-2 border-[#efa72d] pb-1"
-          >
-            PRICING
-          </Link>
-          <Link
-            href="/tools"
-            className="text-base xl:text-lg font-black hover:text-[#efa72d] transition-colors border-b-2 border-transparent hover:border-[#efa72d] pb-1 text-[#edf3f1]"
-          >
-            TOOLS
-          </Link>
-        </nav>
-        {/* Authentication buttons - positioned on the right */}
-        <div className="ml-auto hidden lg:flex gap-4 items-center">
-          {loading ? (
-            <div className="w-16 h-8 bg-gray-600 animate-pulse rounded"></div>
-          ) : isAuthenticated ? (
-            <Link href="/dashboard">
-              <Button className="bg-[#efa72d] hover:bg-[#d4941f] text-[#17457c] font-black border-2 border-black shadow-[2px_2px_0px_0px_#000000]">
-                DASHBOARD
-                <ArrowRight className="h-4 w-4 ml-2" />
-              </Button>
-            </Link>
-          ) : (
-            <div className="flex gap-4 items-center">
-              <Link
-                href="/login"
-                className="text-base xl:text-lg font-black hover:text-[#efa72d] transition-colors border-b-2 border-transparent hover:border-[#efa72d] pb-1 text-[#edf3f1]"
-              >
-                LOGIN
-              </Link>
-              <Link href="/signup">
-                <Button className="bg-[#efa72d] hover:bg-[#d4941f] text-[#17457c] font-black border-2 border-black shadow-[2px_2px_0px_0px_#000000] px-6">
-                  START FREE TRIAL
-                  <Target className="h-4 w-4 ml-2" />
-                </Button>
-              </Link>
-            </div>
-          )}
+        ))}
+      </div>
+
+      {/* Result */}
+      <div className="venym-glow-card p-7 md:p-9 flex flex-col justify-between min-h-full">
+        <div>
+          <div className="flex items-center gap-3 mb-5">
+            <Wallet className="h-4 w-4 text-white/40" />
+            <span className="text-[10px] font-mono text-white/40 tracking-[0.25em] uppercase">Estimated Monthly</span>
+          </div>
+          <div className="text-[clamp(2.5rem,5vw,4rem)] font-bold tracking-tight leading-none tabular-nums">
+            {fmt(totalCredits)}
+            <span className="text-white/30 text-[0.55em] font-mono ml-2 tracking-wider">CREDITS</span>
+          </div>
+          <div className="text-[12px] text-white/40 mt-3 font-mono">
+            ≈ ${overage.toFixed(2)} at $0.0001 / credit
+          </div>
         </div>
-        {/* Mobile Navigation */}
-        <div className="flex lg:hidden items-center gap-2">
-          {!loading && !isAuthenticated && (
-            <Link href="/signup">
-              <Button size="sm" className="bg-[#efa72d] text-[#17457c] font-black text-xs px-3 py-2 border-2 border-[#edf3f1] shadow-[2px_2px_0px_0px_#edf3f1]">
-                START FREE
-              </Button>
-            </Link>
-          )}
-          {!loading && isAuthenticated && (
-            <Link href="/dashboard">
-              <Button size="sm" className="bg-[#efa72d] text-[#17457c] font-black text-xs px-3 py-2 border-2 border-[#edf3f1] shadow-[2px_2px_0px_0px_#edf3f1]">
-                DASHBOARD
-              </Button>
-            </Link>
-          )}
-          <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="sm" className="p-2">
-                <Menu className="h-5 w-5 text-[#efa72d]" />
-                <span className="sr-only">Toggle menu</span>
+
+        <div className="mt-8 pt-6 border-t border-white/[0.06]">
+          <div className="text-[10px] font-mono text-white/30 tracking-[0.25em] uppercase mb-3">Recommended plan</div>
+          <div className="flex items-end justify-between gap-4">
+            <div>
+              <div className="text-2xl font-bold tracking-tight flex items-center gap-2">
+                <recommended.icon className="h-5 w-5 text-white/60" />
+                {recommended.name}
+              </div>
+              <div className="text-[12px] text-white/40 mt-1">{recommended.tagline}</div>
+            </div>
+            <div className="text-right shrink-0">
+              <div className="text-2xl font-bold tabular-nums">
+                {recommended.monthly === null ? 'Custom' : recommended.monthly === 0 ? '$0' : `$${recommended.monthly}`}
+              </div>
+              <div className="text-[10px] font-mono text-white/30 tracking-wider uppercase">/ month</div>
+            </div>
+          </div>
+          <Link
+            href={recommended.id === 'enterprise' ? 'mailto:sales@venym.io' : `/signup?plan=${recommended.id}`}
+            className="venym-btn-primary w-full mt-6 py-3 flex items-center justify-center gap-2 group"
+          >
+            Choose {recommended.name}
+            <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform" />
+          </Link>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/* ───────────── PAGE ───────────── */
+
+export default function PricingPage() {
+  const { user } = useUser()
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [annual, setAnnual] = useState(false)
+
+  const handleCheckout = async (planId: Plan['id']) => {
+    if (planId === 'enterprise') {
+      window.location.href = 'mailto:sales@venym.io'
+      return
+    }
+    if (planId === 'free') {
+      window.location.href = user ? '/dashboard' : '/signup?plan=free'
+      return
+    }
+    if (!user) {
+      window.location.href = `/signup?plan=${planId}`
+      return
+    }
+    try {
+      const res = await fetch('/api/payments/create-subscription-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan_type: planId, billing: annual ? 'annual' : 'monthly' }),
+      })
+      if (!res.ok) throw new Error()
+      const data = await res.json()
+      window.location.href = data.checkout_url
+    } catch {
+      alert('Could not start checkout. Please try again.')
+    }
+  }
+
+  return (
+    <div className="min-h-screen bg-[#050505] text-white antialiased overflow-x-hidden">
+
+      {/* ─── NAV ─── */}
+      <nav className="sticky top-0 z-50 border-b border-white/[0.06] bg-[#050505]/85 backdrop-blur-xl">
+        <div className="max-w-[1280px] mx-auto flex items-center justify-between h-14 px-5">
+          <Link href="/" className="font-bold tracking-[0.25em] text-sm flex items-center gap-2">
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            VENYM<span className="text-white/40 font-normal">.SEARCH</span>
+          </Link>
+
+          <div className="hidden md:flex items-center gap-7">
+            <DropdownMenu>
+              <DropdownMenuTrigger className="text-[11px] font-medium text-white/50 hover:text-white transition tracking-wide flex items-center gap-1 bg-transparent">
+                Products <ChevronDown className="h-3 w-3 opacity-50" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="center" className="bg-[#0c0c0c] border-white/10 rounded-md mt-2 min-w-[260px] p-1.5">
+                {PRODUCTS.map(p => (
+                  <DropdownMenuItem key={p.name} asChild>
+                    <Link href={p.href} className="flex items-start gap-3 py-2.5 px-3 text-[12px] text-white/60 hover:text-white hover:bg-white/[0.04] cursor-pointer focus:bg-white/[0.04] focus:text-white rounded-sm">
+                      <div className="h-7 w-7 rounded-sm bg-white/[0.04] flex items-center justify-center shrink-0 mt-0.5">
+                        <p.icon className="h-3.5 w-3.5 opacity-70" />
+                      </div>
+                      <div>
+                        <div className="font-medium text-white/90">{p.name}</div>
+                        <div className="text-[10px] text-white/30 mt-0.5 tracking-wide uppercase font-mono">{p.tag} · {p.credits}</div>
+                      </div>
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <Link href="/docs" className="text-[11px] font-medium text-white/50 hover:text-white transition tracking-wide">Docs</Link>
+            <Link href="/pricing" className="text-[11px] font-medium text-white tracking-wide">Pricing</Link>
+            <Link href="/tools" className="text-[11px] font-medium text-white/50 hover:text-white transition tracking-wide">Tools</Link>
+          </div>
+
+          <div className="hidden md:flex items-center gap-3">
+            {user ? (
+              <Link href="/dashboard" className="venym-btn-primary text-[10px] py-2 px-4">Dashboard</Link>
+            ) : (
+              <>
+                <Link href="/login" className="text-[11px] font-medium text-white/50 hover:text-white transition tracking-wide">Sign in</Link>
+                <Link href="/signup" className="venym-btn-primary text-[10px] py-2 px-4 flex items-center gap-1.5">
+                  Get API Key <ArrowRight className="h-3 w-3" />
+                </Link>
+              </>
+            )}
+          </div>
+
+          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+            <SheetTrigger asChild className="md:hidden">
+              <Button variant="ghost" size="icon" className="text-white/70 hover:text-white hover:bg-white/5">
+                <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="bg-[#17457c] border-l-4 border-[#efa72d] w-[250px] sm:w-[300px]">
+            <SheetContent side="right" className="bg-[#050505] border-white/[0.06] w-[280px]">
               <SheetHeader>
-                <SheetTitle className="text-[#efa72d] font-black text-xl">MENU</SheetTitle>
+                <SheetTitle className="text-white font-bold tracking-[0.25em] text-sm">VENYM.SEARCH</SheetTitle>
               </SheetHeader>
-              <nav className="mt-6 flex flex-col gap-4">
-                <div className="space-y-2">
-                  <div className="font-black text-[#efa72d] text-sm mb-2">PRODUCTS</div>
-                  <Link href="/products/swiftsearch" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2 text-[#edf3f1] hover:text-[#efa72d] font-bold py-2 px-4 border-l-4 border-transparent hover:border-[#efa72d] transition-all">
-                    <Search className="h-4 w-4" /> SWIFTSEARCH
+              <nav className="flex flex-col gap-1 mt-6">
+                {PRODUCTS.map(p => (
+                  <Link key={p.name} href={p.href} onClick={() => setMobileOpen(false)} className="flex items-center gap-3 py-3 px-2 text-[12px] text-white/60 hover:text-white border-b border-white/[0.04]">
+                    <p.icon className="h-4 w-4 opacity-50" /> {p.name}
                   </Link>
-                  <Link href="/products/scrapeforge" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2 text-[#edf3f1] hover:text-[#efa72d] font-bold py-2 px-4 border-l-4 border-transparent hover:border-[#efa72d] transition-all">
-                    <Code2 className="h-4 w-4" /> SCRAPEFORGE
-                  </Link>
-                  <Link href="/products/deepdive" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2 text-[#edf3f1] hover:text-[#efa72d] font-bold py-2 px-4 border-l-4 border-transparent hover:border-[#efa72d] transition-all">
-                    <Database className="h-4 w-4" /> DEEPDIVE
-                  </Link>
-                </div>
-                <Link href="/pricing" onClick={() => setIsMenuOpen(false)} className="text-[#efa72d] font-black py-2 px-4 border-l-4 border-[#efa72d] transition-all">PRICING</Link>
-                {!isAuthenticated && (
-                  <>
-                    <div className="h-px bg-[#efa72d] my-2"></div>
-                    <Link href="/login" onClick={() => setIsMenuOpen(false)} className="text-[#edf3f1] hover:text-[#efa72d] font-black py-2 px-4 border-l-4 border-transparent hover:border-[#efa72d] transition-all">LOGIN</Link>
-                    <Link href="/signup" onClick={() => setIsMenuOpen(false)} className="text-[#efa72d] font-black py-2 px-4 border-l-4 border-[#efa72d] transition-all">SIGN UP</Link>
-                  </>
+                ))}
+                <Link href="/docs" onClick={() => setMobileOpen(false)} className="py-3 px-2 text-[12px] text-white/60 hover:text-white border-b border-white/[0.04]">Docs</Link>
+                <Link href="/pricing" onClick={() => setMobileOpen(false)} className="py-3 px-2 text-[12px] text-white border-b border-white/[0.04]">Pricing</Link>
+                <Link href="/tools" onClick={() => setMobileOpen(false)} className="py-3 px-2 text-[12px] text-white/60 hover:text-white border-b border-white/[0.04]">Tools</Link>
+                {user ? (
+                  <Link href="/dashboard" onClick={() => setMobileOpen(false)} className="venym-btn-primary text-center mt-4 text-[10px] py-2.5">Dashboard</Link>
+                ) : (
+                  <div className="flex flex-col gap-2 mt-4">
+                    <Link href="/login" onClick={() => setMobileOpen(false)} className="text-[12px] text-white/60 hover:text-white py-2">Sign in</Link>
+                    <Link href="/signup" onClick={() => setMobileOpen(false)} className="venym-btn-primary text-center text-[10px] py-2.5">Get API Key</Link>
+                  </div>
                 )}
               </nav>
             </SheetContent>
           </Sheet>
         </div>
-      </header>
+      </nav>
 
-      <main className="flex-1">
-        {/* Hero Section */}
-        <section className="w-full py-16 md:py-24 bg-[#17457c] relative overflow-hidden">
-          <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(239,167,45,0.08)_25%,rgba(239,167,45,0.08)_50%,transparent_50%,transparent_75%,rgba(239,167,45,0.08)_75%)] bg-[length:20px_20px]"></div>
-          <div className="container px-4 md:px-6 relative z-10 max-w-5xl mx-auto">
-            <div className="text-center space-y-6 sm:space-y-8">
-              <div className="space-y-4 sm:space-y-6">
-                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-none">
-                  <span className="block transform -skew-y-1">SIMPLE</span>
-                  <span className="block text-[#efa72d] transform skew-y-1">PRICING</span>
-                </h1>
-                <div className="w-32 sm:w-48 h-2 sm:h-3 bg-[#efa72d] mx-auto transform skew-x-12 mb-4 sm:mb-6"></div>
-                <p className="text-lg sm:text-xl md:text-2xl font-bold text-[#edf3f1] leading-tight max-w-3xl mx-auto">
-                  1 CREDIT = $0.0001 → SIMPLE PRICING
-                </p>
-              </div>
-            </div>
+      {/* ─── HERO ─── */}
+      <section className="relative overflow-hidden border-b border-white/[0.06]">
+        <div className="absolute inset-0 mesh-dots" />
+        <div className="absolute inset-0 glow-radial" />
+
+        <div className="relative max-w-[1280px] mx-auto px-5 pt-20 pb-14 md:pt-28 md:pb-20 text-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1 mb-7 rounded-full border border-white/10 bg-white/[0.02] backdrop-blur">
+            <Wallet className="h-3 w-3 text-white/60" />
+            <span className="text-[10px] font-mono text-white/60 tracking-wider uppercase">Pricing // Pay only for what you ship</span>
           </div>
-        </section>
 
-        {/* Free Plan White Bar */}
-        <section className="w-full py-10 md:py-14 bg-white text-black border-y-4 border-black">
-          <div className="container px-4 md:px-6 mx-auto max-w-4xl">
-            <div className="flex flex-col items-center justify-center gap-6 text-center">
-              <div className="space-y-3">
-                <div className="flex items-center justify-center gap-3">
-                  <div className="w-4 h-4 bg-[#efa72d] border-2 border-black shadow-[2px_2px_0px_0px_#000000]"></div>
-                  <h3 className="text-xl md:text-2xl lg:text-3xl font-black tracking-tighter">
-                    START FREE TODAY
-                  </h3>
-                </div>
-                <p className="text-base md:text-lg font-bold text-gray-700 max-w-2xl mx-auto">
-                  Developers get <span className="text-[#efa72d] font-black">500 FREE CREDITS</span> to test our APIs. No credit card required. Full access to all endpoints.
-                </p>
-              </div>
-              {loading ? (
-                <div className="w-40 h-12 bg-gray-300 animate-pulse rounded"></div>
-              ) : isAuthenticated ? (
-                <Link href="/dashboard">
-                  <Button className="bg-[#efa72d] hover:bg-[#d4941f] text-black font-black text-base md:text-lg px-8 py-4 border-2 border-black shadow-[4px_4px_0px_0px_#000000] transform hover:translate-x-1 hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_#000000] transition-all">
-                    GO TO DASHBOARD
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                </Link>
-              ) : (
-                <Link href="/signup">
-                  <Button className="bg-[#efa72d] hover:bg-[#d4941f] text-black font-black text-base md:text-lg px-8 py-4 border-2 border-black shadow-[4px_4px_0px_0px_#000000] transform hover:translate-x-1 hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_#000000] transition-all">
-                    CLAIM FREE CREDITS
-                    <Target className="ml-2 h-5 w-5" />
-                  </Button>
-                </Link>
-              )}
-            </div>
+          <h1 className="font-bold tracking-tight leading-[0.95] text-[clamp(2.5rem,8vw,5.5rem)] mx-auto max-w-4xl">
+            <span className="block gradient-text">Usage-based.</span>
+            <span className="block gradient-text-static">No surprises.</span>
+          </h1>
+
+          <p className="mt-7 text-[15px] md:text-base text-white/45 leading-relaxed max-w-xl mx-auto">
+            One credit equals $0.0001. Three APIs share one balance. Start free, scale to half a million calls,
+            or sign a contract. Nothing in between is hidden.
+          </p>
+
+          {/* Billing toggle */}
+          <div className="mt-10 inline-flex items-center gap-4 border border-white/[0.08] rounded-full px-5 py-2 bg-[#080808]/80 backdrop-blur">
+            <span className={`text-[11px] font-mono tracking-wider uppercase transition ${!annual ? 'text-white' : 'text-white/40'}`}>Monthly</span>
+            <Switch checked={annual} onCheckedChange={setAnnual} aria-label="Toggle annual billing" />
+            <span className={`text-[11px] font-mono tracking-wider uppercase transition flex items-center gap-2 ${annual ? 'text-white' : 'text-white/40'}`}>
+              Annual
+              <span className="text-[9px] font-mono px-1.5 py-0.5 rounded-sm bg-emerald-400/10 text-emerald-300/90 border border-emerald-400/20 tracking-wider">−20%</span>
+            </span>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Subscription Plans Section */}
-        <section id="subscriptions" className="w-full py-20 md:py-28 bg-[#6b839a]">
-          <div className="container px-4 md:px-6 mx-auto max-w-6xl">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl sm:text-4xl md:text-6xl font-black tracking-tighter mb-6 text-[#edf3f1]">
-                MONTHLY <span className="text-[#efa72d]">SUBSCRIPTIONS</span>
-              </h2>
-              <div className="w-48 h-3 bg-[#efa72d] mx-auto mb-4"></div>
-              <p className="text-lg md:text-xl font-bold text-gray-300 max-w-2xl mx-auto">
-                Recurring credits every month. Cancel anytime.
-              </p>
-            </div>
-            <div className="grid gap-6 lg:gap-8 lg:grid-cols-4 mb-12 max-w-6xl mx-auto">
-              {[
-                { id: "free", name: "FREE", price: "$0", credits: "500 credits", icon: Users, features: ["SwiftSearch API", "ScrapeForge", "DeepDive", "Basic support", "Dashboard access"] },
-                { id: "starter", name: "STARTER", price: "$9", credits: "5K credits/mo", icon: Code2, features: ["SwiftSearch API", "ScrapeForge", "DeepDive", "Basic support", "Dashboard access"] },
-                { id: "builder", name: "BUILDER", price: "$49", credits: "100K credits/mo", icon: Building2, popular: true, features: ["Everything in Starter", "Priority support", "Advanced analytics", "Custom webhooks", "Higher rate limits"] },
-                { id: "unicorn", name: "UNICORN", price: "$199", credits: "500K credits/mo", icon: Zap, features: ["Everything in Builder", "Dedicated support engineer", "Custom integrations", "SLA guarantees", "Advanced security"] },
-              ].map((plan, index) => (
-                <Card
-                  key={index}
-                  className={`${plan.popular ? "bg-[#efa72d] text-[#17457c] border-[#edf3f1]" : "bg-[#17457c] text-[#edf3f1] border-[#efa72d]"} border-4 shadow-[6px_6px_0px_0px_${plan.popular ? "#edf3f1" : "#efa72d"}] transform hover:translate-x-1 hover:translate-y-1 transition-all relative`}
+      {/* ─── PRICING GRID ─── */}
+      <section className="relative px-5 py-16 md:py-20">
+        <div className="max-w-[1280px] mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {PLANS.map(plan => {
+              const price = annual ? plan.annual : plan.monthly
+              const featured = !!plan.featured
+              const Wrapper: React.ElementType = 'div'
+              return (
+                <Wrapper
+                  key={plan.id}
+                  className={
+                    featured
+                      ? "venym-glow-card relative flex flex-col p-7 md:p-8"
+                      : "bento-card relative flex flex-col rounded-xl p-7 md:p-8"
+                  }
                 >
-                  {plan.popular && (
-                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
-                      <Badge className="bg-black text-white font-black px-4 py-2 border-2 border-white text-sm">
-                        MOST POPULAR
-                      </Badge>
+                  {featured && (
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full border border-white/15 bg-[#050505] text-[9px] font-mono tracking-[0.25em] uppercase text-white/80 flex items-center gap-1.5 z-10">
+                      <Sparkles className="h-2.5 w-2.5" />
+                      Most chosen
                     </div>
                   )}
-                  <CardHeader className="pt-8 pb-4 text-center">
-                    <CardTitle className={`text-2xl md:text-3xl font-black ${plan.popular ? "text-[#17457c]" : "text-[#edf3f1]"}`}>
-                      {plan.name}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="px-6 pb-8 text-center space-y-6">
-                    <div className="space-y-2">
-                      <div className={`text-5xl md:text-6xl font-black ${plan.popular ? "text-[#17457c]" : "text-[#efa72d]"}`}>
-                        {plan.price}
+
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center gap-3">
+                      <div className="h-9 w-9 rounded-md bg-white/[0.04] border border-white/[0.06] flex items-center justify-center">
+                        <plan.icon className="h-4 w-4 text-white/70" />
                       </div>
-                      <div className="text-sm md:text-base font-bold text-gray-300">
-                        {plan.credits}
+                      <div>
+                        <div className="text-[15px] font-semibold tracking-tight">{plan.name}</div>
+                        <div className="text-[10px] font-mono text-white/30 tracking-wider uppercase">{plan.tagline}</div>
                       </div>
                     </div>
-                    <div className="h-px w-full bg-current opacity-20"></div>
-                    <div className="space-y-3 text-left">
-                      {plan.features.map((feature, idx) => (
-                        <div key={idx} className="flex items-center gap-3">
-                          <Check className={`h-5 w-5 flex-shrink-0 ${plan.popular ? "text-[#17457c]" : "text-[#efa72d]"}`} />
-                          <span className="font-bold text-sm">{feature}</span>
+                  </div>
+
+                  <div className="mb-6">
+                    {price === null ? (
+                      <div className="flex items-baseline gap-2">
+                        <div className="text-4xl md:text-5xl font-bold tracking-tight">Custom</div>
+                      </div>
+                    ) : (
+                      <div className="flex items-baseline gap-1">
+                        <span className="text-2xl text-white/50 font-medium">$</span>
+                        <span className="text-[44px] md:text-[52px] font-bold tracking-tight tabular-nums leading-none">{price}</span>
+                        <span className="text-[11px] font-mono text-white/30 tracking-wider uppercase ml-1">/ mo</span>
+                      </div>
+                    )}
+                    {annual && price !== null && price > 0 && (
+                      <div className="text-[10px] font-mono text-white/30 mt-1 tracking-wider uppercase">
+                        Billed yearly · save ${((plan.monthly! - plan.annual!) * 12).toFixed(0)}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="flex items-center gap-2 mb-6 py-2.5 px-3 rounded-sm bg-white/[0.02] border border-white/[0.05]">
+                    <Gauge className="h-3.5 w-3.5 text-white/40" />
+                    <span className="text-[12px] font-mono text-white/70 tabular-nums">{plan.credits}</span>
+                    <span className="text-[10px] font-mono text-white/30 tracking-wider uppercase ml-auto">credits / mo</span>
+                  </div>
+
+                  <ul className="space-y-2.5 mb-8 flex-1">
+                    {plan.features.map((f, i) => {
+                      const off = f.value === false
+                      return (
+                        <li key={i} className={`flex items-start gap-2.5 text-[12.5px] ${off ? 'text-white/25' : 'text-white/65'}`}>
+                          {off
+                            ? <X className="h-3.5 w-3.5 mt-[3px] shrink-0 text-white/15" />
+                            : <Check className="h-3.5 w-3.5 mt-[3px] shrink-0 text-emerald-400/80" />}
+                          <span>
+                            {f.label}
+                            {typeof f.value === 'string' && (
+                              <span className="text-white/35 font-mono text-[11px] ml-1.5">· {f.value}</span>
+                            )}
+                          </span>
+                        </li>
+                      )
+                    })}
+                  </ul>
+
+                  <button
+                    onClick={() => handleCheckout(plan.id)}
+                    className={
+                      featured
+                        ? "venym-btn-primary w-full py-3 flex items-center justify-center gap-2 group"
+                        : "venym-btn-secondary w-full py-3 flex items-center justify-center gap-2 group"
+                    }
+                  >
+                    {plan.cta}
+                    <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform" />
+                  </button>
+                </Wrapper>
+              )
+            })}
+          </div>
+
+          {/* Inline guarantees */}
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-[11px] text-white/30">
+            <div className="flex items-center gap-1.5"><CheckCircle2 className="h-3 w-3 text-white/40" /> No credit card to start</div>
+            <div className="flex items-center gap-1.5"><CheckCircle2 className="h-3 w-3 text-white/40" /> Cancel or change anytime</div>
+            <div className="flex items-center gap-1.5"><CheckCircle2 className="h-3 w-3 text-white/40" /> SOC 2 in progress</div>
+            <div className="flex items-center gap-1.5"><CheckCircle2 className="h-3 w-3 text-white/40" /> US, EU, APAC regions</div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── CALCULATOR ─── */}
+      <section className="relative px-5 py-24 md:py-28 border-t border-white/[0.06]">
+        <div className="absolute inset-0 dot-grid opacity-30 pointer-events-none" />
+        <div className="relative max-w-[1280px] mx-auto">
+          <div className="flex items-end justify-between flex-wrap gap-6 mb-12">
+            <div>
+              <div className="flex items-center gap-3 mb-4">
+                <LineChart className="h-4 w-4 text-white/30" />
+                <span className="text-[10px] font-mono text-white/40 tracking-[0.3em] uppercase">Estimate // 02</span>
+              </div>
+              <h2 className="text-3xl md:text-5xl font-bold tracking-tight leading-[1.05] max-w-2xl">
+                Plug in your traffic.<br />
+                <span className="text-white/30">See the bill.</span>
+              </h2>
+            </div>
+            <div className="flex items-center gap-2 px-3 py-1.5 border border-white/[0.06] rounded-full bg-white/[0.02]">
+              <Cpu className="h-3 w-3 text-white/40" />
+              <span className="text-[10px] font-mono text-white/50 tracking-wider uppercase">Live · $0.0001 / credit</span>
+            </div>
+          </div>
+
+          <CreditCalculator />
+        </div>
+      </section>
+
+      {/* ─── COMPARE TABLE ─── */}
+      <section className="relative px-5 py-24 md:py-28 border-t border-white/[0.06]">
+        <div className="max-w-[1280px] mx-auto">
+          <div className="flex items-center gap-3 mb-4">
+            <Layers className="h-4 w-4 text-white/30" />
+            <span className="text-[10px] font-mono text-white/40 tracking-[0.3em] uppercase">Compare // 03</span>
+          </div>
+          <h2 className="text-3xl md:text-5xl font-bold tracking-tight leading-[1.05] mb-12 max-w-3xl">
+            Every feature.<br />
+            <span className="text-white/30">Side by side.</span>
+          </h2>
+
+          <div className="relative border border-white/[0.06] rounded-xl overflow-hidden bg-[#080808]">
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[720px]">
+                <thead>
+                  <tr className="border-b border-white/[0.06]">
+                    <th className="text-left p-5 text-[10px] font-mono text-white/30 tracking-[0.25em] uppercase w-[28%]">Feature</th>
+                    {PLANS.map(p => (
+                      <th key={p.id} className={`p-5 text-center ${p.featured ? 'bg-white/[0.02]' : ''}`}>
+                        <div className="flex flex-col items-center gap-1">
+                          <p.icon className="h-3.5 w-3.5 text-white/40" />
+                          <span className="text-[12px] font-semibold text-white/90">{p.name}</span>
                         </div>
-                      ))}
-                    </div>
-                    <Button
-                      onClick={async () => {
-                        if (plan.id === 'free') {
-                          if (!isAuthenticated) { window.location.href = '/signup?plan=free'; return; }
-                          window.location.href = '/dashboard';
-                          return;
-                        }
-                        if (!isAuthenticated) { window.location.href = '/signup?plan=' + plan.id; return; }
-                        try {
-                          const res = await fetch('/api/payments/create-subscription-checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ plan_type: plan.id }) });
-                          if (res.ok) { const data = await res.json(); window.location.href = data.checkout_url; } else { alert('Failed to start subscription'); }
-                        } catch { alert('Failed to start subscription'); }
-                      }}
-                      className={`w-full font-black text-lg py-4 border-4 ${plan.popular ? "bg-black text-white border-black hover:bg-gray-800" : "bg-[#efa72d] text-[#17457c] border-[#edf3f1] hover:bg-[#d4941f]"} shadow-[4px_4px_0px_0px_${plan.popular ? "#000000" : "#edf3f1"}]`}
-                    >
-                      {plan.id === 'free' ? 'GET STARTED FREE' : 'GET STARTED'}
-                    </Button>
-                  </CardContent>
-                </Card>
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {COMPARE_ROWS.map((row, i) => (
+                    <Fragment key={i}>
+                      {row.group && (
+                        <tr className="bg-white/[0.015]">
+                          <td colSpan={5} className="px-5 pt-6 pb-2 text-[10px] font-mono text-white/40 tracking-[0.25em] uppercase border-t border-white/[0.04]">
+                            {row.group}
+                          </td>
+                        </tr>
+                      )}
+                      <tr className="border-t border-white/[0.04] hover:bg-white/[0.015] transition">
+                        <td className="p-4 text-[13px] text-white/70">{row.label}</td>
+                        {row.values.map((v, j) => (
+                          <td key={j} className={`p-4 text-center ${PLANS[j].featured ? 'bg-white/[0.02]' : ''}`}>
+                            {valueCell(v)}
+                          </td>
+                        ))}
+                      </tr>
+                    </Fragment>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── ENTERPRISE BAND ─── */}
+      <section className="relative px-5 py-20 md:py-24 border-t border-white/[0.06]">
+        <div className="max-w-[1280px] mx-auto">
+          <div className="bento-card rounded-xl p-8 md:p-12 grid md:grid-cols-[1.3fr_1fr] gap-10 items-center overflow-hidden">
+            <div>
+              <div className="flex items-center gap-3 mb-5">
+                <Building2 className="h-4 w-4 text-white/40" />
+                <span className="text-[10px] font-mono text-white/40 tracking-[0.3em] uppercase">Enterprise</span>
+              </div>
+              <h3 className="text-3xl md:text-4xl font-bold tracking-tight leading-[1.05] mb-4">
+                Need 50M+ requests a month?<br />
+                <span className="text-white/30">We build that contract.</span>
+              </h3>
+              <p className="text-[14px] text-white/45 leading-relaxed max-w-lg">
+                Volume pricing, dedicated infrastructure, on-prem or VPC deployment, SSO/SAML, audit logs,
+                and a named solutions engineer. MSA in your inbox within 48 hours.
+              </p>
+              <div className="flex flex-wrap gap-3 mt-7">
+                <Link href="mailto:sales@venym.io" className="venym-btn-primary text-[11px] py-3 px-6 flex items-center gap-2 group">
+                  Talk to Sales <ArrowUpRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                </Link>
+                <Link href="/docs" className="venym-btn-secondary text-[11px] py-3 px-6">Read the docs</Link>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              {[
+                { icon: ShieldCheck, label: 'SOC 2 + GDPR' },
+                { icon: Globe, label: 'On-prem / VPC' },
+                { icon: InfinityIcon, label: 'Custom rate limits' },
+                { icon: Cpu, label: 'Dedicated infra' },
+                { icon: Terminal, label: 'SSO / SAML' },
+                { icon: Wallet, label: 'Volume pricing' },
+              ].map((c, i) => (
+                <div key={i} className="border border-white/[0.06] rounded-md p-4 bg-white/[0.015]">
+                  <c.icon className="h-4 w-4 text-white/50 mb-3" />
+                  <div className="text-[12px] text-white/70 font-medium">{c.label}</div>
+                </div>
               ))}
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* FAQ Section */}
-        <section className="w-full py-20 md:py-28 bg-[#17457c] relative overflow-hidden">
-          <div className="absolute inset-0 bg-[linear-gradient(135deg,transparent_25%,rgba(239,167,45,0.05)_25%,rgba(239,167,45,0.05)_50%,transparent_50%,transparent_75%,rgba(239,167,45,0.05)_75%)] bg-[length:40px_40px]"></div>
-          <div className="container px-4 md:px-6 mx-auto max-w-4xl relative z-10">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-black tracking-tighter mb-6 text-[#edf3f1]">
-                FREQUENTLY ASKED QUESTIONS
-              </h2>
-              <div className="w-48 h-3 bg-[#efa72d] mx-auto transform -skew-x-12 mb-6"></div>
+      {/* ─── FAQ ─── */}
+      <section className="relative px-5 py-24 md:py-28 border-t border-white/[0.06]">
+        <div className="max-w-[920px] mx-auto">
+          <div className="flex items-center gap-3 mb-4">
+            <Sparkles className="h-4 w-4 text-white/30" />
+            <span className="text-[10px] font-mono text-white/40 tracking-[0.3em] uppercase">FAQ // 05</span>
+          </div>
+          <h2 className="text-3xl md:text-5xl font-bold tracking-tight leading-[1.05] mb-12 max-w-2xl">
+            Questions we&apos;ve already<br />
+            <span className="text-white/30">heard twice.</span>
+          </h2>
+
+          <Accordion type="single" collapsible className="w-full border-t border-white/[0.06]">
+            {FAQS.map((f, i) => (
+              <AccordionItem key={i} value={`item-${i}`} className="border-b border-white/[0.06]">
+                <AccordionTrigger className="text-left text-[15px] font-medium text-white/85 hover:text-white py-5 hover:no-underline">
+                  <span className="flex items-center gap-4">
+                    <span className="text-[10px] font-mono text-white/25 tracking-wider tabular-nums">{String(i + 1).padStart(2, '0')}</span>
+                    {f.q}
+                  </span>
+                </AccordionTrigger>
+                <AccordionContent className="text-[13.5px] text-white/45 leading-relaxed pl-10 pb-5">
+                  {f.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      </section>
+
+      {/* ─── CTA ─── */}
+      <section className="relative px-5 py-24 md:py-32 border-t border-white/[0.06] overflow-hidden">
+        <div className="absolute inset-0 glow-radial opacity-60" />
+        <div className="absolute inset-0 mesh-dots opacity-50" />
+
+        <div className="relative max-w-[1000px] mx-auto text-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1 mb-7 rounded-full border border-white/10 bg-white/[0.02] backdrop-blur">
+            <div className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="text-[10px] font-mono text-white/60 tracking-wider uppercase">All systems operational</span>
+          </div>
+          <h2 className="text-4xl md:text-6xl font-bold tracking-tight leading-[0.95] mb-6">
+            <span className="gradient-text">Pick a plan.</span><br />
+            <span className="text-white/25">Ship by lunch.</span>
+          </h2>
+          <p className="text-white/40 text-[15px] max-w-lg mx-auto leading-relaxed mb-9">
+            Three production APIs behind one key. 5,000 credits to evaluate. No card, no demo, no sales call.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <Link href="/signup" className="venym-btn-primary text-[11px] py-3.5 px-8 flex items-center gap-2 group">
+              Start Free
+              <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform" />
+            </Link>
+            <Link href="mailto:sales@venym.io" className="venym-btn-secondary text-[11px] py-3.5 px-8">Talk to Sales</Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── FOOTER ─── */}
+      <footer className="border-t border-white/[0.06] py-12 px-5">
+        <div className="max-w-[1280px] mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-10">
+            <div className="md:col-span-2">
+              <div className="font-bold tracking-[0.25em] text-sm mb-3 flex items-center gap-2">
+                <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                VENYM<span className="text-white/40 font-normal">.SEARCH</span>
+              </div>
+              <p className="text-[12px] text-white/30 leading-relaxed max-w-xs">
+                Enterprise web search, scraping, and AI synthesis APIs. A Venym Labs product.
+              </p>
             </div>
-            <div className="space-y-6">
-              <Card className="bg-[#6b839a] border-4 border-[#efa72d] shadow-[6px_6px_0px_0px_#efa72d]">
-                <CardContent className="p-6 md:p-8 text-center">
-                  <h3 className="text-xl md:text-2xl font-black mb-4 text-[#efa72d]">What are credits and how do they work?</h3>
-                  <p className="text-white font-bold text-base md:text-lg">
-                    Credits are our universal currency across all APIs. Different operations consume different amounts of credits based on complexity and computational cost. This gives you maximum flexibility to use our APIs as needed.
-                  </p>
-                </CardContent>
-              </Card>
-              <Card className="bg-[#6b839a] border-4 border-[#efa72d] shadow-[6px_6px_0px_0px_#efa72d]">
-                <CardContent className="p-6 md:p-8 text-center">
-                  <h3 className="text-xl md:text-2xl font-black mb-4 text-[#efa72d]">Can I change plans anytime?</h3>
-                  <p className="text-white font-bold text-base md:text-lg">
-                    Absolutely. Upgrade or downgrade your plan anytime. Changes take effect immediately, and we'll prorate any billing differences.
-                  </p>
-                </CardContent>
-              </Card>
-              <Card className="bg-[#6b839a] border-4 border-[#efa72d] shadow-[6px_6px_0px_0px_#efa72d]">
-                <CardContent className="p-6 md:p-8 text-center">
-                  <h3 className="text-xl md:text-2xl font-black mb-4 text-[#efa72d]">What happens if I exceed my credit limit?</h3>
-                  <p className="text-white font-bold text-base md:text-lg">
-                    Your APIs will be throttled once you hit your monthly limit. Upgrade your plan to get more credits and continue using our services without interruption.
-                  </p>
-                </CardContent>
-              </Card>
-              <Card className="bg-[#6b839a] border-4 border-[#efa72d] shadow-[6px_6px_0px_0px_#efa72d]">
-                <CardContent className="p-6 md:p-8 text-center">
-                  <h3 className="text-xl md:text-2xl font-black mb-4 text-[#efa72d]">Do you offer custom enterprise solutions?</h3>
-                  <p className="text-white font-bold text-base md:text-lg">
-                    Yes! Our Enterprise plan is fully customizable. Contact our sales team for volume discounts, custom SLAs, dedicated infrastructure, and white-label solutions.
-                  </p>
-                </CardContent>
-              </Card>
+            <div>
+              <div className="text-[10px] font-mono text-white/20 tracking-[0.2em] uppercase mb-3">Products</div>
+              {PRODUCTS.map(p => (
+                <Link key={p.name} href={p.href} className="block text-[12px] text-white/40 hover:text-white/80 transition py-0.5">{p.name}</Link>
+              ))}
+            </div>
+            <div>
+              <div className="text-[10px] font-mono text-white/20 tracking-[0.2em] uppercase mb-3">Developers</div>
+              <Link href="/docs" className="block text-[12px] text-white/40 hover:text-white/80 transition py-0.5">Documentation</Link>
+              <Link href="/docs/quickstart" className="block text-[12px] text-white/40 hover:text-white/80 transition py-0.5">Quickstart</Link>
+              <Link href="/pricing" className="block text-[12px] text-white/40 hover:text-white/80 transition py-0.5">Pricing</Link>
+              <Link href="/tools" className="block text-[12px] text-white/40 hover:text-white/80 transition py-0.5">Free Tools</Link>
+            </div>
+            <div>
+              <div className="text-[10px] font-mono text-white/20 tracking-[0.2em] uppercase mb-3">Company</div>
+              <Link href="mailto:sales@venym.io" className="block text-[12px] text-white/40 hover:text-white/80 transition py-0.5">Sales</Link>
+              <Link href="mailto:support@venym.io" className="block text-[12px] text-white/40 hover:text-white/80 transition py-0.5">Support</Link>
+              <Link href="/legal/terms" className="block text-[12px] text-white/40 hover:text-white/80 transition py-0.5">Terms</Link>
+              <Link href="/legal/privacy" className="block text-[12px] text-white/40 hover:text-white/80 transition py-0.5">Privacy</Link>
             </div>
           </div>
-        </section>
-
-        {/* Anti-Sales CTA */}
-        <section className="w-full py-20 md:py-28 bg-[#6b839a] relative overflow-hidden">
-          <div className="absolute inset-0 bg-[linear-gradient(135deg,transparent_25%,rgba(239,167,45,0.08)_25%,rgba(239,167,45,0.08)_50%,transparent_50%,transparent_75%,rgba(239,167,45,0.08)_75%)] bg-[length:40px_40px]"></div>
-          <div className="container px-4 md:px-6 mx-auto max-w-5xl relative z-10">
-            <div className="text-center space-y-10">
-              <div className="space-y-6">
-                <h2 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter leading-none">
-                  <span className="block transform skew-x-2">NO "BOOK DEMO"</span>
-                  <span className="block text-[#efa72d] transform -skew-x-2">BULLSH*T</span>
-                </h2>
-                <div className="w-32 h-3 bg-[#efa72d] mx-auto transform -skew-x-12"></div>
-                <div className="max-w-3xl mx-auto">
-                  <div className="text-xl md:text-2xl font-bold text-[#edf3f1] leading-relaxed space-y-2">
-                    <div>1. Get free API key</div>
-                    <div>2. curl our endpoints</div>
-                    <div>3. Scale to $10k/month</div>
-                    <div>4. THEN we'll Zoom. Probably.</div>
-                  </div>
-                </div>
-              </div>
-              <div className="space-y-4">
-                {loading ? (
-                  <div className="w-80 h-16 bg-gray-600 animate-pulse rounded mx-auto"></div>
-                ) : isAuthenticated ? (
-                  <Link href="/dashboard">
-                    <Button
-                      size="lg"
-                      className="bg-[#efa72d] hover:bg-[#d4941f] text-[#17457c] font-black text-xl px-12 py-6 border-4 border-[#edf3f1] shadow-[8px_8px_0px_0px_#edf3f1] transform hover:translate-x-1 hover:translate-y-1 hover:shadow-[4px_4px_0px_0px_#edf3f1] transition-all"
-                    >
-                      GO TO YOUR DASHBOARD
-                      <ArrowRight className="ml-3 h-6 w-6" />
-                    </Button>
-                  </Link>
-                ) : (
-                  <Link href="/signup">
-                    <Button
-                      size="lg"
-                      className="bg-[#efa72d] hover:bg-[#d4941f] text-[#17457c] font-black text-xl px-12 py-6 border-4 border-[#edf3f1] shadow-[8px_8px_0px_0px_#edf3f1] transform hover:translate-x-1 hover:translate-y-1 hover:shadow-[4px_4px_0px_0px_#edf3f1] transition-all"
-                    >
-                      START FREE TRIAL (5K CREDITS)
-                    </Button>
-                  </Link>
-                )}
-                <p className="text-sm font-bold text-gray-400">{isAuthenticated ? "Welcome back!" : "No CC required. Cancel anytime."}</p>
-              </div>
+          <div className="pt-6 border-t border-white/[0.06] flex flex-col md:flex-row gap-3 items-center justify-between text-[11px] font-mono text-white/25 tracking-wider">
+            <div>© 2026 VENYM LABS · BUILT FOR DEVELOPERS</div>
+            <div className="flex items-center gap-2">
+              <div className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              ALL SYSTEMS OPERATIONAL
             </div>
-          </div>
-        </section>
-      </main>
-
-      {/* Footer */}
-      <footer className="bg-[#17457c] border-t-4 border-[#efa72d] py-12">
-        <div className="container px-4 md:px-6 mx-auto max-w-6xl">
-          <div className="grid gap-8 lg:grid-cols-3">
-            <div className="space-y-4 text-center lg:text-left">
-              <h3 className="font-black text-white text-lg">BOOTSTRAPPED & PROUD</h3>
-              <div className="space-y-2 text-gray-400 font-bold">
-                <div>Self-funded since day one</div>
-                <div>Built by developers, for developers</div>
-                <div>No VC overlords</div>
-              </div>
-            </div>
-            <div className="space-y-4 text-center lg:text-left">
-              <h3 className="font-black text-white text-lg">RESOURCES</h3>
-              <nav className="flex flex-col gap-2">
-                <Link
-                  href="#"
-                  className="font-black text-gray-400 hover:text-[#efa72d] transition-colors"
-                >
-                  Documentation
-                </Link>
-                <Link
-                  href="#"
-                  className="font-black text-gray-400 hover:text-[#efa72d] transition-colors"
-                >
-                  GitHub (24k stars)
-                </Link>
-                <Link
-                  href="#"
-                  className="font-black text-gray-400 hover:text-[#efa72d] transition-colors"
-                >
-                  Twitter (Build updates)
-                </Link>
-                <Link
-                  href="#"
-                  className="font-black text-gray-400 hover:text-[#efa72d] transition-colors"
-                >
-                  Discord (4,213 devs)
-                </Link>
-              </nav>
-            </div>
-            <div className="space-y-4 text-center lg:text-left">
-              <h3 className="font-black text-white text-lg">GROWTH STORY</h3>
-              <div className="text-gray-400 font-bold">
-                <div className="mb-4">$0 → $1.2M ARR in 14 months</div>
-                <div className="text-sm">
-                  "We replaced three separate APIs with Venym Search. Search, scrape, and research — one endpoint. 
-                  Cut our infrastructure costs by 60% and shipped our agent 3 weeks faster."
-                  like Oracle, and sold by ex-McKinsey bros."
-                </div>
-                <div className="text-xs mt-2">— Alex Chen, Founder (ex-DeepMind)</div>
-              </div>
-            </div>
-          </div>
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center">
-            <p className="font-black text-gray-400">© 2025 Venym Search • Proudly un-enterprise • We don't hire MBAs</p>
           </div>
         </div>
       </footer>
     </div>
-  );
+  )
 }
