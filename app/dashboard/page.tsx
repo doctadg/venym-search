@@ -1,16 +1,10 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
-import { Textarea } from "@/components/ui/textarea"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import {
   AlertDialog,
@@ -35,7 +29,6 @@ import {
   Trash2,
   Plus,
   Download,
-  Settings,
   Bell,
   Shield,
   Zap,
@@ -48,6 +41,7 @@ import {
   Database,
   Loader2,
   AlertCircle,
+  ArrowUpRight,
 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -101,23 +95,19 @@ export default function Dashboard() {
   const router = useRouter()
   const [activeTab, setActiveTab] = useState("overview")
   const [showApiKey, setShowApiKey] = useState<{ [key: string]: boolean }>({})
-  
-  // Loading states
+
   const [dashboardLoading, setDashboardLoading] = useState(true)
   const [apiKeysLoading, setApiKeysLoading] = useState(false)
   const [requestsLoading, setRequestsLoading] = useState(false)
-  
-  // Data states
+
   const [dashboardStats, setDashboardStats] = useState<DashboardStats | null>(null)
   const [recentActivity, setRecentActivity] = useState<RequestData[]>([])
   const [apiKeys, setApiKeys] = useState<ApiKeyData[]>([])
   const [requestHistory, setRequestHistory] = useState<RequestData[]>([])
   const [paymentHistory, setPaymentHistory] = useState<PaymentData[]>([])
-  
-  // Error states
+
   const [error, setError] = useState<string | null>(null)
-  
-  // Form states
+
   const [newKeyName, setNewKeyName] = useState("")
   const [profileData, setProfileData] = useState({
     full_name: "",
@@ -140,31 +130,12 @@ export default function Dashboard() {
     navigator.clipboard.writeText(text)
   }
 
-  // Redirect if not authenticated
   useEffect(() => {
     if (isLoaded && !user) {
-      console.log('Redirecting to login - not authenticated')
       router.push('/login')
     }
   }, [isLoaded, user, router])
 
-  // Debug logging
-  useEffect(() => {
-    console.log('Dashboard state:', { 
-      isLoaded, 
-      user: !!user, 
-      userData: userData ? {
-        email: userData.email,
-        role: userData.role,
-        isAdmin: userData.role === 'admin'
-      } : null
-    })
-  }, [isLoaded, user, userData])
-
-  // Auth state is now managed automatically by Supabase
-  // No need for localStorage checks
-
-  // Initialize profile data when user is loaded
   useEffect(() => {
     if (userData) {
       setProfileData({
@@ -176,7 +147,6 @@ export default function Dashboard() {
     }
   }, [userData])
 
-  // Fetch dashboard data
   useEffect(() => {
     if (userData) {
       fetchDashboardData()
@@ -187,7 +157,7 @@ export default function Dashboard() {
     try {
       setDashboardLoading(true)
       setError(null)
-      
+
       const response = await fetch('/api/analytics/dashboard')
 
       if (response.ok) {
@@ -245,18 +215,15 @@ export default function Dashboard() {
 
   const fetchPaymentHistory = async () => {
     try {
-      // For now, we'll use the existing payment data from the user
-      // In a real app, you'd have a separate endpoint for this
       setPaymentHistory([])
     } catch (error) {
       console.error('Payment history error:', error)
     }
   }
 
-  // Load data when switching tabs
   useEffect(() => {
     if (!userData) return
-    
+
     switch (activeTab) {
       case 'keys':
         if (apiKeys.length === 0) fetchApiKeys()
@@ -272,7 +239,7 @@ export default function Dashboard() {
 
   const createApiKey = async () => {
     if (!newKeyName.trim()) return
-    
+
     try {
       const response = await fetch('/api/api-keys', {
         method: 'POST',
@@ -393,87 +360,76 @@ export default function Dashboard() {
     }
   }
 
-  // Show loading state while checking authentication
   if (!isLoaded || userDataLoading) {
     return (
-      <div className="min-h-screen bg-[#17457c] flex items-center justify-center">
-        <div className="text-center">
-          <Loader2 className="h-8 w-8 animate-spin text-[#efa72d] mx-auto mb-4" />
-          <p className="text-[#edf3f1] font-bold">Loading...</p>
-        </div>
+      <div className="min-h-screen bg-[#050505] flex items-center justify-center">
+        <Loader2 className="h-6 w-6 animate-spin text-white/40" />
       </div>
     )
   }
 
-  // If not authenticated, the redirect effect will handle navigation
   if (!isLoaded || !user || !userData) {
     return (
-      <div className="min-h-screen bg-[#17457c] flex items-center justify-center">
-        <div className="text-center">
-          <Loader2 className="h-8 w-8 animate-spin text-[#efa72d] mx-auto mb-4" />
-          <p className="text-[#edf3f1] font-bold">Redirecting...</p>
-        </div>
+      <div className="min-h-screen bg-[#050505] flex items-center justify-center">
+        <Loader2 className="h-6 w-6 animate-spin text-white/40" />
       </div>
     )
   }
 
+  const inputClass =
+    "w-full h-10 px-3 bg-white/[0.03] border border-white/[0.08] text-[13px] text-white placeholder:text-white/30 focus:outline-none focus:border-white/20 focus:ring-1 focus:ring-white/20 rounded-sm transition-colors"
+
+  const labelClass =
+    "block text-[10px] font-mono uppercase tracking-[0.2em] text-white/30 mb-1.5"
+
+  const statusBadge = (status: number) =>
+    status >= 200 && status < 400
+      ? "border border-white/20 text-white/80"
+      : "border border-white/10 text-white/50"
+
   return (
-    <div className="flex flex-col min-h-screen bg-[#17457c]">
-      {/* Header */}
-      <header className="px-4 lg:px-6 h-16 md:h-20 flex items-center border-b-4 border-[#efa72d] bg-[#17457c]">
-        <Link href="/" className="flex items-center justify-center">
-          <div className="flex items-center space-x-2 md:space-x-3">
-            <div className="w-8 h-8 md:w-10 md:h-10 relative">
+    <div className="flex flex-col min-h-screen bg-[#050505] text-white">
+      <header className="sticky top-0 z-50 w-full border-b border-white/[0.06] bg-[#050505]/80 backdrop-blur-xl">
+        <div className="flex h-14 items-center px-4 md:px-6 gap-4">
+          <Link href="/" className="flex items-center gap-3 shrink-0">
+            <div className="w-7 h-7 relative">
               <Image
                 src="/VENYM_SEARCH-logo.png"
-                alt="Venym Search Logo"
-                width={40}
-                height={40}
-                className="w-8 h-8 md:w-10 md:h-10 brightness-0 invert"
+                alt="Venym Search"
+                width={28}
+                height={28}
+                className="w-7 h-7"
               />
             </div>
-            <span className="font-black text-lg md:text-xl tracking-tight text-[#edf3f1]">VENYM_SEARCH</span>
-          </div>
-        </Link>
-        <div className="ml-auto flex items-center gap-2 md:gap-4">
-          {userData.role === 'admin' && (
-            <Link href="/admin">
-              <Button
-                variant="outline"
-                size="sm"
-                className="border-[#efa72d] text-[#efa72d] hover:bg-[#efa72d] hover:text-[#17457c] bg-transparent"
-              >
-                <Shield className="h-4 w-4 mr-2" />
-                Admin Panel
-              </Button>
-            </Link>
-          )}
-          <Button
-            variant="outline"
-            size="sm"
-            className="hidden sm:flex border-[#efa72d] text-[#efa72d] hover:bg-[#efa72d] hover:text-[#17457c] bg-transparent"
-          >
-            <Bell className="h-4 w-4 mr-2" />
-            Notifications
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            className="sm:hidden border-[#efa72d] text-[#efa72d] hover:bg-[#efa72d] hover:text-[#17457c] bg-transparent p-2"
-          >
-            <Bell className="h-4 w-4" />
-          </Button>
-          <div className="flex items-center gap-2 text-[#edf3f1]">
-            <User className="h-4 w-4 md:h-5 md:w-5" />
-            <span className="font-bold text-sm md:text-base hidden sm:inline">{userData.email}</span>
-            <span className="font-bold text-sm sm:hidden">{userData.full_name?.split(' ')[0] || 'User'}</span>
+            <span className="font-semibold text-[15px] tracking-tight text-white">
+              Venym Search
+            </span>
+            <span className="hidden sm:inline-flex text-[10px] font-mono uppercase tracking-[0.2em] text-white/40 border border-white/10 px-2 py-0.5 rounded-sm">
+              Dashboard
+            </span>
+          </Link>
+
+          <div className="ml-auto flex items-center gap-2">
+            {userData.role === 'admin' && (
+              <Link href="/admin" className="hidden sm:inline-flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-[0.15em] text-white/40 hover:text-white/80 transition-colors border border-white/10 px-3 py-1.5 rounded-sm">
+                <Shield className="h-3 w-3" />
+                Admin
+              </Link>
+            )}
+            <button className="inline-flex items-center justify-center w-9 h-9 text-white/40 hover:text-white/80 transition-colors border border-white/[0.06] rounded-sm">
+              <Bell className="h-3.5 w-3.5" />
+            </button>
+            <div className="hidden sm:flex items-center gap-2 text-[11px] font-mono uppercase tracking-[0.15em] text-white/50 ml-2">
+              <User className="h-3.5 w-3.5" />
+              <span className="truncate max-w-[180px]">{userData.email}</span>
+            </div>
           </div>
         </div>
       </header>
 
       <div className="flex flex-1 relative">
         {/* Mobile Tab Navigation */}
-        <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-[#6b839a] border-t-4 border-[#efa72d] z-50">
+        <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-[#050505]/95 backdrop-blur-xl border-t border-white/[0.06] z-50">
           <nav className="flex justify-around py-2">
             {[
               { id: "overview", label: "Overview", icon: BarChart3 },
@@ -485,13 +441,11 @@ export default function Dashboard() {
               <button
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}
-                className={`flex flex-col items-center gap-1 px-2 py-2 font-black text-xs transition-all ${
-                  activeTab === item.id
-                    ? "text-[#efa72d]"
-                    : "text-[#edf3f1]"
+                className={`flex flex-col items-center gap-1 px-2 py-2 text-[9px] font-mono uppercase tracking-[0.15em] transition-colors ${
+                  activeTab === item.id ? "text-white" : "text-white/40"
                 }`}
               >
-                <item.icon className="h-5 w-5" />
+                <item.icon className="h-4 w-4" />
                 <span>{item.label}</span>
               </button>
             ))}
@@ -499,8 +453,11 @@ export default function Dashboard() {
         </div>
 
         {/* Desktop Sidebar */}
-        <aside className="hidden lg:block w-64 bg-[#6b839a] border-r-4 border-[#efa72d] p-6">
-          <nav className="space-y-2">
+        <aside className="hidden lg:block w-64 shrink-0 border-r border-white/[0.06] sticky top-14 h-[calc(100vh-3.5rem)] py-6 px-3">
+          <div className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/30 px-3 mb-3">
+            Navigation
+          </div>
+          <nav className="space-y-px">
             {[
               { id: "overview", label: "Overview", icon: BarChart3 },
               { id: "requests", label: "Request History", icon: Search },
@@ -511,336 +468,302 @@ export default function Dashboard() {
               <button
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg font-black text-left transition-all ${
+                className={`group relative w-full flex items-center gap-2.5 pl-3 pr-3 py-2 text-[13px] transition-colors duration-150 ${
                   activeTab === item.id
-                    ? "bg-[#efa72d] text-[#17457c] shadow-[4px_4px_0px_0px_#17457c]"
-                    : "text-[#edf3f1] hover:bg-[#17457c] hover:shadow-[2px_2px_0px_0px_#efa72d]"
+                    ? "text-white"
+                    : "text-white/45 hover:text-white/80"
                 }`}
               >
-                <item.icon className="h-5 w-5" />
-                {item.label}
+                {activeTab === item.id && (
+                  <span className="absolute left-0 top-1/2 -translate-y-1/2 h-4 w-[2px] bg-white" />
+                )}
+                <item.icon className="h-3.5 w-3.5 text-white/30" />
+                <span className="flex-1 text-left">{item.label}</span>
               </button>
             ))}
           </nav>
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 bg-[#edf3f1] pb-20 lg:pb-8 max-w-7xl mx-auto">
+        <main className="flex-1 min-w-0 p-4 sm:p-8 pb-24 lg:pb-12 max-w-7xl mx-auto w-full">
           {activeTab === "overview" && (
-            <div className="space-y-6 sm:space-y-8">
+            <div className="space-y-8">
               <div>
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#17457c] mb-2">Dashboard Overview</h1>
-                <p className="text-base sm:text-lg font-bold text-[#6b839a]">
-                  Welcome back{userData.full_name ? `, ${userData.full_name.split(' ')[0]}` : ''}! Here's what's happening with your API usage.
+                <div className="venym-meta mb-3">CLASS :: DASHBOARD</div>
+                <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-2">
+                  Overview
+                </h1>
+                <p className="text-[13px] text-white/50">
+                  Welcome back{userData.full_name ? `, ${userData.full_name.split(' ')[0]}` : ''}. API usage and recent activity.
                 </p>
               </div>
 
-              {/* Error State */}
               {error && (
-                <Card className="border-2 border-red-500 bg-red-50">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-2 text-red-700">
-                      <AlertCircle className="h-5 w-5" />
-                      <p className="font-bold">{error}</p>
-                    </div>
-                  </CardContent>
-                </Card>
+                <div className="flex items-center gap-2 p-3 bg-white/[0.03] border border-white/[0.10] rounded-sm">
+                  <AlertCircle className="h-3.5 w-3.5 text-white/60 shrink-0" />
+                  <span className="text-white/70 text-[12px] font-mono">{error}</span>
+                </div>
               )}
 
-              {/* Stats Cards */}
-              <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
                 {dashboardLoading ? (
                   Array.from({ length: 4 }).map((_, index) => (
-                    <Card key={index} className="border-2 sm:border-4 border-black shadow-[3px_3px_0px_0px_#000000] sm:shadow-[6px_6px_0px_0px_#000000]">
-                      <CardContent className="p-4 sm:p-6">
-                        <div className="flex items-center justify-between">
-                          <div className="space-y-2">
-                            <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
-                            <div className="h-8 bg-gray-200 rounded animate-pulse"></div>
-                            <div className="h-3 bg-gray-200 rounded animate-pulse"></div>
-                          </div>
-                          <div className="w-12 h-12 bg-gray-200 rounded-lg animate-pulse"></div>
-                        </div>
-                      </CardContent>
-                    </Card>
+                    <div key={index} className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+                      <div className="space-y-3 animate-pulse">
+                        <div className="h-3 bg-white/[0.06] rounded w-20"></div>
+                        <div className="h-7 bg-white/[0.06] rounded w-24"></div>
+                        <div className="h-3 bg-white/[0.06] rounded w-16"></div>
+                      </div>
+                    </div>
                   ))
                 ) : dashboardStats ? (
                   [
-                    { title: "Total Requests", value: dashboardStats.total_requests.value.toLocaleString(), change: dashboardStats.total_requests.change, icon: Zap, color: "bg-[#efa72d]" },
-                    { title: "Credits Used", value: dashboardStats.credits_used.value.toLocaleString(), change: dashboardStats.credits_used.change, icon: Database, color: "bg-[#17457c]" },
-                    { title: "Success Rate", value: `${dashboardStats.success_rate.value}%`, change: dashboardStats.success_rate.change, icon: CheckCircle, color: "bg-green-600" },
-                    { title: "Avg Latency", value: `${dashboardStats.avg_latency.value}ms`, change: dashboardStats.avg_latency.change, icon: Clock, color: "bg-[#6b839a]", subtitle: "backend processing" },
+                    { title: "Total Requests", value: dashboardStats.total_requests.value.toLocaleString(), change: dashboardStats.total_requests.change, icon: Zap },
+                    { title: "Credits Used", value: dashboardStats.credits_used.value.toLocaleString(), change: dashboardStats.credits_used.change, icon: Database },
+                    { title: "Success Rate", value: `${dashboardStats.success_rate.value}%`, change: dashboardStats.success_rate.change, icon: CheckCircle },
+                    { title: "Avg Latency", value: `${dashboardStats.avg_latency.value}ms`, change: dashboardStats.avg_latency.change, icon: Clock },
                   ].map((stat, index) => (
-                    <Card
+                    <div
                       key={index}
-                      className="border-2 sm:border-4 border-black shadow-[3px_3px_0px_0px_#000000] sm:shadow-[6px_6px_0px_0px_#000000] transform hover:translate-x-1 hover:translate-y-1 transition-all"
+                      className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5 transition-colors hover:border-white/[0.12]"
                     >
-                      <CardContent className="p-4 sm:p-6">
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <p className="text-xs sm:text-sm font-bold text-[#6b839a] mb-1">{stat.title}</p>
-                            <p className="text-xl sm:text-2xl lg:text-3xl font-black text-[#17457c]">{stat.value}</p>
-                            <p className={`text-xs sm:text-sm font-bold ${stat.change.startsWith('+') ? 'text-green-600' : stat.change.startsWith('-') ? 'text-red-600' : 'text-gray-600'}`}>{stat.change}</p>
-                            {stat.subtitle && <p className="text-xs font-bold text-[#6b839a] mt-1">{stat.subtitle}</p>}
-                          </div>
-                          <div className={`p-2 sm:p-3 rounded-lg ${stat.color}`}>
-                            <stat.icon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/30">
+                          {stat.title}
+                        </span>
+                        <stat.icon className="h-3.5 w-3.5 text-white/40" />
+                      </div>
+                      <div className="text-2xl font-bold text-white tracking-tight">
+                        {stat.value}
+                      </div>
+                      <div className="text-[11px] font-mono uppercase tracking-[0.15em] text-white/40 mt-1">
+                        {stat.change}
+                      </div>
+                    </div>
                   ))
                 ) : (
                   <div className="col-span-full text-center py-8">
-                    <p className="text-[#6b839a] font-bold">No data available</p>
+                    <p className="text-white/40 text-[13px]">No data available</p>
                   </div>
                 )}
               </div>
 
-              {/* User Credits Display */}
-              <Card className="border-2 sm:border-4 border-[#efa72d] shadow-[4px_4px_0px_0px_#efa72d] sm:shadow-[8px_8px_0px_0px_#efa72d]">
-                <CardHeader>
-                  <CardTitle className="text-lg sm:text-xl lg:text-2xl font-black text-[#17457c] flex items-center gap-2 sm:gap-3">
-                    <CreditCard className="h-5 w-5 sm:h-6 sm:w-6" />
+              {/* Account Status */}
+              <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+                <div className="px-6 py-4 border-b border-white/[0.06] flex items-center gap-2">
+                  <CreditCard className="h-3.5 w-3.5 text-white/40" />
+                  <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/40">
                     Account Status
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <div>
-                      <p className="text-sm font-bold text-[#6b839a]">Current Plan</p>
-                      <p className="text-xl font-black text-[#17457c] capitalize">{userData.plan}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold text-[#6b839a]">Credits Remaining</p>
-                      <p className="text-xl font-black text-[#17457c]">{userData.credits_remaining.toLocaleString()}</p>
-                    </div>
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-white/[0.06]">
+                  <div className="p-6">
+                    <div className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/30 mb-2">Current Plan</div>
+                    <div className="text-xl font-bold text-white capitalize">{userData.plan}</div>
                   </div>
-                </CardContent>
-              </Card>
+                  <div className="p-6">
+                    <div className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/30 mb-2">Credits Remaining</div>
+                    <div className="text-xl font-bold text-white">{userData.credits_remaining.toLocaleString()}</div>
+                  </div>
+                  <div className="p-6 hidden sm:block" />
+                </div>
+              </div>
 
               {/* Recent Activity */}
-              <Card className="border-2 sm:border-4 border-[#efa72d] shadow-[4px_4px_0px_0px_#efa72d] sm:shadow-[8px_8px_0px_0px_#efa72d]">
-                <CardHeader>
-                  <CardTitle className="text-lg sm:text-xl lg:text-2xl font-black text-[#17457c] flex items-center gap-2 sm:gap-3">
-                    <TrendingUp className="h-5 w-5 sm:h-6 sm:w-6" />
+              <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+                <div className="px-6 py-4 border-b border-white/[0.06] flex items-center gap-2">
+                  <TrendingUp className="h-3.5 w-3.5 text-white/40" />
+                  <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/40">
                     Recent Activity
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
+                  </span>
+                </div>
+                <div className="p-6">
                   {dashboardLoading ? (
                     <div className="space-y-3">
                       {Array.from({ length: 3 }).map((_, index) => (
-                        <div key={index} className="flex items-center gap-4 p-4 bg-gray-100 rounded-lg animate-pulse">
-                          <div className="w-16 h-6 bg-gray-200 rounded"></div>
-                          <div className="flex-1 space-y-2">
-                            <div className="h-4 bg-gray-200 rounded"></div>
-                            <div className="h-3 bg-gray-200 rounded w-3/4"></div>
-                          </div>
-                          <div className="w-20 h-4 bg-gray-200 rounded"></div>
-                        </div>
+                        <div key={index} className="h-12 bg-white/[0.03] rounded-sm animate-pulse" />
                       ))}
                     </div>
                   ) : recentActivity.length > 0 ? (
-                    <div className="space-y-3 sm:space-y-4">
+                    <div className="divide-y divide-white/[0.06]">
                       {recentActivity.slice(0, 5).map((request) => (
                         <div
                           key={request.id}
-                          className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 bg-white rounded-lg border-2 border-[#6b839a] gap-3 sm:gap-4"
+                          className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-3 gap-2"
                         >
-                          <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
-                            <Badge
-                              className={`${request.status >= 200 && request.status < 400 ? "bg-green-600" : "bg-red-600"} text-white font-black text-xs sm:text-sm`}
-                            >
+                          <div className="flex items-center gap-3 min-w-0 flex-1">
+                            <span className={`text-[10px] font-mono px-2 py-0.5 rounded-sm ${statusBadge(request.status)}`}>
                               {request.status}
-                            </Badge>
+                            </span>
                             <div className="min-w-0 flex-1">
-                              <p className="font-black text-[#17457c] text-sm sm:text-base truncate">{request.endpoint}</p>
-                              <p className="text-xs sm:text-sm font-bold text-[#6b839a] truncate">{request.query}</p>
+                              <p className="text-[13px] text-white font-mono truncate">{request.endpoint}</p>
+                              <p className="text-[11px] text-white/40 truncate">{request.query}</p>
                             </div>
                           </div>
-                          <div className="text-left sm:text-right flex justify-between sm:block">
-                            <p className="font-black text-[#17457c] text-sm sm:text-base">{request.credits} credits</p>
-                            <p className="text-xs sm:text-sm font-bold text-[#6b839a]">{request.latency}</p>
+                          <div className="text-left sm:text-right flex justify-between sm:block gap-3">
+                            <p className="text-[12px] font-mono text-white/70">{request.credits} credits</p>
+                            <p className="text-[11px] font-mono text-white/40">{request.latency}</p>
                           </div>
                         </div>
                       ))}
                     </div>
                   ) : (
                     <div className="text-center py-8">
-                      <p className="text-[#6b839a] font-bold">No recent activity</p>
-                      <p className="text-sm text-[#6b839a] mt-2">Start making API requests to see your activity here.</p>
+                      <p className="text-white/50 text-[13px]">No recent activity</p>
+                      <p className="text-[11px] text-white/30 mt-1 font-mono uppercase tracking-[0.15em]">
+                        Make a request to see activity here
+                      </p>
                     </div>
                   )}
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </div>
           )}
 
           {activeTab === "requests" && (
-            <div className="space-y-4 sm:space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
                 <div>
-                  <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#17457c] mb-2">Request History</h1>
-                  <p className="text-base sm:text-lg font-bold text-[#6b839a]">
-                    Track all your API requests and performance metrics.
+                  <div className="venym-meta mb-3">CLASS :: TELEMETRY</div>
+                  <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-2">
+                    Request History
+                  </h1>
+                  <p className="text-[13px] text-white/50">
+                    All API requests and performance metrics.
                   </p>
                 </div>
-                <div className="flex gap-2 sm:gap-3">
-                  <Button className="bg-[#efa72d] hover:bg-[#d4941f] text-[#17457c] font-black border-2 sm:border-4 border-black shadow-[2px_2px_0px_0px_#000000] sm:shadow-[4px_4px_0px_0px_#000000] text-sm sm:text-base">
-                    <Download className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-                    <span className="hidden sm:inline">Export CSV</span>
-                    <span className="sm:hidden">Export</span>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="border-[#17457c] text-[#17457c] hover:bg-[#17457c] hover:text-white font-black bg-transparent border-2 sm:border-4 shadow-[2px_2px_0px_0px_#17457c] sm:shadow-[4px_4px_0px_0px_#17457c] text-sm sm:text-base"
-                  >
-                    <RefreshCw className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-                    <span className="hidden sm:inline">Refresh</span>
-                    <span className="sm:hidden">↻</span>
-                  </Button>
+                <div className="flex gap-2">
+                  <button className="venym-btn-secondary">
+                    <Download className="h-3 w-3 mr-1.5" />
+                    Export
+                  </button>
+                  <button className="venym-btn-secondary">
+                    <RefreshCw className="h-3 w-3 mr-1.5" />
+                    Refresh
+                  </button>
                 </div>
               </div>
 
-              {/* Filters */}
-              <Card className="border-2 sm:border-4 border-[#6b839a] shadow-[3px_3px_0px_0px_#6b839a] sm:shadow-[6px_6px_0px_0px_#6b839a]">
-                <CardContent className="p-4 sm:p-6">
-                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-end">
-                    <div className="flex-1">
-                      <Label className="font-black text-[#17457c] text-sm sm:text-base">Search Requests</Label>
-                      <div className="relative">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-3 w-3 sm:h-4 sm:w-4 text-[#6b839a]" />
-                        <Input
-                          placeholder="Search by query, endpoint, or ID..."
-                          className="pl-8 sm:pl-10 border-2 border-[#6b839a] font-bold text-sm sm:text-base"
-                        />
-                      </div>
-                    </div>
-                    <div className="flex gap-3 sm:gap-4">
-                      <div className="flex-1 sm:flex-none">
-                        <Label className="font-black text-[#17457c] text-sm sm:text-base">Status</Label>
-                        <Select>
-                          <SelectTrigger className="w-full sm:w-32 border-2 border-[#6b839a] font-bold text-sm sm:text-base">
-                            <SelectValue placeholder="All" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="all">All Status</SelectItem>
-                            <SelectItem value="200">Success</SelectItem>
-                            <SelectItem value="400">Client Error</SelectItem>
-                            <SelectItem value="500">Server Error</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div className="flex-1 sm:flex-none">
-                        <Label className="font-black text-[#17457c] text-sm sm:text-base">Date Range</Label>
-                        <Select>
-                          <SelectTrigger className="w-full sm:w-32 border-2 border-[#6b839a] font-bold text-sm sm:text-base">
-                            <SelectValue placeholder="Last 7 days" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="7d">Last 7 days</SelectItem>
-                            <SelectItem value="30d">Last 30 days</SelectItem>
-                            <SelectItem value="90d">Last 90 days</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
+              <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+                <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto_auto] gap-3 sm:items-end">
+                  <div>
+                    <label className={labelClass}>Search</label>
+                    <div className="relative">
+                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-white/30" />
+                      <input
+                        placeholder="Search by query, endpoint, or ID"
+                        className={`${inputClass} pl-9`}
+                      />
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                  <div>
+                    <label className={labelClass}>Status</label>
+                    <Select>
+                      <SelectTrigger className="w-full sm:w-32 h-10 bg-white/[0.03] border-white/[0.08] text-[13px] text-white rounded-sm">
+                        <SelectValue placeholder="All" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-[#0a0a0a] border-white/[0.08] text-white">
+                        <SelectItem value="all">All Status</SelectItem>
+                        <SelectItem value="200">Success</SelectItem>
+                        <SelectItem value="400">Client Error</SelectItem>
+                        <SelectItem value="500">Server Error</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <label className={labelClass}>Range</label>
+                    <Select>
+                      <SelectTrigger className="w-full sm:w-36 h-10 bg-white/[0.03] border-white/[0.08] text-[13px] text-white rounded-sm">
+                        <SelectValue placeholder="Last 7 days" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-[#0a0a0a] border-white/[0.08] text-white">
+                        <SelectItem value="7d">Last 7 days</SelectItem>
+                        <SelectItem value="30d">Last 30 days</SelectItem>
+                        <SelectItem value="90d">Last 90 days</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </div>
 
-              {/* Request Table - Desktop */}
-              <Card className="hidden lg:block border-2 sm:border-4 border-[#efa72d] shadow-[4px_4px_0px_0px_#efa72d] sm:shadow-[8px_8px_0px_0px_#efa72d]">
-                <CardContent className="p-0">
-                  <Table>
-                    <TableHeader>
-                      <TableRow className="bg-[#efa72d] hover:bg-[#efa72d]">
-                        <TableHead className="font-black text-[#17457c]">Request ID</TableHead>
-                        <TableHead className="font-black text-[#17457c]">Endpoint</TableHead>
-                        <TableHead className="font-black text-[#17457c]">Status</TableHead>
-                        <TableHead className="font-black text-[#17457c]">Timestamp</TableHead>
-                        <TableHead className="font-black text-[#17457c]">Credits</TableHead>
-                        <TableHead className="font-black text-[#17457c]">Latency</TableHead>
-                        <TableHead className="font-black text-[#17457c]">Query</TableHead>
-                        <TableHead className="font-black text-[#17457c]">Actions</TableHead>
+              <div className="hidden lg:block border border-white/[0.06] bg-white/[0.02] rounded-sm overflow-hidden">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="border-white/[0.06] hover:bg-transparent">
+                      <TableHead className="text-[10px] font-mono uppercase tracking-[0.15em] text-white/40">ID</TableHead>
+                      <TableHead className="text-[10px] font-mono uppercase tracking-[0.15em] text-white/40">Endpoint</TableHead>
+                      <TableHead className="text-[10px] font-mono uppercase tracking-[0.15em] text-white/40">Status</TableHead>
+                      <TableHead className="text-[10px] font-mono uppercase tracking-[0.15em] text-white/40">Timestamp</TableHead>
+                      <TableHead className="text-[10px] font-mono uppercase tracking-[0.15em] text-white/40">Credits</TableHead>
+                      <TableHead className="text-[10px] font-mono uppercase tracking-[0.15em] text-white/40">Latency</TableHead>
+                      <TableHead className="text-[10px] font-mono uppercase tracking-[0.15em] text-white/40">Query</TableHead>
+                      <TableHead className="text-[10px] font-mono uppercase tracking-[0.15em] text-white/40"></TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {requestHistory.map((request) => (
+                      <TableRow key={request.id} className="border-white/[0.06] hover:bg-white/[0.02]">
+                        <TableCell className="text-[12px] font-mono text-white/70">{request.id}</TableCell>
+                        <TableCell className="text-[12px] font-mono text-white/70">{request.endpoint}</TableCell>
+                        <TableCell>
+                          <span className={`text-[10px] font-mono px-2 py-0.5 rounded-sm ${statusBadge(request.status)}`}>
+                            {request.status}
+                          </span>
+                        </TableCell>
+                        <TableCell className="text-[12px] font-mono text-white/50">{request.timestamp}</TableCell>
+                        <TableCell className="text-[12px] font-mono text-white/70">{request.credits}</TableCell>
+                        <TableCell className="text-[12px] font-mono text-white/50">{request.latency}</TableCell>
+                        <TableCell className="text-[12px] font-mono text-white/50 max-w-xs truncate">{request.query}</TableCell>
+                        <TableCell>
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <button className="text-white/40 hover:text-white/80 p-1">
+                                <MoreHorizontal className="h-4 w-4" />
+                              </button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent className="bg-[#0a0a0a] border-white/[0.08] text-white">
+                              <DropdownMenuItem>View Details</DropdownMenuItem>
+                              <DropdownMenuItem>Copy Request ID</DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </TableCell>
                       </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {requestHistory.map((request) => (
-                        <TableRow key={request.id} className="hover:bg-gray-50">
-                          <TableCell className="font-bold text-[#17457c]">{request.id}</TableCell>
-                          <TableCell className="font-bold text-[#6b839a]">{request.endpoint}</TableCell>
-                          <TableCell>
-                            <Badge
-                              className={`${request.status === 200 ? "bg-green-600" : request.status === 429 ? "bg-yellow-600" : "bg-red-600"} text-white font-black`}
-                            >
-                              {request.status}
-                            </Badge>
-                          </TableCell>
-                          <TableCell className="font-bold text-[#6b839a]">{request.timestamp}</TableCell>
-                          <TableCell className="font-bold text-[#17457c]">{request.credits}</TableCell>
-                          <TableCell className="font-bold text-[#6b839a]">{request.latency}</TableCell>
-                          <TableCell className="font-bold text-[#6b839a] max-w-xs truncate">{request.query}</TableCell>
-                          <TableCell>
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="sm">
-                                  <MoreHorizontal className="h-4 w-4" />
-                                </Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent>
-                                <DropdownMenuItem>View Details</DropdownMenuItem>
-                                <DropdownMenuItem>Copy Request ID</DropdownMenuItem>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </CardContent>
-              </Card>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
 
-              {/* Request Cards - Mobile */}
               <div className="lg:hidden space-y-3">
                 {requestHistory.map((request) => (
-                  <Card key={request.id} className="border-2 border-[#efa72d] shadow-[3px_3px_0px_0px_#efa72d]">
-                    <CardContent className="p-4">
-                      <div className="flex items-start justify-between mb-3">
-                        <div className="flex items-center gap-2">
-                          <Badge
-                            className={`${request.status === 200 ? "bg-green-600" : request.status === 429 ? "bg-yellow-600" : "bg-red-600"} text-white font-black text-xs`}
-                          >
-                            {request.status}
-                          </Badge>
-                          <span className="font-black text-[#17457c] text-sm">{request.endpoint}</span>
-                        </div>
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
-                              <MoreHorizontal className="h-3 w-3" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent>
-                            <DropdownMenuItem>View Details</DropdownMenuItem>
-                            <DropdownMenuItem>Copy Request ID</DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
+                  <div key={request.id} className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-4">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <span className={`text-[10px] font-mono px-2 py-0.5 rounded-sm ${statusBadge(request.status)}`}>
+                          {request.status}
+                        </span>
+                        <span className="font-mono text-[13px] text-white truncate">{request.endpoint}</span>
                       </div>
-                      <div className="space-y-2">
-                        <p className="text-xs font-bold text-[#6b839a] truncate">{request.query}</p>
-                        <div className="flex justify-between items-center">
-                          <div className="flex gap-4 text-xs">
-                            <span className="font-bold text-[#17457c]">{request.credits} credits</span>
-                            <span className="font-bold text-[#6b839a]">{request.latency}</span>
-                          </div>
-                          <span className="text-xs font-bold text-[#6b839a]">{request.timestamp}</span>
-                        </div>
-                        <p className="text-xs font-bold text-[#6b839a]">ID: {request.id}</p>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <button className="text-white/40 hover:text-white/80 p-1">
+                            <MoreHorizontal className="h-3 w-3" />
+                          </button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="bg-[#0a0a0a] border-white/[0.08] text-white">
+                          <DropdownMenuItem>View Details</DropdownMenuItem>
+                          <DropdownMenuItem>Copy Request ID</DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
+                    <p className="text-[11px] font-mono text-white/40 truncate mb-2">{request.query}</p>
+                    <div className="flex justify-between items-center text-[11px] font-mono">
+                      <div className="flex gap-3">
+                        <span className="text-white/70">{request.credits} credits</span>
+                        <span className="text-white/40">{request.latency}</span>
                       </div>
-                    </CardContent>
-                  </Card>
+                      <span className="text-white/30">{request.timestamp}</span>
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>
@@ -848,324 +771,301 @@ export default function Dashboard() {
 
           {activeTab === "keys" && (
             <div className="space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
                 <div>
-                  <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#17457c] mb-2">API Keys</h1>
-                  <p className="text-base sm:text-lg font-bold text-[#6b839a]">Manage your API keys and access tokens.</p>
+                  <div className="venym-meta mb-3">CLASS :: ACCESS</div>
+                  <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-2">
+                    API Keys
+                  </h1>
+                  <p className="text-[13px] text-white/50">Manage your API keys and access tokens.</p>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-2">
-                  <Input
+                  <input
                     placeholder="New key name"
                     value={newKeyName}
                     onChange={(e) => setNewKeyName(e.target.value)}
-                    className="w-full sm:w-40 border-2 border-[#6b839a] font-bold min-h-[44px]"
+                    className={`${inputClass} sm:w-48`}
                   />
-                  <Button 
+                  <button
                     onClick={createApiKey}
                     disabled={!newKeyName.trim()}
-                    className="bg-[#efa72d] hover:bg-[#d4941f] text-[#17457c] font-black border-2 sm:border-4 border-black shadow-[2px_2px_0px_0px_#000000] sm:shadow-[4px_4px_0px_0px_#000000]"
+                    className="venym-btn-primary disabled:opacity-40 disabled:cursor-not-allowed"
                   >
-                    <Plus className="h-4 w-4 mr-2" />
-                    Create Key
-                  </Button>
+                    <Plus className="h-3 w-3 mr-1.5" />
+                    Create
+                  </button>
                 </div>
               </div>
 
-              {/* Error State */}
               {error && (
-                <Card className="border-2 border-red-500 bg-red-50">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-2 text-red-700">
-                      <AlertCircle className="h-5 w-5" />
-                      <p className="font-bold">{error}</p>
-                    </div>
-                  </CardContent>
-                </Card>
+                <div className="flex items-center gap-2 p-3 bg-white/[0.03] border border-white/[0.10] rounded-sm">
+                  <AlertCircle className="h-3.5 w-3.5 text-white/60 shrink-0" />
+                  <span className="text-white/70 text-[12px] font-mono">{error}</span>
+                </div>
               )}
 
-              <div className="grid gap-6">
+              <div className="grid gap-3">
                 {apiKeysLoading ? (
                   Array.from({ length: 2 }).map((_, index) => (
-                    <Card key={index} className="border-2 sm:border-4 border-[#efa72d] shadow-[4px_4px_0px_0px_#efa72d] sm:shadow-[8px_8px_0px_0px_#efa72d]">
-                      <CardContent className="p-6">
-                        <div className="space-y-4 animate-pulse">
-                          <div className="flex items-center justify-between">
-                            <div className="space-y-2">
-                              <div className="h-6 bg-gray-200 rounded w-48"></div>
-                              <div className="h-4 bg-gray-200 rounded w-32"></div>
-                            </div>
-                            <div className="h-6 bg-gray-200 rounded w-16"></div>
-                          </div>
-                          <div className="h-10 bg-gray-200 rounded"></div>
-                          <div className="grid grid-cols-2 gap-4">
-                            <div className="h-8 bg-gray-200 rounded"></div>
-                            <div className="h-8 bg-gray-200 rounded"></div>
-                          </div>
+                    <div key={index} className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-6">
+                      <div className="space-y-4 animate-pulse">
+                        <div className="h-5 bg-white/[0.06] rounded w-48"></div>
+                        <div className="h-10 bg-white/[0.06] rounded"></div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="h-6 bg-white/[0.06] rounded"></div>
+                          <div className="h-6 bg-white/[0.06] rounded"></div>
                         </div>
-                      </CardContent>
-                    </Card>
+                      </div>
+                    </div>
                   ))
                 ) : apiKeys.length > 0 ? (
                   apiKeys.map((key) => (
-                    <Card key={key.id} className="border-2 sm:border-4 border-[#efa72d] shadow-[4px_4px_0px_0px_#efa72d] sm:shadow-[8px_8px_0px_0px_#efa72d]">
-                      <CardContent className="p-6">
-                        <div className="flex items-center justify-between mb-4">
-                          <div>
-                            <h3 className="text-xl font-black text-[#17457c] mb-1">{key.key_name}</h3>
-                            <p className="text-sm font-bold text-[#6b839a]">Created on {new Date(key.created_at).toLocaleDateString()}</p>
+                    <div key={key.id} className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-6 transition-colors hover:border-white/[0.12]">
+                      <div className="flex items-center justify-between mb-4">
+                        <div>
+                          <h3 className="text-base font-semibold text-white mb-0.5">{key.key_name}</h3>
+                          <p className="text-[11px] font-mono uppercase tracking-[0.15em] text-white/40">
+                            Created {new Date(key.created_at).toLocaleDateString()}
+                          </p>
+                        </div>
+                        <span className={`text-[10px] font-mono uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border ${key.is_active ? "border-white/20 text-white/80" : "border-white/10 text-white/40"}`}>
+                          {key.is_active ? 'Active' : 'Inactive'}
+                        </span>
+                      </div>
+
+                      <div className="space-y-4">
+                        <div>
+                          <label className={labelClass}>API Key</label>
+                          <div className="flex items-center gap-2">
+                            <input
+                              type={showApiKey[key.id] ? "text" : "password"}
+                              value={key.api_key}
+                              readOnly
+                              className={`${inputClass} font-mono`}
+                            />
+                            <button
+                              onClick={() => toggleApiKeyVisibility(key.id)}
+                              className="inline-flex items-center justify-center w-10 h-10 text-white/50 hover:text-white border border-white/[0.08] hover:border-white/20 rounded-sm transition-colors"
+                            >
+                              {showApiKey[key.id] ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+                            </button>
+                            <button
+                              onClick={() => copyToClipboard(key.api_key)}
+                              className="inline-flex items-center justify-center w-10 h-10 text-white/50 hover:text-white border border-white/[0.08] hover:border-white/20 rounded-sm transition-colors"
+                            >
+                              <Copy className="h-3.5 w-3.5" />
+                            </button>
                           </div>
-                          <Badge className="bg-green-600 text-white font-black">{key.is_active ? 'ACTIVE' : 'INACTIVE'}</Badge>
                         </div>
 
-                        <div className="space-y-4">
+                        <div className="grid grid-cols-2 gap-4 pt-3 border-t border-white/[0.06]">
                           <div>
-                            <Label className="font-black text-[#17457c] mb-2 block">API Key</Label>
-                            <div className="flex items-center gap-2">
-                              <Input
-                                type={showApiKey[key.id] ? "text" : "password"}
-                                value={key.api_key}
-                                readOnly
-                                className="font-mono border-2 border-[#6b839a] font-bold"
-                              />
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => toggleApiKeyVisibility(key.id)}
-                                className="border-[#6b839a] text-[#6b839a] hover:bg-[#6b839a] hover:text-white"
-                              >
-                                {showApiKey[key.id] ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                              </Button>
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => copyToClipboard(key.api_key)}
-                                className="border-[#6b839a] text-[#6b839a] hover:bg-[#6b839a] hover:text-white"
-                              >
-                                <Copy className="h-4 w-4" />
-                              </Button>
-                            </div>
+                            <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/30 mb-1">Last Used</p>
+                            <p className="text-[13px] text-white">
+                              {key.last_used_at ? new Date(key.last_used_at).toLocaleDateString() : 'Never'}
+                            </p>
                           </div>
-
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div>
-                              <p className="text-sm font-bold text-[#6b839a]">Last Used</p>
-                              <p className="font-black text-[#17457c]">
-                                {key.last_used_at ? new Date(key.last_used_at).toLocaleDateString() : 'Never'}
-                              </p>
-                            </div>
-                            <div>
-                              <p className="text-sm font-bold text-[#6b839a]">Status</p>
-                              <p className="font-black text-[#17457c]">{key.is_active ? 'Active' : 'Inactive'}</p>
-                            </div>
+                          <div>
+                            <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/30 mb-1">Status</p>
+                            <p className="text-[13px] text-white">{key.is_active ? 'Active' : 'Inactive'}</p>
                           </div>
+                        </div>
 
-                          <div className="flex gap-2 pt-4 border-t-2 border-gray-200">
-                            <AlertDialog>
-                              <AlertDialogTrigger asChild>
-                                <Button
-                                  variant="outline"
-                                  size="sm"
-                                  className="border-red-600 text-red-600 hover:bg-red-600 hover:text-white font-black bg-transparent"
+                        <div className="flex gap-2 pt-3 border-t border-white/[0.06]">
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <button className="venym-btn-secondary">
+                                <Trash2 className="h-3 w-3 mr-1.5" />
+                                Delete
+                              </button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent className="bg-[#0a0a0a] border-white/[0.08] text-white">
+                              <AlertDialogHeader>
+                                <AlertDialogTitle className="text-white">Delete API Key</AlertDialogTitle>
+                                <AlertDialogDescription className="text-white/60">
+                                  This action cannot be undone. This will permanently delete the API key "{key.key_name}".
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel className="bg-transparent border-white/[0.08] text-white/70 hover:bg-white/[0.03]">Cancel</AlertDialogCancel>
+                                <AlertDialogAction
+                                  onClick={() => deleteApiKey(key.id)}
+                                  className="bg-white text-black hover:bg-white/90"
                                 >
-                                  <Trash2 className="h-4 w-4 mr-2" />
                                   Delete
-                                </Button>
-                              </AlertDialogTrigger>
-                              <AlertDialogContent>
-                                <AlertDialogHeader>
-                                  <AlertDialogTitle>Delete API Key</AlertDialogTitle>
-                                  <AlertDialogDescription>
-                                    This action cannot be undone. This will permanently delete the API key "{key.key_name}".
-                                  </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                  <AlertDialogAction 
-                                    onClick={() => deleteApiKey(key.id)}
-                                    className="bg-red-600 hover:bg-red-700"
-                                  >
-                                    Delete
-                                  </AlertDialogAction>
-                                </AlertDialogFooter>
-                              </AlertDialogContent>
-                            </AlertDialog>
-                          </div>
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
                         </div>
-                      </CardContent>
-                    </Card>
+                      </div>
+                    </div>
                   ))
                 ) : (
-                  <Card className="border-2 sm:border-4 border-[#6b839a] shadow-[4px_4px_0px_0px_#6b839a] sm:shadow-[8px_8px_0px_0px_#6b839a]">
-                    <CardContent className="p-8 text-center">
-                      <Key className="h-12 w-12 text-[#6b839a] mx-auto mb-4" />
-                      <h3 className="text-xl font-black text-[#17457c] mb-2">No API Keys</h3>
-                      <p className="text-[#6b839a] font-bold mb-4">Create your first API key to start using our services.</p>
-                      <div className="flex justify-center gap-2">
-                        <Input
-                          placeholder="Enter key name"
-                          value={newKeyName}
-                          onChange={(e) => setNewKeyName(e.target.value)}
-                          className="w-40 border-2 border-[#6b839a] font-bold"
-                        />
-                        <Button 
-                          onClick={createApiKey}
-                          disabled={!newKeyName.trim()}
-                          className="bg-[#efa72d] hover:bg-[#d4941f] text-[#17457c] font-black border-2 border-black shadow-[2px_2px_0px_0px_#000000]"
-                        >
-                          <Plus className="h-4 w-4 mr-2" />
-                          Create
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
+                  <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-10 text-center">
+                    <Key className="h-8 w-8 text-white/30 mx-auto mb-3" />
+                    <h3 className="text-base font-semibold text-white mb-1">No API Keys</h3>
+                    <p className="text-[13px] text-white/50 mb-5">Create your first API key to start using our services.</p>
+                    <div className="flex justify-center gap-2 max-w-sm mx-auto">
+                      <input
+                        placeholder="Enter key name"
+                        value={newKeyName}
+                        onChange={(e) => setNewKeyName(e.target.value)}
+                        className={inputClass}
+                      />
+                      <button
+                        onClick={createApiKey}
+                        disabled={!newKeyName.trim()}
+                        className="venym-btn-primary disabled:opacity-40 disabled:cursor-not-allowed"
+                      >
+                        <Plus className="h-3 w-3 mr-1.5" />
+                        Create
+                      </button>
+                    </div>
+                  </div>
                 )}
               </div>
             </div>
           )}
 
           {activeTab === "account" && (
-            <div className="space-y-4 sm:space-y-6">
+            <div className="space-y-6">
               <div>
-                <h1 className="text-xl sm:text-2xl lg:text-4xl font-black text-[#17457c] mb-1 sm:mb-2">Account Settings</h1>
-                <p className="text-sm sm:text-lg font-bold text-[#6b839a]">Manage your account information and preferences.</p>
+                <div className="venym-meta mb-3">CLASS :: ACCOUNT</div>
+                <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-2">
+                  Settings
+                </h1>
+                <p className="text-[13px] text-white/50">Manage your account information and preferences.</p>
               </div>
 
               <Tabs defaultValue="profile" className="w-full">
-                <TabsList className="grid w-full grid-cols-3 bg-[#6b839a] border-2 sm:border-4 border-[#efa72d] h-auto">
+                <TabsList className="bg-transparent border-b border-white/[0.06] rounded-none p-0 h-auto w-full justify-start gap-0">
                   <TabsTrigger
                     value="profile"
-                    className="font-black data-[state=active]:bg-[#efa72d] data-[state=active]:text-[#17457c] text-[#edf3f1] text-xs sm:text-sm py-2"
+                    className="data-[state=active]:bg-transparent data-[state=active]:text-white text-white/40 text-[11px] font-mono uppercase tracking-[0.15em] px-4 py-3 rounded-none border-b-2 border-transparent data-[state=active]:border-white shadow-none"
                   >
                     Profile
                   </TabsTrigger>
                   <TabsTrigger
                     value="security"
-                    className="font-black data-[state=active]:bg-[#efa72d] data-[state=active]:text-[#17457c] text-[#edf3f1] text-xs sm:text-sm py-2"
+                    className="data-[state=active]:bg-transparent data-[state=active]:text-white text-white/40 text-[11px] font-mono uppercase tracking-[0.15em] px-4 py-3 rounded-none border-b-2 border-transparent data-[state=active]:border-white shadow-none"
                   >
                     Security
                   </TabsTrigger>
                   <TabsTrigger
                     value="notifications"
-                    className="font-black data-[state=active]:bg-[#efa72d] data-[state=active]:text-[#17457c] text-[#edf3f1] text-xs sm:text-sm py-2"
+                    className="data-[state=active]:bg-transparent data-[state=active]:text-white text-white/40 text-[11px] font-mono uppercase tracking-[0.15em] px-4 py-3 rounded-none border-b-2 border-transparent data-[state=active]:border-white shadow-none"
                   >
-                    <span className="hidden sm:inline">Notifications</span>
-                    <span className="sm:hidden">Alerts</span>
+                    Notifications
                   </TabsTrigger>
                 </TabsList>
 
-                <TabsContent value="profile" className="mt-4 sm:mt-6">
-                  <Card className="border-2 sm:border-4 border-[#efa72d] shadow-[4px_4px_0px_0px_#efa72d] sm:shadow-[8px_8px_0px_0px_#efa72d]">
-                    <CardHeader className="pb-2 sm:pb-4">
-                      <CardTitle className="text-lg sm:text-2xl font-black text-[#17457c]">Profile Information</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4 sm:space-y-6">
-                      <div>
-                        <Label className="font-black text-[#17457c] text-sm sm:text-base">Full Name</Label>
-                        <Input 
-                          value={profileData.full_name}
-                          onChange={(e) => setProfileData(prev => ({ ...prev, full_name: e.target.value }))}
-                          className="border-2 border-[#6b839a] font-bold min-h-[44px]" 
-                        />
-                      </div>
-                      <div>
-                        <Label className="font-black text-[#17457c] text-sm sm:text-base">Email Address</Label>
-                        <Input 
-                          value={profileData.email}
-                          onChange={(e) => setProfileData(prev => ({ ...prev, email: e.target.value }))}
-                          className="border-2 border-[#6b839a] font-bold min-h-[44px]" 
-                        />
-                      </div>
-                      <div>
-                        <Label className="font-black text-[#17457c] text-sm sm:text-base">Company</Label>
-                        <Input 
-                          value={profileData.company}
-                          onChange={(e) => setProfileData(prev => ({ ...prev, company: e.target.value }))}
-                          className="border-2 border-[#6b839a] font-bold min-h-[44px]" 
-                        />
-                      </div>
-                      <div>
-                        <Label className="font-black text-[#17457c] text-sm sm:text-base">Bio</Label>
-                        <Textarea
-                          value={profileData.bio}
-                          onChange={(e) => setProfileData(prev => ({ ...prev, bio: e.target.value }))}
-                          className="border-2 border-[#6b839a] font-bold"
-                        />
-                      </div>
-                      <Button 
-                        onClick={updateProfile}
-                        className="w-full sm:w-auto bg-[#efa72d] hover:bg-[#d4941f] text-[#17457c] font-black border-2 sm:border-4 border-black shadow-[3px_3px_0px_0px_#000000] sm:shadow-[4px_4px_0px_0px_#000000] min-h-[44px]"
-                      >
-                        Save Changes
-                      </Button>
-                    </CardContent>
-                  </Card>
+                <TabsContent value="profile" className="mt-6">
+                  <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-6 space-y-5">
+                    <div>
+                      <label className={labelClass}>Full Name</label>
+                      <input
+                        value={profileData.full_name}
+                        onChange={(e) => setProfileData(prev => ({ ...prev, full_name: e.target.value }))}
+                        className={inputClass}
+                      />
+                    </div>
+                    <div>
+                      <label className={labelClass}>Email Address</label>
+                      <input
+                        value={profileData.email}
+                        onChange={(e) => setProfileData(prev => ({ ...prev, email: e.target.value }))}
+                        className={inputClass}
+                      />
+                    </div>
+                    <div>
+                      <label className={labelClass}>Company</label>
+                      <input
+                        value={profileData.company}
+                        onChange={(e) => setProfileData(prev => ({ ...prev, company: e.target.value }))}
+                        className={inputClass}
+                      />
+                    </div>
+                    <div>
+                      <label className={labelClass}>Bio</label>
+                      <textarea
+                        value={profileData.bio}
+                        onChange={(e) => setProfileData(prev => ({ ...prev, bio: e.target.value }))}
+                        rows={4}
+                        className="w-full px-3 py-2 bg-white/[0.03] border border-white/[0.08] text-[13px] text-white placeholder:text-white/30 focus:outline-none focus:border-white/20 focus:ring-1 focus:ring-white/20 rounded-sm transition-colors"
+                      />
+                    </div>
+                    <button onClick={updateProfile} className="venym-btn-primary">
+                      Save Changes
+                    </button>
+                  </div>
                 </TabsContent>
 
-                <TabsContent value="security" className="mt-4 sm:mt-6">
-                  <Card className="border-2 sm:border-4 border-[#efa72d] shadow-[4px_4px_0px_0px_#efa72d] sm:shadow-[8px_8px_0px_0px_#efa72d]">
-                    <CardHeader className="pb-2 sm:pb-4">
-                      <CardTitle className="text-lg sm:text-2xl font-black text-[#17457c] flex items-center gap-2 sm:gap-3">
-                        <Shield className="h-5 w-5 sm:h-6 sm:w-6" />
+                <TabsContent value="security" className="mt-6">
+                  <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+                    <div className="px-6 py-4 border-b border-white/[0.06] flex items-center gap-2">
+                      <Shield className="h-3.5 w-3.5 text-white/40" />
+                      <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/40">
                         Security Settings
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4 sm:space-y-6">
+                      </span>
+                    </div>
+                    <div className="p-6 space-y-5">
                       <div>
-                        <Label className="font-black text-[#17457c] text-sm sm:text-base">Current Password</Label>
-                        <Input 
-                          type="password" 
+                        <label className={labelClass}>Current Password</label>
+                        <input
+                          type="password"
                           value={passwordData.current_password}
                           onChange={(e) => setPasswordData(prev => ({ ...prev, current_password: e.target.value }))}
-                          className="border-2 border-[#6b839a] font-bold min-h-[44px]" 
+                          className={inputClass}
                         />
                       </div>
                       <div>
-                        <Label className="font-black text-[#17457c] text-sm sm:text-base">New Password</Label>
-                        <Input 
-                          type="password" 
+                        <label className={labelClass}>New Password</label>
+                        <input
+                          type="password"
                           value={passwordData.new_password}
                           onChange={(e) => setPasswordData(prev => ({ ...prev, new_password: e.target.value }))}
-                          className="border-2 border-[#6b839a] font-bold min-h-[44px]" 
+                          className={inputClass}
                         />
                       </div>
                       <div>
-                        <Label className="font-black text-[#17457c] text-sm sm:text-base">Confirm New Password</Label>
-                        <Input 
-                          type="password" 
+                        <label className={labelClass}>Confirm New Password</label>
+                        <input
+                          type="password"
                           value={passwordData.confirm_password}
                           onChange={(e) => setPasswordData(prev => ({ ...prev, confirm_password: e.target.value }))}
-                          className="border-2 border-[#6b839a] font-bold min-h-[44px]" 
+                          className={inputClass}
                         />
                       </div>
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between p-3 sm:p-4 bg-gray-50 rounded-lg border-2 border-[#6b839a] gap-2 sm:gap-4">
+                      <div className="flex items-center justify-between p-4 bg-white/[0.02] border border-white/[0.06] rounded-sm">
                         <div className="min-w-0">
-                          <p className="font-black text-[#17457c] text-sm sm:text-base">Two-Factor Authentication</p>
-                          <p className="text-xs sm:text-sm font-bold text-[#6b839a]">
-                            Add an extra layer of security to your account (Coming Soon)
+                          <p className="text-[13px] text-white">Two-Factor Authentication</p>
+                          <p className="text-[11px] font-mono uppercase tracking-[0.15em] text-white/40 mt-1">
+                            Coming Soon
                           </p>
                         </div>
                         <Switch disabled />
                       </div>
-                      <Button 
+                      <button
                         onClick={changePassword}
                         disabled={!passwordData.current_password || !passwordData.new_password || !passwordData.confirm_password}
-                        className="w-full sm:w-auto bg-[#efa72d] hover:bg-[#d4941f] text-[#17457c] font-black border-2 sm:border-4 border-black shadow-[3px_3px_0px_0px_#000000] sm:shadow-[4px_4px_0px_0px_#000000] disabled:opacity-50 min-h-[44px]"
+                        className="venym-btn-primary disabled:opacity-40 disabled:cursor-not-allowed"
                       >
                         Update Password
-                      </Button>
-                    </CardContent>
-                  </Card>
+                      </button>
+                    </div>
+                  </div>
                 </TabsContent>
 
-                <TabsContent value="notifications" className="mt-4 sm:mt-6">
-                  <Card className="border-2 sm:border-4 border-[#efa72d] shadow-[4px_4px_0px_0px_#efa72d] sm:shadow-[8px_8px_0px_0px_#efa72d]">
-                    <CardHeader className="pb-2 sm:pb-4">
-                      <CardTitle className="text-lg sm:text-2xl font-black text-[#17457c] flex items-center gap-2 sm:gap-3">
-                        <Bell className="h-5 w-5 sm:h-6 sm:w-6" />
+                <TabsContent value="notifications" className="mt-6">
+                  <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+                    <div className="px-6 py-4 border-b border-white/[0.06] flex items-center gap-2">
+                      <Bell className="h-3.5 w-3.5 text-white/40" />
+                      <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/40">
                         Notification Preferences
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4 sm:space-y-6">
+                      </span>
+                    </div>
+                    <div className="p-6 space-y-3">
                       {[
                         { title: "API Usage Alerts", desc: "Get notified when you reach 80% of your credit limit" },
                         { title: "Security Alerts", desc: "Receive notifications about account security events" },
@@ -1174,204 +1074,197 @@ export default function Dashboard() {
                       ].map((item, index) => (
                         <div
                           key={index}
-                          className="flex flex-col sm:flex-row sm:items-center justify-between p-3 sm:p-4 bg-gray-50 rounded-lg border-2 border-[#6b839a] gap-2 sm:gap-4"
+                          className="flex items-center justify-between p-4 bg-white/[0.02] border border-white/[0.06] rounded-sm"
                         >
                           <div className="min-w-0">
-                            <p className="font-black text-[#17457c] text-sm sm:text-base">{item.title}</p>
-                            <p className="text-xs sm:text-sm font-bold text-[#6b839a]">{item.desc}</p>
+                            <p className="text-[13px] text-white">{item.title}</p>
+                            <p className="text-[11px] text-white/40 mt-0.5">{item.desc}</p>
                           </div>
                           <Switch defaultChecked />
                         </div>
                       ))}
-                      <Button className="w-full sm:w-auto bg-[#efa72d] hover:bg-[#d4941f] text-[#17457c] font-black border-2 sm:border-4 border-black shadow-[3px_3px_0px_0px_#000000] sm:shadow-[4px_4px_0px_0px_#000000] min-h-[44px]">
-                        Save Preferences
-                      </Button>
-                    </CardContent>
-                  </Card>
+                      <div className="pt-3">
+                        <button className="venym-btn-primary">Save Preferences</button>
+                      </div>
+                    </div>
+                  </div>
                 </TabsContent>
               </Tabs>
             </div>
           )}
 
           {activeTab === "billing" && (
-            <div className="space-y-4 sm:space-y-6">
+            <div className="space-y-6">
               <div>
-                <h1 className="text-xl sm:text-2xl lg:text-4xl font-black text-[#17457c] mb-1 sm:mb-2">Billing & Usage</h1>
-                <p className="text-sm sm:text-lg font-bold text-[#6b839a]">Manage your subscription and view payment history.</p>
+                <div className="venym-meta mb-3">CLASS :: BILLING</div>
+                <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-2">
+                  Billing & Usage
+                </h1>
+                <p className="text-[13px] text-white/50">Manage your subscription and view payment history.</p>
               </div>
 
-              {/* Subscription Plan */}
-              <Card className="border-2 sm:border-4 border-[#efa72d] shadow-[4px_4px_0px_0px_#efa72d] sm:shadow-[8px_8px_0px_0px_#efa72d]">
-                <CardHeader className="pb-2 sm:pb-4">
-                  <CardTitle className="text-lg sm:text-2xl font-black text-[#17457c] flex items-center gap-2 sm:gap-3">
-                    <CreditCard className="h-5 w-5 sm:h-6 sm:w-6" />
-                    Subscription Plan
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-3 sm:gap-6">
-                  {/* Current Plan Badge */}
-                  <div className="bg-[#efa72d] p-4 sm:p-6 rounded-lg border-2 sm:border-4 border-black shadow-[3px_3px_0px_0px_#000000] sm:shadow-[4px_4px_0px_0px_#000000]">
-                    <h3 className="text-lg sm:text-xl font-black text-[#17457c] mb-1 sm:mb-2 capitalize">{userData.plan} Plan</h3>
-                    <p className="text-2xl sm:text-3xl font-black text-[#17457c] mb-1">
-                      {userData.plan === 'free' ? '$0' : userData.plan === 'starter' ? '$9/mo' : userData.plan === 'builder' ? '$49/mo' : '$199/mo'}
+              <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+                <div className="px-6 py-4 border-b border-white/[0.06] flex items-center gap-2">
+                  <CreditCard className="h-3.5 w-3.5 text-white/40" />
+                  <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/40">
+                    Subscription
+                  </span>
+                </div>
+                <div className="p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  <div className="border border-white/[0.06] bg-white/[0.03] rounded-sm p-5">
+                    <div className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/40 mb-2">
+                      Current Plan
+                    </div>
+                    <h3 className="text-xl font-bold text-white capitalize mb-1">{userData.plan}</h3>
+                    <p className="text-2xl font-bold text-white mb-1">
+                      {userData.plan === 'free' ? '$0' : userData.plan === 'starter' ? '$9' : userData.plan === 'builder' ? '$49' : '$199'}
+                      <span className="text-[11px] font-mono uppercase tracking-[0.15em] text-white/40 ml-1">/mo</span>
                     </p>
-                    <p className="font-bold text-[#17457c] text-sm sm:text-base">
-                      {userData.plan === 'free' ? '500 Credits' : userData.plan === 'starter' ? '5K Credits/mo' : userData.plan === 'builder' ? '100K Credits/mo' : '500K Credits/mo'}
+                    <p className="text-[12px] text-white/50">
+                      {userData.plan === 'free' ? '500 credits' : userData.plan === 'starter' ? '5K credits/mo' : userData.plan === 'builder' ? '100K credits/mo' : '500K credits/mo'}
                     </p>
                   </div>
 
-                  {/* Credits & Account Info */}
-                  <div className="grid grid-cols-2 sm:grid-cols-1 gap-3 sm:gap-4">
-                    <div className="bg-white p-3 sm:p-4 rounded-lg border-2 border-[#6b839a]">
-                      <p className="text-xs sm:text-sm font-bold text-[#6b839a]">Credits Remaining</p>
-                      <p className="text-lg sm:text-2xl font-black text-[#17457c]">{userData.credits_remaining.toLocaleString()}</p>
+                  <div className="grid grid-cols-2 lg:grid-cols-1 gap-3">
+                    <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-4">
+                      <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/30 mb-1">Credits Remaining</p>
+                      <p className="text-xl font-bold text-white">{userData.credits_remaining.toLocaleString()}</p>
                     </div>
-                    <div className="bg-white p-3 sm:p-4 rounded-lg border-2 border-[#6b839a]">
-                      <p className="text-xs sm:text-sm font-bold text-[#6b839a]">Account Type</p>
-                      <p className="text-lg sm:text-2xl font-black text-[#17457c] capitalize">{userData.plan}</p>
+                    <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-4">
+                      <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/30 mb-1">Account Type</p>
+                      <p className="text-xl font-bold text-white capitalize">{userData.plan}</p>
                     </div>
                   </div>
 
-                  {/* Plan Upgrade */}
                   <div className="space-y-2">
-                    <p className="text-xs sm:text-sm font-black text-[#17457c]">CHANGE PLAN</p>
+                    <p className={labelClass}>Change Plan</p>
                     <Select onValueChange={(value) => upgradeSubscription(value)}>
-                      <SelectTrigger className="w-full border-2 border-[#17457c] font-bold min-h-[44px]">
+                      <SelectTrigger className="w-full h-10 bg-white/[0.03] border-white/[0.08] text-[13px] text-white rounded-sm">
                         <SelectValue placeholder="Select a plan" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="bg-[#0a0a0a] border-white/[0.08] text-white">
                         {userData.plan !== 'starter' && (
-                          <SelectItem value="starter">Starter - $9/mo</SelectItem>
+                          <SelectItem value="starter">Starter — $9/mo</SelectItem>
                         )}
                         {userData.plan !== 'builder' && (
-                          <SelectItem value="builder">Builder - $49/mo</SelectItem>
+                          <SelectItem value="builder">Builder — $49/mo</SelectItem>
                         )}
                         {userData.plan !== 'unicorn' && (
-                          <SelectItem value="unicorn">Unicorn - $199/mo</SelectItem>
+                          <SelectItem value="unicorn">Unicorn — $199/mo</SelectItem>
                         )}
                       </SelectContent>
                     </Select>
                     <Link href="/pricing" className="block">
-                      <Button
-                        variant="outline"
-                        className="w-full border-2 border-[#efa72d] text-[#17457c] hover:bg-[#efa72d] font-black bg-transparent min-h-[44px]"
-                      >
+                      <button className="venym-btn-secondary w-full">
                         Compare Plans
-                      </Button>
+                        <ArrowUpRight className="w-3 h-3 ml-1.5" />
+                      </button>
                     </Link>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
 
-              {/* Payment History - Desktop Table */}
-              <Card className="hidden md:block border-2 sm:border-4 border-[#6b839a] shadow-[4px_4px_0px_0px_#6b839a] sm:shadow-[8px_8px_0px_0px_#6b839a]">
-                <CardHeader>
-                  <CardTitle className="text-lg sm:text-2xl font-black text-[#17457c] flex items-center gap-2 sm:gap-3">
-                    <Calendar className="h-5 w-5 sm:h-6 sm:w-6" />
+              <div className="hidden md:block border border-white/[0.06] bg-white/[0.02] rounded-sm">
+                <div className="px-6 py-4 border-b border-white/[0.06] flex items-center gap-2">
+                  <Calendar className="h-3.5 w-3.5 text-white/40" />
+                  <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/40">
                     Payment History
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
+                  </span>
+                </div>
+                <div>
                   {paymentHistory.length > 0 ? (
                     <Table>
                       <TableHeader>
-                        <TableRow className="bg-[#6b839a] hover:bg-[#6b839a]">
-                          <TableHead className="font-black text-white whitespace-nowrap">Invoice ID</TableHead>
-                          <TableHead className="font-black text-white whitespace-nowrap">Date</TableHead>
-                          <TableHead className="font-black text-white whitespace-nowrap">Amount</TableHead>
-                          <TableHead className="font-black text-white whitespace-nowrap">Credits</TableHead>
-                          <TableHead className="font-black text-white whitespace-nowrap">Plan</TableHead>
-                          <TableHead className="font-black text-white whitespace-nowrap">Status</TableHead>
-                          <TableHead className="font-black text-white whitespace-nowrap">Actions</TableHead>
+                        <TableRow className="border-white/[0.06] hover:bg-transparent">
+                          <TableHead className="text-[10px] font-mono uppercase tracking-[0.15em] text-white/40">Invoice</TableHead>
+                          <TableHead className="text-[10px] font-mono uppercase tracking-[0.15em] text-white/40">Date</TableHead>
+                          <TableHead className="text-[10px] font-mono uppercase tracking-[0.15em] text-white/40">Amount</TableHead>
+                          <TableHead className="text-[10px] font-mono uppercase tracking-[0.15em] text-white/40">Credits</TableHead>
+                          <TableHead className="text-[10px] font-mono uppercase tracking-[0.15em] text-white/40">Plan</TableHead>
+                          <TableHead className="text-[10px] font-mono uppercase tracking-[0.15em] text-white/40">Status</TableHead>
+                          <TableHead></TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
                         {paymentHistory.map((payment) => (
-                          <TableRow key={payment.id} className="hover:bg-gray-50">
-                            <TableCell className="font-bold text-[#17457c]">{payment.id}</TableCell>
-                            <TableCell className="font-bold text-[#6b839a]">{payment.date}</TableCell>
-                            <TableCell className="font-bold text-[#17457c]">{payment.amount}</TableCell>
-                            <TableCell className="font-bold text-[#6b839a]">{payment.credits}</TableCell>
-                            <TableCell className="font-bold text-[#6b839a]">{payment.plan}</TableCell>
+                          <TableRow key={payment.id} className="border-white/[0.06] hover:bg-white/[0.02]">
+                            <TableCell className="text-[12px] font-mono text-white/70">{payment.id}</TableCell>
+                            <TableCell className="text-[12px] font-mono text-white/50">{payment.date}</TableCell>
+                            <TableCell className="text-[12px] font-mono text-white/70">{payment.amount}</TableCell>
+                            <TableCell className="text-[12px] font-mono text-white/50">{payment.credits}</TableCell>
+                            <TableCell className="text-[12px] font-mono text-white/50">{payment.plan}</TableCell>
                             <TableCell>
-                              <Badge className="bg-green-600 text-white font-black">{payment.status.toUpperCase()}</Badge>
+                              <span className="text-[10px] font-mono px-2 py-0.5 rounded-sm border border-white/20 text-white/80 uppercase tracking-[0.15em]">
+                                {payment.status}
+                              </span>
                             </TableCell>
                             <TableCell>
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                className="border-[#17457c] text-[#17457c] hover:bg-[#17457c] hover:text-white font-black bg-transparent"
-                              >
-                                <Download className="h-4 w-4 mr-2" />
+                              <button className="venym-btn-secondary">
+                                <Download className="h-3 w-3 mr-1.5" />
                                 Invoice
-                              </Button>
+                              </button>
                             </TableCell>
                           </TableRow>
                         ))}
                       </TableBody>
                     </Table>
                   ) : (
-                    <div className="text-center py-8">
-                      <Calendar className="h-10 w-10 text-[#6b839a] mx-auto mb-3" />
-                      <p className="font-black text-[#17457c] text-lg">No Payment History</p>
-                      <p className="text-sm text-[#6b839a] font-bold mt-1">Your payment history will appear here once you subscribe to a paid plan.</p>
+                    <div className="text-center py-12">
+                      <Calendar className="h-8 w-8 text-white/30 mx-auto mb-3" />
+                      <p className="text-[14px] text-white font-medium">No Payment History</p>
+                      <p className="text-[11px] text-white/40 mt-1 font-mono uppercase tracking-[0.15em]">
+                        Subscribe to a paid plan to see payments
+                      </p>
                     </div>
                   )}
-                </CardContent>
-              </Card>
+                </div>
+              </div>
 
-              {/* Payment History - Mobile Cards */}
               <div className="md:hidden space-y-3">
-                <h2 className="text-lg font-black text-[#17457c] flex items-center gap-2">
-                  <Calendar className="h-5 w-5" />
+                <div className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/40 flex items-center gap-2">
+                  <Calendar className="h-3 w-3" />
                   Payment History
-                </h2>
+                </div>
                 {paymentHistory.length > 0 ? (
                   paymentHistory.map((payment) => (
-                    <Card key={payment.id} className="border-2 border-[#6b839a] shadow-[3px_3px_0px_0px_#6b839a]">
-                      <CardContent className="p-4">
-                        <div className="flex items-center justify-between mb-3">
-                          <div className="flex items-center gap-2">
-                            <Badge className="bg-green-600 text-white font-black text-xs">{payment.status.toUpperCase()}</Badge>
-                            <span className="font-black text-[#17457c] text-sm">{payment.id}</span>
-                          </div>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="h-8 w-8 p-0 text-[#6b839a]"
-                          >
-                            <Download className="h-4 w-4" />
-                          </Button>
+                    <div key={payment.id} className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[10px] font-mono px-2 py-0.5 rounded-sm border border-white/20 text-white/80 uppercase tracking-[0.15em]">
+                            {payment.status}
+                          </span>
+                          <span className="text-[13px] font-mono text-white">{payment.id}</span>
                         </div>
-                        <div className="grid grid-cols-2 gap-2 text-sm">
-                          <div>
-                            <p className="font-bold text-[#6b839a] text-xs">Amount</p>
-                            <p className="font-black text-[#17457c]">{payment.amount}</p>
-                          </div>
-                          <div>
-                            <p className="font-bold text-[#6b839a] text-xs">Credits</p>
-                            <p className="font-black text-[#17457c]">{payment.credits}</p>
-                          </div>
-                          <div>
-                            <p className="font-bold text-[#6b839a] text-xs">Plan</p>
-                            <p className="font-black text-[#17457c] capitalize">{payment.plan}</p>
-                          </div>
-                          <div>
-                            <p className="font-bold text-[#6b839a] text-xs">Date</p>
-                            <p className="font-black text-[#17457c]">{payment.date}</p>
-                          </div>
+                        <button className="text-white/40 hover:text-white p-1">
+                          <Download className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2 text-[12px] font-mono">
+                        <div>
+                          <p className="text-[10px] uppercase tracking-[0.15em] text-white/30">Amount</p>
+                          <p className="text-white">{payment.amount}</p>
                         </div>
-                      </CardContent>
-                    </Card>
+                        <div>
+                          <p className="text-[10px] uppercase tracking-[0.15em] text-white/30">Credits</p>
+                          <p className="text-white">{payment.credits}</p>
+                        </div>
+                        <div>
+                          <p className="text-[10px] uppercase tracking-[0.15em] text-white/30">Plan</p>
+                          <p className="text-white capitalize">{payment.plan}</p>
+                        </div>
+                        <div>
+                          <p className="text-[10px] uppercase tracking-[0.15em] text-white/30">Date</p>
+                          <p className="text-white">{payment.date}</p>
+                        </div>
+                      </div>
+                    </div>
                   ))
                 ) : (
-                  <Card className="border-2 border-[#6b839a] shadow-[3px_3px_0px_0px_#6b839a]">
-                    <CardContent className="p-6 text-center">
-                      <Calendar className="h-10 w-10 text-[#6b839a] mx-auto mb-3" />
-                      <p className="font-black text-[#17457c]">No Payment History</p>
-                      <p className="text-xs text-[#6b839a] font-bold mt-1">Subscribe to a paid plan to see payments here.</p>
-                    </CardContent>
-                  </Card>
+                  <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-8 text-center">
+                    <Calendar className="h-8 w-8 text-white/30 mx-auto mb-3" />
+                    <p className="text-[13px] text-white">No Payment History</p>
+                    <p className="text-[11px] text-white/40 mt-1">Subscribe to a paid plan to see payments.</p>
+                  </div>
                 )}
               </div>
             </div>

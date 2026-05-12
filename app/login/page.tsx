@@ -3,10 +3,6 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useSignIn, useUser } from '@clerk/nextjs'
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { AlertCircle, Loader2, ArrowLeft } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
@@ -15,13 +11,12 @@ export default function LoginPage() {
   const { isLoaded, signIn, setActive } = useSignIn()
   const { user } = useUser()
   const router = useRouter()
-  
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
-  // Redirect if already authenticated
   useEffect(() => {
     if (user) {
       router.push('/dashboard')
@@ -36,143 +31,155 @@ export default function LoginPage() {
     setLoading(true)
 
     try {
-      // Start the sign-in process using the email and password provided
       const signInAttempt = await signIn.create({
         identifier: email,
         password,
       })
 
-      // If sign-in process is complete, set the created session as active
-      // and redirect the user
       if (signInAttempt.status === 'complete') {
         await setActive({ session: signInAttempt.createdSessionId })
-        
-        // Sync user with our database
+
         await fetch('/api/auth/sync-user', {
           method: 'POST'
         })
-        
+
         router.push('/dashboard')
       } else {
-        // If the status is not complete, check why. User may need to
-        // complete further steps.
         setError('Sign-in incomplete. Please check your credentials.')
       }
     } catch (err: any) {
-      // See https://clerk.com/docs/custom-flows/error-handling
-      // for more on error handling
       setError(err?.errors?.[0]?.message || 'An error occurred during sign-in')
     } finally {
       setLoading(false)
     }
   }
 
-  // Show loading while Clerk loads
   if (!isLoaded) {
     return (
-      <div className="min-h-screen bg-[#17457c] flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-[#efa72d]" />
+      <div className="min-h-screen bg-[#050505] flex items-center justify-center">
+        <Loader2 className="h-6 w-6 animate-spin text-white/40" />
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-[#17457c] flex flex-col">
-      {/* Header */}
-      <header className="px-4 lg:px-6 h-16 flex items-center border-b-4 border-[#efa72d]">
-        <Link href="/" className="flex items-center gap-2 text-[#edf3f1] hover:text-[#efa72d] transition-colors">
-          <ArrowLeft className="h-5 w-5" />
-          <span className="font-bold">Back to Home</span>
-        </Link>
-        <Link href="/" className="flex items-center justify-center mx-auto">
-          <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 relative">
+    <div className="min-h-screen bg-[#050505] text-white flex flex-col">
+      <header className="sticky top-0 z-50 w-full border-b border-white/[0.06] bg-[#050505]/80 backdrop-blur-xl">
+        <div className="flex h-14 items-center px-4 md:px-6 gap-4">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-[11px] font-mono uppercase tracking-[0.15em] text-white/40 hover:text-white/80 transition-colors"
+          >
+            <ArrowLeft className="h-3.5 w-3.5" />
+            Back
+          </Link>
+
+          <Link href="/" className="flex items-center gap-3 mx-auto">
+            <div className="w-7 h-7 relative">
               <Image
                 src="/VENYM_SEARCH-logo.png"
-                alt="Venym Search Logo"
-                width={32}
-                height={32}
-                className="w-8 h-8 brightness-0 invert"
+                alt="Venym Search"
+                width={28}
+                height={28}
+                className="w-7 h-7"
               />
             </div>
-            <span className="font-black text-lg tracking-tight text-[#edf3f1]">VENYM_SEARCH</span>
-          </div>
-        </Link>
-        <div className="w-24"></div> {/* Spacer for centering */}
+            <span className="font-semibold text-[15px] tracking-tight text-white">
+              Venym Search
+            </span>
+            <span className="hidden sm:inline-flex text-[10px] font-mono uppercase tracking-[0.2em] text-white/40 border border-white/10 px-2 py-0.5 rounded-sm">
+              Sign In
+            </span>
+          </Link>
+
+          <div className="w-16" />
+        </div>
       </header>
 
-      {/* Main Content */}
-      <main className="flex-1 flex items-center justify-center p-4">
-        <Card className="w-full max-w-md border-4 border-[#efa72d] shadow-[8px_8px_0px_0px_#efa72d] bg-[#edf3f1]">
-          <CardHeader className="text-center">
-            <CardTitle className="text-3xl font-black text-[#17457c]">Welcome Back</CardTitle>
-            <p className="text-[#6b839a] font-bold">Sign in to your Venym Search account</p>
-          </CardHeader>
-          <CardContent>
+      <main className="flex-1 flex items-center justify-center p-6">
+        <div className="w-full max-w-md">
+          <div className="mb-8 text-center">
+            <div className="venym-meta mb-3">CLASS :: AUTHENTICATION</div>
+            <h1 className="text-3xl font-bold tracking-tight text-white">Welcome Back</h1>
+            <p className="mt-2 text-[13px] text-white/50">
+              Sign in to your Venym Search account
+            </p>
+          </div>
+
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-8">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="email" className="font-black text-[#17457c]">
+                <label
+                  htmlFor="email"
+                  className="block text-[10px] font-mono uppercase tracking-[0.2em] text-white/30"
+                >
                   Email Address
-                </Label>
-                <Input
+                </label>
+                <input
                   id="email"
                   type="email"
                   placeholder="your@email.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="border-2 border-[#6b839a] font-bold min-h-[44px]"
+                  className="w-full h-10 px-3 bg-white/[0.03] border border-white/[0.08] text-[13px] text-white placeholder:text-white/30 focus:outline-none focus:border-white/20 focus:ring-1 focus:ring-white/20 rounded-sm transition-colors"
                   required
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password" className="font-black text-[#17457c]">
+                <label
+                  htmlFor="password"
+                  className="block text-[10px] font-mono uppercase tracking-[0.2em] text-white/30"
+                >
                   Password
-                </Label>
-                <Input
+                </label>
+                <input
                   id="password"
                   type="password"
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="border-2 border-[#6b839a] font-bold min-h-[44px]"
+                  className="w-full h-10 px-3 bg-white/[0.03] border border-white/[0.08] text-[13px] text-white placeholder:text-white/30 focus:outline-none focus:border-white/20 focus:ring-1 focus:ring-white/20 rounded-sm transition-colors"
                   required
                 />
               </div>
 
               {error && (
-                <div className="flex items-center gap-2 p-3 bg-red-50 border-2 border-red-500 rounded">
-                  <AlertCircle className="h-4 w-4 text-red-600" />
-                  <span className="text-red-700 font-bold text-sm">{error}</span>
+                <div className="flex items-center gap-2 p-3 bg-white/[0.03] border border-white/[0.10] rounded-sm">
+                  <AlertCircle className="h-3.5 w-3.5 text-white/60 shrink-0" />
+                  <span className="text-white/70 text-[12px] font-mono">{error}</span>
                 </div>
               )}
 
-              <Button
+              <button
                 type="submit"
                 disabled={loading || !email || !password}
-                className="w-full bg-[#efa72d] hover:bg-[#d4941f] text-[#17457c] font-black border-2 border-black shadow-[2px_2px_0px_0px_#000000] disabled:opacity-50 min-h-[44px]"
+                className="venym-btn-primary w-full disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 {loading ? (
                   <>
-                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                    Signing In...
+                    <Loader2 className="h-3 w-3 mr-2 animate-spin" />
+                    Signing In
                   </>
                 ) : (
                   'Sign In'
                 )}
-              </Button>
+              </button>
 
-              <div className="text-center pt-4 border-t-2 border-[#6b839a]">
-                <p className="text-[#6b839a] font-bold">
+              <div className="pt-6 border-t border-white/[0.06] text-center">
+                <p className="text-[12px] text-white/40">
                   Don't have an account?{' '}
-                  <Link href="/signup" className="text-[#17457c] font-black hover:text-[#efa72d] transition-colors">
-                    Sign up here
+                  <Link
+                    href="/signup"
+                    className="text-white/80 hover:text-white transition-colors font-medium"
+                  >
+                    Sign up
                   </Link>
                 </p>
               </div>
             </form>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </main>
     </div>
   )
