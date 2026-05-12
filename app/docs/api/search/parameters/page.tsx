@@ -19,6 +19,7 @@ import { CodeBlock } from '../../../components/CodeBlock'
 import { Callout } from '../../../components/Callout'
 import { ParameterTable, ResponseTable } from '../../../components/ParameterTable'
 
+
 export default function SearchParametersPage() {
   const requestParameters = [
     {
@@ -168,6 +169,8 @@ response = requests.post(
     query: 'latest AI developments'
   })
 });`,
+
+
     bash: `curl -X POST https://www.search.venym.io/api/v1/search \\
   -H "Authorization": "Bearer: sk_live_YOUR_API_KEY_API_KEY_key_here" \\
   -H "Content-Type: application/json" \\

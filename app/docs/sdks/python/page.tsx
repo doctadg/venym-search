@@ -246,6 +246,7 @@ except Exception as e:
 import time
 import random
 
+
 def search_with_retry(query, max_retries=3):
     for attempt in range(max_retries):
         try:
@@ -618,3 +619,5 @@ json_str = search_results.model_dump_json()`
     </div>
   )
 }
+
+

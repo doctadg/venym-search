@@ -17,6 +17,7 @@ import {
 } from 'lucide-react'
 import { Callout } from '../components/Callout'
 
+
 export default function SupportPage() {
   const supportOptions = [
     {
@@ -413,3 +414,4 @@ export default function SupportPage() {
     </div>
   )
 }
+

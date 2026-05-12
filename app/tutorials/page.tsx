@@ -3,6 +3,7 @@ import { tutorials } from '@/lib/tutorial-data'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 
+
 const difficultyColor = {
   beginner: 'bg-green-500/20 text-green-400 border-green-500/30',
   intermediate: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
@@ -49,3 +50,5 @@ export default function TutorialsPage() {
     </div>
   )
 }
+
+

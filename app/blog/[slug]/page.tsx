@@ -22,6 +22,7 @@ import {
 import { getBlogPostBySlug, getRecentPosts } from '@/lib/blog-service'
 import BlogMarkdown from '@/components/blog-markdown'
 
+
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>
 }
@@ -136,6 +137,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const faqItems = post.content
     .split('\n')
     .reduce<Array<{ question: string; answer: string }>>((acc, line, idx, lines) => {
+
+
       // Match H3 questions: "### What is X?" or "### How does Y work?"
       const h3Match = line.match(/^###\s+(.+\?)$/i)
       if (h3Match) {

@@ -17,6 +17,7 @@ import { Callout } from '../../components/Callout'
 import { APIMethod, StatusCode } from '../../components/APIMethod'
 import { ParameterTable, ResponseTable } from '../../components/ParameterTable'
 
+
 export default function SearchPage() {
   const quickExample = {
     python: `import requests
@@ -37,6 +38,8 @@ data = response.json()
 print(f"Found {len(data['search_results'])} results")
 print(f"Scraped {len(data['scraped_content'])} pages")`,
     javascript: `const axios = require('axios');
+
+
 
 const response = await axios.post(
   'https://www.search.venym.io/api/v1/search',
@@ -524,6 +527,9 @@ console.log(\`Scraped \${data.scraped_content.length} pages\`);`,
                   Scrape
                 </Button>
               </Link>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   )

@@ -55,8 +55,11 @@ import { useUser } from "@clerk/nextjs"
 import { useUserData } from "@/lib/useUserData"
 import { useRouter } from "next/navigation"
 
+
 interface DashboardStats {
   total_requests: { value: number; change: string }
+
+
   credits_used: { value: number; change: string }
   success_rate: { value: string; change: string }
   avg_latency: { value: number; change: string }

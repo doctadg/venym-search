@@ -15,6 +15,7 @@ import { APITester } from '../../components/APITester'
 import { Callout } from '../../components/Callout'
 import { ParameterTable, ResponseTable } from '../../components/ParameterTable'
 
+
 export default function ScrapeAPIReferencePage() {
   const parameters = [
     {
@@ -50,6 +51,8 @@ export default function ScrapeAPIReferencePage() {
       required: false,
       description: "Custom User-Agent string for the request.",
       example: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+
+
     },
     {
       name: "proxy_type",
@@ -542,4 +545,7 @@ export default function ScrapeAPIReferencePage() {
             Search API Reference
           </Button>
         </Link>
-          <Button className="bg-[#efa72d] hover:bg-[#efa72d]/90 text-white flex items-center gap-2">
+      </div>
+    </div>
+  )
+}

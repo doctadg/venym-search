@@ -5,6 +5,7 @@ import { getTutorial, getTutorialSlugs, tutorials } from '@/lib/tutorial-data'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
+
 const difficultyColor = {
   beginner: 'bg-green-500/20 text-green-400 border-green-500/30',
   intermediate: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
@@ -125,3 +126,5 @@ export default async function TutorialPage({ params }: { params: Promise<{ slug:
     </div>
   )
 }
+
+

@@ -6,6 +6,7 @@ import { Callout } from '../../components/Callout'
 import { APIMethod, StatusCode } from '../../components/APIMethod'
 import { ArrowRight, Wrench, Zap } from 'lucide-react'
 
+
 const tools = [
   {
     id: 1,
@@ -93,6 +94,8 @@ const quickExample = {
 res = requests.post(
     "https://search.venym.io/api/v1/tools/user-agent-parser",
     json={"user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/124.0.0.0"}
+
+
 )
 data = res.json()
 print(data["browser"]["name"])  # Chrome

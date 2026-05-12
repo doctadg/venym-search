@@ -18,6 +18,7 @@ import {
 import { CodeBlock } from '../../components/CodeBlock'
 import { Callout } from '../../components/Callout'
 
+
 export default function MakeIntegrationPage() {
   const httpModuleCode = `{
   "url": "https://www.search.venym.io/api/v1/search",
@@ -87,6 +88,8 @@ export default function MakeIntegrationPage() {
           "{{4.contact_info.email}}",
           "{{4.contact_info.phone}}",
           "{{formatDate(now; 'YYYY-MM-DD')}}"
+
+
         ]
       }
     }
@@ -188,7 +191,8 @@ export default function MakeIntegrationPage() {
         "Automated report generation",
         "Smart insights extraction"
       ],
-      icon: Bot
+      icon: Bot,
+      modules: ["Venym Search Search", "AI Analysis", "Report Generator"]
     },
     {
       title: "Real-time Competitive Monitoring",
@@ -541,7 +545,7 @@ export default function MakeIntegrationPage() {
                   <div>
                     <h4 className="font-semibold text-sm mb-2">Required Modules:</h4>
                     <div className="flex flex-wrap gap-1">
-                      {workflow.modules.map((module) => (
+                      {(workflow.modules || []).map((module) => (
                         <Badge key={module} variant="outline" className="text-xs">
                           {module}
                         </Badge>

@@ -11,6 +11,9 @@ import {
 } from "@/components/ui/card";
 import { competitors } from "@/lib/compare-data";
 
+
+
+
 export const metadata = {
   title: "Venym Search vs Competitors — Compare Web Scraping & Search APIs",
   description:

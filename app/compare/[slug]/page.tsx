@@ -11,6 +11,9 @@ import {
 } from "@/components/ui/card";
 import { competitors, getCompetitor } from "@/lib/compare-data";
 
+
+
+
 /* ── static params & metadata ── */
 
 export function generateStaticParams() {

@@ -17,6 +17,7 @@ import {
 import { CodeBlock } from '../../components/CodeBlock'
 import { Callout } from '../../components/Callout'
 
+
 export default function JavaScriptSDKPage() {
   const installCode = {
     npm: `npm install VENYM_SEARCH-js`,
@@ -25,6 +26,8 @@ export default function JavaScriptSDKPage() {
   }
 
   const initCode = `import { Venym Search, VenymSearchError, RateLimitError, AuthenticationError } from 'VENYM_SEARCH-js';
+
+
 
 const client = new Venym Search({
   apiKey: 'sk_live_YOUR_API_KEY_API_KEY_key_here',

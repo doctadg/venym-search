@@ -179,6 +179,7 @@ print(response)`
 import openai
 import time
 
+
 st.title("🔍 AI Research Assistant")
 st.caption("Powered by OpenAI GPT-4 + Venym Search APIs")
 
@@ -298,6 +299,8 @@ st.sidebar.markdown("""
 "")`
 
   const nodeExample = `const OpenAI = require('openai');
+
+
 const axios = require('axios');
 
 const openai = new OpenAI({

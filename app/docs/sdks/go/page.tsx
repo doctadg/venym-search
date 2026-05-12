@@ -488,6 +488,7 @@ func batchProcessing() {
   const middlewareExample = `package main
 
 import (
+
     "context"
     "fmt"
     "log"
@@ -1068,3 +1069,4 @@ func middlewareExample() {
     </div>
   )
 }
+

@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { useCases } from '@/lib/usecase-data'
 import type { Metadata } from 'next'
 
+
 interface PageProps {
   params: Promise<{ slug: string }>
 }
@@ -142,3 +143,5 @@ export default async function UseCasePage({ params }: PageProps) {
     </>
   )
 }
+
+

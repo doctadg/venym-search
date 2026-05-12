@@ -19,6 +19,7 @@ import {
 import { CodeBlock } from '../../components/CodeBlock'
 import { Callout } from '../../components/Callout'
 
+
 export default function N8nIntegrationPage() {
   const nodeStructureCode = `// Venym Search Search Node Structure
 export class VenymSearchSearch implements INodeType {
@@ -74,6 +75,8 @@ export class VenymSearchSearch implements INodeType {
       }
     ],
   };
+
+
 
   async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
     const items = this.getInputData();

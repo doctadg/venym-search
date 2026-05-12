@@ -422,6 +422,7 @@ Thresholds:
 from bitcoin_tracker import BitcoinTracker
 import argparse
 
+
 def main():
     parser = argparse.ArgumentParser(description='Bitcoin Price Tracker')
     parser.add_argument('--collect', action='store_true', help='Run one-time data collection')
@@ -898,3 +899,4 @@ Last Updated: 2025-07-22T15:30:42.123456`}
     </div>
   )
 }
+

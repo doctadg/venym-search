@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { useCases } from '@/lib/usecase-data'
 import type { Metadata } from 'next'
 
+
 export const metadata: Metadata = {
   title: 'Use Cases - Venym Search',
   description: 'Discover how teams use Venym Search APIs for web scraping, market research, AI agents, and more.',
@@ -98,3 +99,5 @@ export default function UseCasesPage() {
     </>
   )
 }
+
+

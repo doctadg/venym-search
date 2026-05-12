@@ -368,11 +368,14 @@ for item in sorted(price_comparison, key=lambda x: x['domain']):
 
 # Save results to file
 import json
+
 with open('price_comparison.json', 'w') as f:
     json.dump(price_comparison, f, indent=2)
 
 print(f"\\nSaved {len(price_comparison)} product comparisons to price_comparison.json")`,
     javascript: `const axios = require('axios');
+
+
 const fs = require('fs').promises;
 
 async function bulkScrapeProducts() {
@@ -1032,4 +1035,7 @@ scrapeWithAuthentication();`
             Parameters Reference
           </Button>
         </Link>
-          <Button className="bg-[#efa72d] hover:bg-[#efa72d]/90 text-white flex items-center gap-2">
+      </div>
+    </div>
+  )
+}

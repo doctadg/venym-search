@@ -21,6 +21,7 @@ import { Callout } from '../../components/Callout'
 import { APIMethod, StatusCode } from '../../components/APIMethod'
 import { ParameterTable, ResponseTable } from '../../components/ParameterTable'
 
+
 export default function ScrapeAPIPage() {
   const quickExample = {
     python: `import requests
@@ -42,6 +43,8 @@ print(f"Scraped {len(data['content'])} characters")
 print(f"Found {len(data['links'])} links")
 print(f"Load time: {data['load_time']}s")`,
     javascript: `const axios = require('axios');
+
+
 
 const response = await axios.post(
   'https://www.search.venym.io/api/v1/scrape',

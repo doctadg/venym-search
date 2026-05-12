@@ -18,6 +18,7 @@ import {
 import { CodeBlock } from '../../components/CodeBlock'
 import { Callout } from '../../components/Callout'
 
+
 export default function ZapierIntegrationPage() {
   const webhookCode = `// Trigger example - New search results found
 {
@@ -620,3 +621,4 @@ export default function ZapierIntegrationPage() {
     </div>
   )
 }
+

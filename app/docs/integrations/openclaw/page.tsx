@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import type { Metadata } from 'next'
 
+
 export const metadata: Metadata = {
   title: 'OpenClaw Integration — AI Agent Search & Scraping API | Venym Search',
   description: 'Add web search, web scraping, and deep research to your OpenClaw agent. Direct Brave Search API replacement with built-in web crawling, content extraction, and LLM-optimized output. Free to start, no Python or Node dependencies.',
@@ -403,6 +404,8 @@ chmod +x ~/.openclaw/workspace/skills/VENYM_SEARCH/scripts/*.sh
                 Yes. Venym Search is a direct replacement for Tavily, SerpAPI, Brave Search, and Google Custom Search. 
                 It provides real-time search results in the same JSON format, plus adds web scraping and 
                 content extraction that those APIs don&apos;t offer.
+
+
               </p>
             </CardContent>
           </Card>

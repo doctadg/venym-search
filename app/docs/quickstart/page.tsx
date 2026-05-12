@@ -16,6 +16,7 @@ import { CodeBlock } from '../components/CodeBlock'
 import { Callout } from '../components/Callout'
 import { APIMethod } from '../components/APIMethod'
 
+
 export default function QuickStartPage() {
   const firstCallCode = {
     python: `import requests
@@ -51,6 +52,8 @@ if response.status_code == 200:
 else:
     print(f"Error {response.status_code}: {response.text}")`,
     javascript: `const axios = require('axios');
+
+
 
 // Replace with your actual API key from the dashboard
 const API_KEY = 'sk_live_YOUR_API_KEY_API_KEY_key_here';
@@ -142,6 +145,7 @@ console.log(\`Content length: \$\{data.primary_content.text.length\} characters\
   }
 
   return (
+    <>
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-4">
@@ -437,6 +441,6 @@ console.log(\`Content length: \$\{data.primary_content.text.length\} characters\
           </Link>
         </div>
       </div>
-    </div>
+    </>
   )
 }

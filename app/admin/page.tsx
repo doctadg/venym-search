@@ -52,6 +52,7 @@ import { useUser } from "@clerk/nextjs"
 import { useRouter } from "next/navigation"
 import { useUserData } from "@/lib/useUserData"
 
+
 interface AdminStats {
   overview: {
     totalUsers: number
@@ -72,6 +73,8 @@ interface AdminStats {
     creditsUsed: number
   }
   planDistribution: Array<{ plan: string; count: number }>
+
+
   topUsers: Array<{
     id: string
     email: string

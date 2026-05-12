@@ -24,6 +24,7 @@ export default function ErrorsPage() {
 import time
 import logging
 
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -142,6 +143,8 @@ except VenymSearchError as e:
     print(f"API error: {e}")`,
 
     javascript: `const axios = require('axios');
+
+
 
 class VenymSearchError extends Error {
   constructor(message, statusCode = null, response = null) {

@@ -91,6 +91,7 @@ fi`
   const envExamples = {
     python: `import os
 import requests
+
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -106,6 +107,8 @@ if not API_KEY:
 headers = {"Authorization": "Bearer " + API_KEY}
 response = requests.post("https://www.search.venym.io/api/v1/search", headers=headers)`,
     javascript: `require('dotenv').config();
+
+
 
 // Get API key from environment
 const API_KEY = process.env.VENYM_SEARCH_API_KEY;

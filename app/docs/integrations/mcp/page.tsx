@@ -17,6 +17,7 @@ import {
 import { CodeBlock } from '../../components/CodeBlock'
 import { Callout } from '../../components/Callout'
 
+
 export default function MCPIntegrationPage() {
   const installCode = {
     npm: `npm install -g @VENYM_SEARCH/mcp-server`,
@@ -472,3 +473,4 @@ export default function MCPIntegrationPage() {
     </div>
   )
 }
+

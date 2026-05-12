@@ -1,4 +1,5 @@
 import Link from 'next/link'
+
 import {
   Rocket,
   Code2,
@@ -44,6 +45,8 @@ print(response.json())`,
     max_results: 5,
   }),
 });
+
+
 
 const data = await res.json();`,
   }

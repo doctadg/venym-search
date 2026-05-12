@@ -18,8 +18,11 @@ import {
 import { CodeBlock } from '../../components/CodeBlock'
 import { Callout } from '../../components/Callout'
 
+
 export default function PipedreamIntegrationPage() {
   const componentCode = `import { axios } from "@pipedream/platform";
+
+
 
 export default defineComponent({
   name: "Venym Search Search",

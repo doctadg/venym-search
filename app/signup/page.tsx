@@ -24,6 +24,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { useUser, useSignUp } from "@clerk/nextjs";
 
+
+
+
 const plans = [
   {
     id: "starter",

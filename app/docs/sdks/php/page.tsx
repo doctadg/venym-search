@@ -20,6 +20,7 @@ import {
 import { CodeBlock } from '../../components/CodeBlock'
 import { Callout } from '../../components/Callout'
 
+
 export default function PHPSDKPage() {
   const installCode = {
     composer: `# Install via Composer
@@ -35,6 +36,8 @@ php composer.phar require VENYM_SEARCH/VENYM_SEARCH-php`
   const basicUsage = `<?php
 
 require_once 'vendor/autoload.php';
+
+
 
 use Venym Search\\VenymSearchClient;
 use Venym Search\\Exceptions\\VenymSearchException;

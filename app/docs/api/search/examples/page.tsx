@@ -334,6 +334,7 @@ for insight in insights[:5]:
   const priceMonitoring = {
     python: `import requests
 import re
+
 from datetime import datetime
 
 # E-commerce price monitoring
@@ -673,3 +674,4 @@ print(f"\\nSaved {len(price_data)} price records to file")`
     </div>
   )
 }
+

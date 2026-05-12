@@ -20,6 +20,7 @@ import { CodeBlock } from '../../../components/CodeBlock'
 import { Callout } from '../../../components/Callout'
 import { ParameterTable, ResponseTable } from '../../../components/ParameterTable'
 
+
 export default function ScrapeParametersPage() {
   const coreParameters = [
     {
@@ -60,6 +61,8 @@ export default function ScrapeParametersPage() {
       required: false,
       description: "Custom User-Agent string to use for the request.",
       example: '"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"',
+
+
       validation: "Valid User-Agent string, max 500 characters"
     },
     {

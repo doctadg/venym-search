@@ -162,6 +162,7 @@ from langchain.pydantic_v1 import BaseModel, Field
 from typing import Optional, Type
 import requests
 
+
     topic: str = Field(description="Research topic")
     max_sources: Optional[int] = Field(default=5, description="Maximum sources to analyze")
 
@@ -680,3 +681,4 @@ print(monitoring_result)`
     </div>
   )
 }
+
