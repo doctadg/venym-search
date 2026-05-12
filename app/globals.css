@@ -40,55 +40,70 @@
   }
 }
 
-/* Venym26 Design System */
+/* Venym26 Design System — API Infrastructure */
 @layer components {
   .venym-btn-primary {
-    padding: 0.75rem 1.5rem;
+    padding: 0.875rem 2rem;
     background-color: white;
-    color: black;
+    color: #050505;
     font-size: 9px;
     font-family: monospace;
     text-transform: uppercase;
     letter-spacing: 0.3em;
     font-weight: 700;
-    transition: background-color 0.15s;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: none;
   }
   .venym-btn-primary:hover {
-    background-color: #e5e5e5;
+    background-color: #e0e0e0;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
   }
   .venym-btn-secondary {
-    padding: 0.75rem 1.5rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: white;
+    padding: 0.875rem 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.8);
     font-size: 9px;
     font-family: monospace;
     text-transform: uppercase;
     letter-spacing: 0.3em;
     font-weight: 700;
-    transition: border-color 0.15s;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
   }
   .venym-btn-secondary:hover {
-    border-color: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.35);
+    color: white;
+    background: rgba(255, 255, 255, 0.03);
   }
   .venym-card {
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    background-color: #080808;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0) 100%);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .venym-card:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%);
   }
   .venym-meta {
     font-size: 10px;
     font-family: monospace;
     text-transform: uppercase;
     letter-spacing: 0.3em;
-    color: #4b5563;
+    color: #3f3f46;
   }
   .venym-divider {
     width: 100%;
     height: 1px;
-    background-color: rgba(255, 255, 255, 0.05);
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.06) 20%, rgba(255, 255, 255, 0.06) 80%, transparent 100%);
   }
 }
 
@@ -123,4 +138,9 @@ body::after {
   pointer-events: none;
   z-index: 9999;
   opacity: 0.4;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
 }
