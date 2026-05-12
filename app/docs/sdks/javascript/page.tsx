@@ -69,16 +69,6 @@ console.log('Links found:', page.links.length);
 console.log('Images found:', page.images.length);
 console.log('Credits remaining:', page.remaining_credits);`
 
-  query: 'sustainable energy solutions 2025',
-  max_pages: 10,
-  extract_content: true,
-  include_domains: ['nature.com', 'ieee.org'],
-  exclude_domains: ['spam-site.com']
-});
-
-console.log('Summary:', research.summary);
-console.log('Pages scraped:', research.scraped_content.length);
-console.log('Credits remaining:', research.remaining_credits);`
 
   const batchScrapeCode = `// Scrape multiple URLs at once
 const results = await client.batchScrape({

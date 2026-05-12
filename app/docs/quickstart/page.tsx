@@ -11,7 +11,6 @@ import {
   Zap,
   Target,
   Search,
-  Database
 } from 'lucide-react'
 import { CodeBlock } from '../components/CodeBlock'
 import { Callout } from '../components/Callout'
@@ -142,43 +141,7 @@ console.log(\`Content length: \$\{data.primary_content.text.length\} characters\
   }' | jq '.primary_content.title'`
   }
 
-  const researchCode = {
-    python: `import requests
-
-API_KEY = "sk_live_YOUR_API_KEY_API_KEY_key_here"
-
-# Research a topic across multiple sources
-response = requests.post(
-    headers={"Authorization": f"Bearer {API_KEY}"},
-    json={
-        "topic": "renewable energy trends 2025",
-        "max_sources": 5
-    }
-)
-
-data = response.json()
-print(f"Researched {data['sources_analyzed']} sources")
-print(f"Research depth: {data['research_depth']}")`,
-    javascript: `const response = await axios.post(
-  {
-    topic: 'renewable energy trends 2025',
-    max_sources: 5
-  },
-  { headers: { 'Authorization': \`Bearer \$\{API_KEY\}\` } },
-);
-
-console.log(\`Researched \$\{response.data.sources_analyzed\} sources\`);
-console.log(\`Research depth: \$\{response.data.research_depth\}\`);`,
-  -H "Authorization": "Bearer: $API_KEY" \\
-  -H "Content-Type: application/json" \\
-  -d '{
-    "topic": "renewable energy trends 2025",
-    "max_sources": 5
-  }' | jq '.sources_analyzed'`
-  }
-
   return (
-    <div className="max-w-none">
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-4">
@@ -200,6 +163,12 @@ console.log(\`Research depth: \$\{response.data.research_depth\}\`);`,
       </div>
 
       <Callout type="info" title="What you'll learn">
+        <ul className="list-disc list-inside space-y-1 text-sm text-gray-400">
+          <li>Get your API key</li>
+          <li>Make your first search request</li>
+          <li>Scrape a webpage</li>
+          <li>Handle responses and errors</li>
+        </ul>
       </Callout>
 
       {/* Step 1: Get API Key */}
@@ -345,21 +314,6 @@ console.log(\`Research depth: \$\{response.data.research_depth\}\`);`,
             <CodeBlock
               multiLanguage={scrapeCode}
               title="Scrape webpage content"
-            />
-          </div>
-
-          <div>
-            <div className="flex items-center gap-2 mb-4">
-              <Database className="w-5 h-5 text-purple-600" />
-            </div>
-            
-            <APIMethod
-              method="POST"
-              description="AI-powered research across multiple sources with summarization"
-            />
-
-            <CodeBlock
-              multiLanguage={researchCode}
               title="Research a topic across multiple sources"
             />
           </div>

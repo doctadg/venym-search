@@ -524,12 +524,6 @@ console.log(\`Scraped \${data.scraped_content.length} pages\`);`,
                   Scrape
                 </Button>
               </Link>
-                <Button size="sm" variant="outline" className="border-[#17457c] text-[#17457c] hover:bg-[#17457c] hover:text-white">
-                </Button>
-              </Link>
-            </div>
-          </CardContent>
-        </Card>
       </div>
     </div>
   )

@@ -822,7 +822,6 @@ export default function SearchPage() {
                   <Link href="/products/scrape" className="font-black text-gray-400 hover:text-[#efa72d] transition-colors">
                     Scrape
                   </Link>
-                  </Link>
                 </nav>
               </div>
               <div className="space-y-4">

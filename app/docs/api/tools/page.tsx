@@ -280,9 +280,6 @@ export default function ToolsAPIDocsPage() {
                   Scrape API
                 </Badge>
               </Link>
-                <Badge className="bg-[#17457c]/60 hover:bg-[#17457c]/50 text-white border-0 cursor-pointer">
-                </Badge>
-              </Link>
             </div>
           </CardContent>
         </Card>

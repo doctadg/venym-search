@@ -102,7 +102,7 @@ const data = await response.json();`
 });`
   }
 
-  "query": "latest AI developments 2025",
+  const responseExample = `{
   "search_results": [
     {
       "title": "AI Breakthrough: New Language Model Achieves Human-Level Reasoning",
@@ -143,7 +143,7 @@ const data = await response.json();`
       description: "Extract content from any webpage, bypass protections",
       credits: "2-5 per request"
     },
-      endpoint: "/v1/usage",
+    {      endpoint: "/v1/usage",
       method: "GET",
       description: "Get current API usage statistics and credits",
       credits: "Free"

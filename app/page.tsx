@@ -236,7 +236,6 @@ export default function VenymSearchLanding() {
           <Link href="/products/scrape" className="hover:text-white transition-colors">
             [ SCRAPE ]
           </Link>
-          </Link>
           <Link href="/docs" className="hover:text-white transition-colors">
             [ DOCS ]
           </Link>
@@ -1015,7 +1014,6 @@ export default function VenymSearchLanding() {
                 </Link>
                 <Link href="/products/scrape" className="hover:text-white transition-colors">
                   scrape
-                </Link>
                 </Link>
                 <Link href="/docs" className="hover:text-white transition-colors">
                   docs

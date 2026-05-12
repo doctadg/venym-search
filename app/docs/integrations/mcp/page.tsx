@@ -9,7 +9,6 @@ import {
   CheckCircle,
   Zap,
   Search,
-  Database,
   Globe,
   Terminal,
   Copy,
@@ -73,15 +72,6 @@ export default function MCPIntegrationPage() {
   url: "https://example.com",
   extract: ["title", "text", "links"],
   use_browser: true
-})`
-    },
-    {
-      description: 'AI-powered research across multiple sources',
-      icon: Database,
-      features: ['Multi-source research', 'AI summarization', 'Social mentions', 'Citation tracking'],
-  query: "climate change impact 2025",
-  max_sources: 10,
-  generate_summary: true
 })`
     },
     {

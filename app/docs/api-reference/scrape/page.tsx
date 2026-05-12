@@ -543,10 +543,3 @@ export default function ScrapeAPIReferencePage() {
           </Button>
         </Link>
           <Button className="bg-[#efa72d] hover:bg-[#efa72d]/90 text-white flex items-center gap-2">
-            <ArrowRight className="w-4 h-4" />
-          </Button>
-        </Link>
-      </div>
-    </div>
-  )
-}

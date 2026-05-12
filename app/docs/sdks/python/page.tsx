@@ -57,15 +57,7 @@ scraped_data = client.scrape(
 )
 
 print(f"Page title: {scraped_data.title}")
-print(f"Content length: {len(scraped_data.text)}")
-
-    query="cryptocurrency market trends 2025",
-    max_pages=5
-)
-
-print(f"Scraped {len(research.scraped_content)} pages")
-if research.summary:
-    print(f"Summary: {research.summary}")`
+print(f"Content length: {len(scraped_data.text)}")`
 
   const clientConfigCode = `from VENYM_SEARCH import Venym Search
 
@@ -194,42 +186,6 @@ for result in batch_results:
     print(f"{result.url}: {result.title if not result.error else 'Failed: ' + result.error}")`
 
 
-# Basic research
-    query="quantum computing breakthroughs 2025"
-)
-
-# Comprehensive research with options
-    query="sustainable energy investment opportunities",
-    max_pages=10,
-    extract_content=True,
-    include_domains=["reuters.com", "bloomberg.com"],
-    exclude_domains=["spam-site.com"]
-)
-
-# Access research results
-print(f"Sources analyzed: {len(research.search_results)}")
-print(f"Pages scraped: {len(research.scraped_content)}")
-
-# Search results
-print("\\nKey Sources:")
-for result in research.search_results:
-    print(f"- {result.title} ({result.link})")
-
-# Scraped and analyzed content
-print("\\nContent Analysis:")
-for content in research.scraped_content[:3]:
-    if not content.error:
-        summary = content.text[:200] + "..." if len(content.text) > 200 else content.text
-        print(f"- {content.title}:\\n  {summary}\\n")
-
-# AI-generated summary
-if research.summary:
-    print(f"Summary:\\n{research.summary}")
-
-# Credit tracking
-print(f"Credits used: {research.credits_used}")
-print(f"Remaining credits: {research.remaining_credits}")`
-
   const asyncCode = `import asyncio
 from VENYM_SEARCH import AsyncVenym Search
 
@@ -247,13 +203,12 @@ async def main():
         scrape_task = asyncio.create_task(client.scrape("https://example.com"))
         
         # Wait for all to complete
-        search_res, scrape_res, research_res = await asyncio.gather(
-            search_task, scrape_task, research_task
+        search_res, scrape_res = await asyncio.gather(
+            search_task, scrape_task
         )
         
         print(f"Search: {search_res.results_count} results")
         print(f"Scrape: {scrape_res.title}")
-        print(f"Research: {len(research_res.scraped_content)} sources")
         
     finally:
         await client.close()
