@@ -54,8 +54,8 @@ export default function ZapierIntegrationPage() {
       title: "Lead Generation Automation",
       description: "Search for companies → Extract contact info → Add to CRM",
       steps: [
-        "SwiftSearch finds companies by industry/location",
-        "ScrapeForge extracts contact information",
+        "Search finds companies by industry/location",
+        "Scrape extracts contact information",
         "Auto-populate Salesforce/HubSpot records",
         "Send Slack notifications to sales team"
       ],
@@ -66,8 +66,7 @@ export default function ZapierIntegrationPage() {
       title: "Content Monitoring",
       description: "Monitor brand mentions → Analyze sentiment → Alert team",
       steps: [
-        "Daily SwiftSearch for brand mentions",
-        "DeepDive analyzes sentiment and trends",
+        "Daily Search for brand mentions",
         "Filter high-priority mentions",
         "Send alerts via email/Slack"
       ],
@@ -79,7 +78,7 @@ export default function ZapierIntegrationPage() {
       description: "Track competitors → Scrape pricing → Update database",
       steps: [
         "Search for competitor product pages",
-        "ScrapeForge extracts pricing data",
+        "Scrape extracts pricing data",
         "Compare with historical data",
         "Update competitive analysis sheets"
       ],
@@ -90,7 +89,6 @@ export default function ZapierIntegrationPage() {
       title: "Market Research",
       description: "Research trends → Compile reports → Share insights",
       steps: [
-        "DeepDive researches market trends",
         "Compile data from multiple sources",
         "Generate automated reports",
         "Share via email/team channels"
@@ -246,7 +244,7 @@ export default function ZapierIntegrationPage() {
                 <h4 className="font-semibold mb-2">Quick Test Workflow:</h4>
                 <ol className="list-decimal list-inside text-sm text-gray-600 space-y-1">
                   <li>Trigger: Manual trigger or schedule</li>
-                  <li>Action: Venym Search SwiftSearch for "test query"</li>
+                  <li>Action: Venym Search Search for "test query"</li>
                   <li>Action: Send results to email or Slack</li>
                   <li>Run the test and verify results</li>
                 </ol>
@@ -265,7 +263,7 @@ export default function ZapierIntegrationPage() {
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
                 <Globe className="w-5 h-5 text-blue-500" />
-                SwiftSearch
+                Search
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -295,7 +293,7 @@ export default function ZapierIntegrationPage() {
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
                 <Database className="w-5 h-5 text-purple-500" />
-                ScrapeForge
+                Scrape
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -325,7 +323,6 @@ export default function ZapierIntegrationPage() {
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
                 <Building2 className="w-5 h-5 text-orange-500" />
-                DeepDive
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -481,9 +478,8 @@ export default function ZapierIntegrationPage() {
               <div className="bg-gray-50 p-4 rounded-lg">
                 <h4 className="font-semibold mb-2">Example: Comprehensive Lead Research</h4>
                 <ol className="list-decimal list-inside text-sm text-gray-600 space-y-1">
-                  <li>SwiftSearch for companies in target industry</li>
-                  <li>ScrapeForge each company website for contact info</li>
-                  <li>DeepDive research each company's recent news</li>
+                  <li>Search for companies in target industry</li>
+                  <li>Scrape each company website for contact info</li>
                   <li>Score leads based on criteria</li>
                   <li>Add qualified leads to CRM with research notes</li>
                   <li>Send personalized outreach emails</li>
@@ -506,15 +502,14 @@ export default function ZapierIntegrationPage() {
             <CardContent>
               <div className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">SwiftSearch</span>
+                  <span className="text-gray-600">Search</span>
                   <span className="font-semibold">1 credit per search</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">ScrapeForge</span>
+                  <span className="text-gray-600">Scrape</span>
                   <span className="font-semibold">1 credit per page</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">DeepDive</span>
                   <span className="font-semibold">5 credits per research</span>
                 </div>
                 <div className="flex justify-between">

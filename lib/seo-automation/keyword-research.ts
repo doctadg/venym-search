@@ -12,7 +12,7 @@ interface KeywordData {
   trendData?: any
 }
 
-interface SwiftSearchResult {
+interface SearchResult {
   title: string
   url: string
   snippet: string
@@ -44,7 +44,7 @@ export class KeywordResearchService {
 
     for (const query of trendingQueries) {
       try {
-        const results = await this.searchWithSwiftSearch(query, 20)
+        const results = await this.searchWithSearch(query, 20)
         const extractedKeywords = this.extractKeywordsFromResults(results, industry)
         extractedKeywords.forEach(keyword => keywords.add(keyword))
       } catch (error) {
@@ -57,7 +57,7 @@ export class KeywordResearchService {
 
   async researchKeyword(keyword: string): Promise<KeywordData> {
     // Search for the keyword and related content
-    const results = await this.searchWithSwiftSearch(keyword, 30)
+    const results = await this.searchWithSearch(keyword, 30)
     
     // Analyze related keywords from search results
     const relatedKeywords = this.extractRelatedKeywords(results, keyword)
@@ -122,7 +122,7 @@ export class KeywordResearchService {
     })
   }
 
-  private async searchWithSwiftSearch(query: string, maxResults: number = 10): Promise<SwiftSearchResult[]> {
+  private async searchWithSearch(query: string, maxResults: number = 10): Promise<SearchResult[]> {
     try {
       // Use backend API directly for server-side calls
       const searchResults = await backendAPI.search({
@@ -137,12 +137,12 @@ export class KeywordResearchService {
         published_date: r.date || undefined
       }))
     } catch (error) {
-      console.error('SwiftSearch API error:', error)
+      console.error('Search API error:', error)
       return []
     }
   }
 
-  private extractKeywordsFromResults(results: SwiftSearchResult[], industry: string): string[] {
+  private extractKeywordsFromResults(results: SearchResult[], industry: string): string[] {
     const keywords = new Set<string>()
     
     results.forEach(result => {
@@ -166,7 +166,7 @@ export class KeywordResearchService {
     return Array.from(keywords).filter(k => k.length > 2)
   }
 
-  private extractRelatedKeywords(results: SwiftSearchResult[], mainKeyword: string): string[] {
+  private extractRelatedKeywords(results: SearchResult[], mainKeyword: string): string[] {
     const related = new Set<string>()
     const mainKeywordLower = mainKeyword.toLowerCase()
     
@@ -190,7 +190,7 @@ export class KeywordResearchService {
     return Array.from(related).slice(0, 20)
   }
 
-  private analyzeSearchIntent(keyword: string, results: SwiftSearchResult[]): string {
+  private analyzeSearchIntent(keyword: string, results: SearchResult[]): string {
     const keywordLower = keyword.toLowerCase()
     
     // Intent signals
@@ -222,7 +222,7 @@ export class KeywordResearchService {
     return 'informational'
   }
 
-  private generateContentIdeas(keyword: string, results: SwiftSearchResult[]): string[] {
+  private generateContentIdeas(keyword: string, results: SearchResult[]): string[] {
     const ideas = new Set<string>()
     
     // Template-based content ideas
@@ -251,7 +251,7 @@ export class KeywordResearchService {
     return Array.from(ideas).slice(0, 10)
   }
 
-  private estimateKeywordMetrics(keyword: string, results: SwiftSearchResult[]): {
+  private estimateKeywordMetrics(keyword: string, results: SearchResult[]): {
     searchVolume?: number
     difficulty?: number
     competition: string

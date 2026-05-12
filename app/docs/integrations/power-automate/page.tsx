@@ -38,7 +38,7 @@ export default function PowerAutomateIntegrationPage() {
   "consumes": [],
   "produces": [],
   "paths": {
-    "/v1/swiftsearch": {
+    "/v1/search": {
       "post": {
         "responses": {
           "200": {
@@ -69,9 +69,9 @@ export default function PowerAutomateIntegrationPage() {
             }
           }
         },
-        "summary": "SwiftSearch - Enhanced Web Search",
+        "summary": "Search - Enhanced Web Search",
         "description": "Search the web with enhanced results and optional contact extraction",
-        "operationId": "SwiftSearch",
+        "operationId": "Search",
         "x-ms-visibility": "important",
         "parameters": [
           {
@@ -114,7 +114,7 @@ export default function PowerAutomateIntegrationPage() {
         ]
       }
     },
-    "/v1/scrapeforge": {
+    "/v1/scrape": {
       "post": {
         "responses": {
           "200": {
@@ -135,9 +135,9 @@ export default function PowerAutomateIntegrationPage() {
             }
           }
         },
-        "summary": "ScrapeForge - Web Scraping",
+        "summary": "Scrape - Web Scraping",
         "description": "Extract content from any webpage",
-        "operationId": "ScrapeForge",
+        "operationId": "Scrape",
         "x-ms-visibility": "important",
         "parameters": [
           {
@@ -225,7 +225,7 @@ export default function PowerAutomateIntegrationPage() {
           ]
         }
       },
-      "Venym_Search_SwiftSearch": {
+      "Venym_Search_Search": {
         "runAfter": {
           "Initialize_Search_Terms": ["Succeeded"]
         },
@@ -237,7 +237,7 @@ export default function PowerAutomateIntegrationPage() {
             }
           },
           "method": "post",
-          "path": "/v1/swiftsearch",
+          "path": "/v1/search",
           "body": {
             "query": "@variables('SearchQuery')",
             "max_results": 20,
@@ -247,11 +247,11 @@ export default function PowerAutomateIntegrationPage() {
       },
       "Filter_Valid_Contacts": {
         "runAfter": {
-          "Venym_Search_SwiftSearch": ["Succeeded"]
+          "Venym_Search_Search": ["Succeeded"]
         },
         "type": "Query",
         "inputs": {
-          "from": "@body('Venym_Search_SwiftSearch')['search_results']",
+          "from": "@body('Venym_Search_Search')['search_results']",
           "where": "@and(not(empty(item()['contact_info']['email'])), not(contains(item()['contact_info']['email'], 'noreply')))"
         }
       },
@@ -374,7 +374,7 @@ export default function PowerAutomateIntegrationPage() {
               }
             },
             "method": "post",
-            "path": "/v1/swiftsearch",
+            "path": "/v1/search",
             "body": {
               "query": "@triggerBody()['search_query']",
               "max_results": 10,
@@ -850,15 +850,14 @@ export default function PowerAutomateIntegrationPage() {
             <CardContent>
               <div className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">SwiftSearch</span>
+                  <span className="text-gray-600">Search</span>
                   <span className="font-semibold">1 credit per search</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">ScrapeForge</span>
+                  <span className="text-gray-600">Scrape</span>
                   <span className="font-semibold">1 credit per page</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">DeepDive</span>
                   <span className="font-semibold">5 credits per research</span>
                 </div>
                 <div className="flex justify-between">

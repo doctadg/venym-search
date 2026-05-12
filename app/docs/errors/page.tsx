@@ -120,7 +120,7 @@ def make_api_request(endpoint, data, max_retries=3):
 
 # Example usage
 try:
-    result = make_api_request("swiftsearch", {
+    result = make_api_request("search", {
         "query": "latest news",
         "max_results": 5
     })
@@ -258,7 +258,7 @@ async function makeApiRequest(endpoint, data, maxRetries = 3) {
 // Example usage
 async function example() {
   try {
-    const result = await makeApiRequest('swiftsearch', {
+    const result = await makeApiRequest('search', {
       query: 'latest news',
       max_results: 5
     });
@@ -378,8 +378,8 @@ make_api_request() {
 }
 
 # Example usage
-echo "Testing SwiftSearch API..."
-make_api_request "swiftsearch" '{
+echo "Testing Search API..."
+make_api_request "search" '{
     "query": "latest news",
     "max_results": 5
 }'`

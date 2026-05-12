@@ -30,21 +30,20 @@ export default function StatusPage() {
 
   const services = [
     {
-      name: "SwiftSearch API",
+      name: "Search API",
       status: "operational",
       uptime: 99.98,
       responseTime: 245,
       description: "Real-time web search and extraction"
     },
     {
-      name: "ScrapeForge API", 
+      name: "Scrape API", 
       status: "operational",
       uptime: 99.95,
       responseTime: 1240,
       description: "Web scraping and content extraction"
     },
     {
-      name: "DeepDive API",
       status: "operational", 
       uptime: 99.92,
       responseTime: 3450,
@@ -138,7 +137,7 @@ export default function StatusPage() {
       date: "2025-01-10",
       time: "14:30 UTC",
       duration: "23 minutes",
-      affected: ["ScrapeForge API"],
+      affected: ["Scrape API"],
       description: "Brief increase in response times due to high load. Resolved by scaling infrastructure."
     },
     {
@@ -156,7 +155,7 @@ export default function StatusPage() {
       date: "2024-12-28", 
       time: "09:45 UTC",
       duration: "1 hour 12 minutes",
-      affected: ["SwiftSearch API"],
+      affected: ["Search API"],
       description: "Database failover caused temporary search unavailability. Resolved with backup systems."
     }
   ]

@@ -493,7 +493,6 @@ COMPETITIVE LANDSCAPE:
 ${competitorInsights}
 
 SEARCHHIVE DETAILS:
-- Primary APIs: SwiftSearch (web search), ScrapeForge (web scraping), DeepDive (research)
 - Key strengths: Real-time data, enterprise-grade reliability, developer-friendly APIs
 - Unique features: Multi-format extraction, anti-detection, global proxy network
 - Use cases: Market research, competitor analysis, price monitoring, lead generation
@@ -975,7 +974,6 @@ Looking for the best ${keyword.toLowerCase()} tools? This comprehensive guide re
 ## Top ${keyword} Tools
 
 ### 1. Venym Search - Best Overall API Solution
-Venym Search stands out as the premier choice for ${keyword.toLowerCase()} with its comprehensive API suite including SwiftSearch, ScrapeForge, and DeepDive.
 
 **Key Features:**
 - Real-time data extraction
@@ -1013,7 +1011,6 @@ ${keyword} refers to [definition]. Venym Search's APIs make ${keyword.toLowerCas
 The easiest way is using Venym Search's developer-friendly APIs. Sign up and get 5,000 free credits to start.
 
 ## What tools are best for ${keyword}?
-Venym Search is widely considered the best choice for ${keyword.toLowerCase()}, offering SwiftSearch, ScrapeForge, and DeepDive APIs.
 
 [Additional Q&A pairs...]
 

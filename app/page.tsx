@@ -53,7 +53,7 @@ const AnimatedLine = ({
 const PRODUCTS = [
   {
     id: '01',
-    codename: 'SWIFTSEARCH',
+    codename: 'SEARCH',
     class: 'CLASS::SEARCH',
     status: 'OPERATIONAL',
     italic: 'parallel',
@@ -67,7 +67,7 @@ const PRODUCTS = [
   },
   {
     id: '02',
-    codename: 'SCRAPEFORGE',
+    codename: 'SCRAPE',
     class: 'CLASS::EXTRACTION',
     status: 'OPERATIONAL',
     italic: 'browser-grade',
@@ -75,24 +75,11 @@ const PRODUCTS = [
     suffix: 'unblocked.',
     tagline: 'Venym Engine // 02',
     description:
-      'Headless browser rendering, anti-bot evasion, CAPTCHA bypass, residential proxies. If a human can load it, ScrapeForge can extract it.',
+      'Headless browser rendering, anti-bot evasion, CAPTCHA bypass, residential proxies. If a human can load it, Scrape can extract it.',
     metrics: ['JS-RENDERED', 'ANTI-BOT // CAPTCHA', '5 CREDITS / REQ'],
     pipeline: ['URL', 'RENDER', 'EVADE', 'EXTRACT', 'MARKDOWN'],
   },
-  {
-    id: '03',
-    codename: 'DEEPDIVE',
-    class: 'CLASS::SYNTHESIS',
-    status: 'OPERATIONAL',
-    italic: 'autonomous',
-    title: 'Research,',
-    suffix: 'synthesized.',
-    tagline: 'Venym Engine // 03',
-    description:
-      'One call. We search the web, scrape the top results, synthesize with frontier models, return structured citations. The end-to-end research loop, automated.',
-    metrics: ['MULTI-SOURCE // 18+', 'CITATION-LOCKED', '10 CREDITS / REQ'],
-    pipeline: ['TOPIC', 'SEARCH', 'SCRAPE', 'SYNTHESIZE', 'CITE'],
-  },
+
 ]
 
 const CAPABILITIES = [
@@ -243,14 +230,12 @@ export default function VenymSearchLanding() {
         </Link>
 
         <div className="hidden md:flex gap-8 items-center">
-          <Link href="/products/swiftsearch" className="hover:text-white transition-colors">
-            [ SWIFTSEARCH ]
+          <Link href="/products/search" className="hover:text-white transition-colors">
+            [ SEARCH ]
           </Link>
-          <Link href="/products/scrapeforge" className="hover:text-white transition-colors">
-            [ SCRAPEFORGE ]
+          <Link href="/products/scrape" className="hover:text-white transition-colors">
+            [ SCRAPE ]
           </Link>
-          <Link href="/products/deepdive" className="hover:text-white transition-colors">
-            [ DEEPDIVE ]
           </Link>
           <Link href="/docs" className="hover:text-white transition-colors">
             [ DOCS ]
@@ -306,9 +291,8 @@ export default function VenymSearchLanding() {
             className="fixed inset-0 top-[53px] z-40 bg-background/98 backdrop-blur-xl flex flex-col items-center justify-center gap-7"
           >
             {[
-              ['/products/swiftsearch', 'SwiftSearch'],
-              ['/products/scrapeforge', 'ScrapeForge'],
-              ['/products/deepdive', 'DeepDive'],
+              ['/products/search', 'Search'],
+              ['/products/scrape', 'Scrape'],
               ['/docs', 'Docs'],
               ['/pricing', 'Pricing'],
             ].map(([href, label], i) => (
@@ -1026,14 +1010,12 @@ export default function VenymSearchLanding() {
               </div>
 
               <div className="flex flex-wrap gap-x-6 md:gap-x-8 gap-y-2 text-[9px] md:text-[10px] font-mono uppercase tracking-[0.3em] text-gray-600">
-                <Link href="/products/swiftsearch" className="hover:text-white transition-colors">
-                  swiftsearch
+                <Link href="/products/search" className="hover:text-white transition-colors">
+                  search
                 </Link>
-                <Link href="/products/scrapeforge" className="hover:text-white transition-colors">
-                  scrapeforge
+                <Link href="/products/scrape" className="hover:text-white transition-colors">
+                  scrape
                 </Link>
-                <Link href="/products/deepdive" className="hover:text-white transition-colors">
-                  deepdive
                 </Link>
                 <Link href="/docs" className="hover:text-white transition-colors">
                   docs

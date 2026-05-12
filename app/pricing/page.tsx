@@ -23,9 +23,8 @@ import { Fragment, useMemo, useState } from "react"
 /* ───────────── DATA ───────────── */
 
 const PRODUCTS = [
-  { name: "SwiftSearch", icon: Search, href: "/products/swiftsearch", tag: "SEARCH", credits: "2 cr/req" },
-  { name: "ScrapeForge", icon: Code2, href: "/products/scrapeforge", tag: "SCRAPE", credits: "5 cr/req" },
-  { name: "DeepDive", icon: Database, href: "/products/deepdive", tag: "RESEARCH", credits: "10 cr/req" },
+  { name: "Search", icon: Search, href: "/products/search", tag: "SEARCH", credits: "2 cr/req" },
+  { name: "Scrape", icon: Code2, href: "/products/scrape", tag: "SCRAPE", credits: "5 cr/req" },
 ]
 
 type Plan = {
@@ -130,9 +129,8 @@ const PLANS: Plan[] = [
 
 const COMPARE_ROWS: { label: string; values: (string | boolean)[]; group?: string }[] = [
   { group: 'Credits & APIs', label: 'Monthly credits', values: ['5,000', '100,000', '500,000', 'Custom'] },
-  { label: 'SwiftSearch (search)', values: [true, true, true, true] },
-  { label: 'ScrapeForge (scrape)', values: [true, true, true, true] },
-  { label: 'DeepDive (research)', values: [true, true, true, true] },
+  { label: 'Search (search)', values: [true, true, true, true] },
+  { label: 'Scrape (scrape)', values: [true, true, true, true] },
   { label: 'Rate limit', values: ['20 / min', '120 / min', '600 / min', 'Custom'] },
   { group: 'Platform', label: 'Dashboard analytics', values: [true, true, true, true] },
   { label: 'Multiple API keys', values: ['2', '10', 'Unlimited', 'Unlimited'] },
@@ -147,7 +145,6 @@ const COMPARE_ROWS: { label: string; values: (string | boolean)[]; group?: strin
 const FAQS = [
   {
     q: 'How do credits work?',
-    a: 'One credit = $0.0001. SwiftSearch costs 2 credits per request, ScrapeForge 5, DeepDive 10. You only pay for successful responses — failed requests are free. Credits reset at the start of each billing cycle.',
   },
   {
     q: 'What happens when I run out of credits?',
@@ -191,9 +188,8 @@ function valueCell(v: string | boolean | undefined) {
 function CreditCalculator() {
   const [search, setSearch] = useState(20000)
   const [scrape, setScrape] = useState(5000)
-  const [research, setResearch] = useState(500)
 
-  const totalCredits = search * 2 + scrape * 5 + research * 10
+  const totalCredits = search * 2 + scrape * 5
   const overage = totalCredits * 0.0001
 
   const recommended = useMemo(() => {
@@ -208,9 +204,8 @@ function CreditCalculator() {
       {/* Sliders */}
       <div className="venym-card !p-7 md:!p-9 space-y-7">
         {[
-          { icon: Search, label: 'SwiftSearch', sub: '2 cr / req', val: search, max: 200_000, set: setSearch, step: 500 },
-          { icon: Code2, label: 'ScrapeForge', sub: '5 cr / req', val: scrape, max: 100_000, set: setScrape, step: 100 },
-          { icon: Database, label: 'DeepDive', sub: '10 cr / req', val: research, max: 50_000, set: setResearch, step: 50 },
+          { icon: Search, label: 'Search', sub: '2 cr / req', val: search, max: 200_000, set: setSearch, step: 500 },
+          { icon: Code2, label: 'Scrape', sub: '5 cr / req', val: scrape, max: 100_000, set: setScrape, step: 100 },
         ].map(row => (
           <div key={row.label}>
             <div className="flex items-center justify-between mb-3">

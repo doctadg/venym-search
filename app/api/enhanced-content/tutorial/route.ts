@@ -20,7 +20,7 @@ const TUTORIAL_TEMPLATES = {
     description: 'Learn web scraping fundamentals by building a working scraper',
     estimatedTime: '45 minutes',
     difficulty: 'beginner',
-    apis: ['SwiftSearch', 'ScrapeForge'],
+    apis: ['Search', 'Scrape'],
     finalProject: 'A working web scraper that extracts product data'
   },
   'data-extraction-pipeline': {
@@ -28,7 +28,6 @@ const TUTORIAL_TEMPLATES = {
     description: 'Build an end-to-end data pipeline using Venym Search APIs',
     estimatedTime: '90 minutes',
     difficulty: 'intermediate',
-    apis: ['SwiftSearch', 'ScrapeForge', 'DeepDive'],
     finalProject: 'Automated pipeline that monitors and extracts data'
   },
   'competitor-monitoring': {
@@ -36,7 +35,7 @@ const TUTORIAL_TEMPLATES = {
     description: 'Monitor competitor prices and content automatically',
     estimatedTime: '60 minutes',
     difficulty: 'intermediate',
-    apis: ['SwiftSearch', 'ScrapeForge'],
+    apis: ['Search', 'Scrape'],
     finalProject: 'Automated competitor monitoring dashboard'
   },
   'research-automation': {
@@ -44,7 +43,6 @@ const TUTORIAL_TEMPLATES = {
     description: 'Build a tool that automates market research and analysis',
     estimatedTime: '75 minutes',
     difficulty: 'advanced',
-    apis: ['DeepDive', 'SwiftSearch'],
     finalProject: 'Market research automation tool with reporting'
   },
   'real-estate-scraper': {
@@ -52,7 +50,7 @@ const TUTORIAL_TEMPLATES = {
     description: 'Create a specialized scraper for real estate listings',
     estimatedTime: '50 minutes',
     difficulty: 'intermediate',
-    apis: ['ScrapeForge', 'SwiftSearch'],
+    apis: ['Scrape', 'Search'],
     finalProject: 'Real estate listing aggregator and analyzer'
   }
 }
@@ -126,7 +124,7 @@ export async function POST(request: NextRequest) {
         description: `Learn how to implement ${topic} using Venym Search's comprehensive API suite`,
         estimatedTime,
         difficulty,
-        apis: ['SwiftSearch', 'ScrapeForge'], // Default APIs
+        apis: ['Search', 'Scrape'], // Default APIs
         finalProject: `Working ${topic} implementation`
       }
     }

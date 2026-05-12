@@ -85,7 +85,7 @@ class EcommerceMonitor:
     def search_product_prices(self, search_query: str) -> List[Dict]:
         """Search for product prices across multiple sites"""
         response = requests.post(
-            f"{self.base_url}/swiftsearch",
+            f"{self.base_url}/search",
             headers={"Authorization": f"Bearer {self.api_key}"},
             json={
                 "query": f"{search_query} price buy",
@@ -118,7 +118,7 @@ class EcommerceMonitor:
     def extract_price_from_page(self, url: str) -> Dict:
         """Extract detailed pricing information from product page"""
         response = requests.post(
-            f"{self.base_url}/scrapeforge",
+            f"{self.base_url}/scrape",
             headers={"Authorization": f"Bearer {self.api_key}"},
             json={
                 "url": url,
@@ -671,15 +671,15 @@ conn.close()`
               Start building your e-commerce monitoring system with Venym Search APIs and expand your competitive intelligence capabilities.
             </p>
             <div className="flex gap-2">
-              <Link href="/docs/api/swiftsearch">
+              <Link href="/docs/api/search">
                 <Button size="sm" className="bg-[#efa72d] hover:bg-[#efa72d]/90 text-white">
-                  SwiftSearch API
+                  Search API
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </Link>
-              <Link href="/docs/api/scrapeforge">
+              <Link href="/docs/api/scrape">
                 <Button size="sm" variant="outline" className="border-[#17457c] text-[#17457c] hover:bg-[#17457c] hover:text-white">
-                  ScrapeForge API
+                  Scrape API
                 </Button>
               </Link>
             </div>

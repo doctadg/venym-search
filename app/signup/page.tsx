@@ -32,7 +32,6 @@ const plans = [
     credits: "5,000 credits/month",
     description: "Great for side projects and small tools",
     popular: false,
-    features: ["SwiftSearch API", "ScrapeForge", "DeepDive", "Basic support"]
   },
   {
     id: "builder",

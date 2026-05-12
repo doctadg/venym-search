@@ -25,7 +25,7 @@ export default function QuickStartPage() {
 API_KEY = "sk_live_YOUR_API_KEY_API_KEY_key_here"
 
 response = requests.post(
-    "https://www.search.venym.io/api/v1/swiftsearch",
+    "https://www.search.venym.io/api/v1/search",
     headers={
         "Authorization": f"Bearer {API_KEY}",
         "Content-Type": "application/json"
@@ -59,7 +59,7 @@ const API_KEY = 'sk_live_YOUR_API_KEY_API_KEY_key_here';
 async function searchWeb() {
   try {
     const response = await axios.post(
-      'https://www.search.venym.io/api/v1/swiftsearch',
+      'https://www.search.venym.io/api/v1/search',
       {
         query: 'latest AI developments 2025',
         max_results: 5
@@ -94,7 +94,7 @@ searchWeb();`,
     bash: `# Replace with your actual API key from the dashboard
 API_KEY="sk_live_YOUR_API_KEY_API_KEY_key_here"
 
-curl -X POST https://www.search.venym.io/api/v1/swiftsearch \
+curl -X POST https://www.search.venym.io/api/v1/search \
   -H "Authorization: Bearer $API_KEY" \
   -H "Content-Type: application/json" \\
   -d '{
@@ -110,7 +110,7 @@ API_KEY = "sk_live_YOUR_API_KEY_API_KEY_key_here"
 
 # Scrape a specific webpage
 response = requests.post(
-    "https://www.search.venym.io/api/v1/scrapeforge",
+    "https://www.search.venym.io/api/v1/scrape",
     headers={"Authorization": f"Bearer {API_KEY}"},
     json={
         "url": "https://example.com/article",
@@ -122,7 +122,7 @@ data = response.json()
 print(f"Page title: {data['primary_content']['title']}")
 print(f"Content length: {len(data['primary_content']['text'])} characters")`,
     javascript: `const response = await axios.post(
-  'https://www.search.venym.io/api/v1/scrapeforge',
+  'https://www.search.venym.io/api/v1/scrape',
   {
     url: 'https://example.com/article',
     extract_options: ['title', 'text', 'metadata']
@@ -133,7 +133,7 @@ print(f"Content length: {len(data['primary_content']['text'])} characters")`,
 const data = response.data;
 console.log(\`Page title: \$\{data.primary_content.title\}\`);
 console.log(\`Content length: \$\{data.primary_content.text.length\} characters\`);`,
-    bash: `curl -X POST https://www.search.venym.io/api/v1/scrapeforge \
+    bash: `curl -X POST https://www.search.venym.io/api/v1/scrape \
   -H "Authorization: Bearer $API_KEY" \
   -H "Content-Type: application/json" \\
   -d '{
@@ -149,7 +149,6 @@ API_KEY = "sk_live_YOUR_API_KEY_API_KEY_key_here"
 
 # Research a topic across multiple sources
 response = requests.post(
-    "https://www.search.venym.io/api/v1/deepdive",
     headers={"Authorization": f"Bearer {API_KEY}"},
     json={
         "topic": "renewable energy trends 2025",
@@ -161,7 +160,6 @@ data = response.json()
 print(f"Researched {data['sources_analyzed']} sources")
 print(f"Research depth: {data['research_depth']}")`,
     javascript: `const response = await axios.post(
-  'https://www.search.venym.io/api/v1/deepdive',
   {
     topic: 'renewable energy trends 2025',
     max_sources: 5
@@ -171,7 +169,6 @@ print(f"Research depth: {data['research_depth']}")`,
 
 console.log(\`Researched \$\{response.data.sources_analyzed\} sources\`);
 console.log(\`Research depth: \$\{response.data.research_depth\}\`);`,
-    bash: `curl -X POST https://www.search.venym.io/api/v1/deepdive \\
   -H "Authorization": "Bearer: $API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
@@ -203,7 +200,6 @@ console.log(\`Research depth: \$\{response.data.research_depth\}\`);`,
       </div>
 
       <Callout type="info" title="What you'll learn">
-        How to authenticate, make your first API call, and start building with our three core APIs: SwiftSearch, ScrapeForge, and DeepDive.
       </Callout>
 
       {/* Step 1: Get API Key */}
@@ -286,12 +282,12 @@ console.log(\`Research depth: \$\{response.data.research_depth\}\`);`,
         </div>
 
         <p className="text-gray-600 mb-6">
-          Let's start with SwiftSearch - our real-time web search API.
+          Let's start with Search - our real-time web search API.
         </p>
 
         <APIMethod
           method="POST"
-          endpoint="/v1/swiftsearch"
+          endpoint="/v1/search"
           description="Search the web in real-time and get structured results"
         />
 
@@ -333,16 +329,16 @@ console.log(\`Research depth: \$\{response.data.research_depth\}\`);`,
         </div>
 
         <div className="space-y-8">
-          {/* ScrapeForge */}
+          {/* Scrape */}
           <div>
             <div className="flex items-center gap-2 mb-4">
               <Code className="w-5 h-5 text-green-600" />
-              <h3 className="text-xl font-semibold text-gray-900">ScrapeForge - Web Scraping</h3>
+              <h3 className="text-xl font-semibold text-gray-900">Scrape - Web Scraping</h3>
             </div>
             
             <APIMethod
               method="POST"
-              endpoint="/v1/scrapeforge"
+              endpoint="/v1/scrape"
               description="Extract content from any webpage, bypass protections"
             />
 
@@ -352,16 +348,13 @@ console.log(\`Research depth: \$\{response.data.research_depth\}\`);`,
             />
           </div>
 
-          {/* DeepDive */}
           <div>
             <div className="flex items-center gap-2 mb-4">
               <Database className="w-5 h-5 text-purple-600" />
-              <h3 className="text-xl font-semibold text-gray-900">DeepDive - AI Research</h3>
             </div>
             
             <APIMethod
               method="POST"
-              endpoint="/v1/deepdive"
               description="AI-powered research across multiple sources with summarization"
             />
 
@@ -394,7 +387,7 @@ console.log(\`Research depth: \$\{response.data.research_depth\}\`);`,
               <p className="text-gray-600 mb-4">
                 Learn about all parameters, response formats, and advanced features.
               </p>
-              <Link href="/docs/api/swiftsearch">
+              <Link href="/docs/api/search">
                 <Button variant="outline" className="border-[#efa72d] text-[#efa72d] hover:bg-[#efa72d] hover:text-white">
                   View API Docs
                   <ArrowRight className="w-4 h-4 ml-2" />

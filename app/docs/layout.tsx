@@ -49,30 +49,25 @@ const navigation: NavigationItem[] = [
     icon: Code2,
     children: [
       {
-        title: 'SwiftSearch',
-        href: '/docs/api/swiftsearch',
+        title: 'Search',
+        href: '/docs/api/search',
         children: [
-          { title: 'Overview', href: '/docs/api/swiftsearch' },
-          { title: 'Parameters', href: '/docs/api/swiftsearch/parameters' },
-          { title: 'Examples', href: '/docs/api/swiftsearch/examples' },
+          { title: 'Overview', href: '/docs/api/search' },
+          { title: 'Parameters', href: '/docs/api/search/parameters' },
+          { title: 'Examples', href: '/docs/api/search/examples' },
         ],
       },
       {
-        title: 'ScrapeForge',
-        href: '/docs/api/scrapeforge',
+        title: 'Scrape',
+        href: '/docs/api/scrape',
         children: [
-          { title: 'Overview', href: '/docs/api/scrapeforge' },
-          { title: 'Parameters', href: '/docs/api/scrapeforge/parameters' },
-          { title: 'Examples', href: '/docs/api/scrapeforge/examples' },
+          { title: 'Overview', href: '/docs/api/scrape' },
+          { title: 'Parameters', href: '/docs/api/scrape/parameters' },
+          { title: 'Examples', href: '/docs/api/scrape/examples' },
         ],
       },
       {
-        title: 'DeepDive',
-        href: '/docs/api/deepdive',
         children: [
-          { title: 'Overview', href: '/docs/api/deepdive' },
-          { title: 'Parameters', href: '/docs/api/deepdive/parameters' },
-          { title: 'Examples', href: '/docs/api/deepdive/examples' },
         ],
       },
     ],

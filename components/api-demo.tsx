@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import {
-  Search, Code2, Database, Play, Loader2, Copy,
+  Search, Code2, Play, Loader2, Copy,
   CheckCircle2, AlertCircle, Clock, Zap, Terminal
 } from 'lucide-react'
 import { toast } from 'sonner'
@@ -15,8 +15,8 @@ interface ApiDemoProps {
 }
 
 const apiConfigs = {
-  swiftsearch: {
-    name: 'SWIFTSEARCH',
+  search: {
+    name: 'SEARCH',
     icon: Search,
     description: 'Real-time results in 2 lines',
     placeholder: 'Bitcoin price 2025',
@@ -28,8 +28,8 @@ const apiConfigs = {
     ],
     credits: 2
   },
-  scrapeforge: {
-    name: 'SCRAPEFORGE',
+  scrape: {
+    name: 'SCRAPE',
     icon: Code2,
     description: 'Bypass Akamai like it\'s 1999',
     placeholder: 'https://example.com',
@@ -40,26 +40,13 @@ const apiConfigs = {
       'E-commerce product page'
     ],
     credits: 5
-  },
-  deepdive: {
-    name: 'DEEPDIVE',
-    icon: Database,
-    description: 'Research papers aren\'t boring',
-    placeholder: 'quantum computing trends',
-    examples: [
-      'Quantum computing market trends',
-      'Renewable energy adoption',
-      'Cryptocurrency regulation',
-      'AI ethics research'
-    ],
-    credits: 10
   }
 }
 
 type ApiType = keyof typeof apiConfigs
 
 export default function ApiDemo({ className }: ApiDemoProps) {
-  const [activeApi, setActiveApi] = useState<ApiType>('swiftsearch')
+  const [activeApi, setActiveApi] = useState<ApiType>('search')
   const [query, setQuery] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [response, setResponse] = useState<any>(null)
@@ -145,7 +132,7 @@ export default function ApiDemo({ className }: ApiDemoProps) {
         {/* Tab selector */}
         <div className="border-b border-white/5">
           <Tabs value={activeApi} onValueChange={(value) => setActiveApi(value as ApiType)} className="w-full">
-            <TabsList className="w-full grid grid-cols-3 bg-transparent h-auto p-0 rounded-none">
+            <TabsList className="w-full grid grid-cols-2 bg-transparent h-auto p-0 rounded-none">
               {Object.entries(apiConfigs).map(([key, config]) => {
                 const Icon = config.icon
                 return (

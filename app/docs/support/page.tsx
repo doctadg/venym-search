@@ -67,7 +67,7 @@ export default function SupportPage() {
     {
       issue: "Invalid Request (400)",
       solution: "Check your request parameters against the API documentation. Ensure JSON is properly formatted.",
-      link: "/docs/api/swiftsearch"
+      link: "/docs/api/search"
     },
     {
       issue: "Timeout Errors",
@@ -77,7 +77,7 @@ export default function SupportPage() {
     {
       issue: "Empty Results",
       solution: "Try different search terms, check language/country parameters, or verify the target website is accessible.",
-      link: "/docs/api/swiftsearch/parameters"
+      link: "/docs/api/search/parameters"
     }
   ]
 

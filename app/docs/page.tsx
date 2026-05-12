@@ -18,7 +18,7 @@ import { CodeBlock } from './components/CodeBlock'
 
 export default function DocsHomePage() {
   const quickStartCode = {
-    bash: `curl -X POST https://api.venym.io/v1/swiftsearch \\
+    bash: `curl -X POST https://api.venym.io/v1/search \\
   -H "Authorization: Bearer sk_live_••••" \\
   -H "Content-Type: application/json" \\
   -d '{"query":"Bitcoin price 2026","max_results":5}'`,
@@ -27,13 +27,13 @@ export default function DocsHomePage() {
 API_KEY = "sk_live_••••"
 
 response = requests.post(
-    "https://api.venym.io/v1/swiftsearch",
+    "https://api.venym.io/v1/search",
     headers={"Authorization": f"Bearer {API_KEY}"},
     json={"query": "Bitcoin price 2026", "max_results": 5},
 )
 
 print(response.json())`,
-    javascript: `const res = await fetch("https://api.venym.io/v1/swiftsearch", {
+    javascript: `const res = await fetch("https://api.venym.io/v1/search", {
   method: "POST",
   headers: {
     "Authorization": \`Bearer \${process.env.VENYM_KEY}\`,
@@ -51,32 +51,29 @@ const data = await res.json();`,
   const apis = [
     {
       id: 'API-01',
-      name: 'SwiftSearch',
+      name: 'Search',
       method: 'POST',
-      path: '/v1/swiftsearch',
+      path: '/v1/search',
       description: 'Query 8 search engines in parallel. Merged, ranked results in under 2 seconds.',
       icon: Search,
-      href: '/docs/api/swiftsearch',
+      href: '/docs/api/search',
       credits: '2 cr / req',
     },
     {
       id: 'API-02',
-      name: 'ScrapeForge',
+      name: 'Scrape',
       method: 'POST',
-      path: '/v1/scrapeforge',
+      path: '/v1/scrape',
       description: 'Bypass anti-bot, render JS, solve CAPTCHAs. Scrape anything that loads in a browser.',
       icon: Code2,
-      href: '/docs/api/scrapeforge',
+      href: '/docs/api/scrape',
       credits: '5 cr / req',
     },
     {
       id: 'API-03',
-      name: 'DeepDive',
       method: 'POST',
-      path: '/v1/deepdive',
       description: 'One call: search the web, scrape top results, synthesize with AI. Research, automated.',
       icon: Database,
-      href: '/docs/api/deepdive',
       credits: '10 cr / req',
     },
   ]
@@ -93,7 +90,6 @@ const data = await res.json();`,
   const guides = [
     {
       title: 'Bitcoin Price Tracking',
-      description: 'Build a real-time cryptocurrency monitoring system using SwiftSearch + DeepDive.',
       href: '/docs/guides/bitcoin-tracking',
       badge: 'FEATURED',
     },
@@ -140,7 +136,7 @@ const data = await res.json();`,
             Quickstart
             <ArrowUpRight className="w-3 h-3 ml-1.5" />
           </Link>
-          <Link href="/docs/api/swiftsearch" className="venym-btn-secondary">
+          <Link href="/docs/api/search" className="venym-btn-secondary">
             API Reference
           </Link>
           <Link href="/docs/integrations/mcp" className="venym-btn-ghost">
@@ -171,7 +167,7 @@ const data = await res.json();`,
         <p className="text-[14px] text-white/50 mb-6 max-w-2xl">
           Generate a key from the dashboard, then make your first call. New accounts get 5,000 free credits.
         </p>
-        <CodeBlock multiLanguage={quickStartCode} title="POST /v1/swiftsearch" />
+        <CodeBlock multiLanguage={quickStartCode} title="POST /v1/search" />
       </section>
 
       {/* ─── CORE APIs ─── */}

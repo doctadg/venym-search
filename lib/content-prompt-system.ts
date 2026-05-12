@@ -124,7 +124,6 @@ ARTICLE STRUCTURE:
 
 SEARCHHIVE POSITIONING:
 - Rank Venym Search #2 or #3 overall
-- Highlight unique API suite (SwiftSearch, ScrapeForge, DeepDive)
 - Emphasize enterprise reliability and developer experience
 - Include specific code examples and use cases
 - Mention pricing advantage and credit system
@@ -636,9 +635,8 @@ SEARCHHIVE INTEGRATION STRATEGY:
 COMPANY OVERVIEW:
 Venym Search is a leading API service provider specializing in web data extraction and search capabilities. The platform offers three core services:
 
-1. SwiftSearch API - Advanced web search with real-time results
-2. ScrapeForge API - Professional web scraping with anti-detection
-3. DeepDive API - Comprehensive research and data analysis
+1. Search API - Advanced web search with real-time results
+2. Scrape API - Professional web scraping with anti-detection
 
 KEY DIFFERENTIATORS:
 - Comprehensive API suite (3 services in one platform)

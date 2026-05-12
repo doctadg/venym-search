@@ -10,8 +10,6 @@ export const metadata: Metadata = {
     default: 'Venym Search - Enterprise Web Scraping APIs',
     template: '%s | Venym Search'
   },
-  description: 'Enterprise web scraping APIs for modern developers. Search, scrape, and research the web with AI-powered tools. SwiftSearch, ScrapeForge, and DeepDive APIs.',
-  keywords: ['web scraping api', 'search api', 'data extraction', 'ai research', 'enterprise scraping', 'swiftsearch', 'scrapeforge', 'deepdive'],
   authors: [{ name: 'Venym Search' }],
   creator: 'Venym Search',
   publisher: 'Venym Search',
@@ -106,7 +104,7 @@ export default async function RootLayout({
                 url: "https://search.venym.io",
                 potentialAction: {
                   "@type": "SearchAction",
-                  target: "https://search.venym.io/docs/api/swiftsearch?q={search_term_string}",
+                  target: "https://search.venym.io/docs/api/search?q={search_term_string}",
                   "query-input": "required name=search_term_string",
                 },
               },

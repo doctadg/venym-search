@@ -37,17 +37,17 @@ from typing import Optional, Type
 import requests
 import json
 
-class SwiftSearchInput(BaseModel):
-    """Input for SwiftSearch tool."""
+class SearchInput(BaseModel):
+    """Input for Search tool."""
     query: str = Field(description="Search query")
     max_results: Optional[int] = Field(default=5, description="Maximum results to return")
 
-class SwiftSearchTool(BaseTool):
-    """Tool for real-time web search using Venym Search SwiftSearch API."""
+class SearchTool(BaseTool):
+    """Tool for real-time web search using Venym Search Search API."""
     
     name = "web_search"
     description = "Search the web for current information on any topic. Use this when you need up-to-date information that might not be in your training data."
-    args_schema: Type[BaseModel] = SwiftSearchInput
+    args_schema: Type[BaseModel] = SearchInput
     
     def __init__(self, api_key: str):
         super().__init__()
@@ -57,7 +57,7 @@ class SwiftSearchTool(BaseTool):
         """Execute the search."""
         try:
             response = requests.post(
-                "https://www.search.venym.io/api/v1/swiftsearch",
+                "https://www.search.venym.io/api/v1/search",
                 headers={
                     "Authorization": "Bearer " + self.api_key,
                     "Content-Type": "application/json"
@@ -95,8 +95,8 @@ from langchain.pydantic_v1 import BaseModel, Field
 from typing import Optional, Type, List
 import requests
 
-class ScrapeForgeInput(BaseModel):
-    """Input for ScrapeForge tool."""
+class ScrapeInput(BaseModel):
+    """Input for Scrape tool."""
     url: str = Field(description="URL to scrape")
     extract_options: Optional[List[str]] = Field(
         default=["title", "text"], 
@@ -104,11 +104,11 @@ class ScrapeForgeInput(BaseModel):
     )
 
 class ScrapeToolLangChain(BaseTool):
-    """Tool for web scraping using Venym Search ScrapeForge API."""
+    """Tool for web scraping using Venym Search Scrape API."""
     
     name = "web_scraper"
     description = "Extract content from any webpage. Use this to get detailed content from specific URLs."
-    args_schema: Type[BaseModel] = ScrapeForgeInput
+    args_schema: Type[BaseModel] = ScrapeInput
     
     def __init__(self, api_key: str):
         super().__init__()
@@ -118,7 +118,7 @@ class ScrapeToolLangChain(BaseTool):
         """Scrape the webpage."""
         try:
             response = requests.post(
-                "https://www.search.venym.io/api/v1/scrapeforge",
+                "https://www.search.venym.io/api/v1/scrape",
                 headers={
                     "Authorization": "Bearer " + self.api_key,
                     "Content-Type": "application/json"
@@ -162,17 +162,13 @@ from langchain.pydantic_v1 import BaseModel, Field
 from typing import Optional, Type
 import requests
 
-class DeepDiveInput(BaseModel):
-    """Input for DeepDive research tool."""
     topic: str = Field(description="Research topic")
     max_sources: Optional[int] = Field(default=5, description="Maximum sources to analyze")
 
 class ResearchTool(BaseTool):
-    """Tool for AI-powered research using Venym Search DeepDive API."""
     
     name = "research_topic"
     description = "Conduct comprehensive research on any topic by analyzing multiple sources. Use this for in-depth analysis and when you need comprehensive information."
-    args_schema: Type[BaseModel] = DeepDiveInput
     
     def __init__(self, api_key: str):
         super().__init__()
@@ -182,7 +178,6 @@ class ResearchTool(BaseTool):
         """Research the topic."""
         try:
             response = requests.post(
-                "https://www.search.venym.io/api/v1/deepdive",
                 headers={
                     "Authorization": "Bearer " + self.api_key,
                     "Content-Type": "application/json"
@@ -232,7 +227,7 @@ from langchain.memory import ConversationBufferMemory
 
 # Initialize your Venym Search tools
 api_key = os.getenv("VENYM_SEARCH_API_KEY")
-search_tool = SwiftSearchTool(api_key)
+search_tool = SearchTool(api_key)
 scrape_tool = ScrapeToolLangChain(api_key)
 research_tool = ResearchTool(api_key)
 
@@ -262,7 +257,7 @@ from langchain.prompts import PromptTemplate
 class BitcoinPriceBot:
     def __init__(self, VENYM_SEARCH_api_key: str, openai_api_key: str):
         # Initialize tools
-        self.search_tool = SwiftSearchTool(VENYM_SEARCH_api_key)
+        self.search_tool = SearchTool(VENYM_SEARCH_api_key)
         self.scrape_tool = ScrapeToolLangChain(VENYM_SEARCH_api_key)
         
         # Initialize LLM
@@ -412,13 +407,13 @@ print(monitoring_result)`
         <h2 className="text-2xl font-bold text-[#17457c] mb-6">1. Web Search Tool</h2>
         
         <p className="text-gray-600 mb-6">
-          Create a LangChain tool that gives your agents real-time web search capabilities using SwiftSearch.
+          Create a LangChain tool that gives your agents real-time web search capabilities using Search.
         </p>
 
         <CodeBlock
           code={basicToolCode}
           language="python"
-          title="SwiftSearch LangChain Tool"
+          title="Search LangChain Tool"
         />
 
         <div className="mt-6">
@@ -434,13 +429,13 @@ print(monitoring_result)`
         <h2 className="text-2xl font-bold text-[#17457c] mb-6">2. Web Scraping Tool</h2>
         
         <p className="text-gray-600 mb-6">
-          Enable your agents to extract content from specific web pages using ScrapeForge.
+          Enable your agents to extract content from specific web pages using Scrape.
         </p>
 
         <CodeBlock
           code={scrapeToolCode}
           language="python"
-          title="ScrapeForge LangChain Tool"
+          title="Scrape LangChain Tool"
         />
       </div>
 
@@ -449,13 +444,11 @@ print(monitoring_result)`
         <h2 className="text-2xl font-bold text-[#17457c] mb-6">3. AI Research Tool</h2>
         
         <p className="text-gray-600 mb-6">
-          Add comprehensive research capabilities using DeepDive for multi-source analysis.
         </p>
 
         <CodeBlock
           code={researchToolCode}
           language="python"
-          title="DeepDive LangChain Research Tool"
         />
       </div>
 

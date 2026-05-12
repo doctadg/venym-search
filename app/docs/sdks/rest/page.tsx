@@ -21,7 +21,7 @@ Authorization: Bearer sk_live_YOUR_API_KEY_API_KEY_api_key_here
 Authorization: sk_live_YOUR_API_KEY_API_KEY_api_key_here`
 
   const swiftSearchExample = {
-    curl: `curl -X POST https://www.search.venym.io/api/v1/swiftsearch \\
+    curl: `curl -X POST https://www.search.venym.io/api/v1/search \\
   -H "Authorization: Bearer sk_live_YOUR_API_KEY_API_KEY_key" \\
   -H "Content-Type: application/json" \\
   -d '{
@@ -34,7 +34,7 @@ Authorization: sk_live_YOUR_API_KEY_API_KEY_api_key_here`
     python: `import requests
 
 response = requests.post(
-    "https://www.search.venym.io/api/v1/swiftsearch",
+    "https://www.search.venym.io/api/v1/search",
     headers={"Authorization": "Bearer sk_live_YOUR_API_KEY_API_KEY_key"},
     json={
         "query": "latest AI developments 2025",
@@ -46,7 +46,7 @@ response = requests.post(
 )
 
 data = response.json()`,
-    javascript: `const response = await fetch('https://www.search.venym.io/api/v1/swiftsearch', {
+    javascript: `const response = await fetch('https://www.search.venym.io/api/v1/search', {
   method: 'POST',
   headers: {
     'Authorization': 'Bearer sk_live_YOUR_API_KEY_API_KEY_key',
@@ -65,7 +65,7 @@ const data = await response.json();`
   }
 
   const scrapeForgeExample = {
-    curl: `curl -X POST https://www.search.venym.io/api/v1/scrapeforge \\
+    curl: `curl -X POST https://www.search.venym.io/api/v1/scrape \\
   -H "Authorization: Bearer sk_live_YOUR_API_KEY_API_KEY_key" \\
   -H "Content-Type: application/json" \\
   -d '{
@@ -76,7 +76,7 @@ const data = await response.json();`
     "remove_selectors": [".ads", ".popup"]
   }'`,
     python: `response = requests.post(
-    "https://www.search.venym.io/api/v1/scrapeforge",
+    "https://www.search.venym.io/api/v1/scrape",
     headers={"Authorization": "Bearer sk_live_YOUR_API_KEY_API_KEY_key"},
     json={
         "url": "https://example.com/article",
@@ -86,7 +86,7 @@ const data = await response.json();`
         "remove_selectors": [".ads", ".popup"]
     }
 )`,
-    javascript: `const response = await fetch('https://www.search.venym.io/api/v1/scrapeforge', {
+    javascript: `const response = await fetch('https://www.search.venym.io/api/v1/scrape', {
   method: 'POST',
   headers: {
     'Authorization': 'Bearer sk_live_YOUR_API_KEY_API_KEY_key',
@@ -102,42 +102,6 @@ const data = await response.json();`
 });`
   }
 
-  const deepDiveExample = {
-    curl: `curl -X POST https://www.search.venym.io/api/v1/deepdive \\
-  -H "Authorization: Bearer sk_live_YOUR_API_KEY_API_KEY_key" \\
-  -H "Content-Type: application/json" \\
-  -d '{
-    "topic": "sustainable energy solutions 2025",
-    "max_sources": 10,
-    "include_images": true,
-    "language": "en"
-  }'`,
-    python: `response = requests.post(
-    "https://www.search.venym.io/api/v1/deepdive",
-    headers={"Authorization": "Bearer sk_live_YOUR_API_KEY_API_KEY_key"},
-    json={
-        "topic": "sustainable energy solutions 2025",
-        "max_sources": 10,
-        "include_images": True,
-        "language": "en"
-    }
-)`,
-    javascript: `const response = await fetch('https://www.search.venym.io/api/v1/deepdive', {
-  method: 'POST',
-  headers: {
-    'Authorization': 'Bearer sk_live_YOUR_API_KEY_API_KEY_key',
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({
-    topic: 'sustainable energy solutions 2025',
-    max_sources: 10,
-    include_images: true,
-    language: 'en'
-  })
-});`
-  }
-
-  const responseExample = `{
   "query": "latest AI developments 2025",
   "search_results": [
     {
@@ -168,24 +132,17 @@ const data = await response.json();`
 
   const endpoints = [
     {
-      endpoint: "/v1/swiftsearch",
+      endpoint: "/v1/search",
       method: "POST",
       description: "Real-time web search with automatic result extraction",
       credits: "1-2 per request"
     },
     {
-      endpoint: "/v1/scrapeforge",
+      endpoint: "/v1/scrape",
       method: "POST", 
       description: "Extract content from any webpage, bypass protections",
       credits: "2-5 per request"
     },
-    {
-      endpoint: "/v1/deepdive",
-      method: "POST",
-      description: "AI-powered research across multiple sources", 
-      credits: "5-15 per request"
-    },
-    {
       endpoint: "/v1/usage",
       method: "GET",
       description: "Get current API usage statistics and credits",
@@ -327,13 +284,13 @@ const data = await response.json();`
         </Card>
       </div>
 
-      {/* SwiftSearch API */}
+      {/* Search API */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">SwiftSearch API</h2>
+        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Search API</h2>
         
         <APIMethod
           method="POST"
-          endpoint="/v1/swiftsearch"
+          endpoint="/v1/search"
           description="Real-time web search with automatic result extraction"
         />
         
@@ -343,17 +300,17 @@ const data = await response.json();`
         
         <CodeBlock
           multiLanguage={swiftSearchExample}
-          title="SwiftSearch Request Example"
+          title="Search Request Example"
         />
       </div>
 
-      {/* ScrapeForge API */}
+      {/* Scrape API */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">ScrapeForge API</h2>
+        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Scrape API</h2>
         
         <APIMethod
           method="POST" 
-          endpoint="/v1/scrapeforge"
+          endpoint="/v1/scrape"
           description="Extract content from any webpage, bypass protections"
         />
         
@@ -363,27 +320,7 @@ const data = await response.json();`
         
         <CodeBlock
           multiLanguage={scrapeForgeExample}
-          title="ScrapeForge Request Example"
-        />
-      </div>
-
-      {/* DeepDive API */}
-      <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">DeepDive API</h2>
-        
-        <APIMethod
-          method="POST"
-          endpoint="/v1/deepdive"
-          description="AI-powered research across multiple sources"
-        />
-        
-        <p className="text-gray-600 mb-6">
-          Leverage AI to research topics across multiple sources with automatic summarization.
-        </p>
-        
-        <CodeBlock
-          multiLanguage={deepDiveExample}
-          title="DeepDive Request Example"
+          title="Scrape Request Example"
         />
       </div>
 

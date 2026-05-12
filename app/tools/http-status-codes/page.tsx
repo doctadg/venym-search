@@ -273,11 +273,11 @@ export default function HttpStatusCodesPage() {
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-sm text-gray-600">
-            Use the <strong>ScrapeForge API</strong> to check HTTP status codes of any URL programmatically. Perfect for monitoring, uptime checks, and link validation.
+            Use the <strong>Scrape API</strong> to check HTTP status codes of any URL programmatically. Perfect for monitoring, uptime checks, and link validation.
           </p>
           <div className="rounded-lg bg-gray-900 p-4">
             <pre className="text-xs text-green-400 font-mono overflow-x-auto">
-              <code>{`curl -X POST https://search.venym.io/api/v1/scrapeforge \\
+              <code>{`curl -X POST https://search.venym.io/api/v1/scrape \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{"url": "https://example.com", "method": "HEAD"}'
@@ -292,10 +292,10 @@ export default function HttpStatusCodesPage() {
             </pre>
           </div>
           <Link
-            href="/docs/api/scrapeforge"
+            href="/docs/api/scrape"
             className="inline-flex items-center gap-1.5 text-sm text-[#efa72d] hover:text-[#d4911f] font-medium hover:underline"
           >
-            View ScrapeForge API Docs →
+            View Scrape API Docs →
           </Link>
         </CardContent>
       </Card>

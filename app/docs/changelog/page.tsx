@@ -20,7 +20,6 @@ export default function ChangelogPage() {
       changes: [
         {
           type: "feature",
-          title: "Enhanced DeepDive AI Research",
           description: "Improved AI summarization with better source attribution and faster processing times. Now supports up to 50 sources per research query."
         },
         {
@@ -35,7 +34,7 @@ export default function ChangelogPage() {
         },
         {
           type: "fix",
-          title: "ScrapeForge JavaScript Rendering",
+          title: "Scrape JavaScript Rendering",
           description: "Fixed issues with JavaScript-heavy websites not rendering properly. Improved support for React and Vue.js applications."
         }
       ]
@@ -47,7 +46,7 @@ export default function ChangelogPage() {
       changes: [
         {
           type: "fix",
-          title: "SwiftSearch Result Deduplication",
+          title: "Search Result Deduplication",
           description: "Fixed issue where duplicate results could appear in search responses when using high max_results values."
         },
         {
@@ -69,7 +68,7 @@ export default function ChangelogPage() {
       changes: [
         {
           type: "feature",
-          title: "Bulk Operations for ScrapeForge",
+          title: "Bulk Operations for Scrape",
           description: "New bulk scraping endpoint allows processing up to 100 URLs in a single request with concurrent processing."
         },
         {
@@ -113,7 +112,7 @@ export default function ChangelogPage() {
       changes: [
         {
           type: "fix",
-          title: "SwiftSearch Timeout Handling",
+          title: "Search Timeout Handling",
           description: "Fixed timeout issues for complex search queries that take longer to process."
         },
         {
@@ -157,7 +156,6 @@ export default function ChangelogPage() {
         },
         {
           type: "feature",
-          title: "DeepDive AI Research API",
           description: "Brand new AI-powered research API that analyzes multiple sources and provides comprehensive summaries."
         },
         {

@@ -580,7 +580,6 @@ Provide a well-structured summary in markdown format.`
         'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
         'Content-Type': 'application/json',
         'HTTP-Referer': process.env.NEXT_PUBLIC_APP_URL || 'https://search.venym.io',
-        'X-Title': 'Venym Search DeepDive'
       },
       body: JSON.stringify({
         model: 'anthropic/claude-3-haiku',

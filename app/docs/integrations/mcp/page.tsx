@@ -52,36 +52,33 @@ export default function MCPIntegrationPage() {
 
   const tools = [
     {
-      name: 'swift_search',
-      title: 'SwiftSearch',
+      name: 'venym_search',
+      title: 'Search',
       description: 'Real-time web search with optional auto-scraping of top results',
       icon: Search,
       features: ['Real-time search', 'Auto-scraping', 'Contact extraction', 'Social discovery'],
-      example: `swift_search({
+      example: `venym_search({
   query: "latest AI developments 2025",
   auto_scrape_top: 3,
   include_contacts: true
 })`
     },
     {
-      name: 'scrape_forge',
-      title: 'ScrapeForge',
+      name: 'scrape',
+      title: 'Scrape',
       description: 'Enterprise web scraping with browser rendering',
       icon: Code2,
       features: ['JavaScript rendering', 'Bot detection bypass', 'Custom extraction', 'Timeout control'],
-      example: `scrape_forge({
+      example: `scrape({
   url: "https://example.com",
   extract: ["title", "text", "links"],
   use_browser: true
 })`
     },
     {
-      name: 'deep_dive',
-      title: 'DeepDive',
       description: 'AI-powered research across multiple sources',
       icon: Database,
       features: ['Multi-source research', 'AI summarization', 'Social mentions', 'Citation tracking'],
-      example: `deep_dive({
   query: "climate change impact 2025",
   max_sources: 10,
   generate_summary: true
@@ -359,7 +356,6 @@ export default function MCPIntegrationPage() {
                 <p className="text-gray-700 mb-4">"Research the latest developments in quantum computing and provide me with a comprehensive summary including key players and recent breakthroughs."</p>
                 
                 <p className="font-medium text-gray-800 mb-2">🤖 AI Agent:</p>
-                <p className="text-gray-700">Uses <code>deep_dive</code> tool to search multiple sources, scrape content, and generate an AI-powered summary with citations.</p>
               </div>
             </CardContent>
           </Card>
@@ -377,7 +373,7 @@ export default function MCPIntegrationPage() {
                 <p className="text-gray-700 mb-4">"Find contact information for the top 5 AI startups in San Francisco."</p>
                 
                 <p className="font-medium text-gray-800 mb-2">🤖 AI Agent:</p>
-                <p className="text-gray-700">Uses <code>swift_search</code> to find companies, then <code>batch_scrape</code> with contact extraction to gather emails and phone numbers.</p>
+                <p className="text-gray-700">Uses <code>venym_search</code> to find companies, then <code>batch_scrape</code> with contact extraction to gather emails and phone numbers.</p>
               </div>
             </CardContent>
           </Card>
@@ -395,7 +391,7 @@ export default function MCPIntegrationPage() {
                 <p className="text-gray-700 mb-4">"Scrape this product page and extract all the technical specifications and pricing information."</p>
                 
                 <p className="font-medium text-gray-800 mb-2">🤖 AI Agent:</p>
-                <p className="text-gray-700">Uses <code>scrape_forge</code> with custom extraction patterns to pull structured data from complex pages.</p>
+                <p className="text-gray-700">Uses <code>scrape</code> with custom extraction patterns to pull structured data from complex pages.</p>
               </div>
             </CardContent>
           </Card>
@@ -474,7 +470,7 @@ export default function MCPIntegrationPage() {
                 Contact Support
               </Button>
             </Link>
-            <Link href="/docs/api/swiftsearch">
+            <Link href="/docs/api/search">
               <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-[#17457c]">
                 <Code2 className="w-4 h-4 mr-2" />
                 API Documentation

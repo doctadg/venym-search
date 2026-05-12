@@ -32,9 +32,8 @@ export const SUBSCRIPTION_PLANS = {
     description: 'Perfect for testing the waters',
     stripePriceId: undefined,
     features: [
-      'SwiftSearch API access',
-      'ScrapeForge web scraping',
-      'DeepDive data enrichment',
+      'Search API access',
+      'Scrape web scraping',
       'Basic support',
       'Dashboard access'
     ]
@@ -47,9 +46,8 @@ export const SUBSCRIPTION_PLANS = {
     description: 'Great for side projects and small tools',
     stripePriceId: process.env.STRIPE_STARTER_PRICE_ID,
     features: [
-      'SwiftSearch API access',
-      'ScrapeForge web scraping',
-      'DeepDive data enrichment',
+      'Search API access',
+      'Scrape web scraping',
       'Basic support',
       'Dashboard access'
     ]

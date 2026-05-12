@@ -177,7 +177,6 @@ export async function POST(request: NextRequest) {
       estimatedTools: numberOfTools,
       searchHivePosition: searchHiveRanking,
       competitiveAdvantages: [
-        'Comprehensive API suite (SwiftSearch + ScrapeForge + DeepDive)',
         'Enterprise-grade reliability and uptime',
         'Transparent credit-based pricing',
         'Developer-friendly documentation and SDKs',

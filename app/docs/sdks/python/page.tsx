@@ -35,8 +35,8 @@ client = Venym Search(api_key="sk_live_YOUR_API_KEY_API_KEY_key_here")
 # export VENYM_SEARCH_API_KEY="sk_live_YOUR_API_KEY_API_KEY_key_here"
 # client = Venym Search()
 
-# SwiftSearch: Real-time web search
-search_results = client.swift_search(
+# Search: Real-time web search
+search_results = client.venym_search(
     query="Bitcoin price 2025 predictions",
     max_results=10,
     auto_scrape_top=3
@@ -51,16 +51,14 @@ for result in search_results.search_results:
     print(f"URL: {result.link}")
     print(f"Snippet: {result.snippet}\\n")
 
-# ScrapeForge: Extract content from URLs
-scraped_data = client.scrape_forge(
+# Scrape: Extract content from URLs
+scraped_data = client.scrape(
     url="https://coindesk.com/price/bitcoin"
 )
 
 print(f"Page title: {scraped_data.title}")
 print(f"Content length: {len(scraped_data.text)}")
 
-# DeepDive: Multi-source research
-research = client.deep_dive(
     query="cryptocurrency market trends 2025",
     max_pages=5
 )
@@ -92,13 +90,13 @@ client = Venym Search()  # Reads VENYM_SEARCH_API_KEY env var
 health = client.health()
 print(f"API Status: {health}")`
 
-  const swiftSearchCode = `# SwiftSearch examples
+  const swiftSearchCode = `# Search examples
 
 # Basic search
-results = client.swift_search("Python web scraping tutorial")
+results = client.venym_search("Python web scraping tutorial")
 
 # Advanced search with all options
-results = client.swift_search(
+results = client.venym_search(
     query="AI startups funding 2025",
     max_results=20,
     auto_scrape_top=5,           # Scrape top 5 results
@@ -134,7 +132,7 @@ if results.social_profiles:
 
 # Handle errors gracefully
 try:
-    results = client.swift_search("test query")
+    results = client.venym_search("test query")
 except VenymSearchError as e:
     print(f"API Error: {e}")
 except RateLimitError as e:
@@ -142,15 +140,15 @@ except RateLimitError as e:
 except AuthenticationError as e:
     print(f"Auth error: {e}")`
 
-  const scrapeForgeCode = `# ScrapeForge examples
+  const scrapeForgeCode = `# Scrape examples
 
 # Basic web scraping
-scraped = client.scrape_forge(
+scraped = client.scrape(
     url="https://example.com/article"
 )
 
 # Advanced scraping with options
-scraped = client.scrape_forge(
+scraped = client.scrape(
     url="https://news.ycombinator.com",
     extract=["title", "text", "links", "images", "metadata"],
     wait_for=".storylink",       # CSS selector to wait for
@@ -195,15 +193,12 @@ batch_results = client.batch_scrape(urls, timeout=15000)
 for result in batch_results:
     print(f"{result.url}: {result.title if not result.error else 'Failed: ' + result.error}")`
 
-  const deepDiveCode = `# DeepDive research examples
 
 # Basic research
-research = client.deep_dive(
     query="quantum computing breakthroughs 2025"
 )
 
 # Comprehensive research with options
-research = client.deep_dive(
     query="sustainable energy investment opportunities",
     max_pages=10,
     extract_content=True,
@@ -244,13 +239,12 @@ async def main():
     
     try:
         # Async search
-        results = await client.swift_search("Python async tutorial")
+        results = await client.venym_search("Python async tutorial")
         print(f"Found {results.results_count} results")
         
         # Concurrent requests
-        search_task = asyncio.create_task(client.swift_search("AI news"))
-        scrape_task = asyncio.create_task(client.scrape_forge("https://example.com"))
-        research_task = asyncio.create_task(client.deep_dive("machine learning trends"))
+        search_task = asyncio.create_task(client.venym_search("AI news"))
+        scrape_task = asyncio.create_task(client.scrape("https://example.com"))
         
         # Wait for all to complete
         search_res, scrape_res, research_res = await asyncio.gather(
@@ -270,7 +264,7 @@ asyncio.run(main())
 # Or use context manager (recommended)
 async def with_context_manager():
     async with AsyncVenym Search(api_key="sk_live_YOUR_API_KEY_API_KEY_key_here") as client:
-        results = await client.swift_search("test query")
+        results = await client.venym_search("test query")
         return results`
 
   const errorHandlingCode = `from VENYM_SEARCH import Venym Search
@@ -279,7 +273,7 @@ from VENYM_SEARCH.exceptions import VenymSearchError, AuthenticationError, RateL
 client = Venym Search(api_key="sk_live_YOUR_API_KEY_API_KEY_key_here")
 
 try:
-    results = client.swift_search("test query")
+    results = client.venym_search("test query")
     
 except AuthenticationError:
     print("Invalid API key - check your credentials")
@@ -300,7 +294,7 @@ import random
 def search_with_retry(query, max_retries=3):
     for attempt in range(max_retries):
         try:
-            return client.swift_search(query)
+            return client.venym_search(query)
         except RateLimitError as e:
             if attempt < max_retries - 1:
                 wait_time = (2 ** attempt) + random.uniform(0, 1)
@@ -325,8 +319,8 @@ except Exception as e:
 
   const dataModelsCode = `# Response shapes
 
-# SwiftSearchResponse
-search_results = client.swift_search("test query")
+# SearchResponse
+search_results = client.venym_search("test query")
 print(search_results.query)              # str
 print(search_results.search_results)     # list of results
 print(search_results.scraped_content)    # list of scraped pages (when auto_scrape_top set)
@@ -337,8 +331,8 @@ print(search_results.remaining_credits)  # int
 print(search_results.results_count)      # int
 print(search_results.scraped_count)      # int
 
-# ScrapeForgeResponse
-scrape_result = client.scrape_forge("https://example.com")
+# ScrapeResponse
+scrape_result = client.scrape("https://example.com")
 print(scrape_result.url)                 # str
 print(scrape_result.title)               # str
 print(scrape_result.text)                # str
@@ -349,8 +343,6 @@ print(scrape_result.error)               # Optional[str]
 print(scrape_result.credits_used)        # int
 print(scrape_result.remaining_credits)   # int
 
-# DeepDiveResponse
-research = client.deep_dive("AI trends")
 print(research.search_results)           # list
 print(research.scraped_content)          # list
 print(research.summary)                  # Optional[str]
@@ -379,7 +371,6 @@ json_str = search_results.model_dump_json()`
         </h1>
         <p className="text-xl text-gray-600 leading-relaxed">
           The official Python SDK for Venym Search APIs. Type-safe, async-ready Python bindings 
-          built with httpx and Pydantic for SwiftSearch, ScrapeForge, and DeepDive.
         </p>
       </div>
 
@@ -452,9 +443,9 @@ json_str = search_results.model_dump_json()`
         />
       </div>
 
-      {/* SwiftSearch */}
+      {/* Search */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">SwiftSearch API</h2>
+        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Search API</h2>
         
         <p className="text-gray-600 mb-6">
           Real-time web search with automatic content extraction and data enrichment.
@@ -463,13 +454,13 @@ json_str = search_results.model_dump_json()`
         <CodeBlock
           code={swiftSearchCode}
           language="python"
-          title="SwiftSearch examples"
+          title="Search examples"
         />
       </div>
 
-      {/* ScrapeForge */}
+      {/* Scrape */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">ScrapeForge API</h2>
+        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Scrape API</h2>
         
         <p className="text-gray-600 mb-6">
           Extract structured content from any URL, including JavaScript-rendered pages.
@@ -478,22 +469,18 @@ json_str = search_results.model_dump_json()`
         <CodeBlock
           code={scrapeForgeCode}
           language="python"
-          title="ScrapeForge examples"
+          title="Scrape examples"
         />
       </div>
 
-      {/* DeepDive */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">DeepDive API</h2>
         
         <p className="text-gray-600 mb-6">
           Multi-source research across multiple pages with content extraction.
         </p>
 
         <CodeBlock
-          code={deepDiveCode}
           language="python"
-          title="DeepDive research examples"
         />
       </div>
 
@@ -659,14 +646,14 @@ json_str = search_results.model_dump_json()`
               Full API documentation with all parameters and response formats.
             </p>
             <div className="flex gap-2">
-              <Link href="/docs/api/swiftsearch">
+              <Link href="/docs/api/search">
                 <Button size="sm" variant="outline" className="border-[#17457c] text-[#17457c] hover:bg-[#17457c] hover:text-white">
-                  SwiftSearch
+                  Search
                 </Button>
               </Link>
-              <Link href="/docs/api/scrapeforge">
+              <Link href="/docs/api/scrape">
                 <Button size="sm" variant="outline" className="border-[#17457c] text-[#17457c] hover:bg-[#17457c] hover:text-white">
-                  ScrapeForge
+                  Scrape
                 </Button>
               </Link>
             </div>

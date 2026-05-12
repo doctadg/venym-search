@@ -20,18 +20,18 @@ import { CodeBlock } from '../../components/CodeBlock'
 import { Callout } from '../../components/Callout'
 
 export default function N8nIntegrationPage() {
-  const nodeStructureCode = `// Venym Search SwiftSearch Node Structure
-export class VenymSearchSwiftSearch implements INodeType {
+  const nodeStructureCode = `// Venym Search Search Node Structure
+export class VenymSearchSearch implements INodeType {
   description: INodeTypeDescription = {
-    displayName: 'Venym Search SwiftSearch',
-    name: 'searchHiveSwiftSearch',
+    displayName: 'Venym Search Search',
+    name: 'searchHiveSearch',
     icon: 'file:VENYM_SEARCH.svg',
     group: ['input'],
     version: 1,
     subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
-    description: 'Interact with Venym Search SwiftSearch API',
+    description: 'Interact with Venym Search Search API',
     defaults: {
-      name: 'Venym Search SwiftSearch',
+      name: 'Venym Search Search',
     },
     inputs: ['main'],
     outputs: ['main'],
@@ -90,7 +90,7 @@ export class VenymSearchSwiftSearch implements INodeType {
         
         const options: OptionsWithUri = {
           method: 'POST',
-          uri: 'https://www.search.venym.io/api/v1/swiftsearch',
+          uri: 'https://www.search.venym.io/api/v1/search',
           headers: {
             'Authorization': 'Bearer ' + credentials.apiKey,
             'Content-Type': 'application/json',
@@ -163,7 +163,7 @@ export class VenymSearchApi implements ICredentialType {
   test: ICredentialTestRequest = {
     request: {
       baseURL: '={{$credentials.baseUrl}}',
-      url: '/v1/swiftsearch',
+      url: '/v1/search',
       method: 'POST',
       body: {
         query: 'test',
@@ -200,8 +200,8 @@ export class VenymSearchApi implements ICredentialType {
         "extractContacts": true
       },
       "id": "8a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p",
-      "name": "Venym Search SwiftSearch",
-      "type": "searchHiveSwiftSearch",
+      "name": "Venym Search Search",
+      "type": "searchHiveSearch",
       "typeVersion": 1,
       "position": [450, 300],
       "credentials": {
@@ -301,14 +301,14 @@ export class VenymSearchApi implements ICredentialType {
       "main": [
         [
           {
-            "node": "Venym Search SwiftSearch",
+            "node": "Venym Search Search",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Venym Search SwiftSearch": {
+    "Venym Search Search": {
       "main": [
         [
           {
@@ -395,7 +395,6 @@ networks:
       description: "Pre-built nodes for all Venym Search APIs",
       icon: Code,
       benefits: [
-        "SwiftSearch, ScrapeForge, and DeepDive nodes",
         "Drag-and-drop interface",
         "Built-in error handling",
         "Parameter validation"
@@ -608,7 +607,7 @@ networks:
             <CodeBlock
               code={nodeStructureCode}
               language="typescript"
-              title="Venym Search SwiftSearch Node Implementation"
+              title="Venym Search Search Node Implementation"
             />
           </div>
 
@@ -658,7 +657,7 @@ networks:
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
                 <Globe className="w-5 h-5 text-blue-500" />
-                SwiftSearch Node
+                Search Node
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -688,7 +687,7 @@ networks:
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
                 <Database className="w-5 h-5 text-purple-500" />
-                ScrapeForge Node
+                Scrape Node
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -718,7 +717,6 @@ networks:
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
                 <Settings className="w-5 h-5 text-orange-500" />
-                DeepDive Node
               </CardTitle>
             </CardHeader>
             <CardContent>

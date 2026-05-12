@@ -34,7 +34,7 @@ def make_request_with_retry():
     
     for attempt in range(max_retries):
         response = requests.post(
-            "https://www.search.venym.io/api/v1/swiftsearch",
+            "https://www.search.venym.io/api/v1/search",
             headers={"Authorization": f"Bearer {API_KEY}"},
             json={"query": "test query", "max_results": 5}
         )
@@ -70,7 +70,7 @@ async function makeRequestWithRetry() {
   for (let attempt = 0; attempt < maxRetries; attempt++) {
     try {
       const response = await axios.post(
-        'https://www.search.venym.io/api/v1/swiftsearch',
+        'https://www.search.venym.io/api/v1/search',
         {
           query: 'test query',
           max_results: 5
@@ -121,7 +121,7 @@ make_request_with_retry() {
   
   while [ $attempt -le $MAX_RETRIES ]; do
     response=$(curl -s -w "%{http_code}" -X POST \\
-      https://www.search.venym.io/api/v1/swiftsearch \\
+      https://www.search.venym.io/api/v1/search \\
       -H "Authorization: Bearer $API_KEY" \\
       -H "Content-Type: application/json" \\
       -d '{"query": "test query", "max_results": 5}')
@@ -221,21 +221,20 @@ def check_usage():
 
   const endpoints = [
     {
-      endpoint: "/v1/swiftsearch",
+      endpoint: "/v1/search",
       free: "10/min",
       pro: "100/min",
       enterprise: "Custom",
       credits: "1-2 per request"
     },
     {
-      endpoint: "/v1/scrapeforge", 
+      endpoint: "/v1/scrape", 
       free: "5/min",
       pro: "50/min",
       enterprise: "Custom",
       credits: "2-5 per request"
     },
     {
-      endpoint: "/v1/deepdive",
       free: "2/min",
       pro: "20/min", 
       enterprise: "Custom",
@@ -516,15 +515,14 @@ def check_usage():
               <ul className="space-y-2 text-sm">
                 <li className="flex items-start gap-2">
                   <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                  <span>Combine multiple URLs in ScrapeForge</span>
+                  <span>Combine multiple URLs in Scrape</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                  <span>Use higher <code>max_results</code> in SwiftSearch</span>
+                  <span>Use higher <code>max_results</code> in Search</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                  <span>Research multiple topics in DeepDive</span>
                 </li>
               </ul>
             </CardContent>

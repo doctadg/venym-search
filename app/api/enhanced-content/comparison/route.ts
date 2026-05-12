@@ -197,7 +197,6 @@ export async function POST(request: NextRequest) {
           'Managed infrastructure vs. DIY solutions',
           'Real-time data capabilities'
         ],
-        insights: `Comparison should highlight Venym Search's unique position as a comprehensive API suite offering multiple services (SwiftSearch, ScrapeForge, DeepDive) while competitors typically offer single-purpose solutions.`,
         competitorDetails: competitorData
       }
     }

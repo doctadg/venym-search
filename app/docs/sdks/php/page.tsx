@@ -775,7 +775,6 @@ class ApiController extends AbstractController
         <CodeBlock
           language="php"
           code={researchExample}
-          title="DeepDive Research API"
         />
       </div>
 
@@ -980,7 +979,7 @@ class ApiController extends AbstractController
               Start building with the Venym Search PHP SDK and explore our comprehensive API documentation.
             </p>
             <div className="flex gap-2">
-              <Link href="/docs/api/swiftsearch">
+              <Link href="/docs/api/search">
                 <Button size="sm" className="bg-[#efa72d] hover:bg-[#efa72d]/90 text-white">
                   API Reference
                   <ArrowRight className="w-4 h-4 ml-2" />

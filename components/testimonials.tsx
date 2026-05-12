@@ -7,7 +7,7 @@ const testimonials = [
     name: "Sarah Chen",
     title: "AI Engineer",
     company: "DataForge AI", 
-    content: "SearchHive's APIs are brutal in the best way. SwiftSearch gives me structured data that would take hours to scrape manually. My AI agents are finally connected to real-time web data.",
+    content: "SearchHive's APIs are brutal in the best way. Search gives me structured data that would take hours to scrape manually. My AI agents are finally connected to real-time web data.",
     rating: 5,
     useCase: "AI Agent Development"
   },
@@ -15,7 +15,7 @@ const testimonials = [
     name: "Marcus Rodriguez",
     title: "Founder",
     company: "EcomIntel",
-    content: "ScrapeForge handles JavaScript-heavy sites that other scrapers can't touch. We're monitoring 10k+ product pages daily and the data quality is incredible.",
+    content: "Scrape handles JavaScript-heavy sites that other scrapers can't touch. We're monitoring 10k+ product pages daily and the data quality is incredible.",
     rating: 5,
     useCase: "E-commerce Intelligence"
   },
@@ -23,7 +23,6 @@ const testimonials = [
     name: "Dr. Emily Watson",
     title: "Research Director", 
     company: "TrendScope",
-    content: "DeepDive's enrichment capabilities transformed our market research. We're getting insights from raw data that would have taken weeks to analyze manually.",
     rating: 5,
     useCase: "Market Research"
   },

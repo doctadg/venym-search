@@ -393,14 +393,14 @@ export default function RobotsTxtGeneratorPage() {
               </Card>
             )}
 
-            {/* ScrapeForge promo */}
+            {/* Scrape promo */}
             <Card className="border-[#efa72d]/30 bg-[#efa72d]/5">
               <CardContent className="p-4 flex items-center gap-3">
                 <Zap className="w-5 h-5 text-[#efa72d] shrink-0" />
                 <div>
                   <p className="text-sm font-medium text-gray-900">Want deeper insights?</p>
-                  <a href="/docs/api/scrapeforge" className="text-sm text-[#17457c] hover:underline">
-                    Test your robots.txt with ScrapeForge →
+                  <a href="/docs/api/scrape" className="text-sm text-[#17457c] hover:underline">
+                    Test your robots.txt with Scrape →
                   </a>
                 </div>
               </CardContent>

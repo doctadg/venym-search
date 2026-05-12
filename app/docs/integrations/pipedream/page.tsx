@@ -22,7 +22,7 @@ export default function PipedreamIntegrationPage() {
   const componentCode = `import { axios } from "@pipedream/platform";
 
 export default defineComponent({
-  name: "Venym Search SwiftSearch",
+  name: "Venym Search Search",
   description: "Search the web with enhanced results using Venym Search",
   version: "0.1.0",
   type: "action",
@@ -62,7 +62,7 @@ export default defineComponent({
     
     const response = await axios($, {
       method: "POST",
-      url: "https://www.search.venym.io/api/v1/swiftsearch",
+      url: "https://www.search.venym.io/api/v1/search",
       headers: {
         "Authorization": "Bearer " + this.VENYM_SEARCH.$auth.api_key,
         "Content-Type": "application/json",
@@ -226,21 +226,20 @@ export default {
     async search(opts = {}) {
       return await this._makeRequest({
         method: "POST",
-        path: "/v1/swiftsearch",
+        path: "/v1/search",
         ...opts,
       });
     },
     async scrape(opts = {}) {
       return await this._makeRequest({
         method: "POST", 
-        path: "/v1/scrapeforge",
+        path: "/v1/scrape",
         ...opts,
       });
     },
     async research(opts = {}) {
       return await this._makeRequest({
         method: "POST",
-        path: "/v1/deepdive", 
         ...opts,
       });
     },
@@ -464,7 +463,7 @@ export default {
                 <CodeBlock
                   code={componentCode}
                   language="javascript"
-                  title="SwiftSearch Component"
+                  title="Search Component"
                 />
 
                 <div className="grid gap-3 md:grid-cols-2">
@@ -526,7 +525,7 @@ export default {
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
                 <Globe className="w-5 h-5 text-blue-500" />
-                SwiftSearch Action
+                Search Action
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -556,7 +555,7 @@ export default {
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
                 <Database className="w-5 h-5 text-purple-500" />
-                ScrapeForge Action
+                Scrape Action
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -586,7 +585,6 @@ export default {
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
                 <Bot className="w-5 h-5 text-orange-500" />
-                DeepDive Action
               </CardTitle>
             </CardHeader>
             <CardContent>

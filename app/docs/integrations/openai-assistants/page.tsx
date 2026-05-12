@@ -29,7 +29,7 @@ client = openai.OpenAI(api_key="your-openai-api-key")
 def search_web(query, max_results=10):
     """Search the web using Venym Search API"""
     response = requests.post(
-        "https://www.search.venym.io/api/v1/swiftsearch",
+        "https://www.search.venym.io/api/v1/search",
         headers={"Authorization": "Bearer your-VENYM_SEARCH-key"},
         json={
             "query": query,
@@ -41,7 +41,7 @@ def search_web(query, max_results=10):
 def scrape_webpage(url):
     """Scrape webpage content using Venym Search"""
     response = requests.post(
-        "https://www.search.venym.io/api/v1/scrapeforge",
+        "https://www.search.venym.io/api/v1/scrape",
         headers={"Authorization": "Bearer your-VENYM_SEARCH-key"},
         json={
             "url": url,
@@ -310,7 +310,7 @@ const VENYM_SEARCH_API_KEY = process.env.VENYM_SEARCH_API_KEY;
 async function searchWeb(query, maxResults = 10) {
   try {
     const response = await axios.post(
-      'https://www.search.venym.io/api/v1/swiftsearch',
+      'https://www.search.venym.io/api/v1/search',
       {
         query: query,
         max_results: maxResults
@@ -330,7 +330,7 @@ async function searchWeb(query, maxResults = 10) {
 async function scrapeWebpage(url) {
   try {
     const response = await axios.post(
-      'https://www.search.venym.io/api/v1/scrapeforge',
+      'https://www.search.venym.io/api/v1/scrape',
       {
         url: url,
         extract_options: ['title', 'text', 'metadata']
@@ -719,7 +719,7 @@ main().catch(console.error);`
               Start building intelligent assistants with real-time web access using OpenAI and Venym Search.
             </p>
             <div className="flex gap-2">
-              <Link href="/docs/api/swiftsearch">
+              <Link href="/docs/api/search">
                 <Button size="sm" className="bg-[#efa72d] hover:bg-[#efa72d]/90 text-white">
                   API Reference
                   <ArrowRight className="w-4 h-4 ml-2" />

@@ -759,7 +759,6 @@ func middlewareExample() {
         <CodeBlock
           language="go"
           code={researchExample}
-          title="DeepDive Research API"
         />
       </div>
 
@@ -1027,7 +1026,7 @@ func middlewareExample() {
               Start building with the Venym Search Go SDK and explore our comprehensive API documentation.
             </p>
             <div className="flex gap-2">
-              <Link href="/docs/api/swiftsearch">
+              <Link href="/docs/api/search">
                 <Button size="sm" className="bg-[#efa72d] hover:bg-[#efa72d]/90 text-white">
                   API Reference
                   <ArrowRight className="w-4 h-4 ml-2" />

@@ -12,13 +12,13 @@ export const tutorials: Tutorial[] = [
   {
     title: 'How to Scrape Amazon Product Data',
     slug: 'scrape-amazon-product-data',
-    description: 'Learn how to extract product titles, prices, ratings, and reviews from Amazon using Venym Search ScrapeForge API.',
+    description: 'Learn how to extract product titles, prices, ratings, and reviews from Amazon using Venym Search Scrape API.',
     difficulty: 'intermediate',
     category: 'Web Scraping',
     readingTime: 8,
     steps: [
       { title: 'Set up your API key', content: 'Sign up at search.venym.io and get your API key from the dashboard.' },
-      { title: 'Make your first scrape request', content: 'Use the ScrapeForge endpoint to extract product data from any Amazon page.', code: `import Venym Search from 'VENYM_SEARCH';\nconst client = new Venym Search('sk_live_YOUR_API_KEY');\nconst result = await client.scrape({\n  url: 'https://www.amazon.com/dp/B0BSHF7WHW',\n  extract: { title: 'h1#title', price: '.a-price .a-offscreen', rating: '#acrPopover' }\n});` },
+      { title: 'Make your first scrape request', content: 'Use the Scrape endpoint to extract product data from any Amazon page.', code: `import Venym Search from 'VENYM_SEARCH';\nconst client = new Venym Search('sk_live_YOUR_API_KEY');\nconst result = await client.scrape({\n  url: 'https://www.amazon.com/dp/B0BSHF7WHW',\n  extract: { title: 'h1#title', price: '.a-price .a-offscreen', rating: '#acrPopover' }\n});` },
       { title: 'Parse and store the data', content: 'Extract structured fields from the response and save to your database.' },
       { title: 'Set up monitoring', content: 'Schedule regular scrapes to track price changes over time.' }
     ]
@@ -32,7 +32,7 @@ export const tutorials: Tutorial[] = [
     readingTime: 10,
     steps: [
       { title: 'Define competitor URLs', content: 'Create a list of competitor product pages to monitor.' },
-      { title: 'Set up scheduled scraping', content: 'Use ScrapeForge to extract prices on a schedule.', code: `const response = await fetch('https://search.venym.io/api/v1/scrapeforge', {\n  method: 'POST',\n  headers: { 'Authorization': 'Bearer sk_live_YOUR_API_KEY', 'Content-Type': 'application/json' },\n  body: JSON.stringify({ url: competitorUrl, extract: { price: '.price' } })\n});` },
+      { title: 'Set up scheduled scraping', content: 'Use Scrape to extract prices on a schedule.', code: `const response = await fetch('https://search.venym.io/api/v1/scrape', {\n  method: 'POST',\n  headers: { 'Authorization': 'Bearer sk_live_YOUR_API_KEY', 'Content-Type': 'application/json' },\n  body: JSON.stringify({ url: competitorUrl, extract: { price: '.price' } })\n});` },
       { title: 'Build a price comparison dashboard', content: 'Display price trends and alerts when competitors change pricing.' },
       { title: 'Set up notifications', content: 'Get alerts via Slack, email, or webhooks when prices drop.' }
     ]
@@ -45,7 +45,7 @@ export const tutorials: Tutorial[] = [
     category: 'Content Aggregation',
     readingTime: 12,
     steps: [
-      { title: 'Search for news articles', content: 'Use SwiftSearch to find recent articles across multiple sources.', code: `const news = await client.search({\n  query: 'artificial intelligence latest news',\n  max_results: 20\n});` },
+      { title: 'Search for news articles', content: 'Use Search to find recent articles across multiple sources.', code: `const news = await client.search({\n  query: 'artificial intelligence latest news',\n  max_results: 20\n});` },
       { title: 'Scrape full article content', content: 'Extract the full text, author, date, and images from each article.' },
       { title: 'Categorize with AI', content: 'Use AI to categorize articles by topic, sentiment, and relevance.' },
       { title: 'Build the frontend', content: 'Create a clean aggregator UI with filtering and search.' }
@@ -60,7 +60,7 @@ export const tutorials: Tutorial[] = [
     readingTime: 7,
     steps: [
       { title: 'Identify the data fields', content: 'Inspect the page to find the CSS selectors for your target data.' },
-      { title: 'Configure extraction rules', content: 'Define which elements to extract using ScrapeForge.', code: `const data = await client.scrape({\n  url: 'https://example.com/products',\n  extract: {\n    products: [{ selector: '.product-card', fields: { name: 'h3', price: '.price', image: 'img@src' } }]\n  }\n});` },
+      { title: 'Configure extraction rules', content: 'Define which elements to extract using Scrape.', code: `const data = await client.scrape({\n  url: 'https://example.com/products',\n  extract: {\n    products: [{ selector: '.product-card', fields: { name: 'h3', price: '.price', image: 'img@src' } }]\n  }\n});` },
       { title: 'Handle pagination', content: 'Scrape multiple pages of results automatically.' },
       { title: 'Export the data', content: 'Save extracted data as JSON, CSV, or directly to your database.' }
     ]
@@ -102,7 +102,6 @@ export const tutorials: Tutorial[] = [
     readingTime: 14,
     steps: [
       { title: 'Design the pipeline', content: 'Plan your RAG architecture with real-time web search as the retrieval layer.' },
-      { title: 'Implement web retrieval', content: 'Use SwiftSearch and DeepDive to fetch relevant content.', code: `const research = await client.research({\n  topic: 'machine learning trends 2025',\n  max_sources: 10\n});` },
       { title: 'Chunk and embed content', content: 'Process the retrieved content into embeddings for your vector store.' },
       { title: 'Build the generation layer', content: 'Use the retrieved context to generate accurate, cited responses.' },
       { title: 'Add citations', content: 'Link back to source URLs for transparency and trust.' }
@@ -117,7 +116,7 @@ export const tutorials: Tutorial[] = [
     readingTime: 8,
     steps: [
       { title: 'Understand the challenge', content: 'SPA content is loaded dynamically and not available in raw HTML.' },
-      { title: 'Use ScrapeForge with rendering', content: 'Venym Search handles JavaScript rendering automatically.', code: `const result = await client.scrape({\n  url: 'https://spa-example.com/data',\n  render_js: true,\n  wait_for: '.data-loaded'\n});` },
+      { title: 'Use Scrape with rendering', content: 'Venym Search handles JavaScript rendering automatically.', code: `const result = await client.scrape({\n  url: 'https://spa-example.com/data',\n  render_js: true,\n  wait_for: '.data-loaded'\n});` },
       { title: 'Handle dynamic content', content: 'Wait for specific elements or timeouts to ensure content loads.' },
       { title: 'Extract the data', content: 'Once rendered, extract data using standard CSS selectors.' }
     ]
@@ -125,13 +124,11 @@ export const tutorials: Tutorial[] = [
   {
     title: 'Automate Market Research',
     slug: 'automate-market-research',
-    description: 'Build an automated market research pipeline using Venym Search DeepDive for comprehensive multi-source analysis.',
     difficulty: 'advanced',
     category: 'Research',
     readingTime: 11,
     steps: [
       { title: 'Define research parameters', content: 'Set up your research topics, competitors, and market segments.' },
-      { title: 'Run DeepDive research', content: 'Use the DeepDive API for comprehensive multi-source analysis.', code: `const research = await client.research({\n  topic: 'SaaS web scraping market size and trends',\n  max_sources: 15\n});` },
       { title: 'Analyze findings', content: 'Use AI to synthesize research into actionable insights.' },
       { title: 'Generate reports', content: 'Create formatted reports with charts and recommendations.' }
     ]
@@ -173,7 +170,7 @@ export const tutorials: Tutorial[] = [
     readingTime: 7,
     steps: [
       { title: 'Set up search queries', content: 'Create queries for your brand name, products, and key people.' },
-      { title: 'Schedule regular searches', content: 'Run SwiftSearch on a schedule to find new mentions.', code: `const mentions = await client.search({ query: '"YourBrand" -site:yourbrand.com', max_results: 50 });` },
+      { title: 'Schedule regular searches', content: 'Run Search on a schedule to find new mentions.', code: `const mentions = await client.search({ query: '"YourBrand" -site:yourbrand.com', max_results: 50 });` },
       { title: 'Analyze sentiment', content: 'Use AI to classify mentions as positive, negative, or neutral.' },
       { title: 'Create alerts', content: 'Notify your team when important mentions are detected.' }
     ]
@@ -187,7 +184,7 @@ export const tutorials: Tutorial[] = [
     readingTime: 6,
     steps: [
       { title: 'Identify target pages', content: 'Find contact pages, about pages, and team directories.' },
-      { title: 'Scrape and extract', content: 'Use ScrapeForge to pull contact data from pages.', code: `const contacts = await client.scrape({\n  url: 'https://example.com/contact',\n  extract: { emails: 'a[href^="mailto:"]', phones: 'a[href^="tel:"]' }\n});` },
+      { title: 'Scrape and extract', content: 'Use Scrape to pull contact data from pages.', code: `const contacts = await client.scrape({\n  url: 'https://example.com/contact',\n  extract: { emails: 'a[href^="mailto:"]', phones: 'a[href^="tel:"]' }\n});` },
       { title: 'Validate and clean', content: 'Verify extracted emails and normalize phone numbers.' },
       { title: 'Export to CRM', content: 'Push verified contacts to your CRM or database.' }
     ]
@@ -229,7 +226,6 @@ export const tutorials: Tutorial[] = [
     readingTime: 12,
     steps: [
       { title: 'Define research scope', content: 'Outline what data you need: financials, team, market, competitors.' },
-      { title: 'Run comprehensive research', content: 'Use DeepDive for multi-source company analysis.', code: `const dd = await client.research({\n  topic: 'Acme Corp funding history valuation revenue team',\n  max_sources: 20\n});` },
       { title: 'Cross-reference findings', content: 'Verify data across multiple sources for accuracy.' },
       { title: 'Generate due diligence report', content: 'Compile findings into a structured report with risk assessment.' }
     ]

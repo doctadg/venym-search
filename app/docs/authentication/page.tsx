@@ -32,7 +32,7 @@ headers = {
 
 # Make authenticated request
 response = requests.post(
-    "https://www.search.venym.io/api/v1/swiftsearch",
+    "https://www.search.venym.io/api/v1/search",
     headers=headers,
     json={"query": "test search"}
 )
@@ -58,7 +58,7 @@ const config = {
 // Make authenticated request
 try {
   const response = await axios.post(
-    'https://www.search.venym.io/api/v1/swiftsearch',
+    'https://www.search.venym.io/api/v1/search',
     { query: 'test search' },
     config
   );
@@ -74,7 +74,7 @@ try {
 API_KEY="sk_live_YOUR_API_KEY_API_KEY"
 
 # Include API key in header
-curl -X POST https://www.search.venym.io/api/v1/swiftsearch \\
+curl -X POST https://www.search.venym.io/api/v1/search \\
   -H "Authorization: Bearer $API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{"query": "test search"}' \\
@@ -104,7 +104,7 @@ if not API_KEY:
 
 # Use in requests
 headers = {"Authorization": "Bearer " + API_KEY}
-response = requests.post("https://www.search.venym.io/api/v1/swiftsearch", headers=headers)`,
+response = requests.post("https://www.search.venym.io/api/v1/search", headers=headers)`,
     javascript: `require('dotenv').config();
 
 // Get API key from environment
@@ -126,7 +126,7 @@ source .env
 
 # Use environment variable
 curl -H "Authorization: Bearer $VENYM_SEARCH_API_KEY" \\
-     https://www.search.venym.io/api/v1/swiftsearch`
+     https://www.search.venym.io/api/v1/search`
   }
 
   const errorResponses = {
@@ -453,7 +453,7 @@ curl -H "Authorization: Bearer $VENYM_SEARCH_API_KEY" \\
         </p>
 
         <CodeBlock
-          code={`curl -X POST https://www.search.venym.io/api/v1/swiftsearch \\
+          code={`curl -X POST https://www.search.venym.io/api/v1/search \\
   -H "Authorization: Bearer YOUR_API_KEY_HERE" \\
   -H "Content-Type: application/json" \\
   -d '{"query": "test", "max_results": 1}'`}

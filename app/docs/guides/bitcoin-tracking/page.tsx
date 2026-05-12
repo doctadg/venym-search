@@ -112,10 +112,10 @@ class BitcoinTracker:
             ])
     
     def search_bitcoin_info(self, query="Bitcoin price current market analysis"):
-        """Search for Bitcoin information using SwiftSearch."""
+        """Search for Bitcoin information using Search."""
         try:
             response = requests.post(
-                "https://www.search.venym.io/api/v1/swiftsearch",
+                "https://www.search.venym.io/api/v1/search",
                 headers={
                     "Authorization": "Bearer " + self.api_key,
                     "Content-Type": "application/json"
@@ -136,7 +136,7 @@ class BitcoinTracker:
         """Scrape a specific Bitcoin data source."""
         try:
             response = requests.post(
-                "https://www.search.venym.io/api/v1/scrapeforge",
+                "https://www.search.venym.io/api/v1/scrape",
                 headers={
                     "Authorization": "Bearer " + self.api_key,
                     "Content-Type": "application/json"
@@ -561,8 +561,7 @@ print(f"Last 10 prices: {latest_prices}")`
       </div>
 
       <Callout type="info" title="Prerequisites">
-        Basic Python knowledge, Venym Search API key, and about 2 hours. We'll use SwiftSearch for data collection, 
-        ScrapeForge for specific sources, and DeepDive for market research.
+        Basic Python knowledge, Venym Search API key, and about 2 hours. We'll use Search for data collection, 
       </Callout>
 
       {/* Setup & Installation */}
@@ -620,8 +619,8 @@ print(f"Last 10 prices: {latest_prices}")`
 
         <div className="mt-6">
           <Callout type="tip" title="Key features of this implementation">
-            • Uses SwiftSearch for general Bitcoin news and price data<br />
-            • Falls back to ScrapeForge for specific sources if needed<br />
+            • Uses Search for general Bitcoin news and price data<br />
+            • Falls back to Scrape for specific sources if needed<br />
             • Extracts prices using regex patterns<br />
             • Analyzes sentiment from scraped content<br />
             • Sends email alerts for threshold breaches<br />

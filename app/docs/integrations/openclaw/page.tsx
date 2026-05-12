@@ -209,9 +209,8 @@ export default function OpenclawIntegration() {
           </CardHeader>
           <CardContent>
             <ul className="text-gray-600 text-sm space-y-1">
-              <li>• <strong>SwiftSearch</strong> — Real-time web search (Google, Bing, DuckDuckGo)</li>
-              <li>• <strong>ScrapeForge</strong> — Full-page web scraping with content extraction</li>
-              <li>• <strong>DeepDive</strong> — Multi-source research with AI summarization</li>
+              <li>• <strong>Search</strong> — Real-time web search (Google, Bing, DuckDuckGo)</li>
+              <li>• <strong>Scrape</strong> — Full-page web scraping with content extraction</li>
             </ul>
           </CardContent>
         </Card>
@@ -311,7 +310,7 @@ chmod +x ~/.openclaw/workspace/skills/VENYM_SEARCH/scripts/*.sh
         <Card>
           <CardContent className="p-6 space-y-6">
             <div>
-              <h3 className="text-lg font-semibold mb-3">SwiftSearch — Web Search Response</h3>
+              <h3 className="text-lg font-semibold mb-3">Search — Web Search Response</h3>
               <div className="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm overflow-x-auto">
                 <pre>{`{
   "query": "AI agents 2025",
@@ -331,7 +330,7 @@ chmod +x ~/.openclaw/workspace/skills/VENYM_SEARCH/scripts/*.sh
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold mb-3">ScrapeForge — Web Scraping Response</h3>
+              <h3 className="text-lg font-semibold mb-3">Scrape — Web Scraping Response</h3>
               <div className="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm overflow-x-auto">
                 <pre>{`{
   "url": "https://example.com/article",
@@ -365,7 +364,6 @@ chmod +x ~/.openclaw/workspace/skills/VENYM_SEARCH/scripts/*.sh
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
-                <span><strong>Free plan:</strong> 5,000 credits/month. SwiftSearch = 1 credit. ScrapeForge = 3 credits. DeepDive = ~15 credits.</span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />

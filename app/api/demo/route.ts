@@ -33,12 +33,11 @@ function checkRateLimit(key: string): boolean {
 }
 
 const demoSchema = z.object({
-  api_type: z.enum(['swiftsearch', 'scrapeforge', 'deepdive']),
   query: z.string().min(1, 'Query is required').max(200, 'Query too long'),
 })
 
 // Real API functions for demo responses
-const getDemoSwiftSearchResponse = async (query: string) => {
+const getDemoSearchResponse = async (query: string) => {
   try {
     // Call real search API with timeout
     const searchResults = await Promise.race([
@@ -96,12 +95,12 @@ const getDemoSwiftSearchResponse = async (query: string) => {
       scraped_count: scraped_content.filter(c => !c.error).length
     }
   } catch (error) {
-    logger.error('Demo SwiftSearch error', error as Error)
+    logger.error('Demo Search error', error as Error)
     throw new Error(`Search API unavailable: ${error instanceof Error ? error.message : 'Service temporarily unavailable'}`)
   }
 }
 
-const getDemoScrapeForgeResponse = async (query: string) => {
+const getDemoScrapeResponse = async (query: string) => {
   try {
     const isUrl = query.match(/^https?:\/\//)
     let url: string
@@ -145,80 +144,8 @@ const getDemoScrapeForgeResponse = async (query: string) => {
       success: !scrapeResult.error
     }
   } catch (error) {
-    logger.error('Demo ScrapeForge error', error as Error)
+    logger.error('Demo Scrape error', error as Error)
     throw new Error(`Scraping API unavailable: ${error instanceof Error ? error.message : 'Service temporarily unavailable'}`)
-  }
-}
-
-const getDemoDeepDiveResponse = async (query: string) => {
-  try {
-    // For DeepDive demo, we'll do a search + scrape multiple results
-    const searchResults = await Promise.race([
-      backendAPI.search({
-        query: query,
-        num_results: 5
-      }),
-      new Promise((_, reject) => 
-        setTimeout(() => reject(new Error('Search timeout')), 20000)
-      )
-    ]) as any
-
-    // Scrape top 3 results for research content
-    const sources = []
-    const scraped_content = []
-    
-    for (const [index, result] of searchResults.results.slice(0, 3).entries()) {
-      try {
-        const scrapeResult = await Promise.race([
-          backendAPI.scrape({
-            url: result.link,
-            extract: ['title', 'text'],
-            timeout: 6000
-          }),
-          new Promise((_, reject) => 
-            setTimeout(() => reject(new Error('Scrape timeout')), 10000)
-          )
-        ]) as any
-        
-        sources.push({
-          title: scrapeResult.title || result.title,
-          url: result.link,
-          credibility_score: Math.round((8.0 + (Math.random() * 1.5)) * 10) / 10, // Mock credibility score
-          summary: result.snippet || 'Content successfully extracted from source'
-        })
-        
-        scraped_content.push(scrapeResult)
-      } catch (err) {
-        sources.push({
-          title: result.title,
-          url: result.link,
-          credibility_score: 7.0,
-          summary: result.snippet || `Source available but content extraction limited: ${err instanceof Error ? err.message : 'Unknown error'}`
-        })
-      }
-    }
-
-    const successfulScrapes = sources.filter(s => s.credibility_score > 7.5).length
-
-    return {
-      topic: query,
-      research_summary: `Deep research analysis of "${query}" compiled from ${sources.length} authoritative web sources. This live demo showcases DeepDive's capability to automatically gather, analyze, and synthesize information from multiple sources in real-time.`,
-      key_findings: [
-        `Comprehensive analysis of "${query}" based on real-time web data`,
-        `Successfully processed ${sources.length} sources with ${successfulScrapes} high-quality extractions`,
-        `Content aggregated from diverse, authoritative sources across the web`,
-        `Real-time search and scraping ensures current, relevant information`
-      ],
-      sources: sources,
-      research_depth: "comprehensive",
-      confidence_score: Math.round((7.5 + (successfulScrapes / sources.length) * 1.5) * 10) / 10,
-      credits_used: 1 + (sources.length * 3), // 1 for search + 3 per scrape attempt
-      remaining_credits: 4985,
-      sources_analyzed: sources.length
-    }
-  } catch (error) {
-    logger.error('Demo DeepDive error', error as Error)
-    throw new Error(`Research API unavailable: ${error instanceof Error ? error.message : 'Service temporarily unavailable'}`)
   }
 }
 
@@ -246,14 +173,12 @@ export async function POST(request: NextRequest) {
     // Call real APIs
     let apiResponse
     switch (validatedData.api_type) {
-      case 'swiftsearch':
-        apiResponse = await getDemoSwiftSearchResponse(validatedData.query)
+      case 'search':
+        apiResponse = await getDemoSearchResponse(validatedData.query)
         break
-      case 'scrapeforge':
-        apiResponse = await getDemoScrapeForgeResponse(validatedData.query)
+      case 'scrape':
+        apiResponse = await getDemoScrapeResponse(validatedData.query)
         break
-      case 'deepdive':
-        apiResponse = await getDemoDeepDiveResponse(validatedData.query)
         break
     }
 
@@ -301,7 +226,6 @@ export async function GET() {
     {
       message: "Venym Search Demo API",
       available_endpoints: ["POST /api/demo"],
-      api_types: ["swiftsearch", "scrapeforge", "deepdive"],
       rate_limit: `${DEMO_RATE_LIMIT} requests per minute`,
       note: "This is a demonstration endpoint with mock data. Sign up for real API access."
     },

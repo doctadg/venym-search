@@ -69,8 +69,6 @@ console.log('Links found:', page.links.length);
 console.log('Images found:', page.images.length);
 console.log('Credits remaining:', page.remaining_credits);`
 
-  const deepDiveCode = `// Research a topic across multiple sources
-const research = await client.deepDive({
   query: 'sustainable energy solutions 2025',
   max_pages: 10,
   extract_content: true,
@@ -123,10 +121,9 @@ try {
 }`
 
   const methods = [
-    { method: 'swiftSearch(options)', description: 'Real-time web search with optional auto-scraping', returns: 'SwiftSearchResponse' },
-    { method: 'scrapeForge(options)', description: 'Extract content from a single webpage', returns: 'ScrapeForgeResponse' },
-    { method: 'deepDive(options)', description: 'Multi-page research with summarization', returns: 'DeepDiveResponse' },
-    { method: 'batchScrape(options)', description: 'Scrape multiple URLs in one request', returns: 'ScrapeForgeResponse[]' },
+    { method: 'swiftSearch(options)', description: 'Real-time web search with optional auto-scraping', returns: 'SearchResponse' },
+    { method: 'scrapeForge(options)', description: 'Extract content from a single webpage', returns: 'ScrapeResponse' },
+    { method: 'batchScrape(options)', description: 'Scrape multiple URLs in one request', returns: 'ScrapeResponse[]' },
     { method: 'health()', description: 'Check API health status', returns: 'HealthResponse' },
   ]
 
@@ -207,31 +204,28 @@ try {
         </Card>
       </div>
 
-      {/* SwiftSearch */}
+      {/* Search */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">SwiftSearch</h2>
+        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Search</h2>
         <p className="text-gray-600 mb-6">
           Real-time web search with optional auto-scraping of top results, contact extraction, and social profile lookup.
         </p>
-        <CodeBlock language="javascript" code={swiftSearchCode} title="SwiftSearch Example" />
+        <CodeBlock language="javascript" code={swiftSearchCode} title="Search Example" />
       </div>
 
-      {/* ScrapeForge */}
+      {/* Scrape */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">ScrapeForge</h2>
+        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Scrape</h2>
         <p className="text-gray-600 mb-6">
           Extract structured content from any webpage — title, text, links, images, and metadata.
         </p>
-        <CodeBlock language="javascript" code={scrapeForgeCode} title="ScrapeForge Example" />
+        <CodeBlock language="javascript" code={scrapeForgeCode} title="Scrape Example" />
       </div>
 
-      {/* DeepDive */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">DeepDive</h2>
         <p className="text-gray-600 mb-6">
           Multi-page research that searches, scrapes multiple sources, and returns a summary.
         </p>
-        <CodeBlock language="javascript" code={deepDiveCode} title="DeepDive Example" />
       </div>
 
       {/* Batch Scrape */}
@@ -395,7 +389,7 @@ try {
               Start building with the Venym Search JavaScript SDK and explore the API reference.
             </p>
             <div className="flex gap-2">
-              <Link href="/docs/api/swiftsearch">
+              <Link href="/docs/api/search">
                 <Button size="sm" className="bg-[#efa72d] hover:bg-[#efa72d]/90 text-white">
                   API Reference
                   <ArrowRight className="w-4 h-4 ml-2" />

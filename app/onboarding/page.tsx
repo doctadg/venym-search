@@ -65,33 +65,31 @@ const onboardingSteps = [
 
 const apis = [
   {
-    name: "SWIFTSEARCH",
+    name: "SEARCH",
     icon: Search,
     description: "LIGHTNING-FAST WEB SEARCH WITH STRUCTURED RESULTS",
     useCase: "PERFECT FOR CONTENT RESEARCH, MARKET ANALYSIS, AND COMPETITIVE INTELLIGENCE",
-    endpoint: "/api/v1/swiftsearch",
+    endpoint: "/api/v1/search",
     example: {
       query: "latest AI trends 2024",
       response: "GET STRUCTURED SEARCH RESULTS WITH TITLES, SNIPPETS, URLS, AND METADATA"
     }
   },
   {
-    name: "SCRAPEFORGE",
+    name: "SCRAPE",
     icon: Code2,
     description: "POWERFUL WEB SCRAPING THAT HANDLES ANY SITE",
     useCase: "EXTRACT DATA FROM E-COMMERCE SITES, NEWS SOURCES, AND SOCIAL PLATFORMS",
-    endpoint: "/api/v1/scrapeforge",
+    endpoint: "/api/v1/scrape",
     example: {
       query: "https://example-ecommerce.com/products",
       response: "GET CLEAN, STRUCTURED DATA FROM ANY WEBPAGE"
     }
   },
   {
-    name: "DEEPDIVE",
     icon: Database,
     description: "ENRICH AND ENHANCE YOUR DATA WITH AI-POWERED INSIGHTS", 
     useCase: "ADD CONTEXT, ANALYZE SENTIMENT, AND EXTRACT KEY INFORMATION",
-    endpoint: "/api/v1/deepdive",
     example: {
       query: "Company: Apple Inc.",
       response: "GET COMPREHENSIVE COMPANY DATA, FINANCIALS, AND MARKET INSIGHTS"
@@ -220,29 +218,27 @@ export default function OnboardingPage() {
             >
               <DropdownMenuItem asChild>
                 <Link
-                  href="/products/swiftsearch"
+                  href="/products/search"
                   className="text-base font-black text-[#edf3f1] hover:text-[#efa72d] hover:bg-[#6b839a] cursor-pointer focus:bg-[#6b839a] focus:text-[#efa72d] flex items-center gap-2"
                 >
                   <Search className="h-4 w-4" />
-                  SWIFTSEARCH
+                  SEARCH
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <Link
-                  href="/products/scrapeforge"
+                  href="/products/scrape"
                   className="text-base font-black text-[#edf3f1] hover:text-[#efa72d] hover:bg-[#6b839a] cursor-pointer focus:bg-[#6b839a] focus:text-[#efa72d] flex items-center gap-2"
                 >
                   <Code2 className="h-4 w-4" />
-                  SCRAPEFORGE
+                  SCRAPE
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <Link
-                  href="/products/deepdive"
                   className="text-base font-black text-[#edf3f1] hover:text-[#efa72d] hover:bg-[#6b839a] cursor-pointer focus:bg-[#6b839a] focus:text-[#efa72d] flex items-center gap-2"
                 >
                   <Database className="h-4 w-4" />
-                  DEEPDIVE
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -325,21 +321,20 @@ export default function OnboardingPage() {
                     <Card className="bg-black border-4 border-[#efa72d] shadow-[4px_4px_0px_0px_#efa72d]">
                       <CardContent className="p-6 text-center">
                         <Search className="w-8 h-8 text-[#efa72d] mx-auto mb-3" />
-                        <h3 className="font-black text-[#efa72d] mb-2">SWIFTSEARCH</h3>
+                        <h3 className="font-black text-[#efa72d] mb-2">SEARCH</h3>
                         <p className="text-sm font-bold text-white">LIGHTNING-FAST WEB SEARCH</p>
                       </CardContent>
                     </Card>
                     <Card className="bg-black border-4 border-[#efa72d] shadow-[4px_4px_0px_0px_#efa72d]">
                       <CardContent className="p-6 text-center">
                         <Code2 className="w-8 h-8 text-[#efa72d] mx-auto mb-3" />
-                        <h3 className="font-black text-[#efa72d] mb-2">SCRAPEFORGE</h3>
+                        <h3 className="font-black text-[#efa72d] mb-2">SCRAPE</h3>
                         <p className="text-sm font-bold text-white">POWERFUL WEB SCRAPING</p>
                       </CardContent>
                     </Card>
                     <Card className="bg-black border-4 border-[#efa72d] shadow-[4px_4px_0px_0px_#efa72d]">
                       <CardContent className="p-6 text-center">
                         <Database className="w-8 h-8 text-[#efa72d] mx-auto mb-3" />
-                        <h3 className="font-black text-[#efa72d] mb-2">DEEPDIVE</h3>
                         <p className="text-sm font-bold text-white">AI-POWERED ENRICHMENT</p>
                       </CardContent>
                     </Card>

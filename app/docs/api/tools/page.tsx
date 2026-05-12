@@ -267,23 +267,20 @@ export default function ToolsAPIDocsPage() {
           <CardContent className="p-6">
             <h3 className="text-lg font-bold text-[#17457c] mb-2">Need more power?</h3>
             <p className="text-gray-600 mb-4">
-              Venym Search&apos;s core APIs (SwiftSearch, ScrapeForge, DeepDive) provide web search,
               scraping, and deep content extraction for production applications.
             </p>
             <div className="flex gap-2">
-              <Link href="/docs/api/swiftsearch">
+              <Link href="/docs/api/search">
                 <Badge className="bg-[#17457c] hover:bg-[#17457c]/90 text-white border-0 cursor-pointer">
-                  SwiftSearch API
+                  Search API
                 </Badge>
               </Link>
-              <Link href="/docs/api/scrapeforge">
+              <Link href="/docs/api/scrape">
                 <Badge className="bg-[#17457c]/80 hover:bg-[#17457c]/70 text-white border-0 cursor-pointer">
-                  ScrapeForge API
+                  Scrape API
                 </Badge>
               </Link>
-              <Link href="/docs/api/deepdive">
                 <Badge className="bg-[#17457c]/60 hover:bg-[#17457c]/50 text-white border-0 cursor-pointer">
-                  DeepDive API
                 </Badge>
               </Link>
             </div>
@@ -324,14 +321,14 @@ export default function ToolsAPIDocsPage() {
               Explore Venym Search&apos;s production APIs for web search and data extraction.
             </p>
             <div className="flex gap-2">
-              <Link href="/docs/api/swiftsearch">
+              <Link href="/docs/api/search">
                 <Badge className="bg-[#17457c] hover:bg-[#17457c]/90 text-white border-0 cursor-pointer">
-                  SwiftSearch
+                  Search
                 </Badge>
               </Link>
-              <Link href="/docs/api/scrapeforge">
+              <Link href="/docs/api/scrape">
                 <Badge className="bg-[#17457c] hover:bg-[#17457c]/90 text-white border-0 cursor-pointer">
-                  ScrapeForge
+                  Scrape
                 </Badge>
               </Link>
             </div>

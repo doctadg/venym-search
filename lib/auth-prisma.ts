@@ -80,31 +80,24 @@ export function hasFeatureAccess(plan: string, feature: string): boolean {
  */
 export function calculateCredits(endpoint: string, params: any, userPlan: string): number {
   const baseCosts: Record<string, number> = {
-    'swiftsearch': 10,
-    'scrapeforge': 15,
-    'deepdive': 25
+    'search': 10,
+    'scrape': 15,
   }
 
   let credits = baseCosts[endpoint] || 10
 
   // Apply multipliers based on parameters
-  if (endpoint === 'swiftsearch') {
+  if (endpoint === 'search') {
     credits += (params.max_results || 10) * 1
     if (params.include_contacts) credits += 5
     if (params.include_social) credits += 5
     if (params.auto_scrape_top) credits += params.auto_scrape_top * 3
   }
 
-  if (endpoint === 'scrapeforge') {
+  if (endpoint === 'scrape') {
     credits += Math.ceil((params.urls?.length || 1) * 8)
     if (params.extract_contacts) credits += 5
     if (params.ai_summary) credits += 10
-  }
-
-  if (endpoint === 'deepdive') {
-    credits += (params.max_pages || 5) * 5
-    if (params.include_content) credits += 10
-    if (params.ai_analysis) credits += 15
   }
 
   // Apply plan discounts

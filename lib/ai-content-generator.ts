@@ -70,7 +70,7 @@ export class AIContentGenerator {
   ]
 
   /**
-   * Discover trending topics using SwiftSearch
+   * Discover trending topics using Search
    */
   async discoverTrends(): Promise<TrendDiscoveryResult[]> {
     logger.info('Starting trend discovery process')
@@ -80,7 +80,7 @@ export class AIContentGenerator {
       try {
         logger.info(`Analyzing trend: ${keyword}`)
         
-        // Use SwiftSearch to find current trends
+        // Use Search to find current trends
         const searchResults = await backendAPI.search({
           query: keyword,
           num_results: 10
@@ -93,7 +93,6 @@ export class AIContentGenerator {
         const sentiment = this.analyzeSentiment(searchResults.results)
         const category = this.categorizeKeyword(keyword)
         
-        // Use DeepDive for deeper analysis on high-scoring trends
         if (trendScore > 0.6) {
           try {
             const researchData = await backendAPI.research({

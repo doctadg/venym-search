@@ -20,7 +20,7 @@ import { Callout } from '../../components/Callout'
 
 export default function MakeIntegrationPage() {
   const httpModuleCode = `{
-  "url": "https://www.search.venym.io/api/v1/swiftsearch",
+  "url": "https://www.search.venym.io/api/v1/search",
   "method": "POST",
   "headers": {
     "Authorization": "Bearer " + "${"{{connection.api_key}}"}",
@@ -52,7 +52,7 @@ export default function MakeIntegrationPage() {
       "module": "http:ActionSendData",
       "version": 3,
       "parameters": {
-        "url": "https://www.search.venym.io/api/v1/swiftsearch",
+        "url": "https://www.search.venym.io/api/v1/search",
         "method": "POST",
         "headers": [
           {
@@ -133,7 +133,7 @@ export default function MakeIntegrationPage() {
   "modules": [
     {
       "id": 1,
-      "module": "http:Venym Search:SwiftSearch",
+      "module": "http:Venym Search:Search",
       "parameters": {
         "query": "{{trigger.brand_name}} news",
         "max_results": 10
@@ -182,7 +182,6 @@ export default function MakeIntegrationPage() {
       title: "AI-Powered Research Assistant",
       description: "Automated market research with AI analysis and reporting",
       complexity: "Advanced",
-      modules: ["Venym Search DeepDive", "OpenAI GPT-4", "Google Docs", "Slack"],
       features: [
         "Multi-source research compilation",
         "AI-powered trend analysis",
@@ -195,7 +194,7 @@ export default function MakeIntegrationPage() {
       title: "Real-time Competitive Monitoring",
       description: "Track competitors with visual workflow automation",
       complexity: "Intermediate", 
-      modules: ["Venym Search SwiftSearch", "ScrapeForge", "Airtable", "Email"],
+      modules: ["Venym Search Search", "Scrape", "Airtable", "Email"],
       features: [
         "Scheduled competitor searches",
         "Price monitoring and alerts",
@@ -305,7 +304,7 @@ export default function MakeIntegrationPage() {
                   <CodeBlock
                     code={httpModuleCode}
                     language="json"
-                    title="SwiftSearch HTTP Module Setup"
+                    title="Search HTTP Module Setup"
                   />
                 </div>
 
@@ -397,7 +396,7 @@ export default function MakeIntegrationPage() {
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
                 <Globe className="w-5 h-5 text-blue-500" />
-                SwiftSearch Module
+                Search Module
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -432,7 +431,7 @@ export default function MakeIntegrationPage() {
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
                 <Database className="w-5 h-5 text-purple-500" />
-                ScrapeForge Module
+                Scrape Module
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -467,7 +466,6 @@ export default function MakeIntegrationPage() {
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
                 <Bot className="w-5 h-5 text-orange-500" />
-                DeepDive Module
               </CardTitle>
             </CardHeader>
             <CardContent>
