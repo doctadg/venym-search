@@ -1,19 +1,26 @@
-// Try to import real Stripe, fallback to stub
+// Lazy Stripe client — avoids build-time crash when STRIPE_SECRET_KEY is missing
 import type { Stripe as StripeTypes } from 'stripe'
 
-let Stripe: any
-try {
-  Stripe = require('stripe').default || require('stripe')
-} catch {
-  const stubs = require('./stub-implementations')
-  Stripe = stubs.Stripe
+let _stripe: any = null
+
+function getStripeInstance() {
+  if (_stripe) return _stripe
+  const key = process.env.STRIPE_SECRET_KEY
+  if (!key || key === '***') return null
+  try {
+    const S = require('stripe').default || require('stripe')
+    _stripe = new S(key, { apiVersion: '2024-12-18.acacia' })
+  } catch { return null }
+  return _stripe
 }
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2024-12-18.acacia',
+export const stripe = new Proxy({} as any, {
+  get(_, prop) {
+    const s = getStripeInstance()
+    if (!s) return () => { throw new Error('Stripe not configured') }
+    return (s as any)[prop]
+  }
 })
-
-export { stripe }
 
 // Subscription plans configurations
 export const SUBSCRIPTION_PLANS = {
