@@ -26,7 +26,7 @@ export default function RateLimitsPage() {
     python: `import requests
 import time
 
-API_KEY = "sk_live_YOUR_API_KEY_key_here"
+API_KEY = "sk_live_YOUR_API_KEY_API_KEY_key_here"
 
 def make_request_with_retry():
     max_retries = 3
@@ -61,7 +61,7 @@ response = make_request_with_retry()
 print(f"Status: {response.status_code}")`,
     javascript: `const axios = require('axios');
 
-const API_KEY = 'sk_live_YOUR_API_KEY_key_here';
+const API_KEY = 'sk_live_YOUR_API_KEY_API_KEY_key_here';
 
 async function makeRequestWithRetry() {
   const maxRetries = 3;
@@ -112,7 +112,7 @@ makeRequestWithRetry()
   .catch(error => console.error('Error:', error.message));`,
     bash: `#!/bin/bash
 
-API_KEY="sk_live_YOUR_API_KEY_key_here"
+API_KEY="sk_live_YOUR_API_KEY_API_KEY_key_here"
 MAX_RETRIES=3
 RETRY_DELAY=1
 

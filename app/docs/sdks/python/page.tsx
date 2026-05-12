@@ -29,10 +29,10 @@ pip install --upgrade git+https://github.com/doctadg/VENYM_SEARCH-python.git`
   const quickStartCode = `from VENYM_SEARCH import Venym Search
 
 # Initialize client with your API key
-client = Venym Search(api_key="sk_live_YOUR_API_KEY_key_here")
+client = Venym Search(api_key="sk_live_YOUR_API_KEY_API_KEY_key_here")
 
 # Or use environment variable (recommended)
-# export VENYM_SEARCH_API_KEY="sk_live_YOUR_API_KEY_key_here"
+# export VENYM_SEARCH_API_KEY="sk_live_YOUR_API_KEY_API_KEY_key_here"
 # client = Venym Search()
 
 # SwiftSearch: Real-time web search
@@ -73,18 +73,18 @@ if research.summary:
 
 # Basic configuration with API key
 client = Venym Search(
-    api_key="sk_live_YOUR_API_KEY_key_here"
+    api_key="sk_live_YOUR_API_KEY_API_KEY_key_here"
 )
 
 # Full configuration
 client = Venym Search(
-    api_key="sk_live_YOUR_API_KEY_key_here",
+    api_key="sk_live_YOUR_API_KEY_API_KEY_key_here",
     base_url="https://www.search.venym.io/api/v1",  # Custom endpoint
     timeout=30,  # Request timeout in seconds
 )
 
 # Environment-based configuration (recommended)
-# export VENYM_SEARCH_API_KEY="sk_live_YOUR_API_KEY_key_here"
+# export VENYM_SEARCH_API_KEY="sk_live_YOUR_API_KEY_API_KEY_key_here"
 import os
 client = Venym Search()  # Reads VENYM_SEARCH_API_KEY env var
 
@@ -240,7 +240,7 @@ from VENYM_SEARCH import AsyncVenym Search
 
 async def main():
     # Async client for high-performance applications
-    client = AsyncVenym Search(api_key="sk_live_YOUR_API_KEY_key_here")
+    client = AsyncVenym Search(api_key="sk_live_YOUR_API_KEY_API_KEY_key_here")
     
     try:
         # Async search
@@ -269,14 +269,14 @@ asyncio.run(main())
 
 # Or use context manager (recommended)
 async def with_context_manager():
-    async with AsyncVenym Search(api_key="sk_live_YOUR_API_KEY_key_here") as client:
+    async with AsyncVenym Search(api_key="sk_live_YOUR_API_KEY_API_KEY_key_here") as client:
         results = await client.swift_search("test query")
         return results`
 
   const errorHandlingCode = `from VENYM_SEARCH import Venym Search
 from VENYM_SEARCH.exceptions import VenymSearchError, AuthenticationError, RateLimitError
 
-client = Venym Search(api_key="sk_live_YOUR_API_KEY_key_here")
+client = Venym Search(api_key="sk_live_YOUR_API_KEY_API_KEY_key_here")
 
 try:
     results = client.swift_search("test query")

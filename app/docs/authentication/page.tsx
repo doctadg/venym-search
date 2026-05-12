@@ -22,7 +22,7 @@ export default function AuthenticationPage() {
     python: `import requests
 
 # Your API key from the dashboard
-API_KEY = "sk_live_YOUR_API_KEY"
+API_KEY = "sk_live_YOUR_API_KEY_API_KEY"
 
 # Include API key in headers
 headers = {
@@ -45,7 +45,7 @@ elif response.status_code == 200:
     javascript: `const axios = require('axios');
 
 // Your API key from the dashboard
-const API_KEY = 'sk_live_YOUR_API_KEY';
+const API_KEY = 'sk_live_YOUR_API_KEY_API_KEY';
 
 // Include API key in headers
 const config = {
@@ -71,7 +71,7 @@ try {
   }
 }`,
     bash: `# Your API key from the dashboard
-API_KEY="sk_live_YOUR_API_KEY"
+API_KEY="sk_live_YOUR_API_KEY_API_KEY"
 
 # Include API key in header
 curl -X POST https://www.search.venym.io/api/v1/swiftsearch \\
@@ -119,7 +119,7 @@ const config = {
   headers: { 'Authorization': \`Bearer \$\{API_KEY\}\` }
 };`,
     bash: `# .env file
-VENYM_SEARCH_API_KEY=sk_live_YOUR_API_KEY_key_here
+VENYM_SEARCH_API_KEY=sk_live_YOUR_API_KEY_API_KEY_key_here
 
 # Load in script
 source .env
@@ -241,7 +241,7 @@ curl -H "Authorization: Bearer $VENYM_SEARCH_API_KEY" \\
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-gray-600">Navigate to your dashboard and create a new API key</p>
-                  <p className="text-sm text-gray-500 mt-1">Keys start with <code className="bg-gray-100 px-2 py-1 rounded text-xs">sk_live_YOUR_API_KEY</code></p>
+                  <p className="text-sm text-gray-500 mt-1">Keys start with <code className="bg-gray-100 px-2 py-1 rounded text-xs">sk_live_YOUR_API_KEY_API_KEY</code></p>
                 </div>
                 <Link href="/dashboard">
                   <Button variant="outline" className="border-[#17457c] text-[#17457c] hover:bg-[#17457c] hover:text-white">
@@ -268,7 +268,7 @@ curl -H "Authorization: Bearer $VENYM_SEARCH_API_KEY" \\
           <div>
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Header Format</h3>
             <CodeBlock
-              code="Authorization: Bearer sk_live_YOUR_API_KEY_key_here"
+              code="Authorization: Bearer sk_live_YOUR_API_KEY_API_KEY_key_here"
               language="bash"
               title="Required Authentication Header"
             />

@@ -265,7 +265,7 @@ export default function ScrapeForgeParametersPage() {
 # Basic scraping with minimal parameters
 response = requests.post(
     "https://www.search.venym.io/api/v1/scrapeforge",
-    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_key_here"},
+    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_API_KEY_key_here"},
     json={
         "url": "https://example.com/products",
         "render_js": False,
@@ -282,11 +282,11 @@ const response = await axios.post(
     extract_links: true
   },
   {
-    headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_key_here' }
+    headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_API_KEY_key_here' }
   }
 );`,
     bash: `curl -X POST https://www.search.venym.io/api/v1/scrapeforge \\
-  -H "Authorization": "Bearer: sk_live_YOUR_API_KEY_key_here" \\
+  -H "Authorization": "Bearer: sk_live_YOUR_API_KEY_API_KEY_key_here" \\
   -H "Content-Type: application/json" \\
   -d '{
     "url": "https://example.com/products",
@@ -301,7 +301,7 @@ const response = await axios.post(
 # Advanced scraping with all features
 response = requests.post(
     "https://www.search.venym.io/api/v1/scrapeforge",
-    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_key_here"},
+    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_API_KEY_key_here"},
     json={
         "url": "https://spa-example.com/dashboard",
         "render_js": True,
@@ -362,7 +362,7 @@ const response = await axios.post(
     }
   },
   {
-    headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_key_here' }
+    headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_API_KEY_key_here' }
   }
 );`
   }

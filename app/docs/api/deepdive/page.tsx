@@ -29,7 +29,7 @@ export default function DeepDiveAPIPage() {
 
 response = requests.post(
     "https://www.search.venym.io/api/v1/deepdive",
-    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_key_here"},
+    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_API_KEY_key_here"},
     json={
         "research_query": "Impact of AI on healthcare industry 2025",
         "sources": ["academic", "news", "industry_reports"],
@@ -58,7 +58,7 @@ const response = await axios.post(
     generate_summary: true
   },
   {
-    headers: { 'Authorization': 'Bearer sk_live_YOUR_API_KEY_key_here' }
+    headers: { 'Authorization': 'Bearer sk_live_YOUR_API_KEY_API_KEY_key_here' }
   }
 );
 
@@ -68,7 +68,7 @@ console.log(\`Sources analyzed: \${data.sources_analyzed.length}\`);
 console.log(\`Summary: \${data.executive_summary.substring(0, 200)}...\`);
 console.log(\`Key insights: \${data.key_insights.length}\`);`,
     bash: `curl -X POST https://www.search.venym.io/api/v1/deepdive \\
-  -H "Authorization: Bearer sk_live_YOUR_API_KEY_key_here" \\
+  -H "Authorization: Bearer sk_live_YOUR_API_KEY_API_KEY_key_here" \\
   -H "Content-Type: application/json" \\
   -d '{
     "research_query": "Impact of AI on healthcare industry 2025",
@@ -86,7 +86,7 @@ console.log(\`Key insights: \${data.key_insights.length}\`);`,
 # Comprehensive competitor analysis research
 response = requests.post(
     "https://www.search.venym.io/api/v1/deepdive",
-    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_key_here"},
+    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_API_KEY_key_here"},
     json={
         "research_query": "Shopify vs WooCommerce vs BigCommerce comparison 2025",
         "sources": ["industry_reports", "reviews", "news", "social_media"],
@@ -130,7 +130,7 @@ async function competitorAnalysis() {
         generate_recommendations: true
       },
       {
-        headers: { 'Authorization': 'Bearer sk_live_YOUR_API_KEY_key_here' }
+        headers: { 'Authorization': 'Bearer sk_live_YOUR_API_KEY_API_KEY_key_here' }
       }
     );
 

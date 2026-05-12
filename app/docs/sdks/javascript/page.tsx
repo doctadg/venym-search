@@ -27,7 +27,7 @@ export default function JavaScriptSDKPage() {
   const initCode = `import { Venym Search, VenymSearchError, RateLimitError, AuthenticationError } from 'VENYM_SEARCH-js';
 
 const client = new Venym Search({
-  apiKey: 'sk_live_YOUR_API_KEY_key_here',
+  apiKey: 'sk_live_YOUR_API_KEY_API_KEY_key_here',
   // baseURL: 'https://www.search.venym.io/api/v1', // default
 });`
 

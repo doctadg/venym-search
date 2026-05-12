@@ -27,7 +27,7 @@ export default function ScrapeForgeExamplesPage() {
 # Scraping static HTML content
 response = requests.post(
     "https://www.search.venym.io/api/v1/scrapeforge",
-    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_key_here"},
+    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_API_KEY_key_here"},
     json={
         "url": "https://example-news.com/articles",
         "render_js": False,
@@ -78,7 +78,7 @@ async function scrapeStaticContent() {
         proxy_country: 'US'
       },
       {
-        headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_key_here' }
+        headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_API_KEY_key_here' }
       }
     );
 
@@ -130,7 +130,7 @@ import time
 # Scraping Single Page Application (SPA) with JavaScript rendering
 response = requests.post(
     "https://www.search.venym.io/api/v1/scrapeforge",
-    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_key_here"},
+    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_API_KEY_key_here"},
     json={
         "url": "https://spa-ecommerce.com/products",
         "render_js": True,
@@ -217,7 +217,7 @@ async function scrapeSPAContent() {
         proxy_type: 'residential'
       },
       {
-        headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_key_here' }
+        headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_API_KEY_key_here' }
       }
     );
 
@@ -302,7 +302,7 @@ product_urls = [
 # Bulk request for efficient processing
 response = requests.post(
     "https://www.search.venym.io/api/v1/scrapeforge/bulk",
-    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_key_here"},
+    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_API_KEY_key_here"},
     json={
         "urls": product_urls,
         "render_js": True,
@@ -401,7 +401,7 @@ async function bulkScrapeProducts() {
         proxy_type: 'residential'
       },
       {
-        headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_key_here' }
+        headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_API_KEY_key_here' }
       }
     );
 
@@ -483,7 +483,7 @@ bulkScrapeProducts();`
 # Step 1: Login to get session cookies
 login_response = requests.post(
     "https://www.search.venym.io/api/v1/scrapeforge",
-    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_key_here"},
+    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_API_KEY_key_here"},
     json={
         "url": "https://secure-site.com/login",
         "render_js": True,
@@ -514,7 +514,7 @@ print(f"Retrieved {len(session_cookies)} session cookies")
 # Step 2: Access protected content using session cookies
 protected_response = requests.post(
     "https://www.search.venym.io/api/v1/scrapeforge",
-    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_key_here"},
+    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_API_KEY_key_here"},
     json={
         "url": "https://secure-site.com/dashboard",
         "render_js": True,
@@ -574,7 +574,7 @@ async function scrapeWithAuthentication() {
         }
       },
       {
-        headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_key_here' }
+        headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_API_KEY_key_here' }
       }
     );
 
@@ -607,7 +607,7 @@ async function scrapeWithAuthentication() {
         extract_meta: true
       },
       {
-        headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_key_here' }
+        headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_API_KEY_key_here' }
       }
     );
 

@@ -23,7 +23,7 @@ export default function DocsHomePage() {
     python: `import requests
 
 # Your API key from dashboard
-API_KEY = "sk_live_YOUR_API_KEY_key_here"
+API_KEY = "sk_live_YOUR_API_KEY_API_KEY_key_here"
 
 # Search the web in real-time
 response = requests.post(
@@ -37,7 +37,7 @@ print(f"Found {len(results['search_results'])} results")`,
     javascript: `const axios = require('axios');
 
 // Your API key from dashboard
-const API_KEY = 'sk_live_YOUR_API_KEY_key_here';
+const API_KEY = 'sk_live_YOUR_API_KEY_API_KEY_key_here';
 
 // Search the web in real-time
 const response = await axios.post(
@@ -53,7 +53,7 @@ const response = await axios.post(
 
 console.log(\`Found \${response.data.search_results.length} results\`);`,
     bash: `curl -X POST https://www.search.venym.io/api/v1/swiftsearch \\
-  -H "Authorization": "Bearer: sk_live_YOUR_API_KEY_key_here" \\
+  -H "Authorization": "Bearer: sk_live_YOUR_API_KEY_API_KEY_key_here" \\
   -H "Content-Type: application/json" \\
   -d '{
     "query": "Bitcoin price 2025",

@@ -22,7 +22,7 @@ export default function QuickStartPage() {
     python: `import requests
 
 # Replace with your actual API key from the dashboard
-API_KEY = "sk_live_YOUR_API_KEY_key_here"
+API_KEY = "sk_live_YOUR_API_KEY_API_KEY_key_here"
 
 response = requests.post(
     "https://www.search.venym.io/api/v1/swiftsearch",
@@ -54,7 +54,7 @@ else:
     javascript: `const axios = require('axios');
 
 // Replace with your actual API key from the dashboard
-const API_KEY = 'sk_live_YOUR_API_KEY_key_here';
+const API_KEY = 'sk_live_YOUR_API_KEY_API_KEY_key_here';
 
 async function searchWeb() {
   try {
@@ -92,7 +92,7 @@ async function searchWeb() {
 
 searchWeb();`,
     bash: `# Replace with your actual API key from the dashboard
-API_KEY="sk_live_YOUR_API_KEY_key_here"
+API_KEY="sk_live_YOUR_API_KEY_API_KEY_key_here"
 
 curl -X POST https://www.search.venym.io/api/v1/swiftsearch \
   -H "Authorization: Bearer $API_KEY" \
@@ -106,7 +106,7 @@ curl -X POST https://www.search.venym.io/api/v1/swiftsearch \
   const scrapeCode = {
     python: `import requests
 
-API_KEY = "sk_live_YOUR_API_KEY_key_here"
+API_KEY = "sk_live_YOUR_API_KEY_API_KEY_key_here"
 
 # Scrape a specific webpage
 response = requests.post(
@@ -145,7 +145,7 @@ console.log(\`Content length: \$\{data.primary_content.text.length\} characters\
   const researchCode = {
     python: `import requests
 
-API_KEY = "sk_live_YOUR_API_KEY_key_here"
+API_KEY = "sk_live_YOUR_API_KEY_API_KEY_key_here"
 
 # Research a topic across multiple sources
 response = requests.post(
@@ -234,7 +234,7 @@ console.log(\`Research depth: \$\{response.data.research_depth\}\`);`,
               </div>
               <div className="flex items-center gap-3">
                 <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                <span>Click "Generate API Key" → Copy your key (starts with <code className="bg-gray-100 px-2 py-1 rounded text-sm">sk_live_YOUR_API_KEY</code>)</span>
+                <span>Click "Generate API Key" → Copy your key (starts with <code className="bg-gray-100 px-2 py-1 rounded text-sm">sk_live_YOUR_API_KEY_API_KEY</code>)</span>
               </div>
               <div className="flex items-center gap-3">
                 <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />

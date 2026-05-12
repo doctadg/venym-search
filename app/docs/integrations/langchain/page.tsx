@@ -312,7 +312,7 @@ class BitcoinPriceBot:
 
 # Usage example
 bot = BitcoinPriceBot(
-    VENYM_SEARCH_api_key="sk_live_YOUR_API_KEY_key_here",
+    VENYM_SEARCH_api_key="sk_live_YOUR_API_KEY_API_KEY_key_here",
     openai_api_key="your_openai_key_here"
 )
 

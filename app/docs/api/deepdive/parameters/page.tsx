@@ -280,7 +280,7 @@ export default function DeepDiveParametersPage() {
 # Basic research with minimal parameters
 response = requests.post(
     "https://www.search.venym.io/api/v1/deepdive",
-    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_key_here"},
+    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_API_KEY_key_here"},
     json={
         "research_query": "Benefits of electric vehicles for urban transportation",
         "sources": ["academic", "news", "industry_reports"],
@@ -299,11 +299,11 @@ const response = await axios.post(
     analysis_depth: 'standard'
   },
   {
-    headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_key_here' }
+    headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_API_KEY_key_here' }
   }
 );`,
     bash: `curl -X POST https://www.search.venym.io/api/v1/deepdive \\
-  -H "Authorization": "Bearer: sk_live_YOUR_API_KEY_key_here" \\
+  -H "Authorization": "Bearer: sk_live_YOUR_API_KEY_API_KEY_key_here" \\
   -H "Content-Type: application/json" \\
   -d '{
     "research_query": "Benefits of electric vehicles for urban transportation",
@@ -319,7 +319,7 @@ const response = await axios.post(
 # Comprehensive analysis with all features
 response = requests.post(
     "https://www.search.venym.io/api/v1/deepdive",
-    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_key_here"},
+    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_API_KEY_key_here"},
     json={
         "research_query": "Competitive landscape of cloud computing platforms 2025",
         "sources": ["academic", "news", "industry_reports", "social_media", "financial"],
@@ -368,7 +368,7 @@ const response = await axios.post(
     visualization_data: true
   },
   {
-    headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_key_here' }
+    headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_API_KEY_key_here' }
   }
 );`
   }

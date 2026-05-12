@@ -28,7 +28,7 @@ import json
 # Comprehensive market research with trend analysis
 response = requests.post(
     "https://www.search.venym.io/api/v1/deepdive",
-    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_key_here"},
+    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_API_KEY_key_here"},
     json={
         "research_query": "Electric vehicle market growth and adoption trends 2025",
         "sources": ["industry_reports", "financial", "news", "academic"],
@@ -103,7 +103,7 @@ async function marketResearch() {
         visualization_data: true
       },
       {
-        headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_key_here' }
+        headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_API_KEY_key_here' }
       }
     );
 
@@ -168,7 +168,7 @@ import json
 # Advanced competitive intelligence analysis
 response = requests.post(
     "https://www.search.venym.io/api/v1/deepdive",
-    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_key_here"},
+    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_API_KEY_key_here"},
     json={
         "research_query": "Streaming services competitive landscape 2025",
         "analysis_type": "competitive_analysis",
@@ -262,7 +262,7 @@ async function competitiveAnalysis() {
         export_format: 'pdf'
       },
       {
-        headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_key_here' }
+        headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_API_KEY_key_here' }
       }
     );
 
@@ -344,7 +344,7 @@ import json
 # Academic literature review with citation analysis
 response = requests.post(
     "https://www.search.venym.io/api/v1/deepdive",
-    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_key_here"},
+    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_API_KEY_key_here"},
     json={
         "research_query": "Machine learning applications in medical diagnosis: systematic review",
         "analysis_type": "academic_review",
@@ -441,7 +441,7 @@ async function academicReview() {
         generate_summary: true
       },
       {
-        headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_key_here' }
+        headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_API_KEY_key_here' }
       }
     );
 
@@ -534,7 +534,7 @@ import json
 # Investment due diligence research
 response = requests.post(
     "https://www.search.venym.io/api/v1/deepdive",
-    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_key_here"},
+    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_API_KEY_key_here"},
     json={
         "research_query": "Artificial intelligence startup investment opportunities 2025",
         "sources": ["financial", "industry_reports", "news", "patents"],
@@ -646,7 +646,7 @@ async function investmentResearch() {
         timeframe: '2023-2025'
       },
       {
-        headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_key_here' }
+        headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_API_KEY_key_here' }
       }
     );
 
