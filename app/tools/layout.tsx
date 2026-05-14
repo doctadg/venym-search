@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import Image from 'next/image'
 
 const tools = [
   { title: 'JSON Formatter', href: '/tools/json-formatter', icon: 'json' },
@@ -21,87 +20,65 @@ export default function ToolsLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur">
-        <div className="container mx-auto flex h-16 items-center px-4">
-          <Link href="/" className="flex items-center gap-3 mr-8">
-            <div className="w-8 h-8 relative">
-              <Image
-                src="/VENYM_SEARCH-logo.png"
-                alt="Venym Search"
-                width={32}
-                height={32}
-                className="w-8 h-8"
-              />
-            </div>
-            <span className="font-bold text-xl text-[#17457c]">Venym Search</span>
-            <span className="text-xs px-2 py-0.5 rounded bg-[#efa72d]/10 text-[#efa72d] font-medium border border-[#efa72d]/20">
-              TOOLS
+    <div className="min-h-screen bg-background text-white">
+      <header className="sticky top-0 z-50 w-full border-b border-white/5 bg-background/95 backdrop-blur-md">
+        <div className="max-w-[1400px] mx-auto px-5 md:px-8 py-4 flex items-center gap-6">
+          <Link href="/" className="flex items-center gap-3 shrink-0">
+            <span className="font-bold tracking-[0.3em] text-sm md:text-base">VENYM</span>
+            <span className="hidden sm:inline text-[9px] font-mono uppercase tracking-[0.4em] text-gray-700">
+              / TOOLS
             </span>
           </Link>
-          <nav className="hidden md:flex items-center gap-1">
+          <nav className="hidden lg:flex items-center gap-1 flex-1 overflow-x-auto">
             {tools.map((tool) => (
               <Link
                 key={tool.href}
                 href={tool.href}
-                className="px-3 py-2 text-sm text-gray-600 hover:text-[#17457c] hover:bg-gray-50 rounded-lg transition-colors"
+                className="px-2.5 py-1.5 text-[10px] font-mono uppercase tracking-[0.15em] text-white/40 hover:text-white hover:bg-white/[0.04] transition-colors whitespace-nowrap"
               >
                 {tool.title}
               </Link>
             ))}
           </nav>
-          <div className="ml-auto">
-            <Link
-              href="/tools"
-              className="text-sm text-[#17457c] hover:underline"
-            >
-              All Tools
-            </Link>
-          </div>
+          <Link
+            href="/tools"
+            className="ml-auto shrink-0 text-[10px] font-mono uppercase tracking-[0.3em] text-white/60 hover:text-white transition-colors"
+          >
+            [ ALL TOOLS ]
+          </Link>
         </div>
       </header>
 
-      <div className="container mx-auto">
-        {/* Breadcrumb */}
-        <nav className="px-4 py-3 text-sm text-gray-500 border-b bg-white">
-          <Link href="/" className="hover:text-[#17457c]">
-            Home
-          </Link>
-          <span className="mx-2">/</span>
-          <Link href="/tools" className="hover:text-[#17457c]">
-            Tools
-          </Link>
-        </nav>
+      <nav className="border-b border-white/5 bg-background">
+        <div className="max-w-[1400px] mx-auto px-5 md:px-8 py-3 flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.2em]">
+          <Link href="/" className="text-white/40 hover:text-white transition-colors">Home</Link>
+          <span className="text-white/20">/</span>
+          <Link href="/tools" className="text-white/40 hover:text-white transition-colors">Tools</Link>
+        </div>
+      </nav>
 
-        {/* Main Content */}
-        <main className="max-w-5xl mx-auto px-4 py-8">
-          {children}
-        </main>
-      </div>
+      <main className="max-w-5xl mx-auto px-5 md:px-8 py-10 md:py-14">
+        {children}
+      </main>
 
-      {/* Footer CTA */}
-      <footer className="border-t bg-white mt-16">
-        <div className="container mx-auto px-4 py-8">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="text-sm text-gray-500">
-              Free developer tools powered by{' '}
-              <span className="font-semibold text-[#17457c]">Venym Search</span>
-            </div>
-            <div className="flex items-center gap-4">
-              <Link
-                href="/pricing"
-                className="text-sm text-[#efa72d] hover:text-[#d4911f] font-medium hover:underline"
-              >
-                Explore Venym Search APIs →
-              </Link>
-              <Link
-                href="/docs"
-                className="text-sm text-gray-500 hover:text-[#17457c]"
-              >
-                API Docs
-              </Link>
-            </div>
+      <footer className="border-t border-white/5 mt-16">
+        <div className="max-w-[1400px] mx-auto px-5 md:px-8 py-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="text-[10px] font-mono uppercase tracking-[0.3em] text-gray-600">
+            Free dev tools // powered by <span className="text-white">VENYM</span>
+          </div>
+          <div className="flex items-center gap-6">
+            <Link
+              href="/pricing"
+              className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/70 hover:text-white transition-colors"
+            >
+              Explore the API →
+            </Link>
+            <Link
+              href="/docs"
+              className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/40 hover:text-white transition-colors"
+            >
+              Docs
+            </Link>
           </div>
         </div>
       </footer>

@@ -134,61 +134,64 @@ const tools = [
 export default function ToolsPage() {
   return (
     <div>
-      {/* Hero */}
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-[#17457c] mb-4">
-          Free Developer Tools
+      <div className="mb-12 md:mb-16">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-8 h-[1px] bg-white/20" />
+          <span className="text-[10px] font-mono text-white/40 uppercase tracking-[0.5em]">
+            Free Dev Tools // 00
+          </span>
+        </div>
+        <h1 className="text-4xl md:text-6xl font-display font-medium leading-[0.9] tracking-tighter mb-5">
+          Eleven dev tools. <br />
+          <span className="text-gray-700 italic font-light">Free, in-browser, API-callable.</span>
         </h1>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-          JSON formatting, URL encoding, JWT decoding, regex testing, and more.
-          No signup required. Use in your browser or integrate via API.
+        <p className="text-gray-400 font-sans font-light text-base md:text-lg max-w-2xl leading-relaxed">
+          JSON, URL, Base64, JWT, regex, UUID, cron, user-agent, robots.txt, color.
+          Use in browser, or POST to the API from your agent.
         </p>
       </div>
 
-      {/* Tools Grid */}
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-3 md:gap-4 sm:grid-cols-2">
         {tools.map((tool) => (
           <Link
             key={tool.href}
             href={tool.href}
-            className="group block rounded-xl border bg-white p-6 shadow-sm hover:shadow-md hover:border-[#efa72d]/40 transition-all"
+            className="group block border border-white/5 hover:border-white/10 bg-white/[0.01] hover:bg-white/[0.02] transition-all duration-500 p-5 md:p-6"
           >
             <div className="flex items-start gap-4">
-              <div
-                className={`p-3 rounded-lg ${tool.color} shrink-0`}
-              >
-                <tool.icon className="w-6 h-6" />
+              <div className="p-2.5 border border-white/5 bg-white/[0.02] shrink-0">
+                <tool.icon className="w-5 h-5 text-white/60" strokeWidth={1.25} />
               </div>
               <div className="flex-1 min-w-0">
-                <h2 className="text-lg font-semibold text-gray-900 group-hover:text-[#17457c] mb-1">
+                <h2 className="text-base md:text-lg font-display font-medium text-white tracking-tight mb-2">
                   {tool.title}
                 </h2>
-                <p className="text-sm text-gray-600 leading-relaxed mb-3">
+                <p className="text-sm font-sans font-light text-gray-400 leading-relaxed mb-3">
                   {tool.description}
                 </p>
                 {tool.api && (
-                  <code className="text-xs text-gray-400 font-mono">
+                  <code className="text-[10px] text-white/40 font-mono tracking-wider block truncate">
                     POST {tool.api}
                   </code>
                 )}
               </div>
-              <ArrowRight className="w-5 h-5 text-gray-300 group-hover:text-[#efa72d] transition-colors shrink-0 mt-1" />
+              <ArrowRight className="w-4 h-4 text-white/20 group-hover:text-white/70 transition-colors shrink-0 mt-1" />
             </div>
           </Link>
         ))}
       </div>
 
-      {/* API Note */}
-      <div className="mt-12 rounded-xl border bg-[#17457c]/5 p-6">
-        <h3 className="text-lg font-semibold text-[#17457c] mb-2">
-          Free API Access
-        </h3>
-        <p className="text-sm text-gray-600">
-          All tools are available via free API endpoints — no authentication
-          required. Each endpoint accepts a POST request with a JSON body and
-          returns processed results. Perfect for AI agents, scripts, and
-          automation. Check each tool page for usage examples in curl, Python,
-          and JavaScript.
+      <div className="mt-12 md:mt-16 border border-white/5 bg-white/[0.01] p-6 md:p-8">
+        <div className="flex items-center gap-3 mb-4">
+          <span className="text-[10px] font-mono text-white/40 uppercase tracking-[0.4em]">
+            Free API Access
+          </span>
+          <div className="flex-1 h-[1px] bg-white/5" />
+        </div>
+        <p className="text-sm md:text-base font-sans font-light text-gray-400 leading-relaxed">
+          Every tool is also a free API endpoint — no auth required. POST a JSON
+          body, get processed output. Perfect for piping into AI agent toolchains.
+          See each tool page for curl, Python, and TypeScript examples.
         </p>
       </div>
     </div>

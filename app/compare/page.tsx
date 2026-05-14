@@ -1,74 +1,74 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardFooter,
-} from "@/components/ui/card";
 import { competitors } from "@/lib/compare-data";
 
 
-
-
 export const metadata = {
-
-  title: "Venym Search vs Competitors — Compare Web Scraping & Search APIs",
+  title: "Venym vs Competitors — Web Search & Scrape APIs Compared",
   description:
-    "Side-by-side comparison of Venym Search against SerpAPI, ScrapingBee, Bright Data, Firecrawl, Tavily, and 10 more APIs. See pricing, features, and code examples.",
+    "Side-by-side comparisons with SerpAPI, ScrapingBee, Bright Data, Firecrawl, Tavily, and 10 more. See who wins for AI agent workloads on price, features, and DX.",
 };
 
 export default function ComparePage() {
   return (
-    <section className="mx-auto max-w-6xl px-4 py-20">
-      <div className="mb-14 text-center">
-        <Badge variant="secondary" className="mb-4">
-          Compare
-        </Badge>
-        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
-          Venym Search vs the Competition
-        </h1>
-        <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
-          Honest, detailed comparisons with 15 web scraping &amp; search APIs.
-          See who wins on price, features, and developer experience.
-        </p>
-      </div>
+    <div className="min-h-screen bg-background text-white">
+      <section className="relative overflow-hidden border-b border-white/5">
+        <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
+        <div className="relative max-w-[1400px] mx-auto px-6 md:px-8 py-20 md:py-32">
+          <div className="flex items-center gap-4 mb-8">
+            <div className="w-12 h-[1px] bg-white/20" />
+            <span className="text-[10px] font-mono text-white/40 uppercase tracking-[0.5em]">
+              Compare // 06
+            </span>
+          </div>
+          <h1 className="text-4xl md:text-[6rem] font-display font-medium leading-[0.85] tracking-tighter mb-6">
+            Venym vs <br />
+            <span className="text-gray-700 italic font-light">the rest of the field.</span>
+          </h1>
+          <p className="text-gray-400 font-sans font-light text-base md:text-xl max-w-2xl leading-relaxed">
+            Honest comparisons with 15 search and scrape APIs. See who actually
+            wins for AI agent workloads — price, features, latency, DX.
+          </p>
+        </div>
+      </section>
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {competitors.map((c) => (
-          <Link key={c.slug} href={`/compare/${c.slug}`} className="group">
-            <Card className="flex h-full flex-col transition-colors hover:border-primary/60">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-xl">
-                  {c.name}
-                  <ArrowRight className="h-4 w-4 opacity-0 transition-opacity group-hover:opacity-100" />
-                </CardTitle>
-                <CardDescription className="line-clamp-3">
+      <section className="max-w-[1400px] mx-auto px-6 md:px-8 py-16 md:py-24">
+        <div className="grid gap-3 md:gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {competitors.map((c) => (
+            <Link key={c.slug} href={`/compare/${c.slug}`} className="group block">
+              <div className="h-full flex flex-col border border-white/5 hover:border-white/10 bg-white/[0.01] hover:bg-white/[0.02] transition-all duration-500 p-6 md:p-7">
+                <div className="flex items-center gap-2 mb-3">
+                  <h3 className="text-lg md:text-xl font-display font-medium text-white tracking-tight">
+                    Venym vs {c.name}
+                  </h3>
+                  <ArrowRight className="h-4 w-4 text-white/30 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </div>
+                <p className="text-sm font-sans font-light text-gray-400 leading-relaxed mb-5 line-clamp-3 flex-1">
                   {c.description}
-                </CardDescription>
-              </CardHeader>
-              <CardFooter className="mt-auto flex-col items-start gap-3 pt-2">
-                <div className="flex flex-wrap gap-1.5">
+                </p>
+                <div className="flex flex-wrap gap-2 mb-4">
                   {c.features.slice(0, 3).map((f) => (
-                    <Badge key={f} variant="outline" className="text-xs">
+                    <span
+                      key={f}
+                      className="text-[10px] font-mono text-white/50 uppercase tracking-[0.15em] px-2 py-1 border border-white/5 bg-white/[0.02]"
+                    >
                       {f}
-                    </Badge>
+                    </span>
                   ))}
                 </div>
-                <div className="flex w-full items-center justify-between text-sm">
-                  <span className="text-muted-foreground">{c.pricing}</span>
-                  <Button variant="ghost" size="sm" className="text-xs">
+                <div className="flex w-full items-center justify-between pt-4 border-t border-white/5 mt-auto">
+                  <span className="text-[10px] font-mono text-white/40 uppercase tracking-[0.2em] truncate pr-3">
+                    {c.pricing}
+                  </span>
+                  <span className="text-[10px] font-mono text-white/70 uppercase tracking-[0.3em] whitespace-nowrap">
                     Compare →
-                  </Button>
+                  </span>
                 </div>
-              </CardFooter>
-            </Card>
-          </Link>
-        ))}
-      </div>
-    </section>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+    </div>
   );
 }

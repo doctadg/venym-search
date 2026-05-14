@@ -1,18 +1,14 @@
 import Link from 'next/link'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import { solutions } from '@/lib/solutions-data'
 import type { Metadata } from 'next'
 
 
 export const metadata: Metadata = {
-
-  title: 'Integrations - Venym Search',
-  description: 'Integrate Venym Search with LangChain, CrewAI, n8n, Zapier, OpenAI, and more. Connect web data to your favorite tools.',
+  title: 'Agent Integrations — LangChain, MCP, OpenAI, n8n',
+  description: 'Drop Venym into your agent stack. First-class tools for LangChain, LlamaIndex, MCP, OpenAI tool-calls, plus native nodes for n8n, Zapier, Make, Pipedream.',
   openGraph: {
-    title: 'Venym Search Integrations',
-    description: 'Connect Venym Search to your favorite AI and automation tools.',
+    title: 'Venym — Agent Integrations',
+    description: 'Drop web search and scrape into LangChain, MCP, OpenAI tool-calls, n8n, Zapier, Make.',
   }
 }
 
@@ -43,52 +39,77 @@ export default function SolutionsPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <div className="min-h-screen bg-background text-foreground">
-        <section className="relative overflow-hidden border-b">
-          <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent" />
-          <div className="container relative py-20 md:py-28">
-            <div className="mx-auto max-w-3xl text-center">
-              <Badge variant="secondary" className="mb-4">Integrations</Badge>
-              <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-                Connect to Your <span className="text-primary/80">Stack</span>
-              </h1>
-              <p className="mt-6 text-lg text-muted-foreground">
-                Venym Search integrates with the tools you already use — AI frameworks, automation platforms, and LLM providers.
-              </p>
+      <div className="min-h-screen bg-background text-white">
+        <section className="relative overflow-hidden border-b border-white/5">
+          <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
+          <div className="relative max-w-[1400px] mx-auto px-6 md:px-8 py-20 md:py-32">
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-12 h-[1px] bg-white/20" />
+              <span className="text-[10px] font-mono text-white/40 uppercase tracking-[0.5em]">
+                Agent Integrations // 04
+              </span>
             </div>
+            <h1 className="text-4xl md:text-[6rem] font-display font-medium leading-[0.85] tracking-tighter mb-6">
+              Plugs into <br />
+              <span className="text-gray-700 italic font-light">every agent stack.</span>
+            </h1>
+            <p className="text-gray-400 font-sans font-light text-base md:text-xl max-w-2xl leading-relaxed">
+              Drop Venym into LangChain, MCP, OpenAI tool-calls, LlamaIndex.
+              Wire it through n8n, Zapier, Make, Pipedream. The endpoints look
+              like any HTTP API — because they are.
+            </p>
           </div>
         </section>
 
-        <section className="container py-16">
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <section className="max-w-[1400px] mx-auto px-6 md:px-8 py-16 md:py-24">
+          <div className="grid gap-3 md:gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {solutions.map((s) => (
-              <Link key={s.slug} href={`/solutions/${s.slug}`}>
-                <Card className="h-full transition-all hover:shadow-lg hover:border-primary/30 cursor-pointer">
-                  <CardHeader>
-                    <div className="text-3xl mb-2">{iconMap[s.icon] || '🔌'}</div>
-                    <CardTitle className="text-xl">{s.title}</CardTitle>
-                    <CardDescription>{s.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex flex-wrap gap-2">
-                      {s.features.slice(0, 3).map((f) => (
-                        <Badge key={f} variant="outline" className="text-xs">{f}</Badge>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
+              <Link key={s.slug} href={`/solutions/${s.slug}`} className="group block">
+                <div className="h-full flex flex-col border border-white/5 hover:border-white/10 bg-white/[0.01] hover:bg-white/[0.02] transition-all duration-500 p-6 md:p-7">
+                  <div className="text-2xl mb-4">{iconMap[s.icon] || '🔌'}</div>
+                  <h3 className="text-lg md:text-xl font-display font-medium text-white tracking-tight mb-2">
+                    {s.title}
+                  </h3>
+                  <p className="text-sm font-sans font-light text-gray-400 leading-relaxed mb-5 flex-1">
+                    {s.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2 mt-auto pt-4 border-t border-white/5">
+                    {s.features.slice(0, 3).map((f) => (
+                      <span
+                        key={f}
+                        className="text-[10px] font-mono text-white/50 uppercase tracking-[0.15em] px-2 py-1 border border-white/5 bg-white/[0.02]"
+                      >
+                        {f}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </Link>
             ))}
           </div>
         </section>
 
-        <section className="border-t bg-muted/30">
-          <div className="container py-16 text-center">
-            <h2 className="text-3xl font-bold">Don't see your tool?</h2>
-            <p className="mt-4 text-muted-foreground">Venym Search works with any HTTP client. Check our REST API docs.</p>
-            <div className="mt-8 flex justify-center gap-4">
-              <Button size="lg" asChild><Link href="/docs">API Documentation</Link></Button>
-              <Button size="lg" variant="outline" asChild><Link href="/pricing">View Pricing</Link></Button>
+        <section className="border-t border-white/5 bg-background">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-8 py-20 md:py-28 text-center">
+            <h2 className="text-3xl md:text-5xl font-display font-medium leading-[0.85] tracking-tighter mb-6">
+              Don't see your stack?
+            </h2>
+            <p className="text-gray-400 font-sans font-light text-base md:text-lg max-w-xl mx-auto leading-relaxed mb-10">
+              Venym is a plain HTTP API. If your agent can fetch, it can read the web.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/docs"
+                className="px-8 py-4 bg-white text-black text-[10px] font-mono uppercase tracking-[0.3em] font-bold hover:bg-gray-200 transition-colors"
+              >
+                [ READ THE DOCS ]
+              </Link>
+              <Link
+                href="/pricing"
+                className="px-8 py-4 border border-white/10 text-white text-[10px] font-mono uppercase tracking-[0.3em] hover:bg-white/5 transition-all"
+              >
+                [ VIEW PRICING ]
+              </Link>
             </div>
           </div>
         </section>
