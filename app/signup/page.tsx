@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { useUser, useSignUp } from "@clerk/nextjs";
+import { useUser, useClerk } from "@clerk/nextjs";
 
 
 
@@ -62,10 +62,9 @@ interface FormData {
 }
 
 export default function SignupPage() {
-  const { user, isLoaded } = useUser();
-  const { isLoaded: signUpLoaded, signUp, setActive } = useSignUp();
+  const { user } = useUser();
+  const clerk = useClerk();
   const isAuthenticated = !!user;
-  const authLoading = !isLoaded;
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -86,10 +85,10 @@ export default function SignupPage() {
   const progressValue = (currentStep / totalSteps) * 100;
 
   useEffect(() => {
-    if (!authLoading && isAuthenticated) {
+    if (isAuthenticated) {
       router.push("/dashboard");
     }
-  }, [authLoading, isAuthenticated, router]);
+  }, [isAuthenticated, router]);
 
   const updateFormData = (field: keyof FormData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -108,7 +107,11 @@ export default function SignupPage() {
   };
 
   const handleSubmit = async () => {
-    if (!signUpLoaded || !signUp) return;
+    const signUp = clerk.client?.signUp;
+    if (!signUp) {
+      setError("Authentication is still initializing. Please try again in a moment.");
+      return;
+    }
 
     setError("");
     setLoading(true);
@@ -117,6 +120,12 @@ export default function SignupPage() {
       const signUpAttempt = await signUp.create({
         emailAddress: formData.email,
         password: formData.password,
+        unsafeMetadata: {
+          full_name: formData.fullName,
+          company: formData.company,
+          plan: formData.planId || 'free',
+          use_case: formData.useCase
+        }
       });
 
       if (signUpAttempt.status === 'missing_requirements') {
@@ -127,20 +136,7 @@ export default function SignupPage() {
       }
 
       if (signUpAttempt.status === 'complete') {
-        await setActive({ session: signUpAttempt.createdSessionId });
-
-        try {
-          await signUp.update({
-            unsafeMetadata: {
-              full_name: formData.fullName,
-              company: formData.company,
-              plan: formData.planId || 'free',
-              use_case: formData.useCase
-            }
-          });
-        } catch (metadataError) {
-          console.warn('Failed to store user metadata:', metadataError);
-        }
+        await clerk.setActive({ session: signUpAttempt.createdSessionId });
 
         if (formData.planId && formData.planId !== "") {
           const selectedPlan = plans.find(p => p.id === formData.planId);
@@ -189,13 +185,6 @@ export default function SignupPage() {
     }
   };
 
-  if (authLoading) {
-    return (
-      <div className="min-h-screen bg-[#050505] flex items-center justify-center">
-        <Loader2 className="h-6 w-6 animate-spin text-white/40" />
-      </div>
-    );
-  }
 
   const selectedPlan = plans.find(p => p.id === formData.planId);
 

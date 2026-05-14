@@ -2,13 +2,13 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { useSignIn, useUser } from '@clerk/nextjs'
+import { useClerk, useUser } from '@clerk/nextjs'
 import { AlertCircle, Loader2, ArrowLeft } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 
 export default function LoginPage() {
-  const { isLoaded, signIn, setActive } = useSignIn()
+  const clerk = useClerk()
   const { user } = useUser()
   const router = useRouter()
 
@@ -25,7 +25,11 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!isLoaded || !signIn) return
+    const signIn = clerk.client?.signIn
+    if (!signIn) {
+      setError('Authentication is still initializing. Please try again in a moment.')
+      return
+    }
 
     setError('')
     setLoading(true)
@@ -37,7 +41,7 @@ export default function LoginPage() {
       })
 
       if (signInAttempt.status === 'complete') {
-        await setActive({ session: signInAttempt.createdSessionId })
+        await clerk.setActive({ session: signInAttempt.createdSessionId })
 
         await fetch('/api/auth/sync-user', {
           method: 'POST'
@@ -52,14 +56,6 @@ export default function LoginPage() {
     } finally {
       setLoading(false)
     }
-  }
-
-  if (!isLoaded) {
-    return (
-      <div className="min-h-screen bg-[#050505] flex items-center justify-center">
-        <Loader2 className="h-6 w-6 animate-spin text-white/40" />
-      </div>
-    )
   }
 
   return (
