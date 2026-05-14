@@ -78,10 +78,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ClerkProvider>
+        <ClerkProvider dynamic>
           {children}
+          <Toaster />
         </ClerkProvider>
-        <Toaster />
         <Analytics />
         <SpeedInsights />
         <script
