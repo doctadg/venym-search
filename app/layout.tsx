@@ -70,48 +70,48 @@ export const metadata: Metadata = {
   manifest: '/site.webmanifest',
 }
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const clerkProviderElement = await ClerkProvider({ children })
-
   return (
-    <html lang="en">
-      <body>
-        {clerkProviderElement}
-        <Toaster />
-        <Analytics />
-        <SpeedInsights />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify([
-              {
-                "@context": "https://schema.org",
-                "@type": "Organization",
-                name: "Venym Search",
-                url: "https://search.venym.io",
-                logo: "https://search.venym.io/logo.png",
-                description: "Enterprise web scraping APIs for modern developers. Search, scrape, and research the web with AI-powered tools.",
-                sameAs: [],
-              },
-              {
-                "@context": "https://schema.org",
-                "@type": "WebSite",
-                name: "Venym Search",
-                url: "https://search.venym.io",
-                potentialAction: {
-                  "@type": "SearchAction",
-                  target: "https://search.venym.io/docs/api/search?q={search_term_string}",
-                  "query-input": "required name=search_term_string",
+    <ClerkProvider>
+      <html lang="en">
+        <body>
+          {children}
+          <Toaster />
+          <Analytics />
+          <SpeedInsights />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify([
+                {
+                  "@context": "https://schema.org",
+                  "@type": "Organization",
+                  name: "Venym Search",
+                  url: "https://search.venym.io",
+                  logo: "https://search.venym.io/logo.png",
+                  description: "Enterprise web scraping APIs for modern developers. Search, scrape, and research the web with AI-powered tools.",
+                  sameAs: [],
                 },
-              },
-            ]),
-          }}
-        />
-      </body>
-    </html>
+                {
+                  "@context": "https://schema.org",
+                  "@type": "WebSite",
+                  name: "Venym Search",
+                  url: "https://search.venym.io",
+                  potentialAction: {
+                    "@type": "SearchAction",
+                    target: "https://search.venym.io/docs/api/search?q={search_term_string}",
+                    "query-input": "required name=search_term_string",
+                  },
+                },
+              ]),
+            }}
+          />
+        </body>
+      </html>
+    </ClerkProvider>
   )
 }
