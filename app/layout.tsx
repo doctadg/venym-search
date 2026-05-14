@@ -76,42 +76,42 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body>
+    <html lang="en">
+      <body>
+        <ClerkProvider>
           {children}
-          <Toaster />
-          <Analytics />
-          <SpeedInsights />
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify([
-                {
-                  "@context": "https://schema.org",
-                  "@type": "Organization",
-                  name: "Venym Search",
-                  url: "https://search.venym.io",
-                  logo: "https://search.venym.io/logo.png",
-                  description: "Enterprise web scraping APIs for modern developers. Search, scrape, and research the web with AI-powered tools.",
-                  sameAs: [],
+        </ClerkProvider>
+        <Toaster />
+        <Analytics />
+        <SpeedInsights />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify([
+              {
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                name: "Venym Search",
+                url: "https://search.venym.io",
+                logo: "https://search.venym.io/logo.png",
+                description: "Enterprise web scraping APIs for modern developers. Search, scrape, and research the web with AI-powered tools.",
+                sameAs: [],
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                name: "Venym Search",
+                url: "https://search.venym.io",
+                potentialAction: {
+                  "@type": "SearchAction",
+                  target: "https://search.venym.io/docs/api/search?q={search_term_string}",
+                  "query-input": "required name=search_term_string",
                 },
-                {
-                  "@context": "https://schema.org",
-                  "@type": "WebSite",
-                  name: "Venym Search",
-                  url: "https://search.venym.io",
-                  potentialAction: {
-                    "@type": "SearchAction",
-                    target: "https://search.venym.io/docs/api/search?q={search_term_string}",
-                    "query-input": "required name=search_term_string",
-                  },
-                },
-              ]),
-            }}
-          />
-        </body>
-      </html>
-    </ClerkProvider>
+              },
+            ]),
+          }}
+        />
+      </body>
+    </html>
   )
 }
