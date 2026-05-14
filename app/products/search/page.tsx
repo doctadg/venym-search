@@ -1,53 +1,132 @@
 'use client'
 
-import Link from "next/link"
-import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet"
+import Link from 'next/link'
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useUser } from '@clerk/nextjs'
 import {
   Search,
-  Zap,
-  Target,
-  CheckCircle,
-  ArrowRight,
-  Code2,
-  Globe,
-  Users,
-  TrendingUp,
-  Clock,
-  Shield,
-  Star,
-  Lightbulb,
-  BarChart3,
-  Database,
   Mail,
-  Smartphone,
-  Link2,
+  Users,
   Share2,
-  ChevronDown,
-  Menu,
-} from "lucide-react"
-import { useUser } from "@clerk/nextjs"
-import { useState } from "react"
+  Database,
+  Zap,
+  TrendingUp,
+  Globe,
+  Code2,
+  BarChart3,
+  Lightbulb,
+} from 'lucide-react'
 import { structuredData } from './metadata'
-export default function SearchPage() {
-  const { user, isLoaded } = useUser()
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+const FEATURES = [
+  {
+    id: '01',
+    codename: 'PARALLEL FAN-OUT',
+    class: 'CLASS::SEARCH',
+    description:
+      'Eight backbone search engines queried in parallel. Results deduped, ranked, and merged. One endpoint replaces every brittle scraper you built last quarter.',
+    metrics: ['8 ENGINES', 'SUB-2s LATENCY', '2 CREDITS / REQ'],
+    output: 'QUERY → MERGED RESULTS',
+  },
+  {
+    id: '02',
+    codename: 'AUTO-SCRAPE',
+    class: 'CLASS::EXTRACTION',
+    description:
+      'Optionally scrape the top N results in the same call. Headless rendering, anti-bot evasion, clean markdown extraction. No second round-trip.',
+    metrics: ['JS-RENDERED', 'ANTI-BOT', '5 CREDITS / PAGE'],
+    output: 'RESULTS → FULL CONTENT',
+  },
+  {
+    id: '03',
+    codename: 'CONTACT INTEL',
+    class: 'CLASS::ENRICHMENT',
+    description:
+      'Email addresses, phone numbers, company info — extracted from page bodies with confidence scoring. Drop into your CRM without a parser.',
+    metrics: ['EMAIL + PHONE', 'CONFIDENCE SCORE', 'STRUCTURED OUT'],
+    output: 'PAGE → CONTACT BLOCK',
+  },
+  {
+    id: '04',
+    codename: 'SOCIAL DISCOVERY',
+    class: 'CLASS::IDENTITY',
+    description:
+      'LinkedIn, X, GitHub, YouTube — official handles surfaced from extracted page metadata and structured markup. One pass, every platform.',
+    metrics: ['LINKEDIN + X', 'GITHUB + YT', 'AUTO-LINKED'],
+    output: 'PAGE → SOCIAL GRAPH',
+  },
+]
+
+const USE_CASES = [
+  {
+    icon: Users,
+    title: 'Lead generation',
+    body: 'Search for companies in a niche, auto-scrape the top hits, harvest contact + social data — one HTTP call replaces a Zap of ten tools.',
+    tag: 'Used by 2,400+ sales teams',
+  },
+  {
+    icon: BarChart3,
+    title: 'Market research',
+    body: 'Pull live competitive context for any prompt. Frontier models stay grounded in fresh, citation-ready evidence instead of stale training data.',
+    tag: 'Used by 890+ analyst seats',
+  },
+  {
+    icon: Lightbulb,
+    title: 'Content + briefings',
+    body: 'Spin up topic dossiers, daily briefs, and newsletter drafts. Search returns merged sources, scrape returns clean markdown the LLM can chew on.',
+    tag: 'Used by 1,200+ creators',
+  },
+  {
+    icon: Code2,
+    title: 'Agent grounding',
+    body: 'Drop straight into LangChain, MCP, or any tool-call loop. The model asks for context, Search returns it, the agent stops hallucinating.',
+    tag: 'Used by 340+ AI teams',
+  },
+]
+
+const PLANS = [
+  {
+    name: 'FREE',
+    price: '$0',
+    credits: '500 credits',
+    body: 'Prototype, kick the tires, ship a demo.',
+    features: ['Search + basic scrape', 'Community support', 'Standard rate limits'],
+    popular: false,
+    cta: 'START FREE',
+  },
+  {
+    name: 'STARTER',
+    price: '$9',
+    credits: '5K credits / mo',
+    body: 'For side projects and small agent loops.',
+    features: ['Contact extraction', 'Email support', 'Higher rate limits'],
+    popular: true,
+    cta: 'GET STARTED',
+  },
+  {
+    name: 'BUILDER',
+    price: '$49',
+    credits: '100K credits / mo',
+    body: 'For production traffic at startup scale.',
+    features: ['Social discovery', 'Priority routing', 'Dedicated support'],
+    popular: false,
+    cta: 'GET STARTED',
+  },
+  {
+    name: 'UNICORN',
+    price: '$199',
+    credits: '500K credits / mo',
+    body: 'For teams running agents at volume.',
+    features: ['Custom integrations', 'SLA + audit logs', 'Dedicated engineer'],
+    popular: false,
+    cta: 'GET STARTED',
+  },
+]
+
+export default function SearchProductPage() {
+  const { isSignedIn } = useUser()
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
     <>
@@ -55,809 +134,431 @@ export default function SearchPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
-      
-      <div className="flex flex-col min-h-screen bg-[#17457c] text-[#edf3f1]">
-        {/* Header - Same as landing page */}
-        <header className="px-4 lg:px-6 h-16 md:h-20 flex items-center justify-between border-b-4 border-[#efa72d] bg-[#17457c]">
-          <Link href="/" className="flex items-center">
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 md:w-12 md:h-12 relative">
-                <Image
-                  src="/venym.png"
-                  alt="Venym Search Logo"
-                  width={48}
-                  height={48}
-                  className="w-8 h-8 md:w-12 md:h-12 brightness-0 invert"
-                />
-              </div>
-              <span className="font-black text-base sm:text-lg md:text-2xl tracking-tight">VENYM_SEARCH</span>
-            </div>
+
+      <div className="relative w-full bg-background text-white selection:bg-white selection:text-black font-sans min-h-screen">
+        <div className="fixed inset-0 bg-noise opacity-[0.04] pointer-events-none z-[60]" />
+
+        {/* NAV */}
+        <nav className="w-full flex justify-between items-center px-5 md:px-8 py-4 md:py-6 text-[9px] md:text-xs uppercase tracking-[0.2em] font-mono text-gray-500 bg-background/95 backdrop-blur-md z-50 sticky top-0 border-b border-white/5">
+          <Link href="/" className="flex items-center gap-3">
+            <span className="text-white font-bold tracking-[0.3em] text-sm md:text-base">
+              VENYM
+            </span>
+            <span className="hidden sm:inline text-gray-700 tracking-[0.4em]">/ SEARCH</span>
           </Link>
-          {/* Desktop Navigation */}
-          <nav className="absolute left-1/2 transform -translate-x-1/2 hidden lg:flex gap-6 xl:gap-8 items-center">
-            <DropdownMenu>
-              <DropdownMenuTrigger className="text-base xl:text-lg font-black hover:text-[#efa72d] transition-colors border-b-2 border-transparent hover:border-[#efa72d] pb-1 text-[#edf3f1] flex items-center gap-1 bg-transparent">
-                PRODUCTS
-                <ChevronDown className="h-4 w-4" />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent 
-                align="center" 
-                className="bg-[#17457c] border-2 border-[#efa72d] shadow-[4px_4px_0px_0px_#efa72d] mt-2"
-              >
-                <DropdownMenuItem asChild>
-                  <Link
-                    href="/products/search"
-                    className="text-base font-black text-[#efa72d] hover:bg-[#6b839a] cursor-pointer focus:bg-[#6b839a] flex items-center gap-2"
-                  >
-                    <Search className="h-4 w-4" />
-                    SEARCH
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link
-                    href="/products/scrape"
-                    className="text-base font-black text-[#edf3f1] hover:text-[#efa72d] hover:bg-[#6b839a] cursor-pointer focus:bg-[#6b839a] focus:text-[#efa72d] flex items-center gap-2"
-                  >
-                    <Code2 className="h-4 w-4" />
-                    SCRAPE
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link
-                    className="text-base font-black text-[#edf3f1] hover:text-[#efa72d] hover:bg-[#6b839a] cursor-pointer focus:bg-[#6b839a] focus:text-[#efa72d] flex items-center gap-2"
-                  >
-                    <Database className="h-4 w-4" />
-                  </Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-            <Link
-              href="/docs"
-              className="text-base xl:text-lg font-black hover:text-[#efa72d] transition-colors border-b-2 border-transparent hover:border-[#efa72d] pb-1 text-[#edf3f1]"
-            >
+
+          <div className="hidden md:flex gap-8 items-center">
+            <Link href="/products/search" className="text-white">
+              SEARCH
+            </Link>
+            <Link href="/products/scrape" className="hover:text-white transition-colors">
+              SCRAPE
+            </Link>
+            <Link href="/docs" className="hover:text-white transition-colors">
               DOCS
             </Link>
-            <Link
-              href="/blog"
-              className="text-base xl:text-lg font-black hover:text-[#efa72d] transition-colors border-b-2 border-transparent hover:border-[#efa72d] pb-1 text-[#edf3f1]"
-            >
-              BLOG
-            </Link>
-            <Link
-              href="/pricing"
-              className="text-base xl:text-lg font-black hover:text-[#efa72d] transition-colors border-b-2 border-transparent hover:border-[#efa72d] pb-1 text-[#edf3f1]"
-            >
+            <Link href="/pricing" className="hover:text-white transition-colors">
               PRICING
             </Link>
-          </nav>
-          {/* Authentication buttons - positioned on the right */}
-          <div className="ml-auto hidden lg:flex gap-4 items-center">
-            {!isLoaded ? (
-              <div className="w-16 h-8 bg-gray-600 animate-pulse rounded"></div>
-            ) : user ? (
-              <Link href="/dashboard">
-                <Button className="bg-[#efa72d] hover:bg-[#d4941f] text-[#17457c] font-black border-2 border-black shadow-[2px_2px_0px_0px_#000000]">
-                  DASHBOARD
-                  <ArrowRight className="h-4 w-4 ml-2" />
-                </Button>
-              </Link>
-            ) : (
-              <div className="flex gap-4 items-center">
-                <Link
-                  href="/login"
-                  className="text-base xl:text-lg font-black hover:text-[#efa72d] transition-colors border-b-2 border-transparent hover:border-[#efa72d] pb-1 text-[#edf3f1]"
-                >
-                  LOGIN
-                </Link>
-                <Link href="/signup">
-                  <Button className="bg-[#efa72d] hover:bg-[#d4941f] text-[#17457c] font-black border-2 border-black shadow-[2px_2px_0px_0px_#000000] px-6">
-                    START FREE TRIAL
-                    <Target className="h-4 w-4 ml-2" />
-                  </Button>
-                </Link>
-              </div>
-            )}
+            <Link
+              href={isSignedIn ? '/dashboard' : '/signup'}
+              className="px-4 py-2 bg-white text-black text-[9px] font-mono font-bold tracking-[0.3em]"
+            >
+              {isSignedIn ? 'DASHBOARD' : 'GET API KEY'}
+            </Link>
           </div>
-          {/* Mobile Navigation */}
-          <div className="flex lg:hidden items-center gap-2">
-            {!isLoaded ? (
-              <div className="w-20 h-8 bg-gray-600 animate-pulse rounded"></div>
-            ) : user ? (
-              <Link href="/dashboard">
-                <Button size="sm" className="bg-[#efa72d] text-[#17457c] font-black text-xs px-3 py-2 border-2 border-[#edf3f1] shadow-[2px_2px_0px_0px_#edf3f1]">
-                  DASHBOARD
-                </Button>
-              </Link>
-            ) : (
-              <Link href="/signup">
-                <Button size="sm" className="bg-[#efa72d] text-[#17457c] font-black text-xs px-3 py-2 border-2 border-[#edf3f1] shadow-[2px_2px_0px_0px_#edf3f1]">
-                  START FREE
-                </Button>
-              </Link>
-            )}
-            <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="sm" className="p-2">
-                  <Menu className="h-5 w-5 text-[#efa72d]" />
-                  <span className="sr-only">Toggle menu</span>
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right" className="bg-[#17457c] border-l-4 border-[#efa72d] w-[250px] sm:w-[300px]">
-                <SheetHeader>
-                  <SheetTitle className="text-[#efa72d] font-black text-xl">MENU</SheetTitle>
-                </SheetHeader>
-                <nav className="mt-6 flex flex-col gap-4">
-                  <div className="space-y-2">
-                    <div className="font-black text-[#efa72d] text-sm mb-2">PRODUCTS</div>
-                    <Link
-                      href="/products/search"
-                      onClick={() => setIsMenuOpen(false)}
-                      className="flex items-center gap-2 text-[#efa72d] hover:text-[#efa72d] font-bold py-2 px-4 border-l-4 border-[#efa72d] transition-all"
-                    >
-                      <Search className="h-4 w-4" />
-                      SEARCH
-                    </Link>
-                    <Link
-                      href="/products/scrape"
-                      onClick={() => setIsMenuOpen(false)}
-                      className="flex items-center gap-2 text-[#edf3f1] hover:text-[#efa72d] font-bold py-2 px-4 border-l-4 border-transparent hover:border-[#efa72d] transition-all"
-                    >
-                      <Code2 className="h-4 w-4" />
-                      SCRAPE
-                    </Link>
-                    <Link
-                      onClick={() => setIsMenuOpen(false)}
-                      className="flex items-center gap-2 text-[#edf3f1] hover:text-[#efa72d] font-bold py-2 px-4 border-l-4 border-transparent hover:border-[#efa72d] transition-all"
-                    >
-                      <Database className="h-4 w-4" />
-                    </Link>
-                  </div>
-                  <Link
-                    href="/pricing"
-                    onClick={() => setIsMenuOpen(false)}
-                    className="text-[#edf3f1] hover:text-[#efa72d] font-black py-2 px-4 border-l-4 border-transparent hover:border-[#efa72d] transition-all"
-                  >
-                    PRICING
-                  </Link>
-                  <Link
-                    href="/blog"
-                    onClick={() => setIsMenuOpen(false)}
-                    className="text-[#edf3f1] hover:text-[#efa72d] font-black py-2 px-4 border-l-4 border-transparent hover:border-[#efa72d] transition-all"
-                  >
-                    BLOG
-                  </Link>
-                  <Link
-                    href="/docs"
-                    onClick={() => setIsMenuOpen(false)}
-                    className="text-[#edf3f1] hover:text-[#efa72d] font-black py-2 px-4 border-l-4 border-transparent hover:border-[#efa72d] transition-all"
-                  >
-                    DOCS
-                  </Link>
-                  {!user && (
-                    <>
-                      <div className="h-px bg-[#efa72d] my-2"></div>
-                      <Link
-                        href="/login"
-                        onClick={() => setIsMenuOpen(false)}
-                        className="text-[#edf3f1] hover:text-[#efa72d] font-black py-2 px-4 border-l-4 border-transparent hover:border-[#efa72d] transition-all"
-                      >
-                        LOGIN
-                      </Link>
-                    </>
-                  )}
-                </nav>
-              </SheetContent>
-            </Sheet>
-          </div>
-        </header>
 
-        <main className="flex-1">
-          {/* Hero Section */}
-          <section className="w-full py-10 sm:py-16 md:py-32 bg-[#17457c] relative overflow-hidden">
-            <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(239,167,45,0.1)_25%,rgba(239,167,45,0.1)_50%,transparent_50%,transparent_75%,rgba(239,167,45,0.1)_75%)] bg-[length:20px_20px]"></div>
-            <div className="container px-4 md:px-6 relative z-10 mx-auto max-w-7xl">
-              <div className="flex flex-col lg:flex-row items-center gap-12">
-                <div className="flex-1 space-y-8">
-                  <div className="space-y-6">
-                    <Badge className="bg-[#efa72d] text-[#17457c] font-black text-lg px-6 py-3 border-4 border-[#edf3f1] shadow-[6px_6px_0px_0px_#edf3f1]">
-                      <Search className="w-5 h-5 mr-2" />
-                      MOST POPULAR API
-                    </Badge>
-                    <h1 className="text-5xl md:text-7xl font-black tracking-tighter leading-none">
-                      <span className="block text-[#efa72d]">SEARCH</span>
-                      <span className="block">SEARCH + SCRAPE</span>
-                      <span className="block">IN ONE CALL</span>
-                    </h1>
-                    <p className="text-xl md:text-2xl font-bold leading-relaxed max-w-2xl">
-                      Get Google search results AND automatically scrape full content from each page. 
-                      Extract contacts, social profiles, and rich data—all in a single API request.
-                    </p>
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden flex flex-col gap-[5px] p-2"
+            aria-label="Toggle menu"
+          >
+            <motion.span
+              animate={mobileMenuOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
+              className="block w-5 h-[1px] bg-white origin-center"
+            />
+            <motion.span
+              animate={mobileMenuOpen ? { opacity: 0 } : { opacity: 1 }}
+              className="block w-5 h-[1px] bg-white"
+            />
+            <motion.span
+              animate={mobileMenuOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
+              className="block w-5 h-[1px] bg-white origin-center"
+            />
+          </button>
+        </nav>
+
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className="fixed inset-0 top-[53px] z-40 bg-background/98 backdrop-blur-xl flex flex-col items-center justify-center gap-7"
+            >
+              {[
+                ['/products/search', 'Search'],
+                ['/products/scrape', 'Scrape'],
+                ['/docs', 'Docs'],
+                ['/pricing', 'Pricing'],
+              ].map(([href, label]) => (
+                <Link
+                  key={href}
+                  href={href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-2xl font-display font-medium tracking-tight text-white"
+                >
+                  {label}
+                </Link>
+              ))}
+              <Link
+                href={isSignedIn ? '/dashboard' : '/signup'}
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-8 py-3 bg-white text-black text-[10px] font-mono font-bold tracking-[0.3em]"
+              >
+                {isSignedIn ? 'DASHBOARD' : 'GET API KEY'}
+              </Link>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <main className="relative w-full">
+          {/* HERO */}
+          <section className="relative w-full bg-background overflow-hidden border-b border-white/5">
+            <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
+            <div className="relative max-w-[1400px] mx-auto px-6 md:px-8 py-20 md:py-28 lg:py-32">
+              <div className="flex items-center gap-4 mb-8">
+                <div className="w-12 h-[1px] bg-white/20" />
+                <span className="text-[10px] font-mono text-white/60 uppercase tracking-[0.5em]">
+                  Venym Engine // 01 · Search
+                </span>
+              </div>
+
+              <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+                <div className="lg:col-span-7 min-w-0">
+                  <h1 className="text-[clamp(2.25rem,7vw,5.5rem)] font-display font-medium leading-[0.88] tracking-tighter mb-8 break-words">
+                    Search,
+                    <br />
+                    <span className="text-gray-700 italic font-light">merged.</span>
+                    <br />
+                    Scraped in
+                    <br className="sm:hidden" /> one call.
+                  </h1>
+                  <p className="text-gray-400 font-sans font-light text-base md:text-xl max-w-2xl leading-relaxed mb-10">
+                    Eight engines queried in parallel. Top results auto-scraped, contacts
+                    and social profiles extracted — all in a single HTTP request your
+                    agent can call in 30 seconds.
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <Link
+                      href={isSignedIn ? '/dashboard' : '/signup'}
+                      className="px-8 py-4 bg-white text-black text-[10px] font-mono uppercase tracking-[0.3em] font-bold hover:bg-gray-200 transition-colors text-center"
+                    >
+                      [ GET API KEY ]
+                    </Link>
+                    <Link
+                      href="/docs/api-reference/search"
+                      className="px-8 py-4 border border-white/10 text-white text-[10px] font-mono uppercase tracking-[0.3em] hover:bg-white/5 transition-all text-center"
+                    >
+                      [ READ THE DOCS ]
+                    </Link>
                   </div>
-                  <div className="flex flex-col sm:flex-row gap-6">
-                    <Link href="/signup">
-                      <Button
-                        size="lg"
-                        className="bg-[#efa72d] hover:bg-[#d4941f] text-[#17457c] font-black text-xl px-12 py-6 border-4 border-[#edf3f1] shadow-[8px_8px_0px_0px_#edf3f1] transform hover:translate-x-1 hover:translate-y-1 hover:shadow-[4px_4px_0px_0px_#edf3f1] transition-all"
-                      >
-                        START FREE TRIAL
-                        <Target className="ml-3 h-6 w-6" />
-                      </Button>
-                    </Link>
-                    <Link href="#demo">
-                      <Button
-                        variant="outline"
-                        size="lg"
-                        className="border-4 border-[#efa72d] text-[#efa72d] hover:bg-[#efa72d] hover:text-[#17457c] font-black text-xl px-12 py-6 bg-transparent"
-                      >
-                        SEE LIVE DEMO
-                        <ArrowRight className="ml-3 h-6 w-6" />
-                      </Button>
-                    </Link>
+
+                  <div className="mt-10 flex items-center gap-3">
+                    <span className="w-1.5 h-1.5 rounded-full bg-green-500/70" />
+                    <span className="text-[9px] font-mono text-green-500/60 uppercase tracking-[0.4em]">
+                      ● ENDPOINT LIVE // 8 ENGINES
+                    </span>
                   </div>
                 </div>
-                <div className="flex-1">
-                  <Card className="bg-black border-4 border-[#efa72d] shadow-[12px_12px_0px_0px_#efa72d]">
-                    <CardContent className="p-8">
-                      <pre className="text-green-400 font-mono text-sm overflow-x-auto">
-                        {`curl -X POST "https://www.search.venym.io/api/v1/search" \
-  -H "X-API-Key: sk_live_YOUR_API_KEY_key" \\
+
+                <div className="lg:col-span-5 min-w-0 w-full">
+                  <div className="border border-white/5 bg-white/[0.02] backdrop-blur-sm overflow-hidden">
+                    <div className="flex items-center justify-between px-5 py-3 border-b border-white/5">
+                      <div className="flex items-center gap-3">
+                        <span className="text-[9px] font-mono text-gray-800">DEMO-01</span>
+                        <span className="text-[10px] font-mono text-white tracking-[0.15em] uppercase">
+                          POST / SEARCH
+                        </span>
+                      </div>
+                      <span className="text-[8px] md:text-[9px] font-mono uppercase tracking-[0.2em] px-2 py-1 border border-green-500/20 text-green-500/60 bg-green-500/5">
+                        LIVE
+                      </span>
+                    </div>
+                    <pre className="p-5 md:p-6 text-[11px] md:text-xs font-mono text-white/80 overflow-x-auto leading-relaxed">
+{`curl -X POST https://search.venym.io/api/v1/search \\
+  -H "X-API-Key: sk_live_..." \\
   -H "Content-Type: application/json" \\
   -d '{
-    "query": "latest AI agent frameworks 2025",
+    "query": "AI agent frameworks 2026",
     "auto_scrape_top": 5,
     "include_contacts": true,
     "include_social": true
   }'
 
 # Response includes:
-# ✓ 10 search results
-# ✓ 5 fully scraped pages
-# ✓ Extracted email addresses
-# ✓ Social media profiles
-# ✓ Contact information`}
-                      </pre>
-                    </CardContent>
-                  </Card>
+# ✓ 10 ranked search results
+# ✓ 5 fully scraped pages (markdown)
+# ✓ Email + phone confidence-scored
+# ✓ Linked social handles`}
+                    </pre>
+                  </div>
                 </div>
               </div>
             </div>
           </section>
 
-          {/* Benefits Section */}
-          <section className="w-full py-10 sm:py-20 bg-[#efa72d] text-[#17457c]">
-            <div className="container px-4 md:px-6 mx-auto max-w-7xl">
-              <div className="text-center mb-16">
-                <h2 className="text-4xl md:text-6xl font-black tracking-tighter mb-6">
-                  WHY DEVELOPERS CHOOSE SEARCH
-                </h2>
-                <div className="w-48 h-3 bg-black mx-auto mb-6"></div>
+          {/* CAPABILITIES */}
+          <section className="relative bg-background py-20 md:py-28 border-t border-white/5">
+            <div className="max-w-[1400px] mx-auto px-6 md:px-8 mb-12 md:mb-16">
+              <div className="flex items-center gap-4 mb-8">
+                <div className="w-12 h-[1px] bg-white/20" />
+                <span className="text-[10px] font-mono text-gray-800 uppercase tracking-[0.6em]">
+                  System Capabilities // 02
+                </span>
               </div>
-              <div className="grid gap-8 lg:grid-cols-3">
-                {[
-                  {
-                    icon: Zap,
-                    title: "10X FASTER DEVELOPMENT",
-                    description: "Replace 10+ API calls with one. No need to build search, scraping, and data extraction separately.",
-                    metric: "90% less code"
-                  },
-                  {
-                    icon: Database,
-                    title: "RICH DATA EXTRACTION",
-                    description: "Automatically extract emails, phone numbers, social profiles, and structured data from every search result.",
-                    metric: "15+ data points"
-                  },
-                  {
-                    icon: TrendingUp,
-                    title: "ENTERPRISE RELIABILITY",
-                    description: "99.7% uptime, intelligent retries, and automatic fallbacks. Built for production workloads.",
-                    metric: "17ms avg latency"
-                  }
-                ].map((benefit, index) => (
-                  <Card key={index} className="bg-black text-white border-4 border-black shadow-[8px_8px_0px_0px_#000000]">
-                    <CardContent className="p-8 text-center">
-                      <benefit.icon className="h-16 w-16 mx-auto mb-6 text-[#efa72d]" />
-                      <div className="text-3xl font-black text-[#efa72d] mb-4">{benefit.metric}</div>
-                      <h3 className="text-xl font-black mb-4">{benefit.title}</h3>
-                      <p className="font-bold text-gray-300">{benefit.description}</p>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
+              <h2 className="text-3xl md:text-[5rem] font-display font-medium leading-[0.85] tracking-tighter mb-6">
+                Four subsystems. <br />
+                <span className="text-gray-700 italic font-light">One Search call.</span>
+              </h2>
+              <p className="text-gray-400 font-sans font-light text-base md:text-xl max-w-2xl leading-relaxed">
+                Routing, extraction, contact intel, social discovery — composed behind a
+                single endpoint so your agent gets context, not a list of HTTP errors.
+              </p>
             </div>
-          </section>
 
-          {/* Features Deep Dive */}
-          <section className="w-full py-10 sm:py-20 bg-[#17457c]">
-            <div className="container px-4 md:px-6 mx-auto max-w-7xl">
-              <div className="text-center mb-16">
-                <h2 className="text-4xl md:text-6xl font-black tracking-tighter mb-6">
-                  FEATURES THAT SAVE YOU MONTHS
-                </h2>
-                <div className="w-48 h-3 bg-[#efa72d] mx-auto mb-6"></div>
-              </div>
-
-              <Tabs defaultValue="search" className="w-full max-w-6xl mx-auto">
-                <TabsList className="flex w-full overflow-x-auto bg-[#6b839a] border-2 sm:border-4 border-[#efa72d]">
-                  <TabsTrigger value="search" className="font-black whitespace-nowrap data-[state=active]:bg-[#efa72d] data-[state=active]:text-[#17457c] text-[#edf3f1] text-xs sm:text-sm flex-shrink-0">
-                    Smart Search
-                  </TabsTrigger>
-                  <TabsTrigger value="scrape" className="font-black whitespace-nowrap data-[state=active]:bg-[#efa72d] data-[state=active]:text-[#17457c] text-[#edf3f1] text-xs sm:text-sm flex-shrink-0">
-                    Auto-Scrape
-                  </TabsTrigger>
-                  <TabsTrigger value="contacts" className="font-black whitespace-nowrap data-[state=active]:bg-[#efa72d] data-[state=active]:text-[#17457c] text-[#edf3f1] text-xs sm:text-sm flex-shrink-0">
-                    Contact Extract
-                  </TabsTrigger>
-                  <TabsTrigger value="social" className="font-black whitespace-nowrap data-[state=active]:bg-[#efa72d] data-[state=active]:text-[#17457c] text-[#edf3f1] text-xs sm:text-sm flex-shrink-0">
-                    Social Discovery
-                  </TabsTrigger>
-                </TabsList>
-
-                <TabsContent value="search" className="mt-8">
-                  <div className="grid gap-8 lg:grid-cols-2 items-center">
-                    <div className="space-y-6">
-                      <h3 className="text-3xl font-black text-[#efa72d]">Google Search API on Steroids</h3>
-                      <div className="space-y-4">
-                        <div className="flex items-start gap-3">
-                          <CheckCircle className="h-6 w-6 text-[#efa72d] mt-1 flex-shrink-0" />
-                          <div>
-                            <p className="font-black text-lg">Real-time Google Results</p>
-                            <p className="text-gray-300">Fresh results with positions, snippets, and metadata</p>
-                          </div>
-                        </div>
-                        <div className="flex items-start gap-3">
-                          <CheckCircle className="h-6 w-6 text-[#efa72d] mt-1 flex-shrink-0" />
-                          <div>
-                            <p className="font-black text-lg">Advanced Filtering</p>
-                            <p className="text-gray-300">Domain filters, date ranges, and result customization</p>
-                          </div>
-                        </div>
-                        <div className="flex items-start gap-3">
-                          <CheckCircle className="h-6 w-6 text-[#efa72d] mt-1 flex-shrink-0" />
-                          <div>
-                            <p className="font-black text-lg">Related Queries</p>
-                            <p className="text-gray-300">Automatic suggestion of related search terms</p>
-                          </div>
-                        </div>
-                      </div>
+            <div className="max-w-[1400px] mx-auto px-6 md:px-8 space-y-3 md:space-y-5">
+              {FEATURES.map((cap) => (
+                <div
+                  key={cap.id}
+                  className="group relative border border-white/5 hover:border-white/10 bg-white/[0.01] hover:bg-white/[0.02] transition-all duration-500"
+                >
+                  <div className="flex items-center justify-between px-6 md:px-8 py-4 border-b border-white/5">
+                    <div className="flex items-center gap-3 md:gap-6">
+                      <span className="text-[9px] font-mono text-gray-800">NODE-{cap.id}</span>
+                      <span className="text-[10px] md:text-xs font-mono text-white tracking-[0.15em] uppercase">
+                        {cap.codename}
+                      </span>
                     </div>
-                    <Card className="bg-black border-4 border-[#efa72d]">
-                      <CardContent className="p-6">
-                        <pre className="text-green-400 font-mono text-sm">
-{`{
-  "query": "AI startups YC 2024",
-  "results": [
-    {
-      "title": "OpenAI Launches New Agent SDK...",
-      "link": "https://techcrunch.com/...",
-      "snippet": "The latest framework for building autonomous AI agents...",
-      "position": 1,
-      "date": "2025-01-15"
-    }
-  ],
-  "total_results": 47,
-  "related_searches": [
-    "AI agent frameworks comparison",
-    "autonomous agent development 2025"
-  ]
-}`}
-                        </pre>
-                      </CardContent>
-                    </Card>
-                  </div>
-                </TabsContent>
-
-                <TabsContent value="scrape" className="mt-8">
-                  <div className="grid gap-8 lg:grid-cols-2 items-center">
-                    <div className="space-y-6">
-                      <h3 className="text-3xl font-black text-[#efa72d]">Automatic Content Extraction</h3>
-                      <div className="space-y-4">
-                        <div className="flex items-start gap-3">
-                          <CheckCircle className="h-6 w-6 text-[#efa72d] mt-1 flex-shrink-0" />
-                          <div>
-                            <p className="font-black text-lg">Full Page Content</p>
-                            <p className="text-gray-300">Clean text extraction with title and metadata</p>
-                          </div>
-                        </div>
-                        <div className="flex items-start gap-3">
-                          <CheckCircle className="h-6 w-6 text-[#efa72d] mt-1 flex-shrink-0" />
-                          <div>
-                            <p className="font-black text-lg">Link Discovery</p>
-                            <p className="text-gray-300">Extract all internal and external links</p>
-                          </div>
-                        </div>
-                        <div className="flex items-start gap-3">
-                          <CheckCircle className="h-6 w-6 text-[#efa72d] mt-1 flex-shrink-0" />
-                          <div>
-                            <p className="font-black text-lg">Anti-Bot Protection</p>
-                            <p className="text-gray-300">Bypass Cloudflare, Akamai, and other protections</p>
-                          </div>
-                        </div>
-                      </div>
+                    <div className="flex items-center gap-4">
+                      <span className="hidden md:inline text-[9px] font-mono text-gray-700">
+                        {cap.class}
+                      </span>
+                      <span className="text-[8px] md:text-[9px] font-mono uppercase tracking-[0.2em] px-2 py-1 border border-green-500/20 text-green-500/60 bg-green-500/5">
+                        OPERATIONAL
+                      </span>
                     </div>
-                    <Card className="bg-black border-4 border-[#efa72d]">
-                      <CardContent className="p-6">
-                        <pre className="text-green-400 font-mono text-sm">
-{`{
-  "scraped_content": [
-    {
-      "url": "https://example.com",
-      "title": "AI Startup Raises $50M",
-      "text": "Full article content...",
-      "links": [
-        {"text": "About Us", "url": "/about"},
-        {"text": "Contact", "url": "/contact"}
-      ],
-      "metadata": {
-        "author": "John Doe",
-        "published": "2024-01-15"
-      }
-    }
-  ]
-}`}
-                        </pre>
-                      </CardContent>
-                    </Card>
                   </div>
-                </TabsContent>
 
-                <TabsContent value="contacts" className="mt-8">
-                  <div className="grid gap-8 lg:grid-cols-2 items-center">
-                    <div className="space-y-6">
-                      <h3 className="text-3xl font-black text-[#efa72d]">AI-Powered Contact Discovery</h3>
-                      <div className="space-y-4">
-                        <div className="flex items-start gap-3">
-                          <Mail className="h-6 w-6 text-[#efa72d] mt-1 flex-shrink-0" />
-                          <div>
-                            <p className="font-black text-lg">Email Extraction</p>
-                            <p className="text-gray-300">Find email addresses with confidence scoring</p>
-                          </div>
-                        </div>
-                        <div className="flex items-start gap-3">
-                          <Smartphone className="h-6 w-6 text-[#efa72d] mt-1 flex-shrink-0" />
-                          <div>
-                            <p className="font-black text-lg">Phone Numbers</p>
-                            <p className="text-gray-300">Extract and format phone numbers automatically</p>
-                          </div>
-                        </div>
-                        <div className="flex items-start gap-3">
-                          <Users className="h-6 w-6 text-[#efa72d] mt-1 flex-shrink-0" />
-                          <div>
-                            <p className="font-black text-lg">Company Info</p>
-                            <p className="text-gray-300">Identify company names, addresses, and key personnel</p>
-                          </div>
-                        </div>
-                      </div>
+                  <div className="grid grid-cols-1 md:grid-cols-12">
+                    <div className="md:col-span-5 lg:col-span-4 px-6 md:px-8 py-6 md:py-8 border-b md:border-b-0 md:border-r border-white/5">
+                      <p className="text-sm md:text-base font-sans font-light text-gray-400 leading-relaxed">
+                        {cap.description}
+                      </p>
                     </div>
-                    <Card className="bg-black border-4 border-[#efa72d]">
-                      <CardContent className="p-6">
-                        <pre className="text-green-400 font-mono text-sm">
-{`{
-  "contacts": [
-    {
-      "type": "email",
-      "value": "ceo@aicompany.com",
-      "confidence": 0.95,
-      "source_url": "https://aicompany.com"
-    },
-    {
-      "type": "phone", 
-      "value": "+1-555-123-4567",
-      "confidence": 0.88,
-      "source_url": "https://aicompany.com/contact"
-    }
-  ]
-}`}
-                        </pre>
-                      </CardContent>
-                    </Card>
-                  </div>
-                </TabsContent>
-
-                <TabsContent value="social" className="mt-8">
-                  <div className="grid gap-8 lg:grid-cols-2 items-center">
-                    <div className="space-y-6">
-                      <h3 className="text-3xl font-black text-[#efa72d]">Social Media Intelligence</h3>
-                      <div className="space-y-4">
-                        <div className="flex items-start gap-3">
-                          <Link2 className="h-6 w-6 text-[#efa72d] mt-1 flex-shrink-0" />
-                          <div>
-                            <p className="font-black text-lg">LinkedIn Profiles</p>
-                            <p className="text-gray-300">Discover company and personal LinkedIn pages</p>
-                          </div>
-                        </div>
-                        <div className="flex items-start gap-3">
-                          <Share2 className="h-6 w-6 text-[#efa72d] mt-1 flex-shrink-0" />
-                          <div>
-                            <p className="font-black text-lg">Twitter/X Accounts</p>
-                            <p className="text-gray-300">Find official social media handles</p>
-                          </div>
-                        </div>
-                        <div className="flex items-start gap-3">
-                          <Globe className="h-6 w-6 text-[#efa72d] mt-1 flex-shrink-0" />
-                          <div>
-                            <p className="font-black text-lg">All Platforms</p>
-                            <p className="text-gray-300">GitHub, YouTube, Share2, Camera profiles</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <Card className="bg-black border-4 border-[#efa72d]">
-                      <CardContent className="p-6">
-                        <pre className="text-green-400 font-mono text-sm">
-{`{
-  "social_profiles": [
-    {
-      "platform": "LinkedIn",
-      "url": "https://linkedin.com/company/aicompany",
-      "username": "aicompany",
-      "source_url": "https://aicompany.com"
-    },
-    {
-      "platform": "Twitter",
-      "url": "https://x.com/aicompany",
-      "username": "@aicompany",
-      "source_url": "https://aicompany.com"
-    }
-  ]
-}`}
-                        </pre>
-                      </CardContent>
-                    </Card>
-                  </div>
-                </TabsContent>
-              </Tabs>
-            </div>
-          </section>
-
-          {/* Use Cases */}
-          <section className="w-full py-10 sm:py-20 bg-[#efa72d] text-[#17457c]">
-            <div className="container px-4 md:px-6 mx-auto max-w-7xl">
-              <div className="text-center mb-16">
-                <h2 className="text-4xl md:text-6xl font-black tracking-tighter mb-6">USE CASES</h2>
-                <div className="w-48 h-3 bg-black mx-auto mb-6"></div>
-                <p className="text-xl font-bold max-w-3xl mx-auto">
-                  Real companies using Search to power their products
-                </p>
-              </div>
-              <div className="grid gap-8 lg:grid-cols-2">
-                {[
-                  {
-                    icon: Users,
-                    title: "Lead Generation",
-                    description: "Find prospects by searching for companies in specific industries, then automatically extract contact information and social profiles.",
-                    example: "Search 'SaaS startups San Francisco' → Get emails and LinkedIn profiles",
-                    companies: "Used by 2,400+ sales teams"
-                  },
-                  {
-                    icon: BarChart3,
-                    title: "Market Research", 
-                    description: "Research competitors, industry trends, and market opportunities with comprehensive data extraction from multiple sources.",
-                    example: "Search 'AI productivity tools 2024' → Get feature comparisons and pricing",
-                    companies: "Used by 890+ analysts"
-                  },
-                  {
-                    icon: Lightbulb,
-                    title: "Content Creation",
-                    description: "Gather information for articles, reports, and social media content by searching topics and extracting key insights.",
-                    example: "Search 'climate tech funding' → Get data for investment newsletter",
-                    companies: "Used by 1,200+ content creators"
-                  },
-                  {
-                    icon: Code2,
-                    title: "AI Training Data",
-                    description: "Collect high-quality, structured data for training AI models and building knowledge bases.",
-                    example: "Search 'machine learning papers' → Extract abstracts and citations",
-                    companies: "Used by 340+ AI companies"
-                  }
-                ].map((useCase, index) => (
-                  <Card key={index} className="bg-black text-white border-4 border-black shadow-[8px_8px_0px_0px_#000000]">
-                    <CardContent className="p-8">
-                      <useCase.icon className="h-12 w-12 mb-6 text-[#efa72d]" />
-                      <h3 className="text-2xl font-black mb-4 text-[#efa72d]">{useCase.title}</h3>
-                      <p className="font-bold mb-4 text-gray-300">{useCase.description}</p>
-                      <div className="bg-gray-900 p-4 rounded border-l-4 border-[#efa72d] mb-4">
-                        <p className="font-bold text-sm">{useCase.example}</p>
-                      </div>
-                      <Badge className="bg-[#efa72d] text-black font-black">
-                        {useCase.companies}
-                      </Badge>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          {/* Pricing */}
-          <section className="w-full py-10 sm:py-20 bg-[#17457c]">
-            <div className="container px-4 md:px-6 mx-auto max-w-7xl">
-              <div className="text-center mb-16">
-                <h2 className="text-4xl md:text-6xl font-black tracking-tighter mb-6">
-                  SIMPLE PRICING
-                </h2>
-                <div className="w-48 h-3 bg-[#efa72d] mx-auto mb-6"></div>
-                <p className="text-xl font-bold max-w-3xl mx-auto">
-                  Pay per search. No monthly fees. No complicated tiers.
-                </p>
-              </div>
-              <div className="grid gap-8 lg:grid-cols-3 max-w-5xl mx-auto">
-                {[
-                  {
-                    name: "FREE TRIAL",
-                    price: "$0",
-                    credits: "500 credits",
-                    description: "Perfect for testing and prototyping",
-                    features: ["Search + basic scraping", "Community support", "Standard rate limits"],
-                    popular: false,
-                  },
-                  {
-                    name: "STARTER",
-                    price: "$9/mo",
-                    credits: "5,000 credits/mo",
-                    description: "Great for side projects and small tools",
-                    features: ["+ Contact extraction", "+ Email support", "+ Higher rate limits"],
-                    popular: true,
-                  },
-                  {
-                    name: "BUILDER",
-                    price: "$49/mo", 
-                    credits: "100,000 credits/mo",
-                    description: "Perfect for scaling with less effort",
-                    features: ["+ Social discovery", "+ Priority processing", "+ Dedicated support"],
-                    popular: false,
-                  },
-                  {
-                    name: "UNICORN",
-                    price: "$199/mo",
-                    credits: "500,000 credits/mo",
-                    description: "Built for high volume and speed",
-                    features: ["+ Dedicated support engineer", "+ Custom integrations", "+ SLA guarantees"],
-                    popular: false,
-                  }
-                ].map((plan, index) => (
-                  <Card
-                    key={index}
-                    className={`${plan.popular ? "bg-[#efa72d] text-[#17457c] border-[#edf3f1] scale-105" : "bg-[#6b839a] text-[#edf3f1] border-[#efa72d]"} border-4 shadow-[8px_8px_0px_0px_${plan.popular ? "#edf3f1" : "#efa72d"}] relative`}
-                  >
-                    {plan.popular && (
-                      <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                        <Badge className="bg-black text-white font-black px-4 py-2 border-2 border-white">
-                          <Star className="w-4 h-4 mr-1" />
-                          MOST POPULAR
-                        </Badge>
-                      </div>
-                    )}
-                    <CardContent className="p-8 text-center">
-                      <h3 className="text-2xl font-black mb-4">{plan.name}</h3>
-                      <div className="text-4xl font-black mb-2">{plan.price}</div>
-                      <div className="text-lg font-bold mb-4">{plan.credits}</div>
-                      <p className="font-bold mb-6 text-sm">{plan.description}</p>
-                      <div className="space-y-3 mb-8">
-                        {plan.features.map((feature, idx) => (
-                          <div key={idx} className="flex items-center gap-2">
-                            <CheckCircle className={`h-5 w-5 ${plan.popular ? "text-[#17457c]" : "text-[#efa72d]"}`} />
-                            <span className="font-bold text-sm">{feature}</span>
+                    <div className="md:col-span-4 lg:col-span-5 px-6 md:px-8 py-6 md:py-8 border-b md:border-b-0 md:border-r border-white/5">
+                      <div className="space-y-3 md:space-y-4">
+                        {cap.metrics.map((m, i) => (
+                          <div key={i} className="flex items-center gap-3">
+                            <span className="text-[9px] font-mono text-gray-700 w-12">
+                              [{String(i + 1).padStart(2, '0')}]
+                            </span>
+                            <span className="text-[10px] md:text-xs font-mono text-white/60 uppercase tracking-[0.15em]">
+                              {m}
+                            </span>
                           </div>
                         ))}
                       </div>
-                      <Link href="/signup">
-                        <Button
-                          className={`w-full font-black text-lg py-6 border-4 ${plan.popular ? "bg-black text-white border-black hover:bg-gray-800" : "bg-[#efa72d] text-[#17457c] border-[#edf3f1] hover:bg-[#d4941f]"} shadow-[4px_4px_0px_0px_${plan.popular ? "#000000" : "#edf3f1"}]`}
-                        >
-                          {plan.price === "$0" ? "START FREE TRIAL" : "GET STARTED"}
-                        </Button>
-                      </Link>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
+                    </div>
+                    <div className="md:col-span-3 px-6 md:px-8 py-6 md:py-8 flex flex-col justify-center">
+                      <span className="text-[8px] font-mono text-gray-800 uppercase tracking-[0.3em] block mb-3">
+                        OUTPUT
+                      </span>
+                      <div className="bg-white/[0.03] border border-white/5 px-4 py-3 font-mono text-[10px] md:text-xs text-white/40 leading-relaxed">
+                        {cap.output}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </section>
 
-          {/* Final CTA */}
-          <section className="w-full py-10 sm:py-20 bg-[#efa72d] text-[#17457c]">
-            <div className="container px-4 md:px-6 mx-auto max-w-7xl text-center">
-              <div className="max-w-4xl mx-auto space-y-8">
-                <h2 className="text-4xl md:text-6xl font-black tracking-tighter">
-                  START BUILDING IN MINUTES
-                </h2>
-                <p className="text-xl font-bold">
-                  Join 3,200+ developers who chose Search over building their own scraping infrastructure.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                  <Link href="/signup">
-                    <Button
-                      size="lg"
-                      className="bg-black hover:bg-gray-800 text-white font-black text-xl px-12 py-6 border-4 border-black shadow-[8px_8px_0px_0px_#000000]"
-                    >
-                      GET 5K FREE CREDITS
-                      <ArrowRight className="ml-3 h-6 w-6" />
-                    </Button>
-                  </Link>
-                  <Link href="https://docs.VENYM_SEARCH.com/search">
-                    <Button
-                      variant="outline"
-                      size="lg"
-                      className="border-4 border-black text-black hover:bg-black hover:text-white font-black text-xl px-12 py-6 bg-transparent"
-                    >
-                      VIEW DOCS
-                    </Button>
+          {/* USE CASES */}
+          <section className="relative bg-background border-t border-white/5 py-20 md:py-28">
+            <div className="max-w-[1400px] mx-auto px-6 md:px-8 mb-12 md:mb-16">
+              <div className="flex items-center gap-4 mb-8">
+                <div className="w-12 h-[1px] bg-white/20" />
+                <span className="text-[10px] font-mono text-gray-800 uppercase tracking-[0.6em]">
+                  Use Cases // 03
+                </span>
+              </div>
+              <h2 className="text-3xl md:text-[5rem] font-display font-medium leading-[0.85] tracking-tighter mb-6">
+                What teams ship <br />
+                <span className="text-gray-700 italic font-light">with Search.</span>
+              </h2>
+            </div>
+
+            <div className="max-w-[1400px] mx-auto px-6 md:px-8 grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-5">
+              {USE_CASES.map((u) => {
+                const Icon = u.icon
+                return (
+                  <div
+                    key={u.title}
+                    className="border border-white/5 hover:border-white/10 bg-white/[0.01] hover:bg-white/[0.02] transition-all duration-500 p-6 md:p-8"
+                  >
+                    <Icon className="h-5 w-5 text-white/50 mb-6" strokeWidth={1.25} />
+                    <h3 className="text-xl md:text-2xl font-display font-medium tracking-tight text-white mb-3">
+                      {u.title}
+                    </h3>
+                    <p className="text-sm md:text-base font-sans font-light text-gray-400 leading-relaxed mb-6">
+                      {u.body}
+                    </p>
+                    <span className="text-[9px] md:text-[10px] font-mono text-white/40 uppercase tracking-[0.3em] border-t border-white/5 pt-4 block">
+                      {u.tag}
+                    </span>
+                  </div>
+                )
+              })}
+            </div>
+          </section>
+
+          {/* PRICING */}
+          <section className="relative bg-background border-t border-white/5 py-20 md:py-28">
+            <div className="max-w-[1400px] mx-auto px-6 md:px-8 mb-12 md:mb-16">
+              <div className="flex items-center gap-4 mb-8">
+                <div className="w-12 h-[1px] bg-white/20" />
+                <span className="text-[10px] font-mono text-gray-800 uppercase tracking-[0.6em]">
+                  Pricing // 04
+                </span>
+              </div>
+              <h2 className="text-3xl md:text-[5rem] font-display font-medium leading-[0.85] tracking-tighter mb-6">
+                Pay per call. <br />
+                <span className="text-gray-700 italic font-light">No tier games.</span>
+              </h2>
+            </div>
+
+            <div className="max-w-[1400px] mx-auto px-6 md:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5">
+              {PLANS.map((p) => (
+                <div
+                  key={p.name}
+                  className={`relative flex flex-col border ${
+                    p.popular
+                      ? 'border-white/30 bg-white/[0.04]'
+                      : 'border-white/5 bg-white/[0.01]'
+                  } hover:border-white/20 transition-all duration-500 p-6 md:p-8`}
+                >
+                  {p.popular && (
+                    <span className="absolute -top-2 left-6 text-[8px] font-mono text-black bg-white px-2 py-1 uppercase tracking-[0.3em] font-bold">
+                      POPULAR
+                    </span>
+                  )}
+                  <span className="text-[10px] font-mono text-white/40 uppercase tracking-[0.3em] mb-4">
+                    {p.name}
+                  </span>
+                  <div className="text-4xl md:text-5xl font-display font-medium tracking-tighter text-white mb-1">
+                    {p.price}
+                  </div>
+                  <span className="text-[10px] font-mono text-gray-700 uppercase tracking-[0.2em] mb-4">
+                    {p.credits}
+                  </span>
+                  <p className="text-sm font-sans font-light text-gray-400 leading-relaxed mb-6">
+                    {p.body}
+                  </p>
+                  <div className="space-y-2 mb-8 flex-1">
+                    {p.features.map((f) => (
+                      <div key={f} className="flex items-start gap-2">
+                        <span className="text-white/40 text-[10px] font-mono mt-0.5">→</span>
+                        <span className="text-[11px] md:text-xs font-mono text-white/60 leading-relaxed">
+                          {f}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                  <Link
+                    href={isSignedIn ? '/dashboard' : '/signup'}
+                    className={`text-center px-4 py-3 text-[10px] font-mono uppercase tracking-[0.3em] font-bold transition-colors ${
+                      p.popular
+                        ? 'bg-white text-black hover:bg-gray-200'
+                        : 'border border-white/10 text-white hover:bg-white/5'
+                    }`}
+                  >
+                    [ {p.cta} ]
                   </Link>
                 </div>
-                <p className="text-sm font-bold text-gray-700">
-                  No credit card required • 5K credits free • Cancel anytime
-                </p>
+              ))}
+            </div>
+          </section>
+
+          {/* CTA */}
+          <section className="relative bg-background border-t border-white/5">
+            <div className="max-w-[1400px] mx-auto px-6 md:px-8 py-20 md:py-32 text-center">
+              <div className="flex items-center justify-center gap-4 mb-10">
+                <div className="w-12 h-[1px] bg-white/20" />
+                <span className="text-[10px] font-mono text-gray-800 uppercase tracking-[0.6em]">
+                  Commencement // 05
+                </span>
+                <div className="w-12 h-[1px] bg-white/20" />
+              </div>
+              <h2 className="text-4xl md:text-[7rem] font-display font-medium leading-[0.85] tracking-tighter mb-10 max-w-4xl mx-auto">
+                Ship Search <br />
+                <span className="text-gray-700 italic font-light">into your agent.</span>
+              </h2>
+              <p className="text-gray-400 font-sans font-light text-base md:text-lg max-w-xl mx-auto leading-relaxed mb-10">
+                500 free credits on signup. No card. Wire Venym Search into your loop and
+                stop maintaining six fragile scrapers.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link
+                  href={isSignedIn ? '/dashboard' : '/signup'}
+                  className="px-12 py-5 bg-white text-black text-[11px] font-mono uppercase tracking-[0.4em] font-bold hover:bg-gray-200 transition-colors"
+                >
+                  [ GET API KEY ]
+                </Link>
+                <Link
+                  href="/docs/api-reference/search"
+                  className="px-12 py-5 border border-white/10 text-white text-[11px] font-mono uppercase tracking-[0.4em] hover:bg-white/5 transition-all"
+                >
+                  [ VIEW DOCS ]
+                </Link>
               </div>
             </div>
           </section>
-        </main>
 
-        {/* Footer */}
-        <footer className="bg-[#17457c] border-t-4 border-[#efa72d] py-12">
-          <div className="container px-4 md:px-6 mx-auto max-w-7xl">
-            <div className="grid gap-8 lg:grid-cols-4">
-              <div className="space-y-4">
-                <Link href="/" className="flex items-center space-x-3">
-                  <div className="w-8 h-8 relative">
-                    <Image
-                      src="/venym.png"
-                      alt="Venym Search Logo"
-                      width={32}
-                      height={32}
-                      className="w-8 h-8 brightness-0 invert"
-                    />
-                  </div>
-                  <span className="font-black text-lg tracking-tight text-[#edf3f1]">VENYM_SEARCH</span>
+          {/* FOOTER */}
+          <footer className="border-t border-white/5">
+            <div className="max-w-[1400px] mx-auto px-6 md:px-8 py-10 md:py-14 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+              <div className="flex items-center gap-4">
+                <span className="text-white font-bold tracking-[0.3em] text-sm">VENYM</span>
+                <div className="h-3 w-[1px] bg-white/10" />
+                <span className="text-[9px] font-mono text-gray-700 uppercase tracking-[0.5em]">
+                  search infrastructure
+                </span>
+              </div>
+              <div className="flex flex-wrap gap-x-6 md:gap-x-8 gap-y-2 text-[9px] md:text-[10px] font-mono uppercase tracking-[0.3em] text-gray-600">
+                <Link href="/products/search" className="hover:text-white transition-colors">
+                  search
                 </Link>
-                <p className="text-gray-400 font-bold text-sm">
-                  Enterprise web scraping APIs for modern developers.
-                </p>
+                <Link href="/products/scrape" className="hover:text-white transition-colors">
+                  scrape
+                </Link>
+                <Link href="/docs" className="hover:text-white transition-colors">
+                  docs
+                </Link>
+                <Link href="/pricing" className="hover:text-white transition-colors">
+                  pricing
+                </Link>
+                <Link href="/blog" className="hover:text-white transition-colors">
+                  blog
+                </Link>
               </div>
-              <div className="space-y-4">
-                <h3 className="font-black text-white text-lg">PRODUCTS</h3>
-                <nav className="flex flex-col gap-2">
-                  <Link href="/products/search" className="font-black text-[#efa72d] hover:text-white transition-colors">
-                    Search
-                  </Link>
-                  <Link href="/products/scrape" className="font-black text-gray-400 hover:text-[#efa72d] transition-colors">
-                    Scrape
-                  </Link>
-                </nav>
-              </div>
-              <div className="space-y-4">
-                <h3 className="font-black text-white text-lg">RESOURCES</h3>
-                <nav className="flex flex-col gap-2">
-                  <Link href="https://docs.VENYM_SEARCH.com" className="font-black text-gray-400 hover:text-[#efa72d] transition-colors">
-                    Documentation
-                  </Link>
-                  <Link href="/examples" className="font-black text-gray-400 hover:text-[#efa72d] transition-colors">
-                    Code Examples
-                  </Link>
-                  <Link href="/blog" className="font-black text-gray-400 hover:text-[#efa72d] transition-colors">
-                    Blog
-                  </Link>
-                </nav>
-              </div>
-              <div className="space-y-4">
-                <h3 className="font-black text-white text-lg">COMPANY</h3>
-                <nav className="flex flex-col gap-2">
-                  <Link href="/about" className="font-black text-gray-400 hover:text-[#efa72d] transition-colors">
-                    About Us
-                  </Link>
-                  <Link href="/contact" className="font-black text-gray-400 hover:text-[#efa72d] transition-colors">
-                    Contact
-                  </Link>
-                  <Link href="/privacy" className="font-black text-gray-400 hover:text-[#efa72d] transition-colors">
-                    Privacy Policy
-                  </Link>
-                </nav>
-              </div>
+              <span className="text-[9px] font-mono text-gray-900 uppercase tracking-[0.6em]">
+                © VENYM LABS 2026
+              </span>
             </div>
-            <div className="border-t border-gray-800 mt-8 pt-8 text-center">
-              <p className="font-black text-gray-400">© 2025 Venym Search • Built for developers, by developers</p>
-            </div>
-          </div>
-        </footer>
+          </footer>
+        </main>
       </div>
     </>
   )
