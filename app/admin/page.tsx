@@ -1,11 +1,6 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -16,7 +11,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog"
 import {
   DropdownMenu,
@@ -27,23 +21,14 @@ import {
 import {
   Users,
   CreditCard,
-  BarChart3,
   Search,
-  User,
   MoreHorizontal,
-  TrendingUp,
   Database,
   Activity,
   DollarSign,
   Shield,
-  Settings,
   RefreshCw,
-  Plus,
-  Minus,
-  Edit,
   Eye,
-  AlertCircle,
-  CheckCircle,
   Loader2,
 } from "lucide-react"
 import Image from "next/image"
@@ -54,7 +39,6 @@ import { useUserData } from "@/lib/useUserData"
 
 
 interface AdminStats {
-
   overview: {
     totalUsers: number
     activeUsers: number
@@ -74,8 +58,6 @@ interface AdminStats {
     creditsUsed: number
   }
   planDistribution: Array<{ plan: string; count: number }>
-
-
   topUsers: Array<{
     id: string
     email: string
@@ -116,7 +98,7 @@ export default function AdminDashboard() {
   const { user, isLoaded } = useUser()
   const { userData, loading: userDataLoading } = useUserData()
   const router = useRouter()
-  
+
   const [loading, setLoading] = useState(true)
   const [stats, setStats] = useState<AdminStats | null>(null)
   const [users, setUsers] = useState<UserData[]>([])
@@ -127,26 +109,16 @@ export default function AdminDashboard() {
   const [planFilter, setPlanFilter] = useState("all")
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
-  
-  // Credit adjustment state
+
   const [creditAction, setCreditAction] = useState<"add" | "set" | "subtract">("add")
   const [creditAmount, setCreditAmount] = useState("")
   const [creditReason, setCreditReason] = useState("")
 
-  // Check if user is admin
   useEffect(() => {
     if (isLoaded && userData) {
-      console.log('Admin page - User data:', {
-        email: userData.email,
-        role: userData.role,
-        isAdmin: userData.role === 'admin'
-      })
-      
       if (userData.role !== 'admin') {
-        console.log('User is not admin, redirecting to dashboard')
         router.push('/dashboard')
       } else {
-        console.log('User is admin, loading admin dashboard')
         fetchAdminStats()
         fetchUsers()
       }
@@ -175,7 +147,7 @@ export default function AdminDashboard() {
         search: searchQuery,
         plan: planFilter
       })
-      
+
       const response = await fetch(`/api/admin/users?${params}`)
       if (response.ok) {
         const data = await response.json()
@@ -245,164 +217,171 @@ export default function AdminDashboard() {
     }
   }
 
-  // Loading state
+  const inputClass =
+    "w-full h-10 px-3 bg-white/[0.03] border border-white/[0.08] text-[13px] text-white placeholder:text-white/30 focus:outline-none focus:border-white/20 focus:ring-1 focus:ring-white/20 rounded-sm transition-colors"
+
+  const labelClass =
+    "block text-[10px] font-mono uppercase tracking-[0.2em] text-white/30 mb-1.5"
+
+  const statusBadge = (code: number) =>
+    code >= 200 && code < 400
+      ? "border border-white/20 text-white/80"
+      : "border border-white/10 text-white/50"
+
   if (!isLoaded || userDataLoading || loading) {
     return (
-      <div className="min-h-screen bg-[#17457c] flex items-center justify-center">
-        <div className="text-center">
-          <Loader2 className="h-8 w-8 animate-spin text-[#efa72d] mx-auto mb-4" />
-          <p className="text-[#edf3f1] font-bold">Loading admin dashboard...</p>
-        </div>
+      <div className="min-h-screen bg-[#050505] flex items-center justify-center">
+        <Loader2 className="h-6 w-6 animate-spin text-white/40" />
       </div>
     )
   }
 
-  // Not admin
   if (userData?.role !== 'admin') {
     return null
   }
 
   return (
-    <div className="min-h-screen bg-[#17457c]">
-      {/* Header */}
-      <header className="px-4 lg:px-6 h-20 flex items-center border-b-4 border-[#efa72d] bg-[#17457c]">
-        <Link href="/" className="flex items-center justify-center">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 relative">
+    <div className="flex flex-col min-h-screen bg-[#050505] text-white">
+      <header className="sticky top-0 z-50 w-full border-b border-white/[0.06] bg-[#050505]/80 backdrop-blur-xl">
+        <div className="flex h-14 items-center px-4 md:px-6 gap-4">
+          <Link href="/" className="flex items-center gap-3 shrink-0">
+            <div className="w-7 h-7 relative">
               <Image
                 src="/VENYM_SEARCH-logo.png"
-                alt="Venym Search Logo"
-                width={40}
-                height={40}
-                className="w-10 h-10 brightness-0 invert"
+                alt="Venym Search"
+                width={28}
+                height={28}
+                className="w-7 h-7"
               />
             </div>
-            <span className="font-black text-xl tracking-tight text-[#edf3f1]">VENYM_SEARCH ADMIN</span>
-          </div>
-        </Link>
-        <div className="ml-auto flex items-center gap-4">
-          <Badge className="bg-[#efa72d] text-[#17457c] font-black">
-            <Shield className="h-4 w-4 mr-2" />
-            ADMIN
-          </Badge>
-          <Link href="/dashboard">
-            <Button variant="outline" className="border-[#efa72d] text-[#efa72d] hover:bg-[#efa72d] hover:text-[#17457c] bg-transparent">
-              User Dashboard
-            </Button>
+            <span className="font-semibold text-[15px] tracking-tight text-white">
+              Venym Search
+            </span>
+            <span className="hidden sm:inline-flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-[0.2em] text-white/60 border border-white/15 px-2 py-0.5 rounded-sm">
+              <Shield className="h-3 w-3" />
+              Admin
+            </span>
           </Link>
+
+          <div className="ml-auto flex items-center gap-2">
+            <Link
+              href="/dashboard"
+              className="inline-flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-[0.15em] text-white/40 hover:text-white/80 transition-colors border border-white/10 px-3 py-1.5 rounded-sm"
+            >
+              User Dashboard
+            </Link>
+          </div>
         </div>
       </header>
 
-      <main className="p-8 bg-[#edf3f1] max-w-7xl mx-auto">
+      <main className="flex-1 min-w-0 p-4 sm:p-8 pb-12 max-w-7xl mx-auto w-full">
         <div className="mb-8">
-          <h1 className="text-4xl font-black text-[#17457c] mb-2">Admin Dashboard</h1>
-          <p className="text-lg font-bold text-[#6b839a]">Platform management and analytics</p>
+          <div className="venym-meta mb-3">CLASS :: ADMIN</div>
+          <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-2">
+            Admin Dashboard
+          </h1>
+          <p className="text-[13px] text-white/50">
+            Platform management and analytics.
+          </p>
         </div>
 
         {/* Stats Overview */}
         {stats && (
-          <div className="grid gap-6 mb-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-            <Card className="border-4 border-black shadow-[6px_6px_0px_0px_#000000]">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-bold text-[#6b839a] mb-1">Total Users</p>
-                    <p className="text-3xl font-black text-[#17457c]">{stats.overview.totalUsers.toLocaleString()}</p>
-                    <p className={`text-sm font-bold ${stats.overview.userGrowth > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                      {stats.overview.userGrowth > 0 ? '+' : ''}{stats.overview.userGrowth}% today
-                    </p>
-                  </div>
-                  <div className="p-3 rounded-lg bg-[#efa72d]">
-                    <Users className="h-6 w-6 text-white" />
-                  </div>
+          <div className="grid gap-3 mb-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              {
+                title: "Total Users",
+                value: stats.overview.totalUsers.toLocaleString(),
+                change: `${stats.overview.userGrowth > 0 ? '+' : ''}${stats.overview.userGrowth}% today`,
+                icon: Users,
+              },
+              {
+                title: "Active Users",
+                value: stats.overview.activeUsers.toLocaleString(),
+                change: "Last 30 days",
+                icon: Activity,
+              },
+              {
+                title: "Total Requests",
+                value: stats.overview.totalRequests.toLocaleString(),
+                change: `${stats.overview.requestGrowth > 0 ? '+' : ''}${stats.overview.requestGrowth}% today`,
+                icon: Database,
+              },
+              {
+                title: "Total Revenue",
+                value: `$${(stats.overview.totalRevenue / 100).toLocaleString()}`,
+                change: "All time",
+                icon: DollarSign,
+              },
+            ].map((stat, index) => (
+              <div
+                key={index}
+                className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5 transition-colors hover:border-white/[0.12]"
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/30">
+                    {stat.title}
+                  </span>
+                  <stat.icon className="h-3.5 w-3.5 text-white/40" />
                 </div>
-              </CardContent>
-            </Card>
-
-            <Card className="border-4 border-black shadow-[6px_6px_0px_0px_#000000]">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-bold text-[#6b839a] mb-1">Active Users</p>
-                    <p className="text-3xl font-black text-[#17457c]">{stats.overview.activeUsers.toLocaleString()}</p>
-                    <p className="text-sm font-bold text-[#6b839a]">Last 30 days</p>
-                  </div>
-                  <div className="p-3 rounded-lg bg-[#17457c]">
-                    <Activity className="h-6 w-6 text-white" />
-                  </div>
+                <div className="text-2xl font-bold text-white tracking-tight">
+                  {stat.value}
                 </div>
-              </CardContent>
-            </Card>
-
-            <Card className="border-4 border-black shadow-[6px_6px_0px_0px_#000000]">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-bold text-[#6b839a] mb-1">Total Requests</p>
-                    <p className="text-3xl font-black text-[#17457c]">{stats.overview.totalRequests.toLocaleString()}</p>
-                    <p className={`text-sm font-bold ${stats.overview.requestGrowth > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                      {stats.overview.requestGrowth > 0 ? '+' : ''}{stats.overview.requestGrowth}% today
-                    </p>
-                  </div>
-                  <div className="p-3 rounded-lg bg-green-600">
-                    <Database className="h-6 w-6 text-white" />
-                  </div>
+                <div className="text-[11px] font-mono uppercase tracking-[0.15em] text-white/40 mt-1">
+                  {stat.change}
                 </div>
-              </CardContent>
-            </Card>
-
-            <Card className="border-4 border-black shadow-[6px_6px_0px_0px_#000000]">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-bold text-[#6b839a] mb-1">Total Revenue</p>
-                    <p className="text-3xl font-black text-[#17457c]">${(stats.overview.totalRevenue / 100).toLocaleString()}</p>
-                    <p className="text-sm font-bold text-[#6b839a]">All time</p>
-                  </div>
-                  <div className="p-3 rounded-lg bg-[#6b839a]">
-                    <DollarSign className="h-6 w-6 text-white" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+              </div>
+            ))}
           </div>
         )}
 
         {/* Tabs */}
         <Tabs defaultValue="users" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 bg-[#6b839a] border-4 border-[#efa72d]">
-            <TabsTrigger value="users" className="font-black data-[state=active]:bg-[#efa72d] data-[state=active]:text-[#17457c] text-[#edf3f1]">
-              Users Management
+          <TabsList className="bg-transparent border-b border-white/[0.06] rounded-none p-0 h-auto w-full justify-start gap-0">
+            <TabsTrigger
+              value="users"
+              className="data-[state=active]:bg-transparent data-[state=active]:text-white text-white/40 text-[11px] font-mono uppercase tracking-[0.15em] px-4 py-3 rounded-none border-b-2 border-transparent data-[state=active]:border-white shadow-none"
+            >
+              Users
             </TabsTrigger>
-            <TabsTrigger value="analytics" className="font-black data-[state=active]:bg-[#efa72d] data-[state=active]:text-[#17457c] text-[#edf3f1]">
+            <TabsTrigger
+              value="analytics"
+              className="data-[state=active]:bg-transparent data-[state=active]:text-white text-white/40 text-[11px] font-mono uppercase tracking-[0.15em] px-4 py-3 rounded-none border-b-2 border-transparent data-[state=active]:border-white shadow-none"
+            >
               Analytics
             </TabsTrigger>
-            <TabsTrigger value="activity" className="font-black data-[state=active]:bg-[#efa72d] data-[state=active]:text-[#17457c] text-[#edf3f1]">
-              Recent Activity
+            <TabsTrigger
+              value="activity"
+              className="data-[state=active]:bg-transparent data-[state=active]:text-white text-white/40 text-[11px] font-mono uppercase tracking-[0.15em] px-4 py-3 rounded-none border-b-2 border-transparent data-[state=active]:border-white shadow-none"
+            >
+              Activity
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="users" className="mt-6">
-            <Card className="border-4 border-[#efa72d] shadow-[8px_8px_0px_0px_#efa72d]">
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-2xl font-black text-[#17457c]">User Management</CardTitle>
-                  <div className="flex gap-4">
+            <div className="space-y-6">
+              <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+                <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto_auto] gap-3 sm:items-end">
+                  <div>
+                    <label className={labelClass}>Search</label>
                     <div className="relative">
-                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-[#6b839a]" />
-                      <Input
-                        placeholder="Search users..."
+                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-white/30" />
+                      <input
+                        placeholder="Search by email or name"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        onKeyPress={(e) => e.key === 'Enter' && fetchUsers()}
-                        className="pl-10 border-2 border-[#6b839a] font-bold"
+                        onKeyDown={(e) => e.key === 'Enter' && fetchUsers()}
+                        className={`${inputClass} pl-9`}
                       />
                     </div>
+                  </div>
+                  <div>
+                    <label className={labelClass}>Plan</label>
                     <Select value={planFilter} onValueChange={(value) => { setPlanFilter(value); fetchUsers() }}>
-                      <SelectTrigger className="w-32 border-2 border-[#6b839a] font-bold">
+                      <SelectTrigger className="w-full sm:w-36 h-10 bg-white/[0.03] border-white/[0.08] text-[13px] text-white rounded-sm">
                         <SelectValue placeholder="All Plans" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="bg-[#0a0a0a] border-white/[0.08] text-white">
                         <SelectItem value="all">All Plans</SelectItem>
                         <SelectItem value="free">Free</SelectItem>
                         <SelectItem value="starter">Starter</SelectItem>
@@ -410,71 +389,74 @@ export default function AdminDashboard() {
                         <SelectItem value="unicorn">Unicorn</SelectItem>
                       </SelectContent>
                     </Select>
-                    <Button onClick={() => fetchUsers()} className="bg-[#efa72d] hover:bg-[#d4941f] text-[#17457c] font-black">
-                      <RefreshCw className="h-4 w-4" />
-                    </Button>
+                  </div>
+                  <div>
+                    <label className={labelClass}>&nbsp;</label>
+                    <button onClick={() => fetchUsers()} className="venym-btn-secondary h-10">
+                      <RefreshCw className="h-3 w-3 mr-1.5" />
+                      Refresh
+                    </button>
                   </div>
                 </div>
-              </CardHeader>
-              <CardContent>
+              </div>
+
+              <div className="hidden lg:block border border-white/[0.06] bg-white/[0.02] rounded-sm overflow-hidden">
                 <Table>
                   <TableHeader>
-                    <TableRow className="bg-[#efa72d] hover:bg-[#efa72d]">
-                      <TableHead className="font-black text-[#17457c]">User</TableHead>
-                      <TableHead className="font-black text-[#17457c]">Role</TableHead>
-                      <TableHead className="font-black text-[#17457c]">Plan</TableHead>
-                      <TableHead className="font-black text-[#17457c]">Credits</TableHead>
-                      <TableHead className="font-black text-[#17457c]">API Requests</TableHead>
-                      <TableHead className="font-black text-[#17457c]">Joined</TableHead>
-                      <TableHead className="font-black text-[#17457c]">Actions</TableHead>
+                    <TableRow className="border-white/[0.06] hover:bg-transparent">
+                      <TableHead className="text-[10px] font-mono uppercase tracking-[0.15em] text-white/40">User</TableHead>
+                      <TableHead className="text-[10px] font-mono uppercase tracking-[0.15em] text-white/40">Role</TableHead>
+                      <TableHead className="text-[10px] font-mono uppercase tracking-[0.15em] text-white/40">Plan</TableHead>
+                      <TableHead className="text-[10px] font-mono uppercase tracking-[0.15em] text-white/40">Credits</TableHead>
+                      <TableHead className="text-[10px] font-mono uppercase tracking-[0.15em] text-white/40">Requests</TableHead>
+                      <TableHead className="text-[10px] font-mono uppercase tracking-[0.15em] text-white/40">Joined</TableHead>
+                      <TableHead className="text-[10px] font-mono uppercase tracking-[0.15em] text-white/40"></TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {users.map((user) => (
-                      <TableRow key={user.id} className="hover:bg-gray-50">
+                    {users.map((u) => (
+                      <TableRow key={u.id} className="border-white/[0.06] hover:bg-white/[0.02]">
                         <TableCell>
-                          <div>
-                            <p className="font-bold text-[#17457c]">{user.email}</p>
-                            {user.full_name && <p className="text-sm text-[#6b839a]">{user.full_name}</p>}
-                          </div>
+                          <p className="text-[13px] text-white">{u.email}</p>
+                          {u.full_name && <p className="text-[11px] font-mono text-white/40">{u.full_name}</p>}
                         </TableCell>
                         <TableCell>
-                          <Badge className={user.role === 'admin' ? 'bg-[#efa72d] text-[#17457c]' : 'bg-[#6b839a] text-white'}>
-                            {user.role.toUpperCase()}
-                          </Badge>
+                          <span className={`text-[10px] font-mono uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border ${u.role === 'admin' ? 'border-white/30 text-white' : 'border-white/10 text-white/50'}`}>
+                            {u.role}
+                          </span>
                         </TableCell>
                         <TableCell>
-                          <Badge className="bg-[#17457c] text-white">
-                            {user.plan.toUpperCase()}
-                          </Badge>
+                          <span className="text-[10px] font-mono uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border border-white/10 text-white/70">
+                            {u.plan}
+                          </span>
                         </TableCell>
-                        <TableCell className="font-bold text-[#17457c]">
-                          {user.credits_remaining.toLocaleString()}
+                        <TableCell className="text-[12px] font-mono text-white/70">
+                          {u.credits_remaining.toLocaleString()}
                         </TableCell>
-                        <TableCell className="font-bold text-[#6b839a]">
-                          {user._count.api_requests}
+                        <TableCell className="text-[12px] font-mono text-white/50">
+                          {u._count.api_requests}
                         </TableCell>
-                        <TableCell className="text-sm text-[#6b839a]">
-                          {new Date(user.created_at).toLocaleDateString()}
+                        <TableCell className="text-[12px] font-mono text-white/50">
+                          {new Date(u.created_at).toLocaleDateString()}
                         </TableCell>
                         <TableCell>
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm">
+                              <button className="text-white/40 hover:text-white/80 p-1">
                                 <MoreHorizontal className="h-4 w-4" />
-                              </Button>
+                              </button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent>
-                              <DropdownMenuItem onClick={() => fetchUserDetails(user.id)}>
-                                <Eye className="h-4 w-4 mr-2" />
+                            <DropdownMenuContent className="bg-[#0a0a0a] border-white/[0.08] text-white">
+                              <DropdownMenuItem onClick={() => fetchUserDetails(u.id)}>
+                                <Eye className="h-3.5 w-3.5 mr-2" />
                                 View Details
                               </DropdownMenuItem>
-                              <DropdownMenuItem onClick={() => { setSelectedUser(user); setCreditAdjustmentOpen(true) }}>
-                                <CreditCard className="h-4 w-4 mr-2" />
+                              <DropdownMenuItem onClick={() => { setSelectedUser(u); setCreditAdjustmentOpen(true) }}>
+                                <CreditCard className="h-3.5 w-3.5 mr-2" />
                                 Adjust Credits
                               </DropdownMenuItem>
-                              <DropdownMenuItem onClick={() => handleUserUpdate(user.id, { role: user.role === 'admin' ? 'user' : 'admin' })}>
-                                <Shield className="h-4 w-4 mr-2" />
+                              <DropdownMenuItem onClick={() => handleUserUpdate(u.id, { role: u.role === 'admin' ? 'user' : 'admin' })}>
+                                <Shield className="h-3.5 w-3.5 mr-2" />
                                 Toggle Admin
                               </DropdownMenuItem>
                             </DropdownMenuContent>
@@ -484,188 +466,240 @@ export default function AdminDashboard() {
                     ))}
                   </TableBody>
                 </Table>
-                
-                {/* Pagination */}
-                <div className="flex items-center justify-between mt-4">
-                  <p className="text-sm text-[#6b839a] font-bold">
-                    Page {currentPage} of {totalPages}
-                  </p>
-                  <div className="flex gap-2">
-                    <Button
-                      onClick={() => fetchUsers(currentPage - 1)}
-                      disabled={currentPage === 1}
-                      variant="outline"
-                      className="border-[#17457c] text-[#17457c]"
-                    >
-                      Previous
-                    </Button>
-                    <Button
-                      onClick={() => fetchUsers(currentPage + 1)}
-                      disabled={currentPage === totalPages}
-                      variant="outline"
-                      className="border-[#17457c] text-[#17457c]"
-                    >
-                      Next
-                    </Button>
+              </div>
+
+              <div className="lg:hidden space-y-3">
+                {users.map((u) => (
+                  <div key={u.id} className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-4">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="min-w-0">
+                        <p className="text-[13px] text-white truncate">{u.email}</p>
+                        {u.full_name && <p className="text-[11px] font-mono text-white/40 truncate">{u.full_name}</p>}
+                      </div>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <button className="text-white/40 hover:text-white/80 p-1">
+                            <MoreHorizontal className="h-4 w-4" />
+                          </button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="bg-[#0a0a0a] border-white/[0.08] text-white">
+                          <DropdownMenuItem onClick={() => fetchUserDetails(u.id)}>
+                            <Eye className="h-3.5 w-3.5 mr-2" />
+                            View Details
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => { setSelectedUser(u); setCreditAdjustmentOpen(true) }}>
+                            <CreditCard className="h-3.5 w-3.5 mr-2" />
+                            Adjust Credits
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleUserUpdate(u.id, { role: u.role === 'admin' ? 'user' : 'admin' })}>
+                            <Shield className="h-3.5 w-3.5 mr-2" />
+                            Toggle Admin
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
+                    <div className="flex flex-wrap gap-2 mb-3">
+                      <span className={`text-[10px] font-mono uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border ${u.role === 'admin' ? 'border-white/30 text-white' : 'border-white/10 text-white/50'}`}>
+                        {u.role}
+                      </span>
+                      <span className="text-[10px] font-mono uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border border-white/10 text-white/70">
+                        {u.plan}
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-3 gap-2 text-[11px] font-mono">
+                      <div>
+                        <p className="text-[10px] uppercase tracking-[0.15em] text-white/30">Credits</p>
+                        <p className="text-white/70">{u.credits_remaining.toLocaleString()}</p>
+                      </div>
+                      <div>
+                        <p className="text-[10px] uppercase tracking-[0.15em] text-white/30">Requests</p>
+                        <p className="text-white/70">{u._count.api_requests}</p>
+                      </div>
+                      <div>
+                        <p className="text-[10px] uppercase tracking-[0.15em] text-white/30">Joined</p>
+                        <p className="text-white/70">{new Date(u.created_at).toLocaleDateString()}</p>
+                      </div>
+                    </div>
                   </div>
+                ))}
+              </div>
+
+              <div className="flex items-center justify-between">
+                <p className="text-[11px] font-mono uppercase tracking-[0.15em] text-white/40">
+                  Page {currentPage} of {totalPages}
+                </p>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => fetchUsers(currentPage - 1)}
+                    disabled={currentPage === 1}
+                    className="venym-btn-secondary disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    Previous
+                  </button>
+                  <button
+                    onClick={() => fetchUsers(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                    className="venym-btn-secondary disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    Next
+                  </button>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </TabsContent>
 
           <TabsContent value="analytics" className="mt-6">
             {stats && (
-              <div className="grid gap-6">
-                <Card className="border-4 border-[#6b839a] shadow-[8px_8px_0px_0px_#6b839a]">
-                  <CardHeader>
-                    <CardTitle className="text-2xl font-black text-[#17457c]">Plan Distribution</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      {stats.planDistribution.map((plan) => (
-                        <div key={plan.plan} className="flex items-center justify-between p-4 bg-white rounded-lg border-2 border-[#6b839a]">
-                          <div className="flex items-center gap-4">
-                            <Badge className="bg-[#17457c] text-white font-black">
-                              {plan.plan.toUpperCase()}
-                            </Badge>
-                            <span className="font-bold text-[#17457c]">{plan.count} users</span>
-                          </div>
-                          <div className="w-48 bg-gray-200 rounded-full h-4">
-                            <div
-                              className="bg-[#efa72d] h-4 rounded-full"
-                              style={{ width: `${(plan.count / stats.overview.totalUsers) * 100}%` }}
-                            />
-                          </div>
+              <div className="space-y-6">
+                <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+                  <div className="px-6 py-4 border-b border-white/[0.06] flex items-center gap-2">
+                    <Users className="h-3.5 w-3.5 text-white/40" />
+                    <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/40">
+                      Plan Distribution
+                    </span>
+                  </div>
+                  <div className="p-6 space-y-3">
+                    {stats.planDistribution.map((plan) => (
+                      <div key={plan.plan} className="flex items-center justify-between gap-4">
+                        <div className="flex items-center gap-3 min-w-0">
+                          <span className="text-[10px] font-mono uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border border-white/10 text-white/70">
+                            {plan.plan}
+                          </span>
+                          <span className="text-[12px] font-mono text-white/70">{plan.count} users</span>
                         </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
+                        <div className="w-32 sm:w-48 bg-white/[0.04] h-1.5 rounded-sm overflow-hidden">
+                          <div
+                            className="bg-white/60 h-full"
+                            style={{ width: `${(plan.count / Math.max(stats.overview.totalUsers, 1)) * 100}%` }}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
 
-                <Card className="border-4 border-[#6b839a] shadow-[8px_8px_0px_0px_#6b839a]">
-                  <CardHeader>
-                    <CardTitle className="text-2xl font-black text-[#17457c]">Top Users by API Usage</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
-                      {stats.topUsers.map((user, index) => (
-                        <div key={user.id} className="flex items-center justify-between p-4 bg-white rounded-lg border-2 border-[#6b839a]">
-                          <div className="flex items-center gap-4">
-                            <span className="font-black text-2xl text-[#efa72d]">#{index + 1}</span>
-                            <div>
-                              <p className="font-bold text-[#17457c]">{user.email}</p>
-                              {user.full_name && <p className="text-sm text-[#6b839a]">{user.full_name}</p>}
-                            </div>
-                          </div>
-                          <div className="flex items-center gap-4">
-                            <Badge className="bg-[#17457c] text-white">{user.plan.toUpperCase()}</Badge>
-                            <span className="font-black text-[#17457c]">{user._count.api_requests} requests</span>
+                <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+                  <div className="px-6 py-4 border-b border-white/[0.06] flex items-center gap-2">
+                    <Activity className="h-3.5 w-3.5 text-white/40" />
+                    <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/40">
+                      Top Users by API Usage
+                    </span>
+                  </div>
+                  <div className="divide-y divide-white/[0.06]">
+                    {stats.topUsers.map((u, index) => (
+                      <div key={u.id} className="flex items-center justify-between gap-4 px-6 py-3">
+                        <div className="flex items-center gap-4 min-w-0">
+                          <span className="text-[11px] font-mono text-white/30 w-6">
+                            #{index + 1}
+                          </span>
+                          <div className="min-w-0">
+                            <p className="text-[13px] text-white truncate">{u.email}</p>
+                            {u.full_name && <p className="text-[11px] font-mono text-white/40 truncate">{u.full_name}</p>}
                           </div>
                         </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
+                        <div className="flex items-center gap-3 shrink-0">
+                          <span className="text-[10px] font-mono uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border border-white/10 text-white/70 hidden sm:inline-flex">
+                            {u.plan}
+                          </span>
+                          <span className="text-[12px] font-mono text-white/70">{u._count.api_requests} req</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             )}
           </TabsContent>
 
           <TabsContent value="activity" className="mt-6">
             {stats && (
-              <Card className="border-4 border-[#efa72d] shadow-[8px_8px_0px_0px_#efa72d]">
-                <CardHeader>
-                  <CardTitle className="text-2xl font-black text-[#17457c]">Recent API Activity</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    {stats.recentActivity.map((activity) => (
-                      <div key={activity.id} className="flex items-center justify-between p-4 bg-white rounded-lg border-2 border-[#6b839a]">
-                        <div className="flex items-center gap-4">
-                          <Badge className={`${activity.status_code < 400 ? 'bg-green-600' : 'bg-red-600'} text-white`}>
-                            {activity.status_code}
-                          </Badge>
-                          <div>
-                            <p className="font-bold text-[#17457c]">{activity.endpoint}</p>
-                            <p className="text-sm text-[#6b839a]">
-                              {activity.user.full_name || activity.user.email} • {new Date(activity.created_at).toLocaleString()}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <p className="font-black text-[#17457c]">{activity.credits_used} credits</p>
-                          <p className="text-sm font-bold text-[#6b839a]">{activity.method}</p>
+              <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+                <div className="px-6 py-4 border-b border-white/[0.06] flex items-center gap-2">
+                  <Activity className="h-3.5 w-3.5 text-white/40" />
+                  <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/40">
+                    Recent API Activity
+                  </span>
+                </div>
+                <div className="divide-y divide-white/[0.06]">
+                  {stats.recentActivity.map((activity) => (
+                    <div key={activity.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 px-6 py-3">
+                      <div className="flex items-center gap-3 min-w-0 flex-1">
+                        <span className={`text-[10px] font-mono px-2 py-0.5 rounded-sm ${statusBadge(activity.status_code)}`}>
+                          {activity.status_code}
+                        </span>
+                        <div className="min-w-0">
+                          <p className="text-[13px] font-mono text-white truncate">{activity.endpoint}</p>
+                          <p className="text-[11px] font-mono text-white/40 truncate">
+                            {activity.user.full_name || activity.user.email} • {new Date(activity.created_at).toLocaleString()}
+                          </p>
                         </div>
                       </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+                      <div className="flex sm:flex-col justify-between sm:items-end gap-2 sm:gap-0">
+                        <p className="text-[12px] font-mono text-white/70">{activity.credits_used} credits</p>
+                        <p className="text-[11px] font-mono text-white/40">{activity.method}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             )}
           </TabsContent>
         </Tabs>
 
         {/* Credit Adjustment Dialog */}
         <Dialog open={creditAdjustmentOpen} onOpenChange={setCreditAdjustmentOpen}>
-          <DialogContent className="sm:max-w-[425px]">
+          <DialogContent className="bg-[#0a0a0a] border-white/[0.08] text-white sm:max-w-[460px]">
             <DialogHeader>
-              <DialogTitle>Adjust User Credits</DialogTitle>
-              <DialogDescription>
-                Modify credits for {selectedUser?.email}
+              <DialogTitle className="text-white">Adjust User Credits</DialogTitle>
+              <DialogDescription className="text-white/50 text-[12px] font-mono">
+                {selectedUser?.email}
               </DialogDescription>
             </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="action" className="text-right">
-                  Action
-                </Label>
+            <div className="space-y-4 py-2">
+              <div>
+                <label className={labelClass}>Action</label>
                 <Select value={creditAction} onValueChange={(value: any) => setCreditAction(value)}>
-                  <SelectTrigger className="col-span-3">
+                  <SelectTrigger className="w-full h-10 bg-white/[0.03] border-white/[0.08] text-[13px] text-white rounded-sm">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-[#0a0a0a] border-white/[0.08] text-white">
                     <SelectItem value="add">Add Credits</SelectItem>
                     <SelectItem value="set">Set Credits</SelectItem>
                     <SelectItem value="subtract">Subtract Credits</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="amount" className="text-right">
-                  Amount
-                </Label>
-                <Input
-                  id="amount"
+              <div>
+                <label className={labelClass}>Amount</label>
+                <input
                   type="number"
                   value={creditAmount}
                   onChange={(e) => setCreditAmount(e.target.value)}
-                  className="col-span-3"
+                  className={inputClass}
                 />
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="reason" className="text-right">
-                  Reason
-                </Label>
-                <Input
-                  id="reason"
+              <div>
+                <label className={labelClass}>Reason</label>
+                <input
                   value={creditReason}
                   onChange={(e) => setCreditReason(e.target.value)}
-                  className="col-span-3"
                   placeholder="Optional"
+                  className={inputClass}
                 />
               </div>
               {selectedUser && (
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label className="text-right">Current</Label>
-                  <span className="col-span-3 font-bold">
+                <div className="flex items-center justify-between pt-3 border-t border-white/[0.06]">
+                  <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/30">Current</span>
+                  <span className="text-[13px] font-mono text-white">
                     {selectedUser.credits_remaining.toLocaleString()} credits
                   </span>
                 </div>
               )}
             </div>
             <DialogFooter>
-              <Button onClick={handleCreditAdjustment} className="bg-[#efa72d] hover:bg-[#d4941f] text-[#17457c] font-black">
+              <button onClick={handleCreditAdjustment} className="venym-btn-primary">
                 Apply Changes
-              </Button>
+              </button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
