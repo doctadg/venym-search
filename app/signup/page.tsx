@@ -215,7 +215,7 @@ export default function SignupPage() {
           <Link href="/" className="flex items-center gap-3 mx-auto">
             <div className="w-7 h-7 relative">
               <Image
-                src="/VENYM_SEARCH-logo.png"
+                src="/venym.png"
                 alt="Venym Search"
                 width={28}
                 height={28}

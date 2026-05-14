@@ -238,7 +238,7 @@ export default function DocsLayout({
           <Link href="/" className="flex items-center gap-3 shrink-0">
             <div className="w-7 h-7 relative">
               <Image
-                src="/VENYM_SEARCH-logo.png"
+                src="/venym.png"
                 alt="Venym Search"
                 width={28}
                 height={28}
@@ -294,7 +294,7 @@ export default function DocsLayout({
                 <div className="px-5 py-4 border-b border-white/[0.06]">
                   <Link href="/" className="flex items-center gap-3">
                     <Image
-                      src="/VENYM_SEARCH-logo.png"
+                      src="/venym.png"
                       alt="Venym Search"
                       width={28}
                       height={28}

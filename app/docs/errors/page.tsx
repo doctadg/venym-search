@@ -1,10 +1,7 @@
-import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Alert, AlertDescription } from '@/components/ui/alert'
-import { 
-  AlertTriangle, 
-  XCircle, 
-  Shield, 
+import {
+  AlertTriangle,
+  XCircle,
+  Shield,
   Bug,
   Server,
   Zap,
@@ -51,7 +48,7 @@ def make_api_request(endpoint, data, max_retries=3):
     """
     API_KEY = "sk_live_YOUR_API_KEY_API_KEY_key_here"
     base_url = "https://www.search.venym.io/api/v1"
-    
+
     for attempt in range(max_retries):
         try:
             response = requests.post(
@@ -63,34 +60,34 @@ def make_api_request(endpoint, data, max_retries=3):
                 json=data,
                 timeout=30
             )
-            
+
             # Handle specific status codes
             if response.status_code == 200:
                 return response.json()
-            
+
             elif response.status_code == 400:
                 error_data = response.json()
                 logger.error(f"Bad request: {error_data.get('error', 'Unknown error')}")
                 raise ValueError(f"Invalid request: {error_data.get('error')}")
-            
+
             elif response.status_code == 401:
                 logger.error("Authentication failed - check your API key")
                 raise AuthenticationError("Invalid API key")
-            
+
             elif response.status_code == 402:
                 logger.error("Insufficient credits")
                 raise InsufficientCreditsError("Account has no remaining credits")
-            
+
             elif response.status_code == 429:
                 retry_after = int(response.headers.get('retry-after', 60))
                 logger.warning(f"Rate limited. Waiting {retry_after} seconds...")
-                
+
                 if attempt < max_retries - 1:
                     time.sleep(retry_after)
                     continue
                 else:
                     raise RateLimitError("Rate limit exceeded")
-            
+
             elif response.status_code >= 500:
                 logger.error(f"Server error: {response.status_code}")
                 if attempt < max_retries - 1:
@@ -100,24 +97,24 @@ def make_api_request(endpoint, data, max_retries=3):
                     continue
                 else:
                     raise VenymSearchError(f"Server error: {response.status_code}")
-            
+
             else:
                 logger.error(f"Unexpected status code: {response.status_code}")
                 raise VenymSearchError(f"API error: {response.status_code}")
-                
+
         except requests.exceptions.Timeout:
             logger.error("Request timeout")
             if attempt < max_retries - 1:
                 continue
             raise VenymSearchError("Request timeout")
-            
+
         except requests.exceptions.ConnectionError:
             logger.error("Connection error")
             if attempt < max_retries - 1:
                 time.sleep(2 ** attempt)
                 continue
             raise VenymSearchError("Connection error")
-    
+
     raise VenymSearchError("Max retries exceeded")
 
 # Example usage
@@ -127,19 +124,19 @@ try:
         "max_results": 5
     })
     print(f"Success: Found {len(result['search_results'])} results")
-    
+
 except AuthenticationError:
     print("Please check your API key")
-    
+
 except InsufficientCreditsError:
     print("Please upgrade your plan or wait for credit renewal")
-    
+
 except RateLimitError:
     print("Please wait before making more requests")
-    
+
 except ValueError as e:
     print(f"Invalid request: {e}")
-    
+
 except VenymSearchError as e:
     print(f"API error: {e}")`,
 
@@ -181,7 +178,7 @@ class InsufficientCreditsError extends VenymSearchError {
 async function makeApiRequest(endpoint, data, maxRetries = 3) {
   const API_KEY = 'sk_live_YOUR_API_KEY_API_KEY_key_here';
   const baseURL = 'https://www.search.venym.io/api/v1';
-  
+
   for (let attempt = 0; attempt < maxRetries; attempt++) {
     try {
       const response = await axios.post(
@@ -195,12 +192,12 @@ async function makeApiRequest(endpoint, data, maxRetries = 3) {
           timeout: 30000
         }
       );
-      
+
       return response.data;
-      
+
     } catch (error) {
       const { response } = error;
-      
+
       if (!response) {
         // Network error
         console.error('Network error:', error.message);
@@ -210,32 +207,32 @@ async function makeApiRequest(endpoint, data, maxRetries = 3) {
         }
         throw new VenymSearchError('Network error: ' + error.message);
       }
-      
+
       const { status, data: errorData } = response;
-      
+
       switch (status) {
         case 400:
           console.error('Bad request:', errorData.error);
           throw new VenymSearchError(\`Invalid request: \${errorData.error}\`, 400, errorData);
-          
+
         case 401:
           console.error('Authentication failed');
           throw new AuthenticationError('Invalid API key');
-          
+
         case 402:
           console.error('Insufficient credits');
           throw new InsufficientCreditsError('Account has no remaining credits');
-          
+
         case 429:
           const retryAfter = parseInt(response.headers['retry-after'] || '60');
           console.warn(\`Rate limited. Waiting \${retryAfter} seconds...\`);
-          
+
           if (attempt < maxRetries - 1) {
             await new Promise(resolve => setTimeout(resolve, retryAfter * 1000));
             continue;
           }
           throw new RateLimitError('Rate limit exceeded', retryAfter);
-          
+
         case 500:
         case 502:
         case 503:
@@ -248,14 +245,14 @@ async function makeApiRequest(endpoint, data, maxRetries = 3) {
             continue;
           }
           throw new VenymSearchError(\`Server error: \${status}\`, status, errorData);
-          
+
         default:
           console.error(\`Unexpected status: \${status}\`);
           throw new VenymSearchError(\`API error: \${status}\`, status, errorData);
       }
     }
   }
-  
+
   throw new VenymSearchError('Max retries exceeded');
 }
 
@@ -266,9 +263,9 @@ async function example() {
       query: 'latest news',
       max_results: 5
     });
-    
+
     console.log(\`Success: Found \${result.search_results.length} results\`);
-    
+
   } catch (error) {
     if (error instanceof AuthenticationError) {
       console.error('Please check your API key');
@@ -297,10 +294,10 @@ make_api_request() {
     local endpoint="$1"
     local data="$2"
     local attempt=1
-    
+
     while [ $attempt -le $MAX_RETRIES ]; do
         echo "Attempt $attempt of $MAX_RETRIES"
-        
+
         # Make the request and capture response + status code
         response=$(curl -s -w "%{json}%{http_code}" \\
             -X POST "$BASE_URL/$endpoint" \\
@@ -308,35 +305,35 @@ make_api_request() {
             -H "Content-Type: application/json" \\
             -d "$data" \\
             --max-time 30)
-        
+
         # Extract status code (last 3 characters)
         http_code="\${response: -3}"
         # Extract response body (everything except last 3 characters)
         response_body="\${response%???}"
-        
+
         case $http_code in
             200)
-                echo "✅ Success!"
+                echo "Success!"
                 echo "$response_body" | jq '.'
                 return 0
                 ;;
             400)
-                echo "❌ Bad Request (400)"
+                echo "Bad Request (400)"
                 echo "$response_body" | jq -r '.error // "Invalid request parameters"'
                 return 1
                 ;;
             401)
-                echo "🔒 Unauthorized (401)"
+                echo "Unauthorized (401)"
                 echo "Please check your API key"
                 return 1
                 ;;
             402)
-                echo "💳 Payment Required (402)"
+                echo "Payment Required (402)"
                 echo "Insufficient credits - please upgrade your plan"
                 return 1
                 ;;
             429)
-                echo "⏰ Rate Limited (429)"
+                echo "Rate Limited (429)"
                 retry_after=$(echo "$response_body" | jq -r '.retry_after // 60')
                 if [ $attempt -lt $MAX_RETRIES ]; then
                     echo "Waiting $retry_after seconds before retry..."
@@ -349,7 +346,7 @@ make_api_request() {
                 fi
                 ;;
             5*)
-                echo "🔧 Server Error ($http_code)"
+                echo "Server Error ($http_code)"
                 if [ $attempt -lt $MAX_RETRIES ]; then
                     wait_time=$((2 ** (attempt - 1)))
                     echo "Retrying in $wait_time seconds..."
@@ -362,7 +359,7 @@ make_api_request() {
                 fi
                 ;;
             000)
-                echo "🌐 Network Error"
+                echo "Network Error"
                 if [ $attempt -lt $MAX_RETRIES ]; then
                     echo "Connection failed, retrying..."
                     attempt=$((attempt + 1))
@@ -373,7 +370,7 @@ make_api_request() {
                 fi
                 ;;
             *)
-                echo "❓ Unexpected Status ($http_code)"
+                echo "Unexpected Status ($http_code)"
                 echo "$response_body"
                 return 1
                 ;;
@@ -394,11 +391,11 @@ make_api_request "search" '{
       code: "400",
       title: "Bad Request",
       icon: XCircle,
-      color: "text-red-600",
+      tone: "text-rose-300/80 border-rose-400/20",
       description: "The request was invalid or cannot be served",
       causes: [
         "Missing required parameters",
-        "Invalid parameter values", 
+        "Invalid parameter values",
         "Malformed JSON body",
         "Invalid query syntax"
       ],
@@ -409,10 +406,10 @@ make_api_request "search" '{
       }
     },
     {
-      code: "401", 
+      code: "401",
       title: "Unauthorized",
       icon: Key,
-      color: "text-orange-600",
+      tone: "text-amber-300/80 border-amber-400/20",
       description: "Authentication failed or API key is invalid",
       causes: [
         "Missing Authorization header",
@@ -422,15 +419,15 @@ make_api_request "search" '{
       ],
       example: {
         error: "Invalid API key",
-        code: "AUTHENTICATION_FAILED", 
+        code: "AUTHENTICATION_FAILED",
         details: "Please check your API key and ensure it's correctly formatted"
       }
     },
     {
       code: "402",
-      title: "Payment Required", 
+      title: "Payment Required",
       icon: CreditCard,
-      color: "text-purple-600",
+      tone: "text-violet-300/80 border-violet-400/20",
       description: "Account has insufficient credits or billing issue",
       causes: [
         "Credits exhausted",
@@ -449,7 +446,7 @@ make_api_request "search" '{
       code: "429",
       title: "Too Many Requests",
       icon: Clock,
-      color: "text-yellow-600", 
+      tone: "text-amber-300/80 border-amber-400/20",
       description: "Rate limit exceeded for your plan tier",
       causes: [
         "Exceeded requests per minute",
@@ -458,7 +455,7 @@ make_api_request "search" '{
         "Daily/monthly limit reached"
       ],
       example: {
-        error: "Rate limit exceeded", 
+        error: "Rate limit exceeded",
         code: "RATE_LIMITED",
         retry_after: 60,
         limit: 100,
@@ -470,7 +467,7 @@ make_api_request "search" '{
       code: "500",
       title: "Internal Server Error",
       icon: Server,
-      color: "text-gray-600",
+      tone: "text-white/60 border-white/15",
       description: "Unexpected server error occurred",
       causes: [
         "Database connection issues",
@@ -494,7 +491,7 @@ make_api_request "search" '{
       fix: "Provide a non-empty query string"
     },
     {
-      field: "max_results", 
+      field: "max_results",
       error: "max_results must be between 1 and 100",
       fix: "Set max_results to a value between 1-100"
     },
@@ -512,23 +509,13 @@ make_api_request "search" '{
 
   return (
     <div className="max-w-none">
-      {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="p-2 bg-red-100 rounded-lg">
-            <Bug className="w-6 h-6 text-red-600" />
-          </div>
-          <Badge className="bg-red-100 text-red-700 hover:bg-red-100">
-            Error Handling
-          </Badge>
-        </div>
-        
-        <h1 className="text-4xl font-bold text-[#17457c] mb-4">
+      <div className="mb-10">
+        <div className="venym-meta mb-3">ERROR HANDLING</div>
+        <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-white mb-3 leading-[1.1]">
           Error Handling Guide
         </h1>
-        <p className="text-xl text-gray-600 leading-relaxed">
-          Comprehensive guide to handling Venym Search API errors gracefully in your applications.
-          Learn about error codes, retry strategies, and best practices.
+        <p className="text-[14px] text-white/55 leading-relaxed max-w-2xl">
+          Comprehensive guide to handling Venym Search API errors gracefully in your applications. Learn about error codes, retry strategies, and best practices.
         </p>
       </div>
 
@@ -536,14 +523,14 @@ make_api_request "search" '{
         All Venym Search API errors return consistent JSON responses with error codes, descriptions, and actionable details to help you debug issues quickly.
       </Callout>
 
-      {/* Error Response Structure */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Error Response Structure</h2>
-        
-        <p className="text-gray-600 mb-6">
+        <div className="venym-meta mb-3">01 · Response Structure</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Error Response Structure</h2>
+
+        <p className="text-[14px] text-white/55 leading-relaxed mb-6">
           All error responses follow a consistent format to make error handling predictable:
         </p>
-        
+
         <CodeBlock
           language="json"
           code={`{
@@ -557,254 +544,236 @@ make_api_request "search" '{
 }`}
           title="Standard Error Response Format"
         />
-        
+
         <div className="grid gap-4 md:grid-cols-2 mt-6">
-          <div>
-            <h4 className="font-semibold text-gray-900 mb-3">Response Fields</h4>
-            <div className="space-y-2 text-sm">
-              <div><code className="bg-gray-100 px-2 py-1 rounded">error</code> - Human-readable error message</div>
-              <div><code className="bg-gray-100 px-2 py-1 rounded">code</code> - Machine-readable error code</div>
-              <div><code className="bg-gray-100 px-2 py-1 rounded">details</code> - Additional context and guidance</div>
-              <div><code className="bg-gray-100 px-2 py-1 rounded">request_id</code> - Unique identifier for debugging</div>
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+            <h4 className="text-[14px] font-medium text-white mb-3">Response Fields</h4>
+            <div className="space-y-2 text-[13px] text-white/70">
+              <div><code className="px-1.5 py-0.5 text-[12.5px] font-mono bg-white/[0.04] border border-white/[0.06] text-white/80 rounded-sm">error</code> - Human-readable error message</div>
+              <div><code className="px-1.5 py-0.5 text-[12.5px] font-mono bg-white/[0.04] border border-white/[0.06] text-white/80 rounded-sm">code</code> - Machine-readable error code</div>
+              <div><code className="px-1.5 py-0.5 text-[12.5px] font-mono bg-white/[0.04] border border-white/[0.06] text-white/80 rounded-sm">details</code> - Additional context and guidance</div>
+              <div><code className="px-1.5 py-0.5 text-[12.5px] font-mono bg-white/[0.04] border border-white/[0.06] text-white/80 rounded-sm">request_id</code> - Unique identifier for debugging</div>
             </div>
           </div>
-          <div>
-            <h4 className="font-semibold text-gray-900 mb-3">Optional Fields</h4>
-            <div className="space-y-2 text-sm">
-              <div><code className="bg-gray-100 px-2 py-1 rounded">retry_after</code> - Seconds to wait before retry</div>
-              <div><code className="bg-gray-100 px-2 py-1 rounded">remaining</code> - Requests/credits remaining</div>
-              <div><code className="bg-gray-100 px-2 py-1 rounded">reset</code> - When limits reset (Unix timestamp)</div>
-              <div><code className="bg-gray-100 px-2 py-1 rounded">validation_errors</code> - Field-specific errors</div>
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+            <h4 className="text-[14px] font-medium text-white mb-3">Optional Fields</h4>
+            <div className="space-y-2 text-[13px] text-white/70">
+              <div><code className="px-1.5 py-0.5 text-[12.5px] font-mono bg-white/[0.04] border border-white/[0.06] text-white/80 rounded-sm">retry_after</code> - Seconds to wait before retry</div>
+              <div><code className="px-1.5 py-0.5 text-[12.5px] font-mono bg-white/[0.04] border border-white/[0.06] text-white/80 rounded-sm">remaining</code> - Requests/credits remaining</div>
+              <div><code className="px-1.5 py-0.5 text-[12.5px] font-mono bg-white/[0.04] border border-white/[0.06] text-white/80 rounded-sm">reset</code> - When limits reset (Unix timestamp)</div>
+              <div><code className="px-1.5 py-0.5 text-[12.5px] font-mono bg-white/[0.04] border border-white/[0.06] text-white/80 rounded-sm">validation_errors</code> - Field-specific errors</div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* HTTP Status Codes */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">HTTP Status Codes</h2>
-        
-        <div className="space-y-6">
+        <div className="venym-meta mb-3">02 · Status Codes</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">HTTP Status Codes</h2>
+
+        <div className="space-y-4">
           {errorCodes.map((error, index) => (
-            <Card key={index} className={`border-l-4 border-l-current ${error.color}`}>
-              <CardHeader>
-                <CardTitle className={`flex items-center gap-3 ${error.color}`}>
-                  <error.icon className="w-6 h-6" />
-                  <span>{error.code} {error.title}</span>
-                </CardTitle>
-                <p className="text-gray-600">{error.description}</p>
-              </CardHeader>
-              <CardContent className="space-y-4">
+            <div key={index} className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+              <div className="px-6 py-4 border-b border-white/[0.06] flex items-center gap-3">
+                <error.icon className="w-4 h-4 text-white/50" />
+                <span className={`text-[10px] font-mono uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border ${error.tone}`}>
+                  {error.code}
+                </span>
+                <span className="text-[15px] font-medium text-white">{error.title}</span>
+              </div>
+              <div className="p-6 space-y-4">
+                <p className="text-[13px] text-white/55 leading-relaxed">{error.description}</p>
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">Common Causes:</h4>
+                  <h4 className="text-[14px] font-medium text-white mb-2">Common Causes:</h4>
                   <ul className="space-y-1">
                     {error.causes.map((cause, idx) => (
-                      <li key={idx} className="flex items-center gap-2 text-sm text-gray-600">
-                        <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
+                      <li key={idx} className="flex items-center gap-2 text-[13px] text-white/65">
+                        <div className="w-1 h-1 bg-white/30 rounded-full"></div>
                         {cause}
                       </li>
                     ))}
                   </ul>
                 </div>
-                
+
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">Example Response:</h4>
-                  <div className="bg-gray-50 p-3 rounded">
-                    <code className="text-xs">
+                  <h4 className="text-[14px] font-medium text-white mb-2">Example Response:</h4>
+                  <div className="bg-[#050505] border border-white/[0.06] p-3 rounded-sm">
+                    <code className="text-[11.5px] font-mono text-white/70 whitespace-pre">
                       {JSON.stringify(error.example, null, 2)}
                     </code>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           ))}
         </div>
       </div>
 
-      {/* Validation Errors */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Validation Errors (400)</h2>
-        
-        <p className="text-gray-600 mb-6">
+        <div className="venym-meta mb-3">03 · Validation Errors</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Validation Errors (400)</h2>
+
+        <p className="text-[14px] text-white/55 leading-relaxed mb-6">
           When request parameters are invalid, you'll receive detailed validation errors:
         </p>
-        
-        <Card>
-          <CardContent className="p-0">
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Field</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Error</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Solution</th>
+
+        <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-white/[0.06]">
+                  <th className="px-6 py-3 text-left text-[10px] font-mono uppercase tracking-[0.15em] text-white/40">Field</th>
+                  <th className="px-6 py-3 text-left text-[10px] font-mono uppercase tracking-[0.15em] text-white/40">Error</th>
+                  <th className="px-6 py-3 text-left text-[10px] font-mono uppercase tracking-[0.15em] text-white/40">Solution</th>
+                </tr>
+              </thead>
+              <tbody>
+                {validationErrors.map((validation, index) => (
+                  <tr key={index} className="border-b border-white/[0.06] last:border-0 hover:bg-white/[0.02]">
+                    <td className="px-6 py-3 text-[13px] font-mono text-white/80">{validation.field}</td>
+                    <td className="px-6 py-3 text-[13px] text-rose-300/80">{validation.error}</td>
+                    <td className="px-6 py-3 text-[13px] text-white/65">{validation.fix}</td>
                   </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200">
-                  {validationErrors.map((validation, index) => (
-                    <tr key={index} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 text-sm font-mono text-[#17457c]">
-                        {validation.field}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-red-600">{validation.error}</td>
-                      <td className="px-6 py-4 text-sm text-gray-600">{validation.fix}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </CardContent>
-        </Card>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
 
-      {/* Error Handling Implementation */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Implementation Examples</h2>
-        
-        <p className="text-gray-600 mb-6">
+        <div className="venym-meta mb-3">04 · Implementation</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Implementation Examples</h2>
+
+        <p className="text-[14px] text-white/55 leading-relaxed mb-6">
           Robust error handling with retry logic, exponential backoff, and proper exception handling:
         </p>
-        
+
         <CodeBlock
           multiLanguage={errorHandlingExample}
           title="Comprehensive Error Handling"
         />
       </div>
 
-      {/* Best Practices */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Error Handling Best Practices</h2>
-        
-        <div className="grid gap-6 md:grid-cols-2">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <CheckCircle className="w-5 h-5 text-green-500" />
-                Do's
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="flex items-start gap-2">
-                <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                <span className="text-sm">Always check status codes before processing responses</span>
-              </div>
-              <div className="flex items-start gap-2">
-                <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                <span className="text-sm">Implement exponential backoff for retries</span>
-              </div>
-              <div className="flex items-start gap-2">
-                <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                <span className="text-sm">Log error details with request IDs</span>
-              </div>
-              <div className="flex items-start gap-2">
-                <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                <span className="text-sm">Handle network timeouts gracefully</span>
-              </div>
-              <div className="flex items-start gap-2">
-                <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                <span className="text-sm">Provide meaningful error messages to users</span>
-              </div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <XCircle className="w-5 h-5 text-red-500" />
-                Don'ts
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="flex items-start gap-2">
-                <XCircle className="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" />
-                <span className="text-sm">Don't ignore error responses</span>
-              </div>
-              <div className="flex items-start gap-2">
-                <XCircle className="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" />
-                <span className="text-sm">Don't retry immediately without delays</span>
-              </div>
-              <div className="flex items-start gap-2">
-                <XCircle className="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" />
-                <span className="text-sm">Don't expose API keys in error logs</span>
-              </div>
-              <div className="flex items-start gap-2">
-                <XCircle className="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" />
-                <span className="text-sm">Don't retry on 4xx errors (except 429)</span>
-              </div>
-              <div className="flex items-start gap-2">
-                <XCircle className="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" />
-                <span className="text-sm">Don't fail silently - always handle errors</span>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+        <div className="venym-meta mb-3">05 · Best Practices</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Error Handling Best Practices</h2>
 
-      {/* Monitoring & Debugging */}
-      <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Monitoring & Debugging</h2>
-        
-        <div className="grid gap-6 md:grid-cols-2">
-          <Card className="border-l-4 border-l-blue-500">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-blue-700">
-                <BarChart3 className="w-5 h-5" />
-                Error Monitoring
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <p className="text-sm text-gray-600">
-                Track error patterns to identify issues:
-              </p>
-              <ul className="space-y-2 text-sm">
-                <li>• Monitor error rates and types</li>
-                <li>• Set up alerts for unusual patterns</li>
-                <li>• Track retry success rates</li>
-                <li>• Monitor credit usage trends</li>
-              </ul>
-            </CardContent>
-          </Card>
-          
-          <Card className="border-l-4 border-l-purple-500">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-purple-700">
-                <Bug className="w-5 h-5" />
-                Debugging Tips
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <p className="text-sm text-gray-600">
-                Debug issues effectively:
-              </p>
-              <ul className="space-y-2 text-sm">
-                <li>• Always log the <code>request_id</code></li>
-                <li>• Include full error response in logs</li>
-                <li>• Test with curl for isolated debugging</li>
-                <li>• Check API status page for outages</li>
-              </ul>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-
-      {/* Support Contact */}
-      <div className="bg-gray-50 rounded-lg p-8 text-center">
-        <h3 className="text-xl font-semibold text-[#17457c] mb-4">Still Having Issues?</h3>
-        <p className="text-gray-600 mb-6">
-          If you're encountering persistent errors or need help with implementation, our support team is here to help.
-        </p>
-        <div className="flex justify-center gap-4">
-          <Card className="p-4">
-            <div className="text-sm">
-              <div className="font-semibold">Include in Support Requests:</div>
-              <div className="mt-2 text-gray-600">
-                • Request ID from error response<br/>
-                • Full error message and status code<br/>
-                • Your implementation code (sanitized)<br/>
-                • Expected vs actual behavior
+        <div className="grid gap-4 md:grid-cols-2">
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+            <div className="flex items-center gap-2 mb-3">
+              <CheckCircle className="w-4 h-4 text-emerald-400/80" />
+              <span className="text-[15px] font-medium text-white">Do's</span>
+            </div>
+            <div className="space-y-2">
+              <div className="flex items-start gap-2">
+                <CheckCircle className="w-3.5 h-3.5 text-emerald-400/80 mt-0.5 flex-shrink-0" />
+                <span className="text-[13px] text-white/70">Always check status codes before processing responses</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <CheckCircle className="w-3.5 h-3.5 text-emerald-400/80 mt-0.5 flex-shrink-0" />
+                <span className="text-[13px] text-white/70">Implement exponential backoff for retries</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <CheckCircle className="w-3.5 h-3.5 text-emerald-400/80 mt-0.5 flex-shrink-0" />
+                <span className="text-[13px] text-white/70">Log error details with request IDs</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <CheckCircle className="w-3.5 h-3.5 text-emerald-400/80 mt-0.5 flex-shrink-0" />
+                <span className="text-[13px] text-white/70">Handle network timeouts gracefully</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <CheckCircle className="w-3.5 h-3.5 text-emerald-400/80 mt-0.5 flex-shrink-0" />
+                <span className="text-[13px] text-white/70">Provide meaningful error messages to users</span>
               </div>
             </div>
-          </Card>
+          </div>
+
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+            <div className="flex items-center gap-2 mb-3">
+              <XCircle className="w-4 h-4 text-rose-400/80" />
+              <span className="text-[15px] font-medium text-white">Don'ts</span>
+            </div>
+            <div className="space-y-2">
+              <div className="flex items-start gap-2">
+                <XCircle className="w-3.5 h-3.5 text-rose-400/80 mt-0.5 flex-shrink-0" />
+                <span className="text-[13px] text-white/70">Don't ignore error responses</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <XCircle className="w-3.5 h-3.5 text-rose-400/80 mt-0.5 flex-shrink-0" />
+                <span className="text-[13px] text-white/70">Don't retry immediately without delays</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <XCircle className="w-3.5 h-3.5 text-rose-400/80 mt-0.5 flex-shrink-0" />
+                <span className="text-[13px] text-white/70">Don't expose API keys in error logs</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <XCircle className="w-3.5 h-3.5 text-rose-400/80 mt-0.5 flex-shrink-0" />
+                <span className="text-[13px] text-white/70">Don't retry on 4xx errors (except 429)</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <XCircle className="w-3.5 h-3.5 text-rose-400/80 mt-0.5 flex-shrink-0" />
+                <span className="text-[13px] text-white/70">Don't fail silently - always handle errors</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="mb-12">
+        <div className="venym-meta mb-3">06 · Monitoring</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Monitoring & Debugging</h2>
+
+        <div className="grid gap-4 md:grid-cols-2">
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+            <div className="flex items-center gap-2 mb-3">
+              <BarChart3 className="w-4 h-4 text-sky-400/80" />
+              <span className="text-[15px] font-medium text-white">Error Monitoring</span>
+            </div>
+            <p className="text-[13px] text-white/55 leading-relaxed mb-3">
+              Track error patterns to identify issues:
+            </p>
+            <ul className="space-y-2 text-[13px] text-white/70">
+              <li>• Monitor error rates and types</li>
+              <li>• Set up alerts for unusual patterns</li>
+              <li>• Track retry success rates</li>
+              <li>• Monitor credit usage trends</li>
+            </ul>
+          </div>
+
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+            <div className="flex items-center gap-2 mb-3">
+              <Bug className="w-4 h-4 text-violet-400/80" />
+              <span className="text-[15px] font-medium text-white">Debugging Tips</span>
+            </div>
+            <p className="text-[13px] text-white/55 leading-relaxed mb-3">
+              Debug issues effectively:
+            </p>
+            <ul className="space-y-2 text-[13px] text-white/70">
+              <li>• Always log the <code className="px-1.5 py-0.5 text-[12.5px] font-mono bg-white/[0.04] border border-white/[0.06] text-white/80 rounded-sm">request_id</code></li>
+              <li>• Include full error response in logs</li>
+              <li>• Test with curl for isolated debugging</li>
+              <li>• Check API status page for outages</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-8 text-center">
+        <h3 className="text-xl font-semibold text-white mb-3">Still Having Issues?</h3>
+        <p className="text-[14px] text-white/55 leading-relaxed mb-6 max-w-xl mx-auto">
+          If you're encountering persistent errors or need help with implementation, our support team is here to help.
+        </p>
+        <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-4 text-left max-w-md mx-auto">
+          <div className="text-[13px]">
+            <div className="text-[14px] font-medium text-white mb-2">Include in Support Requests:</div>
+            <div className="text-white/65">
+              • Request ID from error response<br />
+              • Full error message and status code<br />
+              • Your implementation code (sanitized)<br />
+              • Expected vs actual behavior
+            </div>
+          </div>
         </div>
       </div>
     </div>

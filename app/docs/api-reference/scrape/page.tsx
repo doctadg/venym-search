@@ -1,9 +1,6 @@
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { 
-  Code2, 
+import {
+  Code2,
   ArrowRight,
   BookOpen,
   Cpu,
@@ -52,8 +49,6 @@ export default function ScrapeAPIReferencePage() {
       required: false,
       description: "Custom User-Agent string for the request.",
       example: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
-
-
     },
     {
       name: "proxy_type",
@@ -141,7 +136,7 @@ export default function ScrapeAPIReferencePage() {
     },
     {
       name: "text_content",
-      type: "string", 
+      type: "string",
       description: "Plain text content extracted from HTML.",
       example: '"Welcome to our product catalog..."'
     },
@@ -203,40 +198,31 @@ export default function ScrapeAPIReferencePage() {
 
   return (
     <div className="max-w-none">
-      {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="p-2 bg-green-100 rounded-lg">
-            <Code2 className="w-6 h-6 text-green-600" />
-          </div>
-          <div>
-            <h1 className="text-3xl font-bold text-[#17457c]">Scrape API Reference</h1>
-            <p className="text-gray-600">Interactive testing for enterprise web scraping</p>
-          </div>
-        </div>
+      <div className="mb-10">
+        <div className="venym-meta mb-3">SCRAPE API · REFERENCE</div>
+        <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-white mb-3 leading-[1.1]">
+          Scrape API Reference
+        </h1>
+        <p className="text-[14px] text-white/55 leading-relaxed max-w-2xl mb-6">
+          Interactive testing for enterprise web scraping.
+        </p>
 
-        <div className="flex gap-3 mb-6">
-          <Link href="/docs/api/scrape">
-            <Button variant="outline" size="sm">
-              <BookOpen className="w-4 h-4 mr-2" />
-              View Guide
-            </Button>
+        <div className="flex gap-3 mb-6 flex-wrap">
+          <Link href="/docs/api/scrape" className="venym-btn-secondary">
+            <BookOpen className="w-3.5 h-3.5 mr-1.5" />
+            View Guide
           </Link>
-          <Link href="/docs/api/scrape/examples">
-            <Button variant="outline" size="sm">
-              <Code2 className="w-4 h-4 mr-2" />
-              Examples
-            </Button>
+          <Link href="/docs/api/scrape/examples" className="venym-btn-secondary">
+            <Code2 className="w-3.5 h-3.5 mr-1.5" />
+            Examples
           </Link>
         </div>
 
         <Callout type="success" title="Enterprise Web Scraping">
-          Test Scrape's enterprise-grade scraping capabilities including JavaScript rendering, 
-          residential proxies, and comprehensive data extraction.
+          Test Scrape's enterprise-grade scraping capabilities including JavaScript rendering, residential proxies, and comprehensive data extraction.
         </Callout>
       </div>
 
-      {/* API Tester */}
       <div className="mb-12">
         <APITester
           endpoint="https://www.search.venym.io/api/v1/scrape"
@@ -249,97 +235,48 @@ export default function ScrapeAPIReferencePage() {
         />
       </div>
 
-      {/* Response Schema */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Response Schema</h2>
-        <ResponseTable 
-          fields={responseFields}
-          title="Scrape Response Fields"
-        />
+        <div className="venym-meta mb-3">01 · Response Schema</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Response Schema</h2>
+        <ResponseTable fields={responseFields} title="Scrape Response Fields" />
       </div>
 
-      {/* Enterprise Features */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Enterprise Features</h2>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="flex items-center gap-2 text-[#17457c]">
-                <Cpu className="w-5 h-5" />
-                JavaScript Rendering
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm space-y-2">
-              <div>• Chromium browser engine</div>
-              <div>• Full ES6+ support</div>
-              <div>• DOM manipulation</div>
-              <div>• AJAX/Fetch requests</div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="flex items-center gap-2 text-[#17457c]">
-                <Network className="w-5 h-5" />
-                Proxy Network
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm space-y-2">
-              <div>• 100M+ residential IPs</div>
-              <div>• 200+ countries</div>
-              <div>• Automatic rotation</div>
-              <div>• High-speed datacenters</div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="flex items-center gap-2 text-[#17457c]">
-                <Shield className="w-5 h-5" />
-                Anti-Detection
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm space-y-2">
-              <div>• Browser fingerprinting</div>
-              <div>• Bot detection bypass</div>
-              <div>• CAPTCHA handling</div>
-              <div>• Behavioral mimicking</div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="flex items-center gap-2 text-[#17457c]">
-                <Zap className="w-5 h-5" />
-                Data Extraction
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm space-y-2">
-              <div>• Structured data parsing</div>
-              <div>• Link extraction</div>
-              <div>• Image processing</div>
-              <div>• Meta data analysis</div>
-            </CardContent>
-          </Card>
+        <div className="venym-meta mb-3">02 · Features</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Enterprise Features</h2>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {[
+            { icon: Cpu, title: 'JavaScript Rendering', items: ['Chromium browser engine', 'Full ES6+ support', 'DOM manipulation', 'AJAX/Fetch requests'] },
+            { icon: Network, title: 'Proxy Network', items: ['100M+ residential IPs', '200+ countries', 'Automatic rotation', 'High-speed datacenters'] },
+            { icon: Shield, title: 'Anti-Detection', items: ['Browser fingerprinting', 'Bot detection bypass', 'CAPTCHA handling', 'Behavioral mimicking'] },
+            { icon: Zap, title: 'Data Extraction', items: ['Structured data parsing', 'Link extraction', 'Image processing', 'Meta data analysis'] }
+          ].map((f) => (
+            <div key={f.title} className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+              <div className="flex items-center gap-2 mb-3">
+                <f.icon className="w-4 h-4 text-white/50" />
+                <span className="text-[14px] font-medium text-white">{f.title}</span>
+              </div>
+              <ul className="text-[13px] text-white/65 space-y-1.5">
+                {f.items.map((i) => <li key={i}>• {i}</li>)}
+              </ul>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* Bulk Scraping */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Bulk Scraping</h2>
-        <Card className="border-l-4 border-l-green-500">
-          <CardHeader>
-            <CardTitle className="text-lg">
-              <code className="bg-gray-100 px-2 py-1 rounded text-sm mr-3">POST</code>
-              /v1/scrape/bulk
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-gray-600 mb-4">
+        <div className="venym-meta mb-3">03 · Bulk Scraping</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Bulk Scraping</h2>
+        <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+          <div className="px-6 py-4 border-b border-white/[0.06] flex items-center gap-3">
+            <span className="text-[10px] font-mono uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border border-sky-400/20 text-sky-300/80">POST</span>
+            <code className="text-[13px] font-mono text-white/80">/v1/scrape/bulk</code>
+          </div>
+          <div className="p-6">
+            <p className="text-[14px] text-white/55 leading-relaxed mb-4">
               Process up to 100 URLs simultaneously with intelligent load balancing and error handling.
             </p>
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <pre className="text-sm overflow-x-auto">
+            <pre className="bg-[#050505] border border-white/[0.06] p-4 rounded-sm text-[12.5px] font-mono text-white/80 overflow-x-auto">
 {`{
   "urls": [
     "https://site1.com/page1",
@@ -351,200 +288,119 @@ export default function ScrapeAPIReferencePage() {
   "retry_failed": true,
   "max_retries": 2
 }`}
-              </pre>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Error Codes */}
-      <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Error Codes</h2>
-        <div className="space-y-3">
-          <Card className="border-l-4 border-l-green-500">
-            <CardContent className="pt-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <Badge className="bg-green-100 text-green-700 mb-2">200 OK</Badge>
-                  <p className="text-sm">Page scraped successfully</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-l-4 border-l-red-500">
-            <CardContent className="pt-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <Badge variant="destructive" className="mb-2">400 Bad Request</Badge>
-                  <p className="text-sm">Invalid URL or parameters</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-l-4 border-l-orange-500">
-            <CardContent className="pt-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <Badge className="bg-orange-100 text-orange-700 mb-2">403 Forbidden</Badge>
-                  <p className="text-sm">Target site blocked the request</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-l-4 border-l-purple-500">
-            <CardContent className="pt-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <Badge className="bg-purple-100 text-purple-700 mb-2">504 Gateway Timeout</Badge>
-                  <p className="text-sm">Target site took too long to respond</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+            </pre>
+          </div>
         </div>
       </div>
 
-      {/* Use Cases */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Common Use Cases</h2>
+        <div className="venym-meta mb-3">04 · Error Codes</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Error Codes</h2>
+        <div className="space-y-2">
+          {[
+            { code: '200 OK', tone: 'border-emerald-400/20 text-emerald-300/80', desc: 'Page scraped successfully' },
+            { code: '400 Bad Request', tone: 'border-rose-400/20 text-rose-300/80', desc: 'Invalid URL or parameters' },
+            { code: '403 Forbidden', tone: 'border-amber-400/20 text-amber-300/80', desc: 'Target site blocked the request' },
+            { code: '504 Gateway Timeout', tone: 'border-violet-400/20 text-violet-300/80', desc: 'Target site took too long to respond' }
+          ].map((row) => (
+            <div key={row.code} className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-4 flex items-center gap-4">
+              <span className={`text-[10px] font-mono uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border ${row.tone}`}>
+                {row.code}
+              </span>
+              <p className="text-[13px] text-white/70">{row.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="mb-12">
+        <div className="venym-meta mb-3">05 · Use Cases</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Common Use Cases</h2>
         <div className="grid gap-4 md:grid-cols-2">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">E-commerce Data</CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm">
-              <p className="text-gray-600 mb-3">Extract product details, prices, and inventory</p>
-              <div className="bg-gray-50 p-3 rounded text-xs font-mono">
-                {`{
+          {[
+            { title: 'E-commerce Data', desc: 'Extract product details, prices, and inventory', code: `{
   "url": "https://shop.example.com/product/123",
   "render_js": true,
   "wait_for": ".price",
   "extract_schema": true,
   "extract_images": true
-}`}
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">News Articles</CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm">
-              <p className="text-gray-600 mb-3">Extract article content and metadata</p>
-              <div className="bg-gray-50 p-3 rounded text-xs font-mono">
-                {`{
+}` },
+            { title: 'News Articles', desc: 'Extract article content and metadata', code: `{
   "url": "https://news.example.com/article/123",
   "extract_meta": true,
   "extract_links": true,
   "proxy_type": "residential"
-}`}
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Social Media</CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm">
-              <p className="text-gray-600 mb-3">Scrape posts, comments, and user profiles</p>
-              <div className="bg-gray-50 p-3 rounded text-xs font-mono">
-                {`{
+}` },
+            { title: 'Social Media', desc: 'Scrape posts, comments, and user profiles', code: `{
   "url": "https://social.example.com/profile/user",
   "render_js": true,
   "wait_for": ".posts-container",
   "screenshot": true,
   "proxy_type": "residential"
-}`}
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Real Estate</CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm">
-              <p className="text-gray-600 mb-3">Extract property listings and details</p>
-              <div className="bg-gray-50 p-3 rounded text-xs font-mono">
-                {`{
+}` },
+            { title: 'Real Estate', desc: 'Extract property listings and details', code: `{
   "url": "https://realty.example.com/listing/123",
   "extract_schema": true,
   "extract_images": true,
   "extract_meta": true,
   "proxy_country": "US"
-}`}
-              </div>
-            </CardContent>
-          </Card>
+}` }
+          ].map((u) => (
+            <div key={u.title} className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+              <h3 className="text-[15px] font-medium text-white mb-2">{u.title}</h3>
+              <p className="text-[13px] text-white/55 mb-3">{u.desc}</p>
+              <pre className="bg-[#050505] border border-white/[0.06] p-3 rounded-sm text-[11.5px] font-mono text-white/70 overflow-x-auto">
+                {u.code}
+              </pre>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* Credit Consumption */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Credit Consumption</h2>
-        <div className="grid gap-6 md:grid-cols-2">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-[#17457c]">Base Costs</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="flex justify-between">
-                <span>Basic scraping:</span>
-                <Badge variant="secondary">3 credits</Badge>
-              </div>
-              <div className="flex justify-between">
-                <span>JavaScript rendering:</span>
-                <Badge variant="secondary">+5 credits</Badge>
-              </div>
-              <div className="flex justify-between">
-                <span>Residential proxy:</span>
-                <Badge variant="secondary">+2 credits</Badge>
-              </div>
-              <div className="flex justify-between">
-                <span>Screenshot capture:</span>
-                <Badge variant="secondary">+3 credits</Badge>
-              </div>
-            </CardContent>
-          </Card>
+        <div className="venym-meta mb-3">06 · Credits</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Credit Consumption</h2>
+        <div className="grid gap-4 md:grid-cols-2">
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+            <div className="text-[15px] font-medium text-white mb-4">Base Costs</div>
+            <div className="space-y-3">
+              {[
+                ['Basic scraping:', '3 credits'],
+                ['JavaScript rendering:', '+5 credits'],
+                ['Residential proxy:', '+2 credits'],
+                ['Screenshot capture:', '+3 credits']
+              ].map(([label, val]) => (
+                <div key={label} className="flex justify-between items-center">
+                  <span className="text-[13px] text-white/70">{label}</span>
+                  <span className="text-[10px] font-mono uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border border-white/10 text-white/60">{val}</span>
+                </div>
+              ))}
+            </div>
+          </div>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-[#17457c]">Extraction Features</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="flex justify-between">
-                <span>Link extraction:</span>
-                <Badge variant="secondary">+1 credit</Badge>
-              </div>
-              <div className="flex justify-between">
-                <span>Image extraction:</span>
-                <Badge variant="secondary">+1 credit</Badge>
-              </div>
-              <div className="flex justify-between">
-                <span>Schema extraction:</span>
-                <Badge variant="secondary">+2 credits</Badge>
-              </div>
-              <div className="flex justify-between">
-                <span>Meta data extraction:</span>
-                <Badge variant="secondary">+1 credit</Badge>
-              </div>
-            </CardContent>
-          </Card>
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+            <div className="text-[15px] font-medium text-white mb-4">Extraction Features</div>
+            <div className="space-y-3">
+              {[
+                ['Link extraction:', '+1 credit'],
+                ['Image extraction:', '+1 credit'],
+                ['Schema extraction:', '+2 credits'],
+                ['Meta data extraction:', '+1 credit']
+              ].map(([label, val]) => (
+                <div key={label} className="flex justify-between items-center">
+                  <span className="text-[13px] text-white/70">{label}</span>
+                  <span className="text-[10px] font-mono uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border border-white/10 text-white/60">{val}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Navigation */}
-      <div className="flex justify-between pt-8 border-t">
-        <Link href="/docs/api-reference/search">
-          <Button variant="outline" className="flex items-center gap-2">
-            <ArrowRight className="w-4 h-4 rotate-180" />
-            Search API Reference
-          </Button>
+      <div className="flex justify-between pt-6 border-t border-white/[0.06] flex-wrap gap-3">
+        <Link href="/docs/api-reference/search" className="venym-btn-secondary">
+          <ArrowRight className="w-3 h-3 mr-1.5 rotate-180" />
+          Search API Reference
         </Link>
       </div>
     </div>

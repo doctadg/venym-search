@@ -8,9 +8,10 @@
   "theme_color": "#ffffff",
   "icons": [
     {
-      "src": "/favicon.svg",
+      "src": "/venym.png",
       "sizes": "any",
-      "type": "image/svg+xml"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }

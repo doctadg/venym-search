@@ -1,10 +1,7 @@
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { 
-  Cpu, 
-  Zap, 
+import {
+  Cpu,
+  Zap,
   Code,
   ArrowRight,
   ExternalLink,
@@ -13,7 +10,7 @@ import {
   Globe,
   Database,
   Settings,
-  Bot
+  Bot,
 } from 'lucide-react'
 import { CodeBlock } from '../../components/CodeBlock'
 import { Callout } from '../../components/Callout'
@@ -63,7 +60,7 @@ export default defineComponent({
   },
   async run({ steps, $ }) {
     const { query, maxResults, autoScrape, extractContacts } = this;
-    
+
     const response = await axios($, {
       method: "POST",
       url: "https://www.search.venym.io/api/v1/search",
@@ -80,7 +77,7 @@ export default defineComponent({
     });
 
     $.export("$summary", \`Found \${response.data.search_results?.length || 0} results for "\${query}"\`);
-    
+
     return response.data;
   },
 });`
@@ -100,8 +97,8 @@ export default defineComponent({
     });
 
     // Step 2: Filter valid leads
-    const validLeads = searchResults.search_results.filter(result => 
-      result.contact_info?.email && 
+    const validLeads = searchResults.search_results.filter(result =>
+      result.contact_info?.email &&
       !result.contact_info.email.includes('noreply')
     );
 
@@ -112,7 +109,7 @@ export default defineComponent({
           url: lead.link,
           extractOptions: ["title", "text", "metadata"]
         });
-        
+
         return {
           ...lead,
           company_size: this.extractCompanySize(scrapeResult.primary_content?.text),
@@ -173,7 +170,7 @@ export default defineComponent({
       "medium": ["growing company", "50-200 employees", "established"],
       "large": ["enterprise", "500+ employees", "fortune", "publicly traded"]
     };
-    
+
     for (const [size, indicators] of Object.entries(sizeIndicators)) {
       if (indicators.some(indicator => text.toLowerCase().includes(indicator))) {
         return size;
@@ -185,7 +182,7 @@ export default defineComponent({
   extractTechStack(text) {
     if (!text) return [];
     const technologies = ["WordPress", "React", "Angular", "Vue", "Shopify", "Salesforce", "HubSpot"];
-    return technologies.filter(tech => 
+    return technologies.filter(tech =>
       text.toLowerCase().includes(tech.toLowerCase())
     );
   }
@@ -236,7 +233,7 @@ export default {
     },
     async scrape(opts = {}) {
       return await this._makeRequest({
-        method: "POST", 
+        method: "POST",
         path: "/v1/scrape",
         ...opts,
       });
@@ -262,7 +259,7 @@ export default {
       customResponse: true,
     },
     VENYM_SEARCH: {
-      type: "app", 
+      type: "app",
       app: "VENYM_SEARCH",
     },
     query: {
@@ -287,7 +284,7 @@ export default {
   async run({ body, headers }) {
     const lastCheck = this.db.get("lastCheck") || 0;
     const now = Date.now();
-    
+
     // Only run if enough time has passed
     if (now - lastCheck < this.checkInterval * 60 * 1000) {
       return;
@@ -307,7 +304,7 @@ export default {
 
       if (newResults.length > 0) {
         this.db.set("lastCheck", now);
-        
+
         this.$emit({
           query: this.query,
           new_results: newResults,
@@ -363,267 +360,212 @@ export default {
 
   return (
     <div className="max-w-none">
-      {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="p-2 bg-blue-100 rounded-lg">
-            <Cpu className="w-6 h-6 text-blue-600" />
-          </div>
-          <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100">
+      <div className="mb-10">
+        <div className="venym-meta mb-3 flex items-center gap-3">
+          <span>INTEGRATION :: PIPEDREAM</span>
+          <span className="text-[10px] font-mono uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border border-sky-400/20 text-sky-300/80">
             Serverless
-          </Badge>
-          <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
+          </span>
+          <span className="text-[10px] font-mono uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border border-emerald-400/20 text-emerald-300/80">
             2,700+ APIs
-          </Badge>
+          </span>
         </div>
-        
-        <h1 className="text-4xl font-bold text-[#17457c] mb-4">
+
+        <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-white mb-2 leading-[1.1]">
           Pipedream Integration
         </h1>
-        <p className="text-xl text-gray-600 leading-relaxed">
-          Build serverless automation workflows with Venym Search and Pipedream. 
+        <p className="text-[14px] text-white/55 leading-relaxed max-w-3xl">
+          Build serverless automation workflows with Venym Search and Pipedream.
           Create event-driven, scalable integrations that respond to web data changes in real-time.
         </p>
       </div>
 
-      {/* Quick Benefits */}
-      <div className="grid gap-4 md:grid-cols-3 mb-8">
-        {features.map((feature, index) => (
-          <Card key={feature.title} className="border-l-4 border-l-blue-500">
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3 mb-2">
-                <feature.icon className="w-5 h-5 text-blue-500" />
-                <h3 className="font-semibold">{feature.title}</h3>
-              </div>
-              <p className="text-sm text-gray-600 mb-3">{feature.description}</p>
-              <div className="space-y-1">
-                {feature.benefits.map((benefit, benefitIndex) => (
-                  <div key={benefitIndex} className="flex items-start gap-2">
-                    <CheckCircle className="w-3 h-3 text-green-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-xs text-gray-600">{benefit}</span>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+      <div className="grid gap-4 md:grid-cols-3 mb-10">
+        {features.map((feature) => (
+          <div key={feature.title} className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+            <div className="flex items-center gap-2 mb-3">
+              <feature.icon className="w-4 h-4 text-sky-400/80" />
+              <span className="text-[15px] font-medium text-white">{feature.title}</span>
+            </div>
+            <p className="text-[13px] text-white/55 leading-relaxed mb-3">{feature.description}</p>
+            <div className="space-y-1">
+              {feature.benefits.map((benefit) => (
+                <div key={benefit} className="flex items-start gap-2">
+                  <CheckCircle className="h-3.5 w-3.5 text-emerald-400/80 mt-0.5 flex-shrink-0" />
+                  <span className="text-[12px] text-white/55">{benefit}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         ))}
       </div>
 
       <Callout type="success" title="What you'll build">
-        Serverless workflows that monitor web data, trigger on changes, process information with AI, 
+        Serverless workflows that monitor web data, trigger on changes, process information with AI,
         and integrate with thousands of apps - all without managing infrastructure.
       </Callout>
 
-      {/* Setup Instructions */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Setup Instructions</h2>
-        
-        <div className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <span className="flex items-center justify-center w-6 h-6 bg-[#17457c] text-white rounded-full text-sm font-bold">1</span>
-                Create Venym Search App Connection
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <p className="text-gray-600">
-                  Configure Venym Search as a custom app in Pipedream for reusable authentication and methods.
-                </p>
-                
-                <CodeBlock
-                  code={authCode}
-                  language="javascript"
-                  title="Venym Search App Configuration"
-                />
+        <div className="venym-meta mb-3">01 · Setup</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Setup Instructions</h2>
 
-                <div className="bg-blue-50 p-4 rounded-lg">
-                  <h4 className="font-semibold mb-2">Authentication Setup:</h4>
-                  <ol className="list-decimal list-inside text-sm text-gray-600 space-y-1">
-                    <li>Create new app in Pipedream Apps directory</li>
-                    <li>Add API key authentication method</li>
-                    <li>Define reusable methods for all Venym Search APIs</li>
-                    <li>Test connection with sample requests</li>
-                  </ol>
+        <div className="space-y-4">
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+            <div className="px-6 py-4 border-b border-white/[0.06] flex items-center gap-3">
+              <span className="w-7 h-7 inline-flex items-center justify-center text-[11px] font-mono text-white/60 border border-white/15 rounded-sm">01</span>
+              <h3 className="text-[14px] font-medium text-white">Create Venym Search App Connection</h3>
+            </div>
+            <div className="p-6 space-y-4">
+              <p className="text-[14px] text-white/55 leading-relaxed">
+                Configure Venym Search as a custom app in Pipedream for reusable authentication and methods.
+              </p>
+
+              <CodeBlock
+                code={authCode}
+                language="javascript"
+                title="Venym Search App Configuration"
+              />
+
+              <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-4">
+                <h4 className="text-[14px] font-medium text-white mb-2">Authentication Setup:</h4>
+                <ol className="list-decimal list-inside text-[13px] text-white/55 space-y-1">
+                  <li>Create new app in Pipedream Apps directory</li>
+                  <li>Add API key authentication method</li>
+                  <li>Define reusable methods for all Venym Search APIs</li>
+                  <li>Test connection with sample requests</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+            <div className="px-6 py-4 border-b border-white/[0.06] flex items-center gap-3">
+              <span className="w-7 h-7 inline-flex items-center justify-center text-[11px] font-mono text-white/60 border border-white/15 rounded-sm">02</span>
+              <h3 className="text-[14px] font-medium text-white">Build Venym Search Components</h3>
+            </div>
+            <div className="p-6 space-y-4">
+              <p className="text-[14px] text-white/55 leading-relaxed">
+                Create reusable components for each Venym Search API that can be used across workflows.
+              </p>
+
+              <CodeBlock
+                code={componentCode}
+                language="javascript"
+                title="Search Component"
+              />
+
+              <div className="grid gap-3 md:grid-cols-2">
+                <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-3">
+                  <h5 className="text-[14px] font-medium text-white mb-2">Component Benefits</h5>
+                  <p className="text-[12px] text-white/55">Reusable across workflows, built-in validation, consistent error handling, and shared authentication.</p>
+                </div>
+                <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-3">
+                  <h5 className="text-[14px] font-medium text-white mb-2">Publishing</h5>
+                  <p className="text-[12px] text-white/55">Publish to Pipedream registry for community use or keep private for your organization.</p>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <span className="flex items-center justify-center w-6 h-6 bg-[#17457c] text-white rounded-full text-sm font-bold">2</span>
-                Build Venym Search Components
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <p className="text-gray-600">
-                  Create reusable components for each Venym Search API that can be used across workflows.
-                </p>
-                
-                <CodeBlock
-                  code={componentCode}
-                  language="javascript"
-                  title="Search Component"
-                />
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+            <div className="px-6 py-4 border-b border-white/[0.06] flex items-center gap-3">
+              <span className="w-7 h-7 inline-flex items-center justify-center text-[11px] font-mono text-white/60 border border-white/15 rounded-sm">03</span>
+              <h3 className="text-[14px] font-medium text-white">Configure API Authentication</h3>
+            </div>
+            <div className="p-6 space-y-4">
+              <p className="text-[14px] text-white/55 leading-relaxed">
+                Set up secure authentication for Venym Search API in your Pipedream account.
+              </p>
 
-                <div className="grid gap-3 md:grid-cols-2">
-                  <div className="bg-green-50 p-3 rounded-lg">
-                    <h5 className="font-semibold text-sm mb-2">Component Benefits</h5>
-                    <p className="text-xs text-gray-600">Reusable across workflows, built-in validation, consistent error handling, and shared authentication.</p>
-                  </div>
-                  <div className="bg-blue-50 p-3 rounded-lg">
-                    <h5 className="font-semibold text-sm mb-2">Publishing</h5>
-                    <p className="text-xs text-gray-600">Publish to Pipedream registry for community use or keep private for your organization.</p>
-                  </div>
-                </div>
+              <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-4">
+                <h4 className="text-[14px] font-medium text-white mb-2">Authentication Steps:</h4>
+                <ol className="list-decimal list-inside text-[13px] text-white/55 space-y-1">
+                  <li>Go to Pipedream → Accounts → Add Account</li>
+                  <li>Select "Venym Search" app (custom or published)</li>
+                  <li>Enter your Venym Search API key</li>
+                  <li>Test the connection</li>
+                  <li>Save for use across all workflows</li>
+                </ol>
               </div>
-            </CardContent>
-          </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <span className="flex items-center justify-center w-6 h-6 bg-[#17457c] text-white rounded-full text-sm font-bold">3</span>
-                Configure API Authentication
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <p className="text-gray-600">
-                  Set up secure authentication for Venym Search API in your Pipedream account.
-                </p>
-                
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <h4 className="font-semibold mb-2">Authentication Steps:</h4>
-                  <ol className="list-decimal list-inside text-sm text-gray-600 space-y-1">
-                    <li>Go to Pipedream → Accounts → Add Account</li>
-                    <li>Select "Venym Search" app (custom or published)</li>
-                    <li>Enter your Venym Search API key</li>
-                    <li>Test the connection</li>
-                    <li>Save for use across all workflows</li>
-                  </ol>
-                </div>
-
-                <Link href="/docs/quickstart">
-                  <Button variant="outline" className="border-[#efa72d] text-[#efa72d] hover:bg-[#efa72d] hover:text-white">
-                    Get Your API Key
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
+              <Link href="/docs/quickstart" className="venym-btn-secondary">
+                Get Your API Key
+                <ArrowRight className="w-3 h-3 ml-1.5" />
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Component Library */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Venym Search Component Library</h2>
-        
-        <div className="grid gap-6 md:grid-cols-3">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
-                <Globe className="w-5 h-5 text-blue-500" />
-                Search Action
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600 mb-4">Enhanced web search with real-time results.</p>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Real-time search execution</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Auto-scraping integration</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Contact extraction</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Social discovery</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+        <div className="venym-meta mb-3">02 · Components</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Venym Search Component Library</h2>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
-                <Database className="w-5 h-5 text-purple-500" />
-                Scrape Action
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600 mb-4">Extract content from any webpage or document.</p>
+        <div className="grid gap-4 md:grid-cols-3">
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+            <div className="px-6 py-4 border-b border-white/[0.06] flex items-center gap-2">
+              <Globe className="w-4 h-4 text-sky-400/80" />
+              <h3 className="text-lg font-semibold text-white">Search Action</h3>
+            </div>
+            <div className="p-6">
+              <p className="text-[14px] text-white/55 leading-relaxed mb-4">Enhanced web search with real-time results.</p>
               <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Content extraction</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">JavaScript rendering</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Custom selectors</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Metadata extraction</span>
-                </div>
+                {['Real-time search execution', 'Auto-scraping integration', 'Contact extraction', 'Social discovery'].map((f) => (
+                  <div key={f} className="flex items-center gap-2">
+                    <CheckCircle className="h-3.5 w-3.5 text-emerald-400/80" />
+                    <span className="text-[13px] text-white/65">{f}</span>
+                  </div>
+                ))}
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
-                <Bot className="w-5 h-5 text-orange-500" />
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600 mb-4">AI-powered research and analysis.</p>
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+            <div className="px-6 py-4 border-b border-white/[0.06] flex items-center gap-2">
+              <Database className="w-4 h-4 text-violet-400/80" />
+              <h3 className="text-lg font-semibold text-white">Scrape Action</h3>
+            </div>
+            <div className="p-6">
+              <p className="text-[14px] text-white/55 leading-relaxed mb-4">Extract content from any webpage or document.</p>
               <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Multi-source research</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Trend analysis</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Content summarization</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Sentiment analysis</span>
-                </div>
+                {['Content extraction', 'JavaScript rendering', 'Custom selectors', 'Metadata extraction'].map((f) => (
+                  <div key={f} className="flex items-center gap-2">
+                    <CheckCircle className="h-3.5 w-3.5 text-emerald-400/80" />
+                    <span className="text-[13px] text-white/65">{f}</span>
+                  </div>
+                ))}
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
+
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+            <div className="px-6 py-4 border-b border-white/[0.06] flex items-center gap-2">
+              <Bot className="w-4 h-4 text-amber-400/80" />
+              <h3 className="text-lg font-semibold text-white">Research Action</h3>
+            </div>
+            <div className="p-6">
+              <p className="text-[14px] text-white/55 leading-relaxed mb-4">AI-powered research and analysis.</p>
+              <div className="space-y-2">
+                {['Multi-source research', 'Trend analysis', 'Content summarization', 'Sentiment analysis'].map((f) => (
+                  <div key={f} className="flex items-center gap-2">
+                    <CheckCircle className="h-3.5 w-3.5 text-emerald-400/80" />
+                    <span className="text-[13px] text-white/65">{f}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Advanced Workflow Example */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Advanced Workflow Example</h2>
-        
-        <p className="text-gray-600 mb-6">
+        <div className="venym-meta mb-3">03 · Workflow</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Advanced Workflow Example</h2>
+
+        <p className="text-[14px] text-white/55 leading-relaxed mb-6">
           Here's a complete serverless workflow that demonstrates intelligent lead generation with multiple Venym Search APIs.
         </p>
-        
+
         <CodeBlock
           code={workflowCode}
           language="javascript"
@@ -632,20 +574,20 @@ export default {
 
         <div className="mt-6">
           <Callout type="tip" title="Serverless Benefits">
-            This workflow automatically scales based on demand, only charges for execution time, 
+            This workflow automatically scales based on demand, only charges for execution time,
             and can handle millions of events without infrastructure management.
           </Callout>
         </div>
       </div>
 
-      {/* Event-Driven Triggers */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Event-Driven Triggers</h2>
-        
-        <p className="text-gray-600 mb-6">
+        <div className="venym-meta mb-3">04 · Triggers</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Event-Driven Triggers</h2>
+
+        <p className="text-[14px] text-white/55 leading-relaxed mb-6">
           Create triggers that monitor web data and automatically execute workflows when conditions are met.
         </p>
-        
+
         <CodeBlock
           code={triggerCode}
           language="javascript"
@@ -653,177 +595,128 @@ export default {
         />
 
         <div className="mt-6 grid gap-4 md:grid-cols-2">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Trigger Types</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <Zap className="w-4 h-4 text-blue-500" />
-                  <span className="text-sm">Webhook triggers from external systems</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Settings className="w-4 h-4 text-blue-500" />
-                  <span className="text-sm">Scheduled interval monitoring</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Database className="w-4 h-4 text-blue-500" />
-                  <span className="text-sm">Database change detection</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Globe className="w-4 h-4 text-blue-500" />
-                  <span className="text-sm">Web data change monitoring</span>
-                </div>
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+            <div className="px-6 py-4 border-b border-white/[0.06]">
+              <h3 className="text-lg font-semibold text-white">Trigger Types</h3>
+            </div>
+            <div className="p-6 space-y-2">
+              <div className="flex items-center gap-2">
+                <Zap className="w-3.5 h-3.5 text-sky-400/80" />
+                <span className="text-[13px] text-white/65">Webhook triggers from external systems</span>
               </div>
-            </CardContent>
-          </Card>
+              <div className="flex items-center gap-2">
+                <Settings className="w-3.5 h-3.5 text-sky-400/80" />
+                <span className="text-[13px] text-white/65">Scheduled interval monitoring</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Database className="w-3.5 h-3.5 text-sky-400/80" />
+                <span className="text-[13px] text-white/65">Database change detection</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Globe className="w-3.5 h-3.5 text-sky-400/80" />
+                <span className="text-[13px] text-white/65">Web data change monitoring</span>
+              </div>
+            </div>
+          </div>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Use Cases</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Brand mention monitoring</span>
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+            <div className="px-6 py-4 border-b border-white/[0.06]">
+              <h3 className="text-lg font-semibold text-white">Use Cases</h3>
+            </div>
+            <div className="p-6 space-y-2">
+              {['Brand mention monitoring', 'Competitor price tracking', 'News and trend detection', 'Lead generation automation'].map((f) => (
+                <div key={f} className="flex items-center gap-2">
+                  <CheckCircle className="h-3.5 w-3.5 text-emerald-400/80" />
+                  <span className="text-[13px] text-white/65">{f}</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Competitor price tracking</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">News and trend detection</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Lead generation automation</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Best Practices */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Best Practices</h2>
-        
-        <div className="space-y-6">
-          <Card className="border-l-4 border-l-green-500">
-            <CardHeader>
-              <CardTitle className="text-green-700">Performance Optimization</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500 mt-0.5" />
-                  <span className="text-sm">Use async/await for parallel API calls</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500 mt-0.5" />
-                  <span className="text-sm">Implement proper error handling and retries</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500 mt-0.5" />
-                  <span className="text-sm">Cache frequently accessed data</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500 mt-0.5" />
-                  <span className="text-sm">Use Pipedream's built-in deduplication</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+        <div className="venym-meta mb-3">05 · Best Practices</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Best Practices</h2>
 
-          <Card className="border-l-4 border-l-blue-500">
-            <CardHeader>
-              <CardTitle className="text-blue-700">Cost Management</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                <div className="flex items-start gap-2">
-                  <Settings className="w-4 h-4 text-blue-500 mt-0.5" />
-                  <span className="text-sm">Monitor Venym Search credit usage</span>
+        <div className="space-y-4">
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+            <div className="px-6 py-4 border-b border-white/[0.06]">
+              <h3 className="text-[14px] font-medium text-emerald-300/80">Performance Optimization</h3>
+            </div>
+            <div className="p-6 space-y-3">
+              {['Use async/await for parallel API calls', 'Implement proper error handling and retries', 'Cache frequently accessed data', "Use Pipedream's built-in deduplication"].map((f) => (
+                <div key={f} className="flex items-start gap-2">
+                  <CheckCircle className="h-3.5 w-3.5 text-emerald-400/80 mt-0.5" />
+                  <span className="text-[13px] text-white/65">{f}</span>
                 </div>
-                <div className="flex items-start gap-2">
-                  <Settings className="w-4 h-4 text-blue-500 mt-0.5" />
-                  <span className="text-sm">Set execution limits in Pipedream</span>
+              ))}
+            </div>
+          </div>
+
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+            <div className="px-6 py-4 border-b border-white/[0.06]">
+              <h3 className="text-[14px] font-medium text-sky-300/80">Cost Management</h3>
+            </div>
+            <div className="p-6 space-y-3">
+              {['Monitor Venym Search credit usage', 'Set execution limits in Pipedream', 'Use filters to process only relevant data', 'Optimize polling intervals'].map((f) => (
+                <div key={f} className="flex items-start gap-2">
+                  <Settings className="w-3.5 h-3.5 text-sky-400/80 mt-0.5" />
+                  <span className="text-[13px] text-white/65">{f}</span>
                 </div>
-                <div className="flex items-start gap-2">
-                  <Settings className="w-4 h-4 text-blue-500 mt-0.5" />
-                  <span className="text-sm">Use filters to process only relevant data</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <Settings className="w-4 h-4 text-blue-500 mt-0.5" />
-                  <span className="text-sm">Optimize polling intervals</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Next Steps */}
-      <div className="grid gap-6 md:grid-cols-2">
-        <Card className="border-l-4 border-l-[#efa72d]">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <PlayCircle className="w-5 h-5 text-[#efa72d]" />
-              Start Building
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-gray-600 mb-4">
+      <div className="grid gap-4 md:grid-cols-2">
+        <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+          <div className="px-6 py-4 border-b border-white/[0.06] flex items-center gap-2">
+            <PlayCircle className="w-4 h-4 text-amber-400/80" />
+            <span className="venym-meta">Start</span>
+          </div>
+          <div className="p-6">
+            <h3 className="text-lg font-semibold text-white mb-3">Start Building</h3>
+            <p className="text-[13px] text-white/55 leading-relaxed mb-4">
               Ready for serverless automation? Get your Venym Search API key and start building with Pipedream.
             </p>
-            <div className="flex gap-2">
-              <Link href="/docs/quickstart">
-                <Button className="bg-[#efa72d] hover:bg-[#efa72d]/90">
-                  Get API Key
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
+            <div className="flex gap-2 flex-wrap">
+              <Link href="/docs/quickstart" className="venym-btn-primary">
+                Get API Key
+                <ArrowRight className="w-3 h-3 ml-1.5" />
               </Link>
-              <Button variant="outline" className="border-[#17457c] text-[#17457c] hover:bg-[#17457c] hover:text-white">
-                <ExternalLink className="w-4 h-4 mr-2" />
+              <button className="venym-btn-secondary">
+                <ExternalLink className="w-3 h-3 mr-1.5" />
                 Pipedream Registry
-              </Button>
+              </button>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
-        <Card className="border-l-4 border-l-[#17457c]">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <ExternalLink className="w-5 h-5 text-[#17457c]" />
-              More Integrations
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-gray-600 mb-4">
+        <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+          <div className="px-6 py-4 border-b border-white/[0.06] flex items-center gap-2">
+            <ExternalLink className="w-4 h-4 text-sky-400/80" />
+            <span className="venym-meta">More</span>
+          </div>
+          <div className="p-6">
+            <h3 className="text-lg font-semibold text-white mb-3">More Integrations</h3>
+            <p className="text-[13px] text-white/55 leading-relaxed mb-4">
               Explore other automation platforms and developer tools.
             </p>
-            <div className="flex gap-2">
-              <Link href="/docs/integrations/zapier">
-                <Button size="sm" variant="outline" className="border-[#17457c] text-[#17457c] hover:bg-[#17457c] hover:text-white">
-                  Zapier
-                </Button>
+            <div className="flex gap-2 flex-wrap">
+              <Link href="/docs/integrations/zapier" className="venym-btn-secondary">
+                Zapier
               </Link>
-              <Link href="/docs/integrations/make">
-                <Button size="sm" variant="outline" className="border-[#17457c] text-[#17457c] hover:bg-[#17457c] hover:text-white">
-                  Make.com
-                </Button>
+              <Link href="/docs/integrations/make" className="venym-btn-secondary">
+                Make.com
               </Link>
-              <Link href="/docs/integrations">
-                <Button size="sm" variant="outline" className="border-[#17457c] text-[#17457c] hover:bg-[#17457c] hover:text-white">
-                  All Integrations
-                </Button>
+              <Link href="/docs/integrations" className="venym-btn-secondary">
+                All Integrations
               </Link>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     </div>
   )

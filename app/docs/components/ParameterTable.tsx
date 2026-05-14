@@ -1,4 +1,3 @@
-import { Badge } from '@/components/ui/badge'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 
 interface Parameter {
@@ -16,76 +15,68 @@ interface ParameterTableProps {
   title?: string
 }
 
+const headerCell = "text-[10px] font-mono uppercase tracking-[0.15em] text-white/40"
+
 export function ParameterTable({ parameters, title = "Parameters" }: ParameterTableProps) {
   return (
     <div className="my-8">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">{title}</h3>
-      
-      <div className="overflow-hidden rounded-lg border">
+      <div className="venym-meta mb-3">{title}</div>
+
+      <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm overflow-hidden">
         <Table>
           <TableHeader>
-            <TableRow className="bg-gray-50">
-              <TableHead className="font-semibold text-gray-900">Parameter</TableHead>
-              <TableHead className="font-semibold text-gray-900">Type</TableHead>
-              <TableHead className="font-semibold text-gray-900">Required</TableHead>
-              <TableHead className="font-semibold text-gray-900">Description</TableHead>
+            <TableRow className="border-white/[0.06] hover:bg-transparent">
+              <TableHead className={headerCell}>Parameter</TableHead>
+              <TableHead className={headerCell}>Type</TableHead>
+              <TableHead className={headerCell}>Required</TableHead>
+              <TableHead className={headerCell}>Description</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {parameters.map((param, index) => (
-              <TableRow key={index} className="border-b">
-                <TableCell className="font-medium">
-                  <code className="text-sm bg-gray-100 px-2 py-1 rounded text-[#17457c]">
+              <TableRow key={index} className="border-white/[0.06] hover:bg-white/[0.02] align-top">
+                <TableCell>
+                  <code className="text-[12px] font-mono bg-white/[0.04] border border-white/[0.06] text-white/80 px-2 py-0.5 rounded-sm">
                     {param.name}
                   </code>
                 </TableCell>
                 <TableCell>
-                  <Badge 
-                    variant="outline" 
-                    className="text-xs font-mono border-gray-300 text-gray-600"
-                  >
+                  <span className="text-[10px] font-mono uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border border-white/10 text-white/60">
                     {param.type}
-                  </Badge>
+                  </span>
                 </TableCell>
                 <TableCell>
-                  <Badge 
-                    variant={param.required ? "default" : "secondary"}
-                    className={`text-xs ${
-                      param.required 
-                        ? "bg-red-100 text-red-800 hover:bg-red-100" 
-                        : "bg-gray-100 text-gray-600 hover:bg-gray-100"
-                    }`}
-                  >
+                  <span className={`text-[10px] font-mono uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border ${param.required ? 'border-rose-400/20 text-rose-300/80' : 'border-white/10 text-white/40'}`}>
                     {param.required ? "Required" : "Optional"}
-                  </Badge>
+                  </span>
                 </TableCell>
-                <TableCell className="text-sm text-gray-700 max-w-md">
+                <TableCell className="text-[13px] text-white/70 max-w-md">
                   <div className="space-y-2">
                     <p>{param.description}</p>
-                    
+
                     {param.default && (
-                      <p className="text-xs text-gray-500">
-                        <span className="font-medium">Default:</span> {param.default}
+                      <p className="text-[11px] font-mono text-white/40">
+                        <span className="uppercase tracking-[0.15em] text-white/30">Default:</span> {param.default}
                       </p>
                     )}
-                    
+
                     {param.example && (
-                      <p className="text-xs text-gray-500">
-                        <span className="font-medium">Example:</span> 
-                        <code className="ml-1 bg-gray-100 px-1 rounded">
+                      <p className="text-[11px] font-mono text-white/40">
+                        <span className="uppercase tracking-[0.15em] text-white/30">Example:</span>{' '}
+                        <code className="ml-1 bg-white/[0.04] border border-white/[0.06] px-1 rounded-sm text-white/70">
                           {param.example}
                         </code>
                       </p>
                     )}
-                    
+
                     {param.enum && (
-                      <div className="text-xs text-gray-500">
-                        <span className="font-medium">Options:</span>
+                      <div className="text-[11px] font-mono text-white/40">
+                        <span className="uppercase tracking-[0.15em] text-white/30">Options:</span>
                         <div className="flex flex-wrap gap-1 mt-1">
                           {param.enum.map((option, idx) => (
-                            <code 
+                            <code
                               key={idx}
-                              className="bg-gray-100 px-1 rounded text-xs"
+                              className="bg-white/[0.04] border border-white/[0.06] px-1 rounded-sm text-white/70"
                             >
                               {option}
                             </code>
@@ -119,41 +110,38 @@ interface ResponseTableProps {
 export function ResponseTable({ fields, title = "Response Fields" }: ResponseTableProps) {
   return (
     <div className="my-8">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">{title}</h3>
-      
-      <div className="overflow-hidden rounded-lg border">
+      <div className="venym-meta mb-3">{title}</div>
+
+      <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm overflow-hidden">
         <Table>
           <TableHeader>
-            <TableRow className="bg-gray-50">
-              <TableHead className="font-semibold text-gray-900">Field</TableHead>
-              <TableHead className="font-semibold text-gray-900">Type</TableHead>
-              <TableHead className="font-semibold text-gray-900">Description</TableHead>
+            <TableRow className="border-white/[0.06] hover:bg-transparent">
+              <TableHead className={headerCell}>Field</TableHead>
+              <TableHead className={headerCell}>Type</TableHead>
+              <TableHead className={headerCell}>Description</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {fields.map((field, index) => (
-              <TableRow key={index} className="border-b">
-                <TableCell className="font-medium">
-                  <code className="text-sm bg-gray-100 px-2 py-1 rounded text-[#17457c]">
+              <TableRow key={index} className="border-white/[0.06] hover:bg-white/[0.02] align-top">
+                <TableCell>
+                  <code className="text-[12px] font-mono bg-white/[0.04] border border-white/[0.06] text-white/80 px-2 py-0.5 rounded-sm">
                     {field.name}
                   </code>
                 </TableCell>
                 <TableCell>
-                  <Badge 
-                    variant="outline" 
-                    className="text-xs font-mono border-gray-300 text-gray-600"
-                  >
+                  <span className="text-[10px] font-mono uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border border-white/10 text-white/60">
                     {field.type}
-                  </Badge>
+                  </span>
                 </TableCell>
-                <TableCell className="text-sm text-gray-700 max-w-md">
+                <TableCell className="text-[13px] text-white/70 max-w-md">
                   <div className="space-y-2">
                     <p>{field.description}</p>
-                    
+
                     {field.example && (
-                      <p className="text-xs text-gray-500">
-                        <span className="font-medium">Example:</span> 
-                        <code className="ml-1 bg-gray-100 px-1 rounded">
+                      <p className="text-[11px] font-mono text-white/40">
+                        <span className="uppercase tracking-[0.15em] text-white/30">Example:</span>{' '}
+                        <code className="ml-1 bg-white/[0.04] border border-white/[0.06] px-1 rounded-sm text-white/70">
                           {field.example}
                         </code>
                       </p>

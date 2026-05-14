@@ -1,11 +1,8 @@
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { 
-  Code, 
-  Download, 
-  CheckCircle, 
+import {
+  Code,
+  Download,
+  CheckCircle,
   ArrowRight,
   Zap,
   Shield,
@@ -57,11 +54,11 @@ try {
         'query' => 'latest PHP frameworks 2025',
         'max_results' => 10
     ]);
-    
+
     echo "Found " . count($result['search_results']) . " results\\n";
     echo "Credits used: " . $result['credits_used'] . "\\n";
     echo "Credits remaining: " . $result['remaining_credits'] . "\\n";
-    
+
     // Display results
     foreach ($result['search_results'] as $index => $item) {
         echo ($index + 1) . ". " . $item['title'] . "\\n";
@@ -69,11 +66,11 @@ try {
         echo "   Snippet: " . $item['snippet'] . "\\n";
         echo "   Date: " . $item['date'] . "\\n\\n";
     }
-    
+
 } catch (VenymSearchException $e) {
     echo "Search failed: " . $e->getMessage() . "\\n";
     echo "Error code: " . $e->getCode() . "\\n";
-    
+
     if ($e->hasRequestId()) {
         echo "Request ID: " . $e->getRequestId() . "\\n";
     }
@@ -99,12 +96,12 @@ function scrapeWebpage($client) {
             'wait_for_selector' => '.content', // optional
             'remove_selectors' => ['.ads', '.popup'] // optional
         ]);
-        
+
         echo "Page title: " . $result['primary_content']['title'] . "\\n";
         echo "Content length: " . strlen($result['primary_content']['text']) . " characters\\n";
         echo "Found links: " . count($result['extracted_data']['links']) . "\\n";
         echo "Found images: " . count($result['extracted_data']['images']) . "\\n";
-        
+
     } catch (Exception $e) {
         echo "Scraping failed: " . $e->getMessage() . "\\n";
     }
@@ -117,14 +114,14 @@ function bulkScrape($client) {
         'https://example.com/page2',
         'https://example.com/page3'
     ];
-    
+
     try {
         $results = $client->scrapeBulk([
             'urls' => $urls,
             'extract_options' => ['title', 'text'],
             'concurrent' => 2 // Process 2 URLs at once
         ]);
-        
+
         foreach ($results as $index => $result) {
             if ($result['success']) {
                 echo $urls[$index] . ": " . $result['data']['primary_content']['title'] . "\\n";
@@ -132,7 +129,7 @@ function bulkScrape($client) {
                 echo $urls[$index] . " failed: " . $result['error'] . "\\n";
             }
         }
-        
+
     } catch (Exception $e) {
         echo "Bulk scraping failed: " . $e->getMessage() . "\\n";
     }
@@ -160,22 +157,22 @@ function researchTopic($client) {
             'include_images' => true,
             'language' => 'en'
         ]);
-        
+
         echo "Research summary:\\n";
         echo $result['summary'] . "\\n\\n";
-        
+
         echo "Key insights:\\n";
         foreach ($result['key_insights'] as $index => $insight) {
             echo ($index + 1) . ". " . $insight . "\\n";
         }
-        
+
         echo "\\nSources analyzed:\\n";
         foreach ($result['sources'] as $index => $source) {
             echo ($index + 1) . ". " . $source['title'] . "\\n";
             echo "   URL: " . $source['url'] . "\\n";
             echo "   Credibility: " . $source['credibility_score'] . "\\n\\n";
         }
-        
+
     } catch (Exception $e) {
         echo "Research failed: " . $e->getMessage() . "\\n";
     }
@@ -208,25 +205,25 @@ $client = new VenymSearchClient([
     'timeout' => 60,
     'retries' => 5,
     'retry_delay' => 1, // seconds
-    
+
     // Rate limiting
     'rate_limit' => [
         'requests_per_minute' => 100,
         'burst_limit' => 10
     ],
-    
+
     // Custom headers
     'headers' => [
         'User-Agent' => 'MyApp/1.0.0',
         'X-Custom-Header' => 'value'
     ],
-    
+
     // Response format
     'response_format' => 'detailed', // 'simple' or 'detailed'
-    
+
     // Error handling
     'throw_on_error' => true,
-    
+
     // Debug mode
     'debug' => $_ENV['APP_ENV'] === 'development'
 ]);
@@ -240,9 +237,9 @@ try {
         'timeout' => 10, // Override timeout for this request
         'retries' => 1   // Override retries for this request
     ]);
-    
+
     echo "Search completed: " . count($result['search_results']) . " results\\n";
-    
+
 } catch (Exception $e) {
     echo "Search failed: " . $e->getMessage() . "\\n";
 }`
@@ -267,74 +264,74 @@ $client = new VenymSearchClient([
 function robustApiCall($client) {
     $maxRetries = 3;
     $retryDelay = 1; // seconds
-    
+
     for ($attempt = 1; $attempt <= $maxRetries; $attempt++) {
         try {
             $result = $client->search([
                 'query' => 'example query',
                 'max_results' => 10
             ]);
-            
+
             return $result;
-            
+
         } catch (RateLimitException $e) {
             echo "Rate limited. Retry after " . $e->getRetryAfter() . " seconds\\n";
-            
+
             if ($attempt < $maxRetries) {
                 sleep($e->getRetryAfter() ?: $retryDelay);
                 $retryDelay *= 2; // Exponential backoff
                 continue;
             }
-            
+
             throw $e;
-            
+
         } catch (AuthenticationException $e) {
             echo "Authentication failed: " . $e->getMessage() . "\\n";
             throw new Exception("Check your API key", 401, $e);
-            
+
         } catch (InsufficientCreditsException $e) {
             echo "No credits remaining: " . $e->getMessage() . "\\n";
             throw new Exception("Upgrade your plan", 402, $e);
-            
+
         } catch (ValidationException $e) {
             echo "Invalid request: " . $e->getMessage() . "\\n";
             echo "Validation errors:\\n";
-            
+
             foreach ($e->getValidationErrors() as $field => $errors) {
                 echo "  $field: " . implode(', ', $errors) . "\\n";
             }
-            
+
             throw $e;
-            
+
         } catch (VenymSearchException $e) {
             echo "API error ({$e->getStatusCode()}): " . $e->getMessage() . "\\n";
-            
+
             // Log additional context
             echo "Request ID: " . $e->getRequestId() . "\\n";
             echo "Response: " . $e->getResponseBody() . "\\n";
-            
+
             if ($attempt < $maxRetries && $e->getStatusCode() >= 500) {
                 echo "Retrying in $retryDelay seconds...\\n";
                 sleep($retryDelay);
                 $retryDelay *= 2;
                 continue;
             }
-            
+
             throw $e;
-            
+
         } catch (Exception $e) {
             echo "Unexpected error: " . $e->getMessage() . "\\n";
             throw $e;
         }
     }
-    
+
     throw new Exception("Max retries exceeded");
 }
 
 try {
     $result = robustApiCall($client);
     echo "Success: Found " . count($result['search_results']) . " results\\n";
-    
+
 } catch (Exception $e) {
     echo "API call failed: " . $e->getMessage() . "\\n";
 }`
@@ -364,16 +361,16 @@ use Illuminate\\Support\\Facades\\Log;
 class SearchService
 {
     protected $client;
-    
+
     public function __construct()
     {
         $this->client = new VenymSearchClient(config('services.VENYM_SEARCH'));
     }
-    
+
     public function search(string $query, int $maxResults = 10): array
     {
         $cacheKey = 'search:' . md5($query . $maxResults);
-        
+
         return Cache::remember($cacheKey, 300, function () use ($query, $maxResults) {
             try {
                 return $this->client->search([
@@ -386,12 +383,12 @@ class SearchService
                     'error' => $e->getMessage(),
                     'trace' => $e->getTraceAsString()
                 ]);
-                
+
                 throw $e;
             }
         });
     }
-    
+
     public function scrapeUrl(string $url): array
     {
         try {
@@ -404,7 +401,7 @@ class SearchService
                 'url' => $url,
                 'error' => $e->getMessage()
             ]);
-            
+
             throw $e;
         }
     }
@@ -422,30 +419,30 @@ use Illuminate\\Http\\JsonResponse;
 class SearchController extends Controller
 {
     protected $searchService;
-    
+
     public function __construct(SearchService $searchService)
     {
         $this->searchService = $searchService;
     }
-    
+
     public function search(Request $request): JsonResponse
     {
         $request->validate([
             'query' => 'required|string|min:2|max:500',
             'max_results' => 'integer|min:1|max:100'
         ]);
-        
+
         try {
             $results = $this->searchService->search(
                 $request->input('query'),
                 $request->input('max_results', 10)
             );
-            
+
             return response()->json([
                 'success' => true,
                 'data' => $results
             ]);
-            
+
         } catch (Exception $e) {
             return response()->json([
                 'success' => false,
@@ -453,21 +450,21 @@ class SearchController extends Controller
             ], 500);
         }
     }
-    
+
     public function scrape(Request $request): JsonResponse
     {
         $request->validate([
             'url' => 'required|url'
         ]);
-        
+
         try {
             $result = $this->searchService->scrapeUrl($request->input('url'));
-            
+
             return response()->json([
                 'success' => true,
                 'data' => $result
             ]);
-            
+
         } catch (Exception $e) {
             return response()->json([
                 'success' => false,
@@ -498,7 +495,7 @@ class VenymSearchService
 {
     private $client;
     private $logger;
-    
+
     public function __construct(ParameterBagInterface $params, LoggerInterface $logger)
     {
         $this->client = new VenymSearchClient([
@@ -506,7 +503,7 @@ class VenymSearchService
         ]);
         $this->logger = $logger;
     }
-    
+
     public function search(string $query, int $maxResults = 10): array
     {
         try {
@@ -514,20 +511,20 @@ class VenymSearchService
                 'query' => $query,
                 'max_results' => $maxResults
             ]);
-            
+
             $this->logger->info('Search completed', [
                 'query' => $query,
                 'results_count' => count($result['search_results'])
             ]);
-            
+
             return $result;
-            
+
         } catch (\\Exception $e) {
             $this->logger->error('Search failed', [
                 'query' => $query,
                 'error' => $e->getMessage()
             ]);
-            
+
             throw $e;
         }
     }
@@ -549,41 +546,41 @@ use Symfony\\Component\\Validator\\Validator\\ValidatorInterface;
 class ApiController extends AbstractController
 {
     private $searchService;
-    
+
     public function __construct(VenymSearchService $searchService)
     {
         $this->searchService = $searchService;
     }
-    
+
     #[Route('/api/search', name: 'api_search', methods: ['POST'])]
     public function search(Request $request, ValidatorInterface $validator): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
-        
+
         $constraints = new Assert\\Collection([
             'query' => [new Assert\\NotBlank(), new Assert\\Length(['min' => 2, 'max' => 500])],
             'max_results' => [new Assert\\Type('integer'), new Assert\\Range(['min' => 1, 'max' => 100])]
         ]);
-        
+
         $violations = $validator->validate($data, $constraints);
-        
+
         if (count($violations) > 0) {
             $errors = [];
             foreach ($violations as $violation) {
                 $errors[] = $violation->getMessage();
             }
-            
+
             return $this->json(['error' => 'Validation failed', 'details' => $errors], 400);
         }
-        
+
         try {
             $results = $this->searchService->search(
                 $data['query'],
                 $data['max_results'] ?? 10
             );
-            
+
             return $this->json(['success' => true, 'data' => $results]);
-            
+
         } catch (\\Exception $e) {
             return $this->json(['success' => false, 'error' => $e->getMessage()], 500);
         }
@@ -648,379 +645,253 @@ class ApiController extends AbstractController
 
   return (
     <div className="max-w-none">
-      {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="p-2 bg-purple-100 rounded-lg">
-            <Code className="w-6 h-6 text-purple-600" />
-          </div>
-          <Badge className="bg-purple-100 text-purple-800 hover:bg-purple-100">
-            PHP SDK
-          </Badge>
-          <Badge variant="outline" className="border-green-500 text-green-700">
+      <div className="mb-10">
+        <div className="venym-meta mb-3 flex items-center gap-3">
+          <span>SDK · PHP</span>
+          <span className="text-[10px] font-mono uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border border-emerald-400/20 text-emerald-300/80">
             Official
-          </Badge>
+          </span>
         </div>
-        
-        <h1 className="text-4xl font-bold text-[#17457c] mb-4">
+        <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-white mb-3 leading-[1.1]">
           PHP SDK
         </h1>
-        <p className="text-xl text-gray-600 leading-relaxed">
-          Official PHP SDK for Venym Search APIs. Built with modern PHP practices, 
-          supporting PHP 8+ features and seamless framework integration.
+        <p className="text-[14px] text-white/55 leading-relaxed max-w-2xl">
+          Official PHP SDK for Venym Search APIs. Built with modern PHP practices, supporting PHP 8+ features and seamless framework integration.
         </p>
       </div>
 
       <Callout type="success" title="Framework Integration Ready">
-        The Venym Search PHP SDK is designed for easy integration with Laravel, Symfony, 
-        and other popular PHP frameworks with comprehensive documentation and examples.
+        The Venym Search PHP SDK is designed for easy integration with Laravel, Symfony, and other popular PHP frameworks with comprehensive documentation and examples.
       </Callout>
 
-      {/* Quick Start */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Quick Start</h2>
-        
+        <div className="venym-meta mb-3">01 · Quick Start</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Quick Start</h2>
+
         <div className="space-y-6">
           <div>
-            <h3 className="text-lg font-semibold mb-4">1. Installation</h3>
-            <CodeBlock
-              multiLanguage={installCode}
-              title="Install Venym Search PHP SDK"
-            />
+            <h3 className="text-lg font-semibold text-white mb-3">1. Installation</h3>
+            <CodeBlock multiLanguage={installCode} title="Install Venym Search PHP SDK" />
           </div>
-          
+
           <div>
-            <h3 className="text-lg font-semibold mb-4">2. Basic Usage</h3>
-            <CodeBlock
-              language="php"
-              code={basicUsage}
-              title="Your First Search Request"
-            />
+            <h3 className="text-lg font-semibold text-white mb-3">2. Basic Usage</h3>
+            <CodeBlock language="php" code={basicUsage} title="Your First Search Request" />
           </div>
         </div>
       </div>
 
-      {/* Features */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Key Features</h2>
-        
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="venym-meta mb-3">02 · Features</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Key Features</h2>
+
+        <div className="grid gap-4 md:grid-cols-2">
           {features.map((feature, index) => (
-            <Card key={index}>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-3">
-                  <feature.icon className="w-6 h-6 text-[#efa72d]" />
-                  {feature.title}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600">{feature.description}</p>
-              </CardContent>
-            </Card>
+            <div key={index} className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+              <div className="flex items-center gap-3 mb-2">
+                <feature.icon className="w-4 h-4 text-amber-400/80" />
+                <span className="text-[15px] font-medium text-white">{feature.title}</span>
+              </div>
+              <p className="text-[13px] text-white/55 leading-relaxed">{feature.description}</p>
+            </div>
           ))}
         </div>
       </div>
 
-      {/* Core Methods */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Core Methods</h2>
-        
-        <Card>
-          <CardContent className="p-0">
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Method</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Description</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Returns</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200">
-                  {methods.map((method, index) => (
-                    <tr key={index} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 text-sm font-mono text-[#17457c]">
-                        {method.method}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-600">{method.description}</td>
-                      <td className="px-6 py-4 text-sm font-mono text-gray-800">{method.returns}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </CardContent>
-        </Card>
+        <div className="venym-meta mb-3">03 · Methods</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Core Methods</h2>
+
+        <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm overflow-hidden">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-white/[0.06]">
+                <th className="px-6 py-3 text-left text-[10px] font-mono uppercase tracking-[0.15em] text-white/40">Method</th>
+                <th className="px-6 py-3 text-left text-[10px] font-mono uppercase tracking-[0.15em] text-white/40">Description</th>
+                <th className="px-6 py-3 text-left text-[10px] font-mono uppercase tracking-[0.15em] text-white/40">Returns</th>
+              </tr>
+            </thead>
+            <tbody>
+              {methods.map((method, index) => (
+                <tr key={index} className="border-b border-white/[0.06] last:border-0 hover:bg-white/[0.02]">
+                  <td className="px-6 py-3 text-[13px] font-mono text-white/80">{method.method}</td>
+                  <td className="px-6 py-3 text-[13px] text-white/65">{method.description}</td>
+                  <td className="px-6 py-3 text-[13px] font-mono text-white/70">{method.returns}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      {/* Web Scraping */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Web Scraping Examples</h2>
-        
-        <p className="text-gray-600 mb-6">
+        <div className="venym-meta mb-3">04 · Scraping</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Web Scraping Examples</h2>
+        <p className="text-[14px] text-white/55 leading-relaxed mb-6">
           Extract content from any webpage with advanced parsing and bulk operations:
         </p>
-        
-        <CodeBlock
-          language="php"
-          code={scrapeExample}
-          title="Web Scraping and Bulk Operations"
-        />
+        <CodeBlock language="php" code={scrapeExample} title="Web Scraping and Bulk Operations" />
       </div>
 
-      {/* AI Research */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">AI-Powered Research</h2>
-        
-        <p className="text-gray-600 mb-6">
+        <div className="venym-meta mb-3">05 · Research</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">AI-Powered Research</h2>
+        <p className="text-[14px] text-white/55 leading-relaxed mb-6">
           Leverage AI to research topics across multiple sources with automatic summarization:
         </p>
-        
-        <CodeBlock
-          language="php"
-          code={researchExample}
-        />
+        <CodeBlock language="php" code={researchExample} title="AI Research Example" />
       </div>
 
-      {/* Configuration */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Advanced Configuration</h2>
-        
-        <p className="text-gray-600 mb-6">
+        <div className="venym-meta mb-3">06 · Configuration</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Advanced Configuration</h2>
+        <p className="text-[14px] text-white/55 leading-relaxed mb-6">
           Customize the SDK behavior with advanced configuration options:
         </p>
-        
-        <CodeBlock
-          language="php"
-          code={configExample}
-          title="Advanced SDK Configuration"
-        />
+        <CodeBlock language="php" code={configExample} title="Advanced SDK Configuration" />
       </div>
 
-      {/* Error Handling */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Error Handling</h2>
-        
-        <p className="text-gray-600 mb-6">
+        <div className="venym-meta mb-3">07 · Errors</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Error Handling</h2>
+        <p className="text-[14px] text-white/55 leading-relaxed mb-6">
           Robust error handling with specific exception types and retry logic:
         </p>
-        
-        <CodeBlock
-          language="php"
-          code={errorHandlingExample}
-          title="Comprehensive Error Handling"
-        />
+        <CodeBlock language="php" code={errorHandlingExample} title="Comprehensive Error Handling" />
       </div>
 
-      {/* Framework Integration */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Framework Integration</h2>
-        
+        <div className="venym-meta mb-3">08 · Frameworks</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Framework Integration</h2>
+
         <div className="space-y-8">
           <div>
-            <h3 className="text-lg font-semibold mb-4">Laravel Integration</h3>
-            <CodeBlock
-              language="php"
-              code={laravelExample}
-              title="Complete Laravel Integration Example"
-            />
+            <h3 className="text-lg font-semibold text-white mb-3">Laravel Integration</h3>
+            <CodeBlock language="php" code={laravelExample} title="Complete Laravel Integration Example" />
           </div>
-          
+
           <div>
-            <h3 className="text-lg font-semibold mb-4">Symfony Integration</h3>
-            <CodeBlock
-              language="php"
-              code={symfonyExample}
-              title="Symfony Service and Controller Example"
-            />
+            <h3 className="text-lg font-semibold text-white mb-3">Symfony Integration</h3>
+            <CodeBlock language="php" code={symfonyExample} title="Symfony Service and Controller Example" />
           </div>
         </div>
       </div>
 
-      {/* Version Support */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Version Support</h2>
-        
-        <div className="grid gap-6 md:grid-cols-3">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Terminal className="w-5 h-5 text-green-600" />
-                PHP 8.0+
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-gray-600 mb-3">
-                Full support for PHP 8.0+ with modern language features.
-              </p>
-              <ul className="text-xs text-gray-500 space-y-1">
-                <li>• Union types</li>
-                <li>• Named arguments</li>
-                <li>• Attributes</li>
-                <li>• Match expressions</li>
+        <div className="venym-meta mb-3">09 · Versions</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Version Support</h2>
+
+        <div className="grid gap-4 md:grid-cols-3">
+          {[
+            {
+              icon: Terminal,
+              title: 'PHP 8.0+',
+              desc: 'Full support for PHP 8.0+ with modern language features.',
+              items: ['Union types', 'Named arguments', 'Attributes', 'Match expressions']
+            },
+            {
+              icon: Package,
+              title: 'Composer',
+              desc: 'Installed via Composer with automatic dependency management.',
+              items: ['PSR-4 autoloading', 'Semantic versioning', 'Development tools', 'Testing framework']
+            },
+            {
+              icon: Database,
+              title: 'Extensions',
+              desc: 'Compatible with common PHP extensions and libraries.',
+              items: ['cURL extension', 'JSON extension', 'OpenSSL extension', 'Mbstring extension']
+            }
+          ].map((env) => (
+            <div key={env.title} className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+              <div className="flex items-center gap-2 mb-3">
+                <env.icon className="w-4 h-4 text-white/50" />
+                <span className="text-[14px] font-medium text-white">{env.title}</span>
+              </div>
+              <p className="text-[12.5px] text-white/55 leading-relaxed mb-3">{env.desc}</p>
+              <ul className="text-[12px] text-white/40 space-y-1">
+                {env.items.map((i) => <li key={i}>• {i}</li>)}
               </ul>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Package className="w-5 h-5 text-blue-600" />
-                Composer
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-gray-600 mb-3">
-                Installed via Composer with automatic dependency management.
-              </p>
-              <ul className="text-xs text-gray-500 space-y-1">
-                <li>• PSR-4 autoloading</li>
-                <li>• Semantic versioning</li>
-                <li>• Development tools</li>
-                <li>• Testing framework</li>
-              </ul>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Database className="w-5 h-5 text-purple-600" />
-                Extensions
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-gray-600 mb-3">
-                Compatible with common PHP extensions and libraries.
-              </p>
-              <ul className="text-xs text-gray-500 space-y-1">
-                <li>• cURL extension</li>
-                <li>• JSON extension</li>
-                <li>• OpenSSL extension</li>
-                <li>• Mbstring extension</li>
-              </ul>
-            </CardContent>
-          </Card>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* Examples & Resources */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Examples & Resources</h2>
-        
-        <div className="grid gap-6 md:grid-cols-2">
-          <Card className="border-l-4 border-l-[#efa72d]">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <BookOpen className="w-5 h-5 text-[#efa72d]" />
-                Code Examples
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <Link href="/docs/guides/bitcoin-tracking" className="block">
-                <div className="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Bitcoin Price Tracker</span>
-                </div>
-              </Link>
-              <Link href="/docs/guides/ecommerce-monitoring" className="block">
-                <div className="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">E-commerce Monitor</span>
-                </div>
-              </Link>
-              <Link href="/docs/guides/lead-generation" className="block">
-                <div className="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Lead Generation System</span>
-                </div>
-              </Link>
-            </CardContent>
-          </Card>
-          
-          <Card className="border-l-4 border-l-blue-500">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <ExternalLink className="w-5 h-5 text-blue-500" />
-                External Resources
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <a href="https://github.com/VENYM_SEARCH/VENYM_SEARCH-php" target="_blank" rel="noopener noreferrer" className="block">
-                <div className="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                  <Package className="w-4 h-4 text-gray-500" />
-                  <span className="text-sm">GitHub Repository</span>
-                  <ExternalLink className="w-3 h-3 ml-auto" />
-                </div>
-              </a>
-              <a href="https://packagist.org/packages/VENYM_SEARCH/VENYM_SEARCH-php" target="_blank" rel="noopener noreferrer" className="block">
-                <div className="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                  <Download className="w-4 h-4 text-gray-500" />
-                  <span className="text-sm">Packagist Package</span>
-                  <ExternalLink className="w-3 h-3 ml-auto" />
-                </div>
-              </a>
-              <a href="https://VENYM_SEARCH-php.readthedocs.io" target="_blank" rel="noopener noreferrer" className="block">
-                <div className="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                  <BookOpen className="w-4 h-4 text-gray-500" />
-                  <span className="text-sm">API Documentation</span>
-                  <ExternalLink className="w-3 h-3 ml-auto" />
-                </div>
-              </a>
-            </CardContent>
-          </Card>
+        <div className="venym-meta mb-3">10 · Resources</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Examples & Resources</h2>
+
+        <div className="grid gap-4 md:grid-cols-2">
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+            <div className="flex items-center gap-2 mb-3">
+              <BookOpen className="w-4 h-4 text-amber-400/80" />
+              <span className="text-[15px] font-medium text-white">Code Examples</span>
+            </div>
+            <div className="space-y-2">
+              {[
+                { href: '/docs/guides/bitcoin-tracking', label: 'Bitcoin Price Tracker' },
+                { href: '/docs/guides/ecommerce-monitoring', label: 'E-commerce Monitor' },
+                { href: '/docs/guides/lead-generation', label: 'Lead Generation System' }
+              ].map((g) => (
+                <Link key={g.href} href={g.href} className="flex items-center gap-2 p-2 text-[13px] text-white/70 hover:text-white hover:bg-white/[0.02] rounded-sm transition-colors">
+                  <CheckCircle className="w-3.5 h-3.5 text-emerald-400/80" />
+                  <span>{g.label}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+            <div className="flex items-center gap-2 mb-3">
+              <ExternalLink className="w-4 h-4 text-sky-400/80" />
+              <span className="text-[15px] font-medium text-white">External Resources</span>
+            </div>
+            <div className="space-y-2">
+              {[
+                { href: 'https://github.com/VENYM_SEARCH/VENYM_SEARCH-php', icon: Package, label: 'GitHub Repository' },
+                { href: 'https://packagist.org/packages/VENYM_SEARCH/VENYM_SEARCH-php', icon: Download, label: 'Packagist Package' },
+                { href: 'https://VENYM_SEARCH-php.readthedocs.io', icon: BookOpen, label: 'API Documentation' }
+              ].map((l) => (
+                <a key={l.href} href={l.href} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 p-2 text-[13px] text-white/70 hover:text-white hover:bg-white/[0.02] rounded-sm transition-colors">
+                  <l.icon className="w-3.5 h-3.5 text-white/50" />
+                  <span>{l.label}</span>
+                  <ExternalLink className="w-3 h-3 ml-auto text-white/40" />
+                </a>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Next Steps */}
-      <div className="grid gap-6 md:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-[#17457c]">Ready to Build?</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-gray-600 mb-4">
-              Start building with the Venym Search PHP SDK and explore our comprehensive API documentation.
-            </p>
-            <div className="flex gap-2">
-              <Link href="/docs/api/search">
-                <Button size="sm" className="bg-[#efa72d] hover:bg-[#efa72d]/90 text-white">
-                  API Reference
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </Link>
-              <Link href="/docs/guides/bitcoin-tracking">
-                <Button size="sm" variant="outline" className="border-[#17457c] text-[#17457c] hover:bg-[#17457c] hover:text-white">
-                  View Examples
-                </Button>
-              </Link>
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-[#17457c]">Need Help?</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-gray-600 mb-4">
-              Get support, report issues, or contribute to the Venym Search PHP SDK development.
-            </p>
-            <div className="flex gap-2">
-              <Link href="/docs/support">
-                <Button size="sm" variant="outline" className="border-gray-300">
-                  Get Support
-                </Button>
-              </Link>
-              <a href="https://github.com/VENYM_SEARCH/VENYM_SEARCH-php/issues" target="_blank" rel="noopener noreferrer">
-                <Button size="sm" variant="outline" className="border-gray-300">
-                  Report Issue
-                  <ExternalLink className="w-3 h-3 ml-2" />
-                </Button>
-              </a>
-            </div>
-          </CardContent>
-        </Card>
+      <div className="grid gap-4 md:grid-cols-2">
+        <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+          <h3 className="text-[15px] font-medium text-white mb-3">Ready to Build?</h3>
+          <p className="text-[13px] text-white/55 leading-relaxed mb-4">
+            Start building with the Venym Search PHP SDK and explore our comprehensive API documentation.
+          </p>
+          <div className="flex gap-2 flex-wrap">
+            <Link href="/docs/api/search" className="venym-btn-primary">
+              API Reference
+              <ArrowRight className="w-3 h-3 ml-1.5" />
+            </Link>
+            <Link href="/docs/guides/bitcoin-tracking" className="venym-btn-secondary">
+              View Examples
+            </Link>
+          </div>
+        </div>
+
+        <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+          <h3 className="text-[15px] font-medium text-white mb-3">Need Help?</h3>
+          <p className="text-[13px] text-white/55 leading-relaxed mb-4">
+            Get support, report issues, or contribute to the Venym Search PHP SDK development.
+          </p>
+          <div className="flex gap-2 flex-wrap">
+            <Link href="/docs/support" className="venym-btn-secondary">Get Support</Link>
+            <a href="https://github.com/VENYM_SEARCH/VENYM_SEARCH-php/issues" target="_blank" rel="noopener noreferrer" className="venym-btn-secondary">
+              Report Issue
+              <ExternalLink className="w-3 h-3 ml-1.5" />
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   )

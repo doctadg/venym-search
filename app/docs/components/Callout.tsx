@@ -8,69 +8,25 @@ interface CalloutProps {
 
 export function Callout({ type = 'info', title, children }: CalloutProps) {
   const config = {
-    info: {
-      icon: Info,
-      bgColor: 'bg-blue-50',
-      borderColor: 'border-blue-200',
-      iconColor: 'text-blue-600',
-      titleColor: 'text-blue-900',
-      textColor: 'text-blue-800'
-    },
-    warning: {
-      icon: AlertTriangle,
-      bgColor: 'bg-yellow-50',
-      borderColor: 'border-yellow-200',
-      iconColor: 'text-yellow-600',
-      titleColor: 'text-yellow-900',
-      textColor: 'text-yellow-800'
-    },
-    error: {
-      icon: XCircle,
-      bgColor: 'bg-red-50',
-      borderColor: 'border-red-200',
-      iconColor: 'text-red-600',
-      titleColor: 'text-red-900',
-      textColor: 'text-red-800'
-    },
-    success: {
-      icon: CheckCircle,
-      bgColor: 'bg-green-50',
-      borderColor: 'border-green-200',
-      iconColor: 'text-green-600',
-      titleColor: 'text-green-900',
-      textColor: 'text-green-800'
-    },
-    tip: {
-      icon: Lightbulb,
-      bgColor: 'bg-purple-50',
-      borderColor: 'border-purple-200',
-      iconColor: 'text-purple-600',
-      titleColor: 'text-purple-900',
-      textColor: 'text-purple-800'
-    },
-    important: {
-      icon: Zap,
-      bgColor: 'bg-orange-50',
-      borderColor: 'border-orange-200',
-      iconColor: 'text-orange-600',
-      titleColor: 'text-orange-900',
-      textColor: 'text-orange-800'
-    }
+    info: { icon: Info, accent: 'text-sky-400/80', label: 'INFO' },
+    warning: { icon: AlertTriangle, accent: 'text-amber-400/80', label: 'WARNING' },
+    error: { icon: XCircle, accent: 'text-rose-400/80', label: 'ERROR' },
+    success: { icon: CheckCircle, accent: 'text-emerald-400/80', label: 'SUCCESS' },
+    tip: { icon: Lightbulb, accent: 'text-violet-400/80', label: 'TIP' },
+    important: { icon: Zap, accent: 'text-orange-400/80', label: 'IMPORTANT' },
   }
 
-  const { icon: Icon, bgColor, borderColor, iconColor, titleColor, textColor } = config[type]
+  const { icon: Icon, accent, label } = config[type]
 
   return (
-    <div className={`rounded-lg border-l-4 p-4 ${bgColor} ${borderColor} my-6`}>
-      <div className="flex items-start space-x-3">
-        <Icon className={`h-5 w-5 mt-0.5 ${iconColor} flex-shrink-0`} />
-        <div className="flex-1">
-          {title && (
-            <h5 className={`font-semibold mb-2 ${titleColor}`}>
-              {title}
-            </h5>
-          )}
-          <div className={`text-sm leading-relaxed ${textColor}`}>
+    <div className="my-6 border border-white/[0.06] bg-white/[0.02] rounded-sm">
+      <div className="flex items-start gap-3 p-5">
+        <Icon className={`h-3.5 w-3.5 mt-0.5 ${accent} shrink-0`} />
+        <div className="flex-1 min-w-0">
+          <div className={`text-[10px] font-mono uppercase tracking-[0.2em] ${accent} mb-2`}>
+            {title || label}
+          </div>
+          <div className="text-[13px] text-white/70 leading-relaxed">
             {children}
           </div>
         </div>

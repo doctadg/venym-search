@@ -138,7 +138,7 @@ export class SeoOptimizerService {
         "name": "Venym Search",
         "logo": {
           "@type": "ImageObject",
-          "url": `${this.baseUrl}/VENYM_SEARCH-logo.png`
+          "url": `${this.baseUrl}/venym.png`
         }
       },
       "url": `${this.baseUrl}/blog/${this.generateSlug(blogPost.title)}`,

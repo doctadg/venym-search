@@ -181,7 +181,7 @@ export default function OnboardingPage() {
           <Link href="/" className="flex items-center gap-3 shrink-0">
             <div className="w-7 h-7 relative">
               <Image
-                src="/VENYM_SEARCH-logo.png"
+                src="/venym.png"
                 alt="Venym Search"
                 width={28}
                 height={28}

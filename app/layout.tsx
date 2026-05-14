@@ -7,12 +7,14 @@ import { SpeedInsights } from '@vercel/speed-insights/react'
 
 export const metadata: Metadata = {
   title: {
-    default: 'Venym Search - Enterprise Web Scraping APIs',
-    template: '%s | Venym Search'
+    default: 'Venym — Web Search & Scrape API for AI Agents',
+    template: '%s | Venym'
   },
-  authors: [{ name: 'Venym Search' }],
-  creator: 'Venym Search',
-  publisher: 'Venym Search',
+  description: 'Web search and scrape API built for AI agents. One endpoint, eight engines, JS-rendered, anti-bot, citation-ready. Drop into LangChain, MCP, OpenAI tool-calls.',
+  keywords: ['ai agent search api', 'web scraping api for ai', 'llm web search', 'langchain search tool', 'mcp scraping server', 'agent web access', 'serp api', 'browser scraping api'],
+  authors: [{ name: 'Venym Labs' }],
+  creator: 'Venym Labs',
+  publisher: 'Venym Labs',
   formatDetection: {
     email: false,
     address: false,
@@ -23,16 +25,16 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: 'Venym Search - Enterprise Web Scraping APIs',
-    description: 'Enterprise web scraping APIs for modern developers. Search, scrape, and research the web with AI-powered tools.',
+    title: 'Venym — Web Search & Scrape API for AI Agents',
+    description: 'One endpoint. Eight engines. JS-rendered scrape. Built so AI agents can read the open web.',
     url: 'https://search.venym.io',
-    siteName: 'Venym Search',
+    siteName: 'Venym',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Venym Search - Enterprise Web Scraping APIs',
+        alt: 'Venym — Web Search & Scrape API for AI Agents',
       },
     ],
     locale: 'en_US',
@@ -40,8 +42,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Venym Search - Enterprise Web Scraping APIs',
-    description: 'Enterprise web scraping APIs for modern developers. Search, scrape, and research the web with AI-powered tools.',
+    title: 'Venym — Web Search & Scrape API for AI Agents',
+    description: 'One endpoint. Eight engines. JS-rendered scrape. Built so AI agents can read the open web.',
     images: ['/og-image.png'],
   },
   robots: {
@@ -54,18 +56,6 @@ export const metadata: Metadata = {
       'max-image-preview': 'large',
       'max-snippet': -1,
     },
-  },
-  icons: {
-    icon: [
-      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
-      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-    ],
-    apple: [
-      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
-    ],
-    other: [
-      { rel: 'mask-icon', url: '/safari-pinned-tab.svg', color: '#17457c' },
-    ],
   },
   manifest: '/site.webmanifest',
 }
@@ -91,16 +81,16 @@ export default function RootLayout({
               {
                 "@context": "https://schema.org",
                 "@type": "Organization",
-                name: "Venym Search",
+                name: "Venym",
                 url: "https://search.venym.io",
                 logo: "https://search.venym.io/logo.png",
-                description: "Enterprise web scraping APIs for modern developers. Search, scrape, and research the web with AI-powered tools.",
+                description: "Web search and scrape API built for AI agents. One endpoint, eight engines, JS-rendered, citation-ready.",
                 sameAs: [],
               },
               {
                 "@context": "https://schema.org",
                 "@type": "WebSite",
-                name: "Venym Search",
+                name: "Venym",
                 url: "https://search.venym.io",
                 potentialAction: {
                   "@type": "SearchAction",

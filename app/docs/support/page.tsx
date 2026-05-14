@@ -1,11 +1,8 @@
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { 
-  MessageSquare, 
-  Mail, 
-  Clock, 
+import {
+  MessageSquare,
+  Mail,
+  Clock,
   CheckCircle,
   AlertCircle,
   Book,
@@ -17,7 +14,6 @@ import {
 } from 'lucide-react'
 import { Callout } from '../components/Callout'
 
-
 export default function SupportPage() {
 
   const supportOptions = [
@@ -28,7 +24,6 @@ export default function SupportPage() {
       response: "< 24 hours",
       availability: "24/7",
       contact: "support@search.venym.io",
-      color: "blue"
     },
     {
       title: "Community Forum",
@@ -37,7 +32,6 @@ export default function SupportPage() {
       response: "Community driven",
       availability: "Always open",
       contact: "community.search.venym.io",
-      color: "green"
     },
     {
       title: "Documentation",
@@ -46,7 +40,6 @@ export default function SupportPage() {
       response: "Instant",
       availability: "24/7",
       contact: "docs.search.venym.io",
-      color: "purple"
     }
   ]
 
@@ -91,7 +84,7 @@ export default function SupportPage() {
       features: ["Community forum access", "Documentation", "Basic troubleshooting"]
     },
     {
-      plan: "Pro", 
+      plan: "Pro",
       support: "Priority email support",
       response: "24 hours",
       features: ["Priority community forum", "Implementation guidance", "Code review"]
@@ -106,23 +99,13 @@ export default function SupportPage() {
 
   return (
     <div className="max-w-none">
-      {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="p-2 bg-blue-100 rounded-lg">
-            <MessageSquare className="w-6 h-6 text-blue-600" />
-          </div>
-          <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100">
-            Support
-          </Badge>
-        </div>
-        
-        <h1 className="text-4xl font-bold text-[#17457c] mb-4">
+      <div className="mb-10">
+        <div className="venym-meta mb-3">SUPPORT</div>
+        <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-white mb-3 leading-[1.1]">
           Support & Help Center
         </h1>
-        <p className="text-xl text-gray-600 leading-relaxed">
-          Get help with Venym Search APIs, troubleshoot issues, and connect with our developer community. 
-          We're here to help you succeed with your integration.
+        <p className="text-[14px] text-white/55 leading-relaxed max-w-2xl">
+          Get help with Venym Search APIs, troubleshoot issues, and connect with our developer community. We're here to help you succeed with your integration.
         </p>
       </div>
 
@@ -130,123 +113,104 @@ export default function SupportPage() {
         Our support team and community are available around the clock to help you solve integration challenges and optimize your Venym Search usage.
       </Callout>
 
-      {/* Support Options */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Get Support</h2>
-        
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="venym-meta mb-3">01 · Get Support</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Get Support</h2>
+
+        <div className="grid gap-4 md:grid-cols-3">
           {supportOptions.map((option, index) => (
-            <Card key={index} className={`border-l-4 border-l-${option.color}-500`}>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-3">
-                  <option.icon className={`w-6 h-6 text-${option.color}-600`} />
-                  {option.title}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <p className="text-gray-600 text-sm">{option.description}</p>
-                
-                <div className="space-y-2 text-sm">
-                  <div className="flex items-center gap-2">
-                    <Clock className="w-4 h-4 text-gray-400" />
-                    <span>Response: {option.response}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
-                    <span>Available: {option.availability}</span>
-                  </div>
+            <div key={index} className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5 hover:border-white/[0.12] transition-colors">
+              <div className="flex items-center gap-3 mb-4">
+                <option.icon className="w-4 h-4 text-white/50" />
+                <span className="text-[15px] font-medium text-white">{option.title}</span>
+              </div>
+
+              <p className="text-[13px] text-white/55 leading-relaxed mb-4">{option.description}</p>
+
+              <div className="space-y-2 text-[12.5px] text-white/60 mb-4">
+                <div className="flex items-center gap-2">
+                  <Clock className="w-3.5 h-3.5 text-white/40" />
+                  <span>Response: {option.response}</span>
                 </div>
-                
-                <div className="pt-2">
-                  <a 
-                    href={`mailto:${option.contact}`} 
-                    className="text-[#efa72d] hover:underline font-medium text-sm"
-                  >
-                    {option.contact}
-                  </a>
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="w-3.5 h-3.5 text-emerald-400/80" />
+                  <span>Available: {option.availability}</span>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+
+              <a
+                href={`mailto:${option.contact}`}
+                className="text-[13px] text-white hover:text-white/80 underline underline-offset-2 decoration-white/30"
+              >
+                {option.contact}
+              </a>
+            </div>
           ))}
         </div>
       </div>
 
-      {/* Common Issues */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Common Issues & Solutions</h2>
-        
-        <div className="space-y-4">
+        <div className="venym-meta mb-3">02 · Common Issues</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Common Issues & Solutions</h2>
+
+        <div className="space-y-3">
           {commonIssues.map((item, index) => (
-            <Card key={index}>
-              <CardHeader className="pb-3">
-                <CardTitle className="flex items-center gap-3 text-lg">
-                  <AlertCircle className="w-5 h-5 text-[#efa72d]" />
-                  {item.issue}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="pt-0">
-                <p className="text-gray-600 mb-3">{item.solution}</p>
-                <Link href={item.link}>
-                  <Button size="sm" variant="outline" className="border-[#17457c] text-[#17457c] hover:bg-[#17457c] hover:text-white">
-                    Learn More
-                    <ArrowRight className="w-3 h-3 ml-2" />
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
+            <div key={index} className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5 hover:border-white/[0.12] transition-colors">
+              <div className="flex items-center gap-3 mb-2">
+                <AlertCircle className="w-4 h-4 text-amber-400/80" />
+                <span className="text-[15px] font-medium text-white">{item.issue}</span>
+              </div>
+              <p className="text-[13px] text-white/55 leading-relaxed mb-3">{item.solution}</p>
+              <Link href={item.link} className="venym-btn-ghost">
+                Learn More
+                <ArrowRight className="w-3 h-3 ml-1.5" />
+              </Link>
+            </div>
           ))}
         </div>
       </div>
 
-      {/* Support by Plan */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Support by Plan</h2>
-        
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="venym-meta mb-3">03 · Support By Plan</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Support by Plan</h2>
+
+        <div className="grid gap-4 md:grid-cols-3">
           {planFeatures.map((plan, index) => (
-            <Card key={index} className={plan.plan === 'Pro' ? 'border-[#efa72d] border-2' : ''}>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle>{plan.plan}</CardTitle>
-                  {plan.plan === 'Pro' && (
-                    <Badge className="bg-[#efa72d]/10 text-[#efa72d] hover:bg-[#efa72d]/10">
-                      Popular
-                    </Badge>
-                  )}
-                </div>
-                <div className="space-y-1">
-                  <div className="text-sm text-gray-600">{plan.support}</div>
-                  <div className="text-sm font-medium text-[#efa72d]">Response: {plan.response}</div>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
-                  {plan.features.map((feature, idx) => (
-                    <div key={idx} className="flex items-center gap-2">
-                      <CheckCircle className="w-4 h-4 text-green-500" />
-                      <span className="text-sm">{feature}</span>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+            <div key={index} className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-[15px] font-medium text-white">{plan.plan}</span>
+                {plan.plan === 'Pro' && (
+                  <span className="text-[10px] font-mono uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border border-violet-400/20 text-violet-300/80">
+                    Popular
+                  </span>
+                )}
+              </div>
+              <div className="text-[13px] text-white/55 mb-1">{plan.support}</div>
+              <div className="text-[12px] font-mono text-white/40 mb-4">Response: {plan.response}</div>
+              <div className="space-y-2">
+                {plan.features.map((feature, idx) => (
+                  <div key={idx} className="flex items-center gap-2">
+                    <CheckCircle className="w-3.5 h-3.5 text-emerald-400/80" />
+                    <span className="text-[13px] text-white/70">{feature}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           ))}
         </div>
       </div>
 
-      {/* Contact Guidelines */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">When Contacting Support</h2>
-        
-        <div className="grid gap-6 md:grid-cols-2">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <FileText className="w-5 h-5 text-green-500" />
-                Please Include
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2 text-sm">
+        <div className="venym-meta mb-3">04 · Contact Guidelines</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">When Contacting Support</h2>
+
+        <div className="grid gap-4 md:grid-cols-2">
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+            <div className="flex items-center gap-2 mb-3">
+              <FileText className="w-4 h-4 text-emerald-400/80" />
+              <span className="text-[15px] font-medium text-white">Please Include</span>
+            </div>
+            <div className="space-y-2 text-[13px] text-white/65">
               <div>• Your account email or API key prefix</div>
               <div>• Specific error messages and status codes</div>
               <div>• Request ID from API response (if available)</div>
@@ -254,17 +218,15 @@ export default function SupportPage() {
               <div>• Expected vs actual behavior</div>
               <div>• Code samples (with API keys removed)</div>
               <div>• Programming language and SDK version</div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Zap className="w-5 h-5 text-[#efa72d]" />
-                For Faster Resolution
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2 text-sm">
+            </div>
+          </div>
+
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+            <div className="flex items-center gap-2 mb-3">
+              <Zap className="w-4 h-4 text-amber-400/80" />
+              <span className="text-[15px] font-medium text-white">For Faster Resolution</span>
+            </div>
+            <div className="space-y-2 text-[13px] text-white/65">
               <div>• Check the documentation first</div>
               <div>• Search community forum for similar issues</div>
               <div>• Test with curl to isolate SDK issues</div>
@@ -272,147 +234,113 @@ export default function SupportPage() {
               <div>• Include relevant logs and timestamps</div>
               <div>• Specify urgency level (if business critical)</div>
               <div>• Use clear, descriptive subject lines</div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Status & Updates */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Status & Updates</h2>
-        
-        <div className="grid gap-6 md:grid-cols-2">
-          <Card className="border-l-4 border-l-green-500">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <CheckCircle className="w-5 h-5 text-green-500" />
-                System Status
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600 mb-4">
-                Check real-time status of Venym Search APIs and services.
-              </p>
-              <Link href="/docs/status">
-                <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white">
-                  View Status Page
-                  <ExternalLink className="w-3 h-3 ml-2" />
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
-          
-          <Card className="border-l-4 border-l-blue-500">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Book className="w-5 h-5 text-blue-500" />
-                Changelog
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600 mb-4">
-                Stay updated with the latest API changes and new features.
-              </p>
-              <Link href="/docs/changelog">
-                <Button size="sm" variant="outline" className="border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white">
-                  View Changelog
-                  <ArrowRight className="w-3 h-3 ml-2" />
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
+        <div className="venym-meta mb-3">05 · Status & Updates</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Status & Updates</h2>
+
+        <div className="grid gap-4 md:grid-cols-2">
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+            <div className="flex items-center gap-2 mb-3">
+              <CheckCircle className="w-4 h-4 text-emerald-400/80" />
+              <span className="text-[15px] font-medium text-white">System Status</span>
+            </div>
+            <p className="text-[13px] text-white/55 leading-relaxed mb-4">
+              Check real-time status of Venym Search APIs and services.
+            </p>
+            <Link href="/docs/status" className="venym-btn-primary">
+              View Status Page
+              <ExternalLink className="w-3 h-3 ml-1.5" />
+            </Link>
+          </div>
+
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+            <div className="flex items-center gap-2 mb-3">
+              <Book className="w-4 h-4 text-sky-400/80" />
+              <span className="text-[15px] font-medium text-white">Changelog</span>
+            </div>
+            <p className="text-[13px] text-white/55 leading-relaxed mb-4">
+              Stay updated with the latest API changes and new features.
+            </p>
+            <Link href="/docs/changelog" className="venym-btn-secondary">
+              View Changelog
+              <ArrowRight className="w-3 h-3 ml-1.5" />
+            </Link>
+          </div>
         </div>
       </div>
 
-      {/* Community Resources */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Community Resources</h2>
-        
-        <div className="space-y-6">
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-start gap-4">
-                <div className="p-3 bg-purple-100 rounded-lg">
-                  <Users className="w-6 h-6 text-purple-600" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold mb-2">Developer Community</h3>
-                  <p className="text-gray-600 mb-4">
-                    Join thousands of developers using Venym Search. Share code, ask questions, and learn from others.
-                  </p>
-                  <div className="flex gap-3">
-                    <a href="https://discord.gg/VENYM_SEARCH" target="_blank" rel="noopener noreferrer">
-                      <Button size="sm" className="bg-purple-600 hover:bg-purple-700 text-white">
-                        Join Discord
-                        <ExternalLink className="w-3 h-3 ml-2" />
-                      </Button>
-                    </a>
-                    <a href="https://github.com/VENYM_SEARCH/community" target="_blank" rel="noopener noreferrer">
-                      <Button size="sm" variant="outline" className="border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white">
-                        GitHub Discussions
-                        <ExternalLink className="w-3 h-3 ml-2" />
-                      </Button>
-                    </a>
-                  </div>
+        <div className="venym-meta mb-3">06 · Community Resources</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Community Resources</h2>
+
+        <div className="space-y-4">
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-6">
+            <div className="flex items-start gap-4">
+              <Users className="w-5 h-5 text-violet-400/80 mt-0.5" />
+              <div className="flex-1">
+                <h3 className="text-lg font-semibold text-white mb-2">Developer Community</h3>
+                <p className="text-[13px] text-white/55 leading-relaxed mb-4">
+                  Join thousands of developers using Venym Search. Share code, ask questions, and learn from others.
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  <a href="https://discord.gg/VENYM_SEARCH" target="_blank" rel="noopener noreferrer" className="venym-btn-primary">
+                    Join Discord
+                    <ExternalLink className="w-3 h-3 ml-1.5" />
+                  </a>
+                  <a href="https://github.com/VENYM_SEARCH/community" target="_blank" rel="noopener noreferrer" className="venym-btn-secondary">
+                    GitHub Discussions
+                    <ExternalLink className="w-3 h-3 ml-1.5" />
+                  </a>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-start gap-4">
-                <div className="p-3 bg-orange-100 rounded-lg">
-                  <Book className="w-6 h-6 text-orange-600" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold mb-2">Learning Resources</h3>
-                  <p className="text-gray-600 mb-4">
-                    Tutorials, guides, and examples to help you get the most out of Venym Search APIs.
-                  </p>
-                  <div className="flex gap-3">
-                    <Link href="/docs/guides/bitcoin-tracking">
-                      <Button size="sm" className="bg-orange-600 hover:bg-orange-700 text-white">
-                        View Tutorials
-                        <ArrowRight className="w-3 h-3 ml-2" />
-                      </Button>
-                    </Link>
-                    <a href="https://youtube.com/@VENYM_SEARCH" target="_blank" rel="noopener noreferrer">
-                      <Button size="sm" variant="outline" className="border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white">
-                        Video Guides
-                        <ExternalLink className="w-3 h-3 ml-2" />
-                      </Button>
-                    </a>
-                  </div>
+            </div>
+          </div>
+
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-6">
+            <div className="flex items-start gap-4">
+              <Book className="w-5 h-5 text-amber-400/80 mt-0.5" />
+              <div className="flex-1">
+                <h3 className="text-lg font-semibold text-white mb-2">Learning Resources</h3>
+                <p className="text-[13px] text-white/55 leading-relaxed mb-4">
+                  Tutorials, guides, and examples to help you get the most out of Venym Search APIs.
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  <Link href="/docs/guides/bitcoin-tracking" className="venym-btn-primary">
+                    View Tutorials
+                    <ArrowRight className="w-3 h-3 ml-1.5" />
+                  </Link>
+                  <a href="https://youtube.com/@VENYM_SEARCH" target="_blank" rel="noopener noreferrer" className="venym-btn-secondary">
+                    Video Guides
+                    <ExternalLink className="w-3 h-3 ml-1.5" />
+                  </a>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Contact Form CTA */}
-      <div className="bg-gradient-to-r from-[#17457c] to-[#17457c]/90 rounded-lg p-8 text-white text-center">
-        <h3 className="text-xl font-semibold mb-4">Still Need Help?</h3>
-        <p className="mb-6 text-white/90">
+      <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-8 text-center">
+        <h3 className="text-xl font-semibold text-white mb-3">Still Need Help?</h3>
+        <p className="text-[14px] text-white/55 leading-relaxed mb-6 max-w-xl mx-auto">
           Can't find what you're looking for? Our support team is ready to help you solve any integration challenges.
         </p>
-        <div className="flex justify-center gap-4">
-          <a href="mailto:support@search.venym.io">
-            <Button className="bg-[#efa72d] hover:bg-[#efa72d]/90 text-white">
-              Contact Support
-              <Mail className="w-4 h-4 ml-2" />
-            </Button>
+        <div className="flex justify-center gap-3 flex-wrap">
+          <a href="mailto:support@search.venym.io" className="venym-btn-primary">
+            Contact Support
+            <Mail className="w-3.5 h-3.5 ml-1.5" />
           </a>
-          <Link href="/docs">
-            <Button variant="outline" className="border-white text-white hover:bg-white hover:text-[#17457c]">
-              Browse Docs
-              <Book className="w-4 h-4 ml-2" />
-            </Button>
+          <Link href="/docs" className="venym-btn-secondary">
+            Browse Docs
+            <Book className="w-3.5 h-3.5 ml-1.5" />
           </Link>
         </div>
       </div>
     </div>
   )
 }
-

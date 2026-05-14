@@ -63,7 +63,7 @@ export default function ScrapePage() {
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 md:w-12 md:h-12 relative">
                 <Image
-                  src="/VENYM_SEARCH-logo.png"
+                  src="/venym.png"
                   alt="Venym Search Logo"
                   width={48}
                   height={48}
@@ -820,7 +820,7 @@ export default function ScrapePage() {
                 <Link href="/" className="flex items-center space-x-3">
                   <div className="w-8 h-8 relative">
                     <Image
-                      src="/VENYM_SEARCH-logo.png"
+                      src="/venym.png"
                       alt="Venym Search Logo"
                       width={32}
                       height={32}

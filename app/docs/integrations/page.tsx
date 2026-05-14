@@ -1,11 +1,7 @@
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { 
-
-  Zap, 
-  Bot, 
+import {
+  Zap,
+  Bot,
   Workflow,
   Code,
   Building2,
@@ -16,7 +12,6 @@ import {
   Puzzle,
   Globe,
   Cpu
-
 } from 'lucide-react'
 
 export default function IntegrationsPage() {
@@ -25,7 +20,7 @@ export default function IntegrationsPage() {
       name: 'LangChain',
       description: 'Build AI agents with real-time web search capabilities',
       status: 'Popular',
-      statusColor: 'bg-green-100 text-green-800',
+      tone: 'border-emerald-400/20 text-emerald-300/80',
       icon: Bot,
       href: '/docs/integrations/langchain',
       category: 'AI & Machine Learning',
@@ -35,7 +30,7 @@ export default function IntegrationsPage() {
       name: 'Zapier',
       description: 'Connect Venym Search to 8,000+ apps with no-code automation',
       status: 'Enterprise Ready',
-      statusColor: 'bg-blue-100 text-blue-800',
+      tone: 'border-sky-400/20 text-sky-300/80',
       icon: Zap,
       href: '/docs/integrations/zapier',
       category: 'Automation Platforms',
@@ -45,7 +40,7 @@ export default function IntegrationsPage() {
       name: 'Make.com',
       description: 'Visual workflow automation with advanced AI capabilities',
       status: 'Advanced',
-      statusColor: 'bg-purple-100 text-purple-800',
+      tone: 'border-violet-400/20 text-violet-300/80',
       icon: Workflow,
       href: '/docs/integrations/make',
       category: 'Automation Platforms',
@@ -55,7 +50,7 @@ export default function IntegrationsPage() {
       name: 'n8n',
       description: 'Open-source workflow automation for developers',
       status: 'Developer Favorite',
-      statusColor: 'bg-[#EA4B71]/10 text-[#EA4B71]',
+      tone: 'border-rose-400/20 text-rose-300/80',
       icon: Code,
       href: '/docs/integrations/n8n',
       category: 'Open Source',
@@ -65,7 +60,7 @@ export default function IntegrationsPage() {
       name: 'Pipedream',
       description: 'Serverless automation platform for API integrations',
       status: 'Serverless',
-      statusColor: 'bg-orange-100 text-orange-800',
+      tone: 'border-amber-400/20 text-amber-300/80',
       icon: Cpu,
       href: '/docs/integrations/pipedream',
       category: 'Developer Platforms',
@@ -75,7 +70,7 @@ export default function IntegrationsPage() {
       name: 'Microsoft Power Automate',
       description: 'Enterprise automation within Microsoft ecosystem',
       status: 'Enterprise',
-      statusColor: 'bg-blue-100 text-blue-800',
+      tone: 'border-sky-400/20 text-sky-300/80',
       icon: Building2,
       href: '/docs/integrations/power-automate',
       category: 'Enterprise',
@@ -85,7 +80,7 @@ export default function IntegrationsPage() {
       name: 'GitHub Actions',
       description: 'CI/CD automation with web monitoring capabilities',
       status: 'DevOps',
-      statusColor: 'bg-gray-100 text-gray-800',
+      tone: 'border-white/10 text-white/60',
       icon: Code,
       href: '/docs/integrations/github-actions',
       category: 'Developer Tools',
@@ -95,7 +90,7 @@ export default function IntegrationsPage() {
       name: 'Bubble.io',
       description: 'No-code app development with Venym Search data',
       status: 'No-code',
-      statusColor: 'bg-indigo-100 text-indigo-800',
+      tone: 'border-violet-400/20 text-violet-300/80',
       icon: Globe,
       href: '/docs/integrations/bubble',
       category: 'No-code Platforms',
@@ -105,7 +100,7 @@ export default function IntegrationsPage() {
       name: 'Retool',
       description: 'Internal tool development with live web data',
       status: 'Internal Tools',
-      statusColor: 'bg-yellow-100 text-yellow-800',
+      tone: 'border-amber-400/20 text-amber-300/80',
       icon: Building2,
       href: '/docs/integrations/retool',
       category: 'Internal Tools',
@@ -115,7 +110,7 @@ export default function IntegrationsPage() {
       name: 'Airtable',
       description: 'Database automation with web scraping workflows',
       status: 'Database',
-      statusColor: 'bg-teal-100 text-teal-800',
+      tone: 'border-emerald-400/20 text-emerald-300/80',
       icon: Users,
       href: '/docs/integrations/airtable',
       category: 'Productivity',
@@ -125,7 +120,7 @@ export default function IntegrationsPage() {
       name: 'OpenClaw',
       description: 'Add web search, scraping & research to your OpenClaw agent with zero dependencies',
       status: 'Official',
-      statusColor: 'bg-green-100 text-green-800',
+      tone: 'border-emerald-400/20 text-emerald-300/80',
       icon: Bot,
       href: '/docs/integrations/openclaw',
       category: 'AI & Machine Learning',
@@ -146,157 +141,124 @@ export default function IntegrationsPage() {
 
   return (
     <div className="max-w-none">
-      {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="p-2 bg-[#17457c]/10 rounded-lg">
-            <Puzzle className="w-6 h-6 text-[#17457c]" />
-          </div>
-          <Badge className="bg-[#17457c]/10 text-[#17457c] hover:bg-[#17457c]/10">
-            10+ Integrations
-          </Badge>
+      <div className="mb-10">
+        <div className="venym-meta mb-3 flex items-center gap-3">
+          <span>INTEGRATIONS</span>
+          <span className="text-[10px] font-mono uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border border-white/10 text-white/60">
+            10+ available
+          </span>
         </div>
-        
-        <h1 className="text-4xl font-bold text-[#17457c] mb-4">
+        <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-white mb-3 leading-[1.1]">
           Integrations
         </h1>
-        <p className="text-xl text-gray-600 leading-relaxed mb-6">
-          Connect Venym Search to your favorite tools and platforms. From AI agents to automation workflows, 
-          bring real-time web data into your existing stack with minimal setup.
+        <p className="text-[14px] text-white/55 leading-relaxed max-w-2xl mb-6">
+          Connect Venym Search to your favorite tools and platforms. From AI agents to automation workflows, bring real-time web data into your existing stack with minimal setup.
         </p>
 
-        <div className="flex gap-4">
-          <Link href="/docs/quickstart">
-            <Button className="bg-[#efa72d] hover:bg-[#efa72d]/90">
-              Get API Key
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
+        <div className="flex gap-3 flex-wrap">
+          <Link href="/docs/quickstart" className="venym-btn-primary">
+            Get API Key
+            <ArrowRight className="w-3 h-3 ml-1.5" />
           </Link>
-          <Link href="https://github.com/VENYM_SEARCH/integrations">
-            <Button variant="outline" className="border-[#17457c] text-[#17457c] hover:bg-[#17457c] hover:text-white">
-              <ExternalLink className="w-4 h-4 mr-2" />
-              View Examples
-            </Button>
+          <Link href="https://github.com/VENYM_SEARCH/integrations" className="venym-btn-secondary">
+            <ExternalLink className="w-3 h-3 mr-1.5" />
+            View Examples
           </Link>
         </div>
       </div>
 
-      {/* Integration Categories */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Integration Categories</h2>
-        
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="venym-meta mb-3">01 · Categories</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Integration Categories</h2>
+
+        <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
           {categories.map((category) => (
-            <Card key={category.name} className="hover:shadow-md transition-shadow">
-              <CardContent className="p-4">
-                <div className="flex items-center gap-3 mb-2">
-                  <category.icon className="w-5 h-5 text-[#17457c]" />
-                  <h3 className="font-semibold text-sm">{category.name}</h3>
-                  <Badge variant="secondary" className="text-xs ml-auto">
-                    {category.count}
-                  </Badge>
-                </div>
-                <p className="text-xs text-gray-600">{category.description}</p>
-              </CardContent>
-            </Card>
+            <div key={category.name} className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-4 hover:border-white/[0.12] transition-colors">
+              <div className="flex items-center gap-3 mb-2">
+                <category.icon className="w-4 h-4 text-white/50" />
+                <h3 className="text-[13px] font-medium text-white">{category.name}</h3>
+                <span className="ml-auto text-[10px] font-mono uppercase tracking-[0.2em] px-1.5 py-0.5 rounded-sm border border-white/10 text-white/60">
+                  {category.count}
+                </span>
+              </div>
+              <p className="text-[12px] text-white/55">{category.description}</p>
+            </div>
           ))}
         </div>
       </div>
 
-      {/* Available Integrations */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Available Integrations</h2>
-        
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="venym-meta mb-3">02 · Available</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Available Integrations</h2>
+
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {integrations.map((integration) => (
-            <Card key={integration.name} className="hover:shadow-lg transition-shadow group">
-              <CardHeader className="pb-4">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="p-2 bg-gray-50 rounded-lg group-hover:bg-[#17457c]/10 transition-colors">
-                    <integration.icon className="w-5 h-5 text-[#17457c]" />
-                  </div>
-                  <Badge className={integration.statusColor}>
-                    {integration.status}
-                  </Badge>
+            <div key={integration.name} className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5 hover:border-white/[0.12] transition-colors flex flex-col">
+              <div className="flex items-center gap-3 mb-3">
+                <integration.icon className="w-5 h-5 text-white/50" />
+                <span className={`text-[10px] font-mono uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border ${integration.tone}`}>
+                  {integration.status}
+                </span>
+              </div>
+              <h3 className="text-lg font-semibold text-white mb-2">{integration.name}</h3>
+              <p className="text-[13px] text-white/55 leading-relaxed mb-4 flex-1">
+                {integration.description}
+              </p>
+
+              <div className="mb-4">
+                <p className="text-[10px] font-mono uppercase tracking-[0.15em] text-white/40 mb-2">Key Features</p>
+                <div className="flex flex-wrap gap-1.5">
+                  {integration.features.map((feature) => (
+                    <span key={feature} className="text-[10px] font-mono uppercase tracking-[0.15em] px-1.5 py-0.5 rounded-sm border border-white/10 text-white/60">
+                      {feature}
+                    </span>
+                  ))}
                 </div>
-                <CardTitle className="text-lg">{integration.name}</CardTitle>
-                <p className="text-sm text-gray-600 leading-relaxed">
-                  {integration.description}
-                </p>
-              </CardHeader>
-              
-              <CardContent className="pt-0">
-                <div className="mb-4">
-                  <p className="text-xs text-gray-500 mb-2">Key Features:</p>
-                  <div className="flex flex-wrap gap-1">
-                    {integration.features.map((feature) => (
-                      <Badge key={feature} variant="outline" className="text-xs">
-                        {feature}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-                
-                <div className="flex gap-2">
-                  <Link href={integration.href} className="flex-1">
-                    <Button size="sm" className="w-full bg-[#17457c] hover:bg-[#17457c]/90">
-                      View Docs
-                      <ArrowRight className="w-3 h-3 ml-2" />
-                    </Button>
-                  </Link>
-                  <Button size="sm" variant="outline" className="border-[#efa72d] text-[#efa72d] hover:bg-[#efa72d] hover:text-white">
-                    <ExternalLink className="w-3 h-3" />
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+              </div>
+
+              <div className="flex gap-2">
+                <Link href={integration.href} className="venym-btn-primary flex-1 justify-center">
+                  View Docs
+                  <ArrowRight className="w-3 h-3 ml-1.5" />
+                </Link>
+                <Link href={integration.href} className="venym-btn-secondary" aria-label="External">
+                  <ExternalLink className="w-3 h-3" />
+                </Link>
+              </div>
+            </div>
           ))}
         </div>
       </div>
 
-      {/* Getting Started */}
-      <div className="grid gap-6 md:grid-cols-2">
-        <Card className="border-l-4 border-l-[#efa72d]">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <CheckCircle className="w-5 h-5 text-[#efa72d]" />
-              Quick Start Guide
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-gray-600 mb-4">
-              New to Venym Search? Start with our quickstart guide to get your API key and make your first request.
-            </p>
-            <Link href="/docs/quickstart">
-              <Button variant="outline" className="border-[#efa72d] text-[#efa72d] hover:bg-[#efa72d] hover:text-white">
-                Get Started
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-            </Link>
-          </CardContent>
-        </Card>
+      <div className="grid gap-4 md:grid-cols-2">
+        <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+          <div className="flex items-center gap-2 mb-3">
+            <CheckCircle className="w-4 h-4 text-amber-400/80" />
+            <span className="text-[15px] font-medium text-white">Quick Start Guide</span>
+          </div>
+          <p className="text-[13px] text-white/55 leading-relaxed mb-4">
+            New to Venym Search? Start with our quickstart guide to get your API key and make your first request.
+          </p>
+          <Link href="/docs/quickstart" className="venym-btn-secondary">
+            Get Started
+            <ArrowRight className="w-3 h-3 ml-1.5" />
+          </Link>
+        </div>
 
-        <Card className="border-l-4 border-l-[#17457c]">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Code className="w-5 h-5 text-[#17457c]" />
-              Custom Integration
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-gray-600 mb-4">
-              Don't see your platform? Build a custom integration using our REST API and comprehensive documentation.
-            </p>
-            <Link href="/docs/api">
-              <Button variant="outline" className="border-[#17457c] text-[#17457c] hover:bg-[#17457c] hover:text-white">
-                API Docs
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-            </Link>
-          </CardContent>
-        </Card>
+        <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+          <div className="flex items-center gap-2 mb-3">
+            <Code className="w-4 h-4 text-sky-400/80" />
+            <span className="text-[15px] font-medium text-white">Custom Integration</span>
+          </div>
+          <p className="text-[13px] text-white/55 leading-relaxed mb-4">
+            Don't see your platform? Build a custom integration using our REST API and comprehensive documentation.
+          </p>
+          <Link href="/docs/api" className="venym-btn-secondary">
+            API Docs
+            <ArrowRight className="w-3 h-3 ml-1.5" />
+          </Link>
+        </div>
       </div>
     </div>
   )
 }
-

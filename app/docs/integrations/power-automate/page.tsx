@@ -1,20 +1,14 @@
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { 
-  Building2, 
-  Shield, 
+import {
+  Building2,
+  Shield,
   Users,
   ArrowRight,
   ExternalLink,
   CheckCircle,
   PlayCircle,
-  Globe,
   Database,
-  Settings,
   Mail,
-  FileSpreadsheet
 } from 'lucide-react'
 import { CodeBlock } from '../../components/CodeBlock'
 import { Callout } from '../../components/Callout'
@@ -462,477 +456,399 @@ export default function PowerAutomateIntegrationPage() {
 
   return (
     <div className="max-w-none">
-      {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="p-2 bg-blue-100 rounded-lg">
-            <Building2 className="w-6 h-6 text-blue-600" />
-          </div>
-          <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100">
+      <div className="mb-10">
+        <div className="venym-meta mb-3 flex items-center gap-3">
+          <span>INTEGRATION :: POWER AUTOMATE</span>
+          <span className="text-[10px] font-mono uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border border-sky-400/20 text-sky-300/80">
             Enterprise
-          </Badge>
-          <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
+          </span>
+          <span className="text-[10px] font-mono uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border border-emerald-400/20 text-emerald-300/80">
             Microsoft 365
-          </Badge>
+          </span>
         </div>
-        
-        <h1 className="text-4xl font-bold text-[#17457c] mb-4">
+
+        <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-white mb-2 leading-[1.1]">
           Microsoft Power Automate Integration
         </h1>
-        <p className="text-xl text-gray-600 leading-relaxed">
-          Integrate Venym Search with Microsoft's enterprise automation platform. 
+        <p className="text-[14px] text-white/55 leading-relaxed max-w-3xl">
+          Integrate Venym Search with Microsoft's enterprise automation platform.
           Build workflows that connect web intelligence to Microsoft 365, Dynamics 365, and Azure services.
         </p>
       </div>
 
-      {/* Quick Benefits */}
-      <div className="grid gap-4 md:grid-cols-3 mb-8">
-        <Card className="border-l-4 border-l-blue-500">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3 mb-2">
-              <Building2 className="w-5 h-5 text-blue-500" />
-              <h3 className="font-semibold">Enterprise Integration</h3>
-            </div>
-            <p className="text-sm text-gray-600">Native integration with Microsoft 365 and Dynamics 365</p>
-          </CardContent>
-        </Card>
-        
-        <Card className="border-l-4 border-l-green-500">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3 mb-2">
-              <Shield className="w-5 h-5 text-green-500" />
-              <h3 className="font-semibold">Security & Compliance</h3>
-            </div>
-            <p className="text-sm text-gray-600">Enterprise-grade security with GDPR and SOC compliance</p>
-          </CardContent>
-        </Card>
-        
-        <Card className="border-l-4 border-l-[#efa72d]">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3 mb-2">
-              <Users className="w-5 h-5 text-[#efa72d]" />
-              <h3 className="font-semibold">Team Collaboration</h3>
-            </div>
-            <p className="text-sm text-gray-600">Share workflows across teams with role-based access</p>
-          </CardContent>
-        </Card>
-      </div>
+      <div className="grid gap-4 md:grid-cols-3 mb-10">
+        <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+          <div className="flex items-center gap-2 mb-3">
+            <Building2 className="w-4 h-4 text-sky-400/80" />
+            <span className="text-[15px] font-medium text-white">Enterprise Integration</span>
+          </div>
+          <p className="text-[13px] text-white/55 leading-relaxed">Native integration with Microsoft 365 and Dynamics 365</p>
+        </div>
 
-      <Callout type="success" title="What you'll build">
-        Enterprise automation workflows that search the web, process data with AI, integrate with Microsoft 365, 
-        and maintain full compliance with your organization's security policies.
-      </Callout>
+        <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+          <div className="flex items-center gap-2 mb-3">
+            <Shield className="w-4 h-4 text-emerald-400/80" />
+            <span className="text-[15px] font-medium text-white">Security & Compliance</span>
+          </div>
+          <p className="text-[13px] text-white/55 leading-relaxed">Enterprise-grade security with GDPR and SOC compliance</p>
+        </div>
 
-      {/* Setup Instructions */}
-      <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Setup Instructions</h2>
-        
-        <div className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <span className="flex items-center justify-center w-6 h-6 bg-[#17457c] text-white rounded-full text-sm font-bold">1</span>
-                Create Custom Connector
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <p className="text-gray-600">
-                  Create a custom connector for Venym Search API using OpenAPI definition to enable native integration.
-                </p>
-                
-                <CodeBlock
-                  code={connectorCode}
-                  language="json"
-                  title="Venym Search OpenAPI Definition"
-                />
-
-                <div className="bg-blue-50 p-4 rounded-lg">
-                  <h4 className="font-semibold mb-2">Connector Creation Steps:</h4>
-                  <ol className="list-decimal list-inside text-sm text-gray-600 space-y-1">
-                    <li>Go to Power Automate → Data → Custom connectors</li>
-                    <li>Create from OpenAPI definition</li>
-                    <li>Import the Venym Search OpenAPI specification</li>
-                    <li>Configure authentication (API Key)</li>
-                    <li>Test the connector and save</li>
-                  </ol>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <span className="flex items-center justify-center w-6 h-6 bg-[#17457c] text-white rounded-full text-sm font-bold">2</span>
-                Configure Authentication
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <p className="text-gray-600">
-                  Set up secure API key authentication for Venym Search in your Power Automate environment.
-                </p>
-                
-                <div className="grid gap-3 md:grid-cols-2">
-                  <div className="bg-green-50 p-3 rounded-lg">
-                    <h5 className="font-semibold text-sm mb-2">Security Features</h5>
-                    <p className="text-xs text-gray-600">API keys are encrypted and stored securely in Microsoft's Azure infrastructure with enterprise compliance.</p>
-                  </div>
-                  <div className="bg-blue-50 p-3 rounded-lg">
-                    <h5 className="font-semibold text-sm mb-2">Connection Sharing</h5>
-                    <p className="text-xs text-gray-600">Share connections across your organization with role-based access control and audit logging.</p>
-                  </div>
-                </div>
-
-                <Link href="/docs/quickstart">
-                  <Button variant="outline" className="border-[#efa72d] text-[#efa72d] hover:bg-[#efa72d] hover:text-white">
-                    Get Your API Key
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <span className="flex items-center justify-center w-6 h-6 bg-[#17457c] text-white rounded-full text-sm font-bold">3</span>
-                Build Your First Flow
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <p className="text-gray-600">
-                  Create an automated flow that demonstrates Venym Search integration with Microsoft 365 services.
-                </p>
-                
-                <CodeBlock
-                  code={flowCode}
-                  language="json"
-                  title="Lead Generation Flow Definition"
-                />
-
-                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4">
-                  <div className="flex">
-                    <div className="ml-3">
-                      <p className="text-sm text-yellow-700">
-                        <strong>Pro Tip:</strong> Use Power Automate's visual designer to build flows, 
-                        then export to JSON for version control and team collaboration.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+        <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+          <div className="flex items-center gap-2 mb-3">
+            <Users className="w-4 h-4 text-amber-400/80" />
+            <span className="text-[15px] font-medium text-white">Team Collaboration</span>
+          </div>
+          <p className="text-[13px] text-white/55 leading-relaxed">Share workflows across teams with role-based access</p>
         </div>
       </div>
 
-      {/* Microsoft 365 Integrations */}
+      <Callout type="success" title="What you'll build">
+        Enterprise automation workflows that search the web, process data with AI, integrate with Microsoft 365,
+        and maintain full compliance with your organization's security policies.
+      </Callout>
+
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Microsoft 365 & Dynamics Integrations</h2>
-        
-        <div className="grid gap-6 md:grid-cols-2">
-          {integrations.map((integration, index) => (
-            <Card key={integration.title} className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="flex items-start gap-3">
-                  <div className="p-2 bg-[#17457c]/10 rounded-lg">
-                    <integration.icon className="w-5 h-5 text-[#17457c]" />
-                  </div>
-                  <div className="flex-1">
-                    <CardTitle className="text-lg mb-2">{integration.title}</CardTitle>
-                    <p className="text-sm text-gray-600">{integration.description}</p>
+        <div className="venym-meta mb-3">01 · Setup</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Setup Instructions</h2>
+
+        <div className="space-y-4">
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+            <div className="px-6 py-4 border-b border-white/[0.06] flex items-center gap-3">
+              <span className="w-7 h-7 inline-flex items-center justify-center text-[11px] font-mono text-white/60 border border-white/15 rounded-sm">01</span>
+              <h3 className="text-[14px] font-medium text-white">Create Custom Connector</h3>
+            </div>
+            <div className="p-6 space-y-4">
+              <p className="text-[14px] text-white/55 leading-relaxed">
+                Create a custom connector for Venym Search API using OpenAPI definition to enable native integration.
+              </p>
+
+              <CodeBlock
+                code={connectorCode}
+                language="json"
+                title="Venym Search OpenAPI Definition"
+              />
+
+              <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-4">
+                <h4 className="text-[14px] font-medium text-white mb-2">Connector Creation Steps:</h4>
+                <ol className="list-decimal list-inside text-[13px] text-white/55 space-y-1">
+                  <li>Go to Power Automate → Data → Custom connectors</li>
+                  <li>Create from OpenAPI definition</li>
+                  <li>Import the Venym Search OpenAPI specification</li>
+                  <li>Configure authentication (API Key)</li>
+                  <li>Test the connector and save</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+            <div className="px-6 py-4 border-b border-white/[0.06] flex items-center gap-3">
+              <span className="w-7 h-7 inline-flex items-center justify-center text-[11px] font-mono text-white/60 border border-white/15 rounded-sm">02</span>
+              <h3 className="text-[14px] font-medium text-white">Configure Authentication</h3>
+            </div>
+            <div className="p-6 space-y-4">
+              <p className="text-[14px] text-white/55 leading-relaxed">
+                Set up secure API key authentication for Venym Search in your Power Automate environment.
+              </p>
+
+              <div className="grid gap-3 md:grid-cols-2">
+                <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-3">
+                  <h5 className="text-[14px] font-medium text-white mb-2">Security Features</h5>
+                  <p className="text-[12px] text-white/55">API keys are encrypted and stored securely in Microsoft's Azure infrastructure with enterprise compliance.</p>
+                </div>
+                <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-3">
+                  <h5 className="text-[14px] font-medium text-white mb-2">Connection Sharing</h5>
+                  <p className="text-[12px] text-white/55">Share connections across your organization with role-based access control and audit logging.</p>
+                </div>
+              </div>
+
+              <Link href="/docs/quickstart" className="venym-btn-secondary">
+                Get Your API Key
+                <ArrowRight className="w-3 h-3 ml-1.5" />
+              </Link>
+            </div>
+          </div>
+
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+            <div className="px-6 py-4 border-b border-white/[0.06] flex items-center gap-3">
+              <span className="w-7 h-7 inline-flex items-center justify-center text-[11px] font-mono text-white/60 border border-white/15 rounded-sm">03</span>
+              <h3 className="text-[14px] font-medium text-white">Build Your First Flow</h3>
+            </div>
+            <div className="p-6 space-y-4">
+              <p className="text-[14px] text-white/55 leading-relaxed">
+                Create an automated flow that demonstrates Venym Search integration with Microsoft 365 services.
+              </p>
+
+              <CodeBlock
+                code={flowCode}
+                language="json"
+                title="Lead Generation Flow Definition"
+              />
+
+              <Callout type="tip">
+                Use Power Automate's visual designer to build flows,
+                then export to JSON for version control and team collaboration.
+              </Callout>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="mb-12">
+        <div className="venym-meta mb-3">02 · Microsoft</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Microsoft 365 & Dynamics Integrations</h2>
+
+        <div className="grid gap-4 md:grid-cols-2">
+          {integrations.map((integration) => (
+            <div key={integration.title} className="border border-white/[0.06] bg-white/[0.02] rounded-sm hover:border-white/[0.12] transition-colors">
+              <div className="px-6 py-4 border-b border-white/[0.06] flex items-start gap-3">
+                <integration.icon className="w-4 h-4 text-white/50 mt-1" />
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-white mb-1">{integration.title}</h3>
+                  <p className="text-[13px] text-white/55">{integration.description}</p>
+                </div>
+              </div>
+
+              <div className="p-6 space-y-4">
+                <div>
+                  <h4 className="text-[10px] font-mono uppercase tracking-[0.15em] text-white/40 mb-2">Connected Apps</h4>
+                  <div className="flex flex-wrap gap-1.5">
+                    {integration.apps.map((app) => (
+                      <span key={app} className="text-[10px] font-mono uppercase tracking-[0.15em] px-1.5 py-0.5 rounded-sm border border-white/10 text-white/60">
+                        {app}
+                      </span>
+                    ))}
                   </div>
                 </div>
-              </CardHeader>
-              
-              <CardContent>
-                <div className="space-y-4">
-                  <div>
-                    <h4 className="font-semibold text-sm mb-2">Connected Apps:</h4>
-                    <div className="flex flex-wrap gap-1">
-                      {integration.apps.map((app) => (
-                        <Badge key={app} variant="outline" className="text-xs">
-                          {app}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <h4 className="font-semibold text-sm mb-2">Use Case:</h4>
-                    <p className="text-xs text-gray-600">{integration.useCase}</p>
-                  </div>
-                  
-                  <Button size="sm" variant="outline" className="w-full border-[#17457c] text-[#17457c] hover:bg-[#17457c] hover:text-white">
-                    <PlayCircle className="w-3 h-3 mr-2" />
-                    View Template
-                  </Button>
+
+                <div>
+                  <h4 className="text-[10px] font-mono uppercase tracking-[0.15em] text-white/40 mb-2">Use Case</h4>
+                  <p className="text-[12px] text-white/55">{integration.useCase}</p>
                 </div>
-              </CardContent>
-            </Card>
+
+                <button className="venym-btn-secondary w-full justify-center">
+                  <PlayCircle className="w-3 h-3 mr-1.5" />
+                  View Template
+                </button>
+              </div>
+            </div>
           ))}
         </div>
       </div>
 
-      {/* Compliance & Security */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Enterprise Compliance & Security</h2>
-        
-        <p className="text-gray-600 mb-6">
+        <div className="venym-meta mb-3">03 · Compliance</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Enterprise Compliance & Security</h2>
+
+        <p className="text-[14px] text-white/55 leading-relaxed mb-6">
           Build workflows that meet enterprise security and compliance requirements with built-in audit trails and data governance.
         </p>
-        
+
         <CodeBlock
           code={complianceCode}
           language="json"
           title="GDPR Compliant Workflow Example"
         />
 
-        <div className="mt-6 grid gap-6 md:grid-cols-2">
-          <Card className="border-l-4 border-l-green-500">
-            <CardHeader>
-              <CardTitle className="text-green-700">Security Features</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                <div className="flex items-start gap-2">
-                  <Shield className="w-4 h-4 text-green-500 mt-0.5" />
-                  <span className="text-sm">Azure AD authentication integration</span>
+        <div className="mt-6 grid gap-4 md:grid-cols-2">
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+            <div className="px-6 py-4 border-b border-white/[0.06]">
+              <h3 className="text-[14px] font-medium text-emerald-300/80">Security Features</h3>
+            </div>
+            <div className="p-6 space-y-3">
+              {['Azure AD authentication integration', 'Data encryption in transit and at rest', 'Role-based access control (RBAC)', 'Conditional access policies'].map((f) => (
+                <div key={f} className="flex items-start gap-2">
+                  <Shield className="w-3.5 h-3.5 text-emerald-400/80 mt-0.5" />
+                  <span className="text-[13px] text-white/65">{f}</span>
                 </div>
-                <div className="flex items-start gap-2">
-                  <Shield className="w-4 h-4 text-green-500 mt-0.5" />
-                  <span className="text-sm">Data encryption in transit and at rest</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <Shield className="w-4 h-4 text-green-500 mt-0.5" />
-                  <span className="text-sm">Role-based access control (RBAC)</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <Shield className="w-4 h-4 text-green-500 mt-0.5" />
-                  <span className="text-sm">Conditional access policies</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              ))}
+            </div>
+          </div>
 
-          <Card className="border-l-4 border-l-blue-500">
-            <CardHeader>
-              <CardTitle className="text-blue-700">Compliance Capabilities</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-blue-500 mt-0.5" />
-                  <span className="text-sm">GDPR data processing controls</span>
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+            <div className="px-6 py-4 border-b border-white/[0.06]">
+              <h3 className="text-[14px] font-medium text-sky-300/80">Compliance Capabilities</h3>
+            </div>
+            <div className="p-6 space-y-3">
+              {['GDPR data processing controls', 'SOC 2 Type II compliance', 'Audit logging and monitoring', 'Data residency controls'].map((f) => (
+                <div key={f} className="flex items-start gap-2">
+                  <CheckCircle className="h-3.5 w-3.5 text-sky-400/80 mt-0.5" />
+                  <span className="text-[13px] text-white/65">{f}</span>
                 </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-blue-500 mt-0.5" />
-                  <span className="text-sm">SOC 2 Type II compliance</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-blue-500 mt-0.5" />
-                  <span className="text-sm">Audit logging and monitoring</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-blue-500 mt-0.5" />
-                  <span className="text-sm">Data residency controls</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Advanced Features */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Advanced Enterprise Features</h2>
-        
-        <div className="space-y-6">
-          <Card className="border-l-4 border-l-[#efa72d]">
-            <CardHeader>
-              <CardTitle className="text-[#efa72d]">AI Builder Integration</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600 mb-4">
+        <div className="venym-meta mb-3">04 · Advanced</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Advanced Enterprise Features</h2>
+
+        <div className="space-y-4">
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+            <div className="px-6 py-4 border-b border-white/[0.06]">
+              <h3 className="text-[14px] font-medium text-amber-300/80">AI Builder Integration</h3>
+            </div>
+            <div className="p-6">
+              <p className="text-[14px] text-white/55 leading-relaxed mb-4">
                 Enhance Venym Search data with Microsoft's AI Builder for document processing, sentiment analysis, and custom AI models.
               </p>
               <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Document AI for scraped content processing</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Sentiment analysis on search results</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Custom object detection in images</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Text classification and entity extraction</span>
-                </div>
+                {['Document AI for scraped content processing', 'Sentiment analysis on search results', 'Custom object detection in images', 'Text classification and entity extraction'].map((f) => (
+                  <div key={f} className="flex items-center gap-2">
+                    <CheckCircle className="h-3.5 w-3.5 text-emerald-400/80" />
+                    <span className="text-[13px] text-white/65">{f}</span>
+                  </div>
+                ))}
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
-          <Card className="border-l-4 border-l-purple-500">
-            <CardHeader>
-              <CardTitle className="text-purple-700">Power Platform Ecosystem</CardTitle>
-            </CardHeader>
-            <CardContent>
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+            <div className="px-6 py-4 border-b border-white/[0.06]">
+              <h3 className="text-[14px] font-medium text-violet-300/80">Power Platform Ecosystem</h3>
+            </div>
+            <div className="p-6">
               <div className="grid gap-4 md:grid-cols-2">
                 <div>
-                  <h4 className="font-semibold text-sm mb-2">Power Apps Integration:</h4>
-                  <ul className="text-sm text-gray-600 space-y-1">
+                  <h4 className="text-[14px] font-medium text-white mb-2">Power Apps Integration:</h4>
+                  <ul className="text-[13px] text-white/55 space-y-1">
                     <li>• Build custom apps with Venym Search data</li>
                     <li>• Real-time search interfaces</li>
                     <li>• Mobile apps for field research</li>
                   </ul>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-sm mb-2">Power BI Dashboards:</h4>
-                  <ul className="text-sm text-gray-600 space-y-1">
+                  <h4 className="text-[14px] font-medium text-white mb-2">Power BI Dashboards:</h4>
+                  <ul className="text-[13px] text-white/55 space-y-1">
                     <li>• Market intelligence dashboards</li>
                     <li>• Competitive analysis reports</li>
                     <li>• Lead generation metrics</li>
                   </ul>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Pricing & Limits */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Enterprise Pricing & Limits</h2>
-        
-        <div className="grid gap-6 md:grid-cols-2">
-          <Card>
-            <CardHeader>
-              <CardTitle>Power Automate Plans</CardTitle>
-            </CardHeader>
-            <CardContent>
+        <div className="venym-meta mb-3">05 · Pricing</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Enterprise Pricing & Limits</h2>
+
+        <div className="grid gap-4 md:grid-cols-2">
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+            <div className="px-6 py-4 border-b border-white/[0.06]">
+              <h3 className="text-lg font-semibold text-white">Power Automate Plans</h3>
+            </div>
+            <div className="p-6">
               <div className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Per User Plan</span>
-                  <span className="font-semibold">$15/user/month</span>
+                  <span className="text-[13px] text-white/55">Per User Plan</span>
+                  <span className="text-[13px] font-medium text-white">$15/user/month</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Per Flow Plan</span>
-                  <span className="font-semibold">$100/5 flows/month</span>
+                  <span className="text-[13px] text-white/55">Per Flow Plan</span>
+                  <span className="text-[13px] font-medium text-white">$100/5 flows/month</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Process Plan</span>
-                  <span className="font-semibold">$150/bot/month</span>
+                  <span className="text-[13px] text-white/55">Process Plan</span>
+                  <span className="text-[13px] font-medium text-white">$150/bot/month</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Premium Connectors</span>
-                  <span className="font-semibold">Included</span>
+                  <span className="text-[13px] text-white/55">Premium Connectors</span>
+                  <span className="text-[13px] font-medium text-white">Included</span>
                 </div>
               </div>
-              <div className="mt-4 pt-4 border-t">
-                <p className="text-sm text-gray-600">
+              <div className="mt-4 pt-4 border-t border-white/[0.06]">
+                <p className="text-[13px] text-white/55">
                   Venym Search custom connector available with all paid plans.
                 </p>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Venym Search Usage</CardTitle>
-            </CardHeader>
-            <CardContent>
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+            <div className="px-6 py-4 border-b border-white/[0.06]">
+              <h3 className="text-lg font-semibold text-white">Venym Search Usage</h3>
+            </div>
+            <div className="p-6">
               <div className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Search</span>
-                  <span className="font-semibold">1 credit per search</span>
+                  <span className="text-[13px] text-white/55">Search</span>
+                  <span className="text-[13px] font-medium text-white">1 credit per search</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Scrape</span>
-                  <span className="font-semibold">1 credit per page</span>
+                  <span className="text-[13px] text-white/55">Scrape</span>
+                  <span className="text-[13px] font-medium text-white">1 credit per page</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="font-semibold">5 credits per research</span>
+                  <span className="text-[13px] font-medium text-white">5 credits per research</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Enterprise Support</span>
-                  <span className="font-semibold">24/7 available</span>
+                  <span className="text-[13px] text-white/55">Enterprise Support</span>
+                  <span className="text-[13px] font-medium text-white">24/7 available</span>
                 </div>
               </div>
-              <div className="mt-4 pt-4 border-t">
-                <p className="text-sm text-gray-600">
+              <div className="mt-4 pt-4 border-t border-white/[0.06]">
+                <p className="text-[13px] text-white/55">
                   Volume discounts available for enterprise customers.
                 </p>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Next Steps */}
-      <div className="grid gap-6 md:grid-cols-2">
-        <Card className="border-l-4 border-l-[#efa72d]">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <PlayCircle className="w-5 h-5 text-[#efa72d]" />
-              Start Building
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-gray-600 mb-4">
+      <div className="grid gap-4 md:grid-cols-2">
+        <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+          <div className="px-6 py-4 border-b border-white/[0.06] flex items-center gap-2">
+            <PlayCircle className="w-4 h-4 text-amber-400/80" />
+            <span className="venym-meta">Start</span>
+          </div>
+          <div className="p-6">
+            <h3 className="text-lg font-semibold text-white mb-3">Start Building</h3>
+            <p className="text-[13px] text-white/55 leading-relaxed mb-4">
               Ready for enterprise automation? Get your Venym Search API key and build with Power Automate.
             </p>
-            <div className="flex gap-2">
-              <Link href="/docs/quickstart">
-                <Button className="bg-[#efa72d] hover:bg-[#efa72d]/90">
-                  Get API Key
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
+            <div className="flex gap-2 flex-wrap">
+              <Link href="/docs/quickstart" className="venym-btn-primary">
+                Get API Key
+                <ArrowRight className="w-3 h-3 ml-1.5" />
               </Link>
-              <Button variant="outline" className="border-[#17457c] text-[#17457c] hover:bg-[#17457c] hover:text-white">
-                <ExternalLink className="w-4 h-4 mr-2" />
+              <button className="venym-btn-secondary">
+                <ExternalLink className="w-3 h-3 mr-1.5" />
                 Power Automate
-              </Button>
+              </button>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
-        <Card className="border-l-4 border-l-[#17457c]">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <ExternalLink className="w-5 h-5 text-[#17457c]" />
-              Enterprise Support
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-gray-600 mb-4">
+        <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+          <div className="px-6 py-4 border-b border-white/[0.06] flex items-center gap-2">
+            <ExternalLink className="w-4 h-4 text-sky-400/80" />
+            <span className="venym-meta">Support</span>
+          </div>
+          <div className="p-6">
+            <h3 className="text-lg font-semibold text-white mb-3">Enterprise Support</h3>
+            <p className="text-[13px] text-white/55 leading-relaxed mb-4">
               Need enterprise support? Contact our team for custom integrations and onboarding.
             </p>
-            <div className="flex gap-2">
-              <Button size="sm" variant="outline" className="border-[#17457c] text-[#17457c] hover:bg-[#17457c] hover:text-white">
+            <div className="flex gap-2 flex-wrap">
+              <button className="venym-btn-secondary">
                 Contact Sales
-              </Button>
-              <Button size="sm" variant="outline" className="border-[#17457c] text-[#17457c] hover:bg-[#17457c] hover:text-white">
+              </button>
+              <button className="venym-btn-secondary">
                 Enterprise Demo
-              </Button>
-              <Link href="/docs/integrations">
-                <Button size="sm" variant="outline" className="border-[#17457c] text-[#17457c] hover:bg-[#17457c] hover:text-white">
-                  All Integrations
-                </Button>
+              </button>
+              <Link href="/docs/integrations" className="venym-btn-secondary">
+                All Integrations
               </Link>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     </div>
   )
 }
-

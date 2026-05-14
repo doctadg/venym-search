@@ -1,10 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Badge } from '@/components/ui/badge'
-import { Copy, Check, ExternalLink } from 'lucide-react'
+import { Copy, Check } from 'lucide-react'
 
 interface CodeBlockProps {
   code?: string
@@ -16,12 +14,12 @@ interface CodeBlockProps {
   }
 }
 
-export function CodeBlock({ 
-  code, 
-  language = 'bash', 
-  title, 
+export function CodeBlock({
+  code,
+  language = 'bash',
+  title,
   showCopy = true,
-  multiLanguage 
+  multiLanguage,
 }: CodeBlockProps) {
   const [copied, setCopied] = useState(false)
   const [activeLanguage, setActiveLanguage] = useState(language)
@@ -46,53 +44,48 @@ export function CodeBlock({
       json: 'JSON',
       typescript: 'TypeScript',
       jsx: 'React',
-      tsx: 'React TS'
+      tsx: 'React TS',
     }
     return labels[lang] || lang.toUpperCase()
   }
 
   if (multiLanguage) {
     return (
-      <div className="relative rounded-lg border bg-gray-50 overflow-hidden">
+      <div className="relative border border-white/[0.06] bg-[#080808] rounded-sm overflow-hidden my-6">
         {title && (
-          <div className="px-4 py-3 bg-gray-100 border-b flex items-center justify-between">
-            <h4 className="text-sm font-medium text-gray-900">{title}</h4>
+          <div className="px-4 py-2.5 bg-white/[0.02] border-b border-white/[0.06] flex items-center justify-between">
+            <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/40">{title}</span>
           </div>
         )}
-        
+
         <Tabs value={activeLanguage} onValueChange={setActiveLanguage} className="w-full">
-          <div className="flex items-center justify-between border-b bg-white">
-            <TabsList className="h-auto p-1 bg-transparent">
+          <div className="flex items-center justify-between border-b border-white/[0.06] bg-white/[0.02]">
+            <TabsList className="h-auto p-0 bg-transparent rounded-none gap-0">
               {Object.keys(multiLanguage).map((lang) => (
                 <TabsTrigger
                   key={lang}
                   value={lang}
-                  className="text-xs px-3 py-2 data-[state=active]:bg-[#efa72d]/10 data-[state=active]:text-[#efa72d]"
+                  className="text-[10px] font-mono uppercase tracking-[0.15em] px-4 py-2.5 rounded-none border-b-2 border-transparent text-white/40 data-[state=active]:bg-transparent data-[state=active]:text-white data-[state=active]:border-white shadow-none"
                 >
                   {getLanguageLabel(lang)}
                 </TabsTrigger>
               ))}
             </TabsList>
-            
+
             {showCopy && (
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-8 px-2 mr-2"
+              <button
                 onClick={() => copyToClipboard(multiLanguage[activeLanguage])}
+                className="inline-flex items-center justify-center w-8 h-8 mr-2 text-white/40 hover:text-white transition-colors"
+                aria-label="Copy code"
               >
-                {copied ? (
-                  <Check className="h-3 w-3 text-green-500" />
-                ) : (
-                  <Copy className="h-3 w-3" />
-                )}
-              </Button>
+                {copied ? <Check className="h-3 w-3 text-emerald-400/80" /> : <Copy className="h-3 w-3" />}
+              </button>
             )}
           </div>
 
           {Object.entries(multiLanguage).map(([lang, codeContent]) => (
             <TabsContent key={lang} value={lang} className="m-0">
-              <pre className="p-4 text-sm overflow-x-auto bg-gray-900 text-gray-100">
+              <pre className="p-4 text-[12.5px] leading-relaxed overflow-x-auto bg-[#050505] text-white/80 font-mono">
                 <code className={`language-${lang}`}>{codeContent}</code>
               </pre>
             </TabsContent>
@@ -103,34 +96,29 @@ export function CodeBlock({
   }
 
   return (
-    <div className="relative rounded-lg border bg-gray-50 overflow-hidden">
+    <div className="relative border border-white/[0.06] bg-[#080808] rounded-sm overflow-hidden my-6">
       {title && (
-        <div className="px-4 py-3 bg-gray-100 border-b flex items-center justify-between">
-          <h4 className="text-sm font-medium text-gray-900">{title}</h4>
-          <Badge variant="outline" className="text-xs">
+        <div className="px-4 py-2.5 bg-white/[0.02] border-b border-white/[0.06] flex items-center justify-between">
+          <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/40">{title}</span>
+          <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/30">
             {getLanguageLabel(language)}
-          </Badge>
+          </span>
         </div>
       )}
-      
+
       <div className="relative">
-        <pre className="p-4 text-sm overflow-x-auto bg-gray-900 text-gray-100">
+        <pre className="p-4 text-[12.5px] leading-relaxed overflow-x-auto bg-[#050505] text-white/80 font-mono">
           <code className={`language-${language}`}>{code || ''}</code>
         </pre>
-        
+
         {showCopy && (
-          <Button
-            variant="ghost"
-            size="sm"
-            className="absolute top-3 right-3 h-8 w-8 p-0 bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white"
+          <button
             onClick={() => copyToClipboard(code || '')}
+            className="absolute top-2.5 right-2.5 inline-flex items-center justify-center w-8 h-8 bg-white/[0.04] border border-white/[0.08] text-white/50 hover:text-white hover:border-white/20 rounded-sm transition-colors"
+            aria-label="Copy code"
           >
-            {copied ? (
-              <Check className="h-3 w-3 text-green-400" />
-            ) : (
-              <Copy className="h-3 w-3" />
-            )}
-          </Button>
+            {copied ? <Check className="h-3 w-3 text-emerald-400/80" /> : <Copy className="h-3 w-3" />}
+          </button>
         )}
       </div>
     </div>
@@ -139,7 +127,7 @@ export function CodeBlock({
 
 export function InlineCode({ children }: { children: React.ReactNode }) {
   return (
-    <code className="px-2 py-1 text-sm bg-gray-100 text-[#17457c] rounded-md font-mono">
+    <code className="px-1.5 py-0.5 text-[12.5px] font-mono bg-white/[0.04] border border-white/[0.06] text-white/80 rounded-sm">
       {children}
     </code>
   )

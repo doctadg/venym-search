@@ -1,8 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Copy, Check, FileText } from 'lucide-react'
+import { Check, FileText } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 
 interface CopyMarkdownButtonProps {
@@ -138,24 +137,22 @@ export function CopyMarkdownButton({ title }: CopyMarkdownButtonProps) {
   }
 
   return (
-    <Button
-      variant="outline"
-      size="sm"
+    <button
       onClick={copyToClipboard}
-      className="gap-2 text-gray-600 hover:text-[#17457c] border-gray-200 hover:border-[#17457c]"
+      className="inline-flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.15em] text-white/50 border border-white/[0.08] hover:text-white hover:border-white/20 px-3 py-1.5 rounded-sm transition-colors"
       title="Copy page as Markdown for LLM use"
     >
       {copied ? (
         <>
-          <Check className="w-4 h-4 text-green-600" />
-          <span className="text-green-600">Copied!</span>
+          <Check className="w-3 h-3 text-emerald-400/80" />
+          <span className="text-emerald-400/80">Copied</span>
         </>
       ) : (
         <>
-          <FileText className="w-4 h-4" />
+          <FileText className="w-3 h-3" />
           <span>Copy as MD</span>
         </>
       )}
-    </Button>
+    </button>
   )
 }

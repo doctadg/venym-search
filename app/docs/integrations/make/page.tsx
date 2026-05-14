@@ -1,19 +1,15 @@
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { 
-  Workflow, 
-  Bot, 
+import {
+  Workflow,
+  Bot,
   Puzzle,
   ArrowRight,
   ExternalLink,
   CheckCircle,
   PlayCircle,
-  Zap,
   Database,
   Settings,
-  Globe
+  Globe,
 } from 'lucide-react'
 import { CodeBlock } from '../../components/CodeBlock'
 import { Callout } from '../../components/Callout'
@@ -198,7 +194,7 @@ export default function MakeIntegrationPage() {
     {
       title: "Real-time Competitive Monitoring",
       description: "Track competitors with visual workflow automation",
-      complexity: "Intermediate", 
+      complexity: "Intermediate",
       modules: ["Venym Search Search", "Scrape", "Airtable", "Email"],
       features: [
         "Scheduled competitor searches",
@@ -223,362 +219,293 @@ export default function MakeIntegrationPage() {
     }
   ]
 
+  const complexityTone = (c: string) =>
+    c === 'Advanced' ? 'border-rose-400/20 text-rose-300/80' :
+    c === 'Intermediate' ? 'border-amber-400/20 text-amber-300/80' :
+    'border-emerald-400/20 text-emerald-300/80'
+
   return (
     <div className="max-w-none">
-      {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="p-2 bg-purple-100 rounded-lg">
-            <Workflow className="w-6 h-6 text-purple-600" />
-          </div>
-          <Badge className="bg-purple-100 text-purple-800 hover:bg-purple-100">
+      <div className="mb-10">
+        <div className="venym-meta mb-3 flex items-center gap-3">
+          <span>INTEGRATION :: MAKE</span>
+          <span className="text-[10px] font-mono uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border border-violet-400/20 text-violet-300/80">
             Visual Workflows
-          </Badge>
-          <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100">
+          </span>
+          <span className="text-[10px] font-mono uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border border-sky-400/20 text-sky-300/80">
             AI-Enhanced
-          </Badge>
+          </span>
         </div>
-        
-        <h1 className="text-4xl font-bold text-[#17457c] mb-4">
+
+        <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-white mb-2 leading-[1.1]">
           Make.com Integration
         </h1>
-        <p className="text-xl text-gray-600 leading-relaxed">
-          Build sophisticated visual workflows that combine Venym Search's web intelligence 
+        <p className="text-[14px] text-white/55 leading-relaxed max-w-3xl">
+          Build sophisticated visual workflows that combine Venym Search's web intelligence
           with Make.com's powerful automation platform and AI capabilities.
         </p>
       </div>
 
-      {/* Quick Benefits */}
-      <div className="grid gap-4 md:grid-cols-3 mb-8">
-        <Card className="border-l-4 border-l-purple-500">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3 mb-2">
-              <Workflow className="w-5 h-5 text-purple-500" />
-              <h3 className="font-semibold">Visual Workflow Builder</h3>
-            </div>
-            <p className="text-sm text-gray-600">Drag-and-drop interface for complex automation logic</p>
-          </CardContent>
-        </Card>
-        
-        <Card className="border-l-4 border-l-blue-500">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3 mb-2">
-              <Bot className="w-5 h-5 text-blue-500" />
-              <h3 className="font-semibold">AI-Powered Workflows</h3>
-            </div>
-            <p className="text-sm text-gray-600">Integrate OpenAI, Claude, and other AI services seamlessly</p>
-          </CardContent>
-        </Card>
-        
-        <Card className="border-l-4 border-l-[#efa72d]">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3 mb-2">
-              <Puzzle className="w-5 h-5 text-[#efa72d]" />
-              <h3 className="font-semibold">Advanced Logic</h3>
-            </div>
-            <p className="text-sm text-gray-600">Conditional paths, loops, and complex data transformations</p>
-          </CardContent>
-        </Card>
+      <div className="grid gap-4 md:grid-cols-3 mb-10">
+        <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+          <div className="flex items-center gap-2 mb-3">
+            <Workflow className="w-4 h-4 text-violet-400/80" />
+            <span className="text-[15px] font-medium text-white">Visual Workflow Builder</span>
+          </div>
+          <p className="text-[13px] text-white/55 leading-relaxed">Drag-and-drop interface for complex automation logic</p>
+        </div>
+
+        <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+          <div className="flex items-center gap-2 mb-3">
+            <Bot className="w-4 h-4 text-sky-400/80" />
+            <span className="text-[15px] font-medium text-white">AI-Powered Workflows</span>
+          </div>
+          <p className="text-[13px] text-white/55 leading-relaxed">Integrate OpenAI, Claude, and other AI services seamlessly</p>
+        </div>
+
+        <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+          <div className="flex items-center gap-2 mb-3">
+            <Puzzle className="w-4 h-4 text-amber-400/80" />
+            <span className="text-[15px] font-medium text-white">Advanced Logic</span>
+          </div>
+          <p className="text-[13px] text-white/55 leading-relaxed">Conditional paths, loops, and complex data transformations</p>
+        </div>
       </div>
 
       <Callout type="success" title="What you'll build">
-        Create intelligent workflows that search the web, analyze content with AI, process data through 
+        Create intelligent workflows that search the web, analyze content with AI, process data through
         multiple stages, and deliver insights to your team automatically.
       </Callout>
 
-      {/* Setup Instructions */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Setup Instructions</h2>
-        
-        <div className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <span className="flex items-center justify-center w-6 h-6 bg-[#17457c] text-white rounded-full text-sm font-bold">1</span>
-                Create Venym Search HTTP Modules
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <p className="text-gray-600">
-                  Set up HTTP modules for each Venym Search API endpoint you want to use in your workflows.
-                </p>
-                
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <h4 className="font-semibold mb-3">Required HTTP Module Configuration:</h4>
-                  <CodeBlock
-                    code={httpModuleCode}
-                    language="json"
-                    title="Search HTTP Module Setup"
-                  />
-                </div>
+        <div className="venym-meta mb-3">01 · Setup</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Setup Instructions</h2>
 
-                <div className="grid gap-3 md:grid-cols-2">
-                  <div className="bg-blue-50 p-3 rounded-lg">
-                    <h5 className="font-semibold text-sm mb-2">Authentication</h5>
-                    <p className="text-xs text-gray-600">Store your Venym Search API key in Make.com's connection settings for secure reuse across scenarios.</p>
-                  </div>
-                  <div className="bg-green-50 p-3 rounded-lg">
-                    <h5 className="font-semibold text-sm mb-2">Dynamic Parameters</h5>
-                    <p className="text-xs text-gray-600">Use Make.com variables ({"{{variable}}"}) to make your modules dynamic and reusable.</p>
-                  </div>
+        <div className="space-y-4">
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+            <div className="px-6 py-4 border-b border-white/[0.06] flex items-center gap-3">
+              <span className="w-7 h-7 inline-flex items-center justify-center text-[11px] font-mono text-white/60 border border-white/15 rounded-sm">01</span>
+              <h3 className="text-[14px] font-medium text-white">Create Venym Search HTTP Modules</h3>
+            </div>
+            <div className="p-6 space-y-4">
+              <p className="text-[14px] text-white/55 leading-relaxed">
+                Set up HTTP modules for each Venym Search API endpoint you want to use in your workflows.
+              </p>
+
+              <CodeBlock
+                code={httpModuleCode}
+                language="json"
+                title="Search HTTP Module Setup"
+              />
+
+              <div className="grid gap-3 md:grid-cols-2">
+                <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-3">
+                  <h5 className="text-[14px] font-medium text-white mb-2">Authentication</h5>
+                  <p className="text-[12px] text-white/55">Store your Venym Search API key in Make.com's connection settings for secure reuse across scenarios.</p>
+                </div>
+                <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-3">
+                  <h5 className="text-[14px] font-medium text-white mb-2">Dynamic Parameters</h5>
+                  <p className="text-[12px] text-white/55">Use Make.com variables ({"{{variable}}"}) to make your modules dynamic and reusable.</p>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <span className="flex items-center justify-center w-6 h-6 bg-[#17457c] text-white rounded-full text-sm font-bold">2</span>
-                Configure API Authentication
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <p className="text-gray-600">
-                  Create a secure connection for your Venym Search API key in Make.com.
-                </p>
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <h4 className="font-semibold mb-2">Connection Setup Steps:</h4>
-                  <ol className="list-decimal list-inside text-sm text-gray-600 space-y-1">
-                    <li>Go to Make.com → Connections → Create new connection</li>
-                    <li>Choose "Custom" connection type</li>
-                    <li>Add your Venym Search API key as a secure parameter</li>
-                    <li>Test the connection with a simple API call</li>
-                    <li>Save and reuse across all Venym Search modules</li>
-                  </ol>
-                </div>
-                <Link href="/docs/quickstart">
-                  <Button variant="outline" className="border-[#efa72d] text-[#efa72d] hover:bg-[#efa72d] hover:text-white">
-                    Get Your API Key
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
-                </Link>
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+            <div className="px-6 py-4 border-b border-white/[0.06] flex items-center gap-3">
+              <span className="w-7 h-7 inline-flex items-center justify-center text-[11px] font-mono text-white/60 border border-white/15 rounded-sm">02</span>
+              <h3 className="text-[14px] font-medium text-white">Configure API Authentication</h3>
+            </div>
+            <div className="p-6 space-y-4">
+              <p className="text-[14px] text-white/55 leading-relaxed">
+                Create a secure connection for your Venym Search API key in Make.com.
+              </p>
+              <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-4">
+                <h4 className="text-[14px] font-medium text-white mb-2">Connection Setup Steps:</h4>
+                <ol className="list-decimal list-inside text-[13px] text-white/55 space-y-1">
+                  <li>Go to Make.com → Connections → Create new connection</li>
+                  <li>Choose "Custom" connection type</li>
+                  <li>Add your Venym Search API key as a secure parameter</li>
+                  <li>Test the connection with a simple API call</li>
+                  <li>Save and reuse across all Venym Search modules</li>
+                </ol>
               </div>
-            </CardContent>
-          </Card>
+              <Link href="/docs/quickstart" className="venym-btn-secondary">
+                Get Your API Key
+                <ArrowRight className="w-3 h-3 ml-1.5" />
+              </Link>
+            </div>
+          </div>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <span className="flex items-center justify-center w-6 h-6 bg-[#17457c] text-white rounded-full text-sm font-bold">3</span>
-                Build Your First Scenario
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <p className="text-gray-600">
-                  Create a simple workflow to test your Venym Search integration.
-                </p>
-                <CodeBlock
-                  code={scenarioCode}
-                  language="json"
-                  title="Lead Generation Scenario Example"
-                />
-                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4">
-                  <div className="flex">
-                    <div className="ml-3">
-                      <p className="text-sm text-yellow-700">
-                        <strong>Pro Tip:</strong> Start with a manual trigger to test your workflow, 
-                        then switch to scheduled or webhook triggers for automation.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+            <div className="px-6 py-4 border-b border-white/[0.06] flex items-center gap-3">
+              <span className="w-7 h-7 inline-flex items-center justify-center text-[11px] font-mono text-white/60 border border-white/15 rounded-sm">03</span>
+              <h3 className="text-[14px] font-medium text-white">Build Your First Scenario</h3>
+            </div>
+            <div className="p-6 space-y-4">
+              <p className="text-[14px] text-white/55 leading-relaxed">
+                Create a simple workflow to test your Venym Search integration.
+              </p>
+              <CodeBlock
+                code={scenarioCode}
+                language="json"
+                title="Lead Generation Scenario Example"
+              />
+              <Callout type="tip">
+                Start with a manual trigger to test your workflow,
+                then switch to scheduled or webhook triggers for automation.
+              </Callout>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Available Venym Search Modules */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Venym Search API Modules</h2>
-        
-        <div className="grid gap-6 md:grid-cols-3">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
-                <Globe className="w-5 h-5 text-blue-500" />
-                Search Module
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600 mb-4">Real-time web search with advanced options.</p>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Enhanced search results</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Auto-scraping integration</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Contact extraction</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Social profile discovery</span>
-                </div>
+        <div className="venym-meta mb-3">02 · Modules</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Venym Search API Modules</h2>
+
+        <div className="grid gap-4 md:grid-cols-3">
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+            <div className="px-6 py-4 border-b border-white/[0.06] flex items-center gap-2">
+              <Globe className="w-4 h-4 text-sky-400/80" />
+              <h3 className="text-lg font-semibold text-white">Search Module</h3>
+            </div>
+            <div className="p-6">
+              <p className="text-[14px] text-white/55 leading-relaxed mb-4">Real-time web search with advanced options.</p>
+              <div className="space-y-2 mb-4">
+                {['Enhanced search results', 'Auto-scraping integration', 'Contact extraction', 'Social profile discovery'].map((f) => (
+                  <div key={f} className="flex items-center gap-2">
+                    <CheckCircle className="h-3.5 w-3.5 text-emerald-400/80" />
+                    <span className="text-[13px] text-white/65">{f}</span>
+                  </div>
+                ))}
               </div>
-              <div className="mt-4 pt-4 border-t">
-                <Badge className="bg-blue-100 text-blue-800 text-xs">
+              <div className="pt-4 border-t border-white/[0.06]">
+                <span className="text-[10px] font-mono uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border border-sky-400/20 text-sky-300/80">
                   1 credit per search
-                </Badge>
+                </span>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
-                <Database className="w-5 h-5 text-purple-500" />
-                Scrape Module
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600 mb-4">Extract content from any webpage or PDF.</p>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Text and metadata extraction</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Image and link discovery</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">JavaScript rendering</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Structured data output</span>
-                </div>
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+            <div className="px-6 py-4 border-b border-white/[0.06] flex items-center gap-2">
+              <Database className="w-4 h-4 text-violet-400/80" />
+              <h3 className="text-lg font-semibold text-white">Scrape Module</h3>
+            </div>
+            <div className="p-6">
+              <p className="text-[14px] text-white/55 leading-relaxed mb-4">Extract content from any webpage or PDF.</p>
+              <div className="space-y-2 mb-4">
+                {['Text and metadata extraction', 'Image and link discovery', 'JavaScript rendering', 'Structured data output'].map((f) => (
+                  <div key={f} className="flex items-center gap-2">
+                    <CheckCircle className="h-3.5 w-3.5 text-emerald-400/80" />
+                    <span className="text-[13px] text-white/65">{f}</span>
+                  </div>
+                ))}
               </div>
-              <div className="mt-4 pt-4 border-t">
-                <Badge className="bg-purple-100 text-purple-800 text-xs">
+              <div className="pt-4 border-t border-white/[0.06]">
+                <span className="text-[10px] font-mono uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border border-violet-400/20 text-violet-300/80">
                   1 credit per page
-                </Badge>
+                </span>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
-                <Bot className="w-5 h-5 text-orange-500" />
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600 mb-4">AI-powered research and analysis workflows.</p>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Multi-source research</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Trend analysis</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Content summarization</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-sm">Sentiment analysis</span>
-                </div>
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+            <div className="px-6 py-4 border-b border-white/[0.06] flex items-center gap-2">
+              <Bot className="w-4 h-4 text-amber-400/80" />
+              <h3 className="text-lg font-semibold text-white">Research Module</h3>
+            </div>
+            <div className="p-6">
+              <p className="text-[14px] text-white/55 leading-relaxed mb-4">AI-powered research and analysis workflows.</p>
+              <div className="space-y-2 mb-4">
+                {['Multi-source research', 'Trend analysis', 'Content summarization', 'Sentiment analysis'].map((f) => (
+                  <div key={f} className="flex items-center gap-2">
+                    <CheckCircle className="h-3.5 w-3.5 text-emerald-400/80" />
+                    <span className="text-[13px] text-white/65">{f}</span>
+                  </div>
+                ))}
               </div>
-              <div className="mt-4 pt-4 border-t">
-                <Badge className="bg-orange-100 text-orange-800 text-xs">
+              <div className="pt-4 border-t border-white/[0.06]">
+                <span className="text-[10px] font-mono uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border border-amber-400/20 text-amber-300/80">
                   5 credits per research
-                </Badge>
+                </span>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Advanced Workflow Examples */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Advanced Workflow Templates</h2>
-        
-        <div className="space-y-6">
-          {workflows.map((workflow, index) => (
-            <Card key={workflow.title} className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="flex items-start gap-4">
-                  <div className="p-3 bg-[#17457c]/10 rounded-lg">
-                    <workflow.icon className="w-6 h-6 text-[#17457c]" />
+        <div className="venym-meta mb-3">03 · Templates</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Advanced Workflow Templates</h2>
+
+        <div className="space-y-4">
+          {workflows.map((workflow) => (
+            <div key={workflow.title} className="border border-white/[0.06] bg-white/[0.02] rounded-sm hover:border-white/[0.12] transition-colors">
+              <div className="px-6 py-4 border-b border-white/[0.06] flex items-start gap-4">
+                <workflow.icon className="w-4 h-4 text-white/50 mt-1" />
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-2">
+                    <h3 className="text-lg font-semibold text-white">{workflow.title}</h3>
+                    <span className={`text-[10px] font-mono uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border ${complexityTone(workflow.complexity)}`}>
+                      {workflow.complexity}
+                    </span>
                   </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <CardTitle className="text-xl">{workflow.title}</CardTitle>
-                      <Badge className={workflow.complexity === 'Advanced' ? 'bg-red-100 text-red-800' : 
-                                      workflow.complexity === 'Intermediate' ? 'bg-yellow-100 text-yellow-800' : 
-                                      'bg-green-100 text-green-800'}>
-                        {workflow.complexity}
-                      </Badge>
-                    </div>
-                    <p className="text-gray-600 mb-3">{workflow.description}</p>
-                  </div>
+                  <p className="text-[13px] text-white/55">{workflow.description}</p>
                 </div>
-              </CardHeader>
-              
-              <CardContent>
+              </div>
+
+              <div className="p-6">
                 <div className="grid gap-4 md:grid-cols-2">
                   <div>
-                    <h4 className="font-semibold text-sm mb-2">Key Features:</h4>
-                    <ul className="text-sm text-gray-600 space-y-1">
-                      {workflow.features.map((feature, featureIndex) => (
-                        <li key={featureIndex} className="flex items-start gap-2">
-                          <CheckCircle className="w-3 h-3 text-green-500 mt-0.5 flex-shrink-0" />
+                    <h4 className="text-[10px] font-mono uppercase tracking-[0.15em] text-white/40 mb-2">Key Features</h4>
+                    <ul className="text-[13px] text-white/65 space-y-1">
+                      {workflow.features.map((feature) => (
+                        <li key={feature} className="flex items-start gap-2">
+                          <CheckCircle className="h-3.5 w-3.5 text-emerald-400/80 mt-0.5 flex-shrink-0" />
                           <span>{feature}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
-                  
+
                   <div>
-                    <h4 className="font-semibold text-sm mb-2">Required Modules:</h4>
-                    <div className="flex flex-wrap gap-1">
+                    <h4 className="text-[10px] font-mono uppercase tracking-[0.15em] text-white/40 mb-2">Required Modules</h4>
+                    <div className="flex flex-wrap gap-1.5">
                       {(workflow.modules || []).map((module) => (
-                        <Badge key={module} variant="outline" className="text-xs">
+                        <span key={module} className="text-[10px] font-mono uppercase tracking-[0.15em] px-1.5 py-0.5 rounded-sm border border-white/10 text-white/60">
                           {module}
-                        </Badge>
+                        </span>
                       ))}
                     </div>
                   </div>
                 </div>
-                
-                <div className="flex gap-2 mt-4 pt-4 border-t">
-                  <Button size="sm" className="bg-[#17457c] hover:bg-[#17457c]/90">
-                    <PlayCircle className="w-3 h-3 mr-2" />
+
+                <div className="flex gap-2 mt-4 pt-4 border-t border-white/[0.06]">
+                  <button className="venym-btn-primary">
+                    <PlayCircle className="w-3 h-3 mr-1.5" />
                     Use Template
-                  </Button>
-                  <Button size="sm" variant="outline" className="border-[#efa72d] text-[#efa72d] hover:bg-[#efa72d] hover:text-white">
-                    <ExternalLink className="w-3 h-3 mr-2" />
+                  </button>
+                  <button className="venym-btn-secondary">
+                    <ExternalLink className="w-3 h-3 mr-1.5" />
                     View Details
-                  </Button>
+                  </button>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           ))}
         </div>
       </div>
 
-      {/* AI Integration Example */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">AI-Enhanced Workflow Example</h2>
-        
-        <p className="text-gray-600 mb-6">
+        <div className="venym-meta mb-3">04 · AI</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">AI-Enhanced Workflow Example</h2>
+
+        <p className="text-[14px] text-white/55 leading-relaxed mb-6">
           Combine Venym Search with Make.com's AI modules for intelligent content processing and analysis.
         </p>
-        
+
         <CodeBlock
           code={aiWorkflowCode}
           language="json"
@@ -587,24 +514,24 @@ export default function MakeIntegrationPage() {
 
         <div className="mt-6">
           <Callout type="tip" title="AI Integration Tips">
-            Make.com supports OpenAI, Anthropic Claude, Google AI, and other AI services. 
-            Use these with Venym Search data for sentiment analysis, content summarization, 
+            Make.com supports OpenAI, Anthropic Claude, Google AI, and other AI services.
+            Use these with Venym Search data for sentiment analysis, content summarization,
             trend detection, and automated decision making.
           </Callout>
         </div>
       </div>
 
-      {/* Error Handling & Best Practices */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Error Handling & Best Practices</h2>
-        
-        <div className="space-y-6">
-          <Card className="border-l-4 border-l-red-500">
-            <CardHeader>
-              <CardTitle className="text-red-700">Robust Error Handling</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600 mb-4">
+        <div className="venym-meta mb-3">05 · Best Practices</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Error Handling & Best Practices</h2>
+
+        <div className="space-y-4">
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+            <div className="px-6 py-4 border-b border-white/[0.06]">
+              <h3 className="text-[14px] font-medium text-rose-300/80">Robust Error Handling</h3>
+            </div>
+            <div className="p-6">
+              <p className="text-[14px] text-white/55 leading-relaxed mb-4">
                 Implement comprehensive error handling for reliable automation workflows.
               </p>
               <CodeBlock
@@ -612,125 +539,101 @@ export default function MakeIntegrationPage() {
                 language="json"
                 title="Error Handling Configuration"
               />
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
-          <Card className="border-l-4 border-l-blue-500">
-            <CardHeader>
-              <CardTitle className="text-blue-700">Performance Optimization</CardTitle>
-            </CardHeader>
-            <CardContent>
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+            <div className="px-6 py-4 border-b border-white/[0.06]">
+              <h3 className="text-[14px] font-medium text-sky-300/80">Performance Optimization</h3>
+            </div>
+            <div className="p-6">
               <div className="space-y-3">
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500 mt-0.5" />
-                  <span className="text-sm">Use Make.com's execution limit settings to control costs</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500 mt-0.5" />
-                  <span className="text-sm">Implement filters to process only relevant data</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500 mt-0.5" />
-                  <span className="text-sm">Cache frequently accessed data to reduce API calls</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500 mt-0.5" />
-                  <span className="text-sm">Use parallel processing for independent operations</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-500 mt-0.5" />
-                  <span className="text-sm">Monitor Venym Search credit usage in your dashboard</span>
-                </div>
+                {[
+                  "Use Make.com's execution limit settings to control costs",
+                  'Implement filters to process only relevant data',
+                  'Cache frequently accessed data to reduce API calls',
+                  'Use parallel processing for independent operations',
+                  'Monitor Venym Search credit usage in your dashboard',
+                ].map((f) => (
+                  <div key={f} className="flex items-start gap-2">
+                    <CheckCircle className="h-3.5 w-3.5 text-emerald-400/80 mt-0.5" />
+                    <span className="text-[13px] text-white/65">{f}</span>
+                  </div>
+                ))}
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
-          <Card className="border-l-4 border-l-[#efa72d]">
-            <CardHeader>
-              <CardTitle className="text-[#efa72d]">Workflow Organization</CardTitle>
-            </CardHeader>
-            <CardContent>
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+            <div className="px-6 py-4 border-b border-white/[0.06]">
+              <h3 className="text-[14px] font-medium text-amber-300/80">Workflow Organization</h3>
+            </div>
+            <div className="p-6">
               <div className="space-y-3">
-                <div className="flex items-start gap-2">
-                  <Settings className="w-4 h-4 text-[#efa72d] mt-0.5" />
-                  <span className="text-sm">Use clear naming conventions for modules and scenarios</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <Settings className="w-4 h-4 text-[#efa72d] mt-0.5" />
-                  <span className="text-sm">Document complex workflows with notes and descriptions</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <Settings className="w-4 h-4 text-[#efa72d] mt-0.5" />
-                  <span className="text-sm">Create reusable templates for common Venym Search patterns</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <Settings className="w-4 h-4 text-[#efa72d] mt-0.5" />
-                  <span className="text-sm">Use folders to organize related scenarios</span>
-                </div>
+                {[
+                  'Use clear naming conventions for modules and scenarios',
+                  'Document complex workflows with notes and descriptions',
+                  'Create reusable templates for common Venym Search patterns',
+                  'Use folders to organize related scenarios',
+                ].map((f) => (
+                  <div key={f} className="flex items-start gap-2">
+                    <Settings className="w-3.5 h-3.5 text-amber-400/80 mt-0.5" />
+                    <span className="text-[13px] text-white/65">{f}</span>
+                  </div>
+                ))}
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Next Steps */}
-      <div className="grid gap-6 md:grid-cols-2">
-        <Card className="border-l-4 border-l-[#efa72d]">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <PlayCircle className="w-5 h-5 text-[#efa72d]" />
-              Start Building
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-gray-600 mb-4">
+      <div className="grid gap-4 md:grid-cols-2">
+        <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+          <div className="px-6 py-4 border-b border-white/[0.06] flex items-center gap-2">
+            <PlayCircle className="w-4 h-4 text-amber-400/80" />
+            <span className="venym-meta">Start</span>
+          </div>
+          <div className="p-6">
+            <h3 className="text-lg font-semibold text-white mb-3">Start Building</h3>
+            <p className="text-[13px] text-white/55 leading-relaxed mb-4">
               Ready to create intelligent workflows? Get your Venym Search API key and start building with Make.com.
             </p>
-            <div className="flex gap-2">
-              <Link href="/docs/quickstart">
-                <Button className="bg-[#efa72d] hover:bg-[#efa72d]/90">
-                  Get API Key
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
+            <div className="flex gap-2 flex-wrap">
+              <Link href="/docs/quickstart" className="venym-btn-primary">
+                Get API Key
+                <ArrowRight className="w-3 h-3 ml-1.5" />
               </Link>
-              <Button variant="outline" className="border-[#17457c] text-[#17457c] hover:bg-[#17457c] hover:text-white">
-                <ExternalLink className="w-4 h-4 mr-2" />
+              <button className="venym-btn-secondary">
+                <ExternalLink className="w-3 h-3 mr-1.5" />
                 Make.com Templates
-              </Button>
+              </button>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
-        <Card className="border-l-4 border-l-[#17457c]">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <ExternalLink className="w-5 h-5 text-[#17457c]" />
-              More Integrations
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-gray-600 mb-4">
+        <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+          <div className="px-6 py-4 border-b border-white/[0.06] flex items-center gap-2">
+            <ExternalLink className="w-4 h-4 text-sky-400/80" />
+            <span className="venym-meta">More</span>
+          </div>
+          <div className="p-6">
+            <h3 className="text-lg font-semibold text-white mb-3">More Integrations</h3>
+            <p className="text-[13px] text-white/55 leading-relaxed mb-4">
               Explore other automation platforms and integration options.
             </p>
-            <div className="flex gap-2">
-              <Link href="/docs/integrations/zapier">
-                <Button size="sm" variant="outline" className="border-[#17457c] text-[#17457c] hover:bg-[#17457c] hover:text-white">
-                  Zapier
-                </Button>
+            <div className="flex gap-2 flex-wrap">
+              <Link href="/docs/integrations/zapier" className="venym-btn-secondary">
+                Zapier
               </Link>
-              <Link href="/docs/integrations/n8n">
-                <Button size="sm" variant="outline" className="border-[#17457c] text-[#17457c] hover:bg-[#17457c] hover:text-white">
-                  n8n
-                </Button>
+              <Link href="/docs/integrations/n8n" className="venym-btn-secondary">
+                n8n
               </Link>
-              <Link href="/docs/integrations">
-                <Button size="sm" variant="outline" className="border-[#17457c] text-[#17457c] hover:bg-[#17457c] hover:text-white">
-                  All Integrations
-                </Button>
+              <Link href="/docs/integrations" className="venym-btn-secondary">
+                All Integrations
               </Link>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     </div>
   )

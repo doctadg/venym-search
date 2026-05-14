@@ -1,11 +1,8 @@
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { 
-  Code2, 
-  Shield, 
-  Zap, 
+import {
+  Code2,
+  Shield,
+  Zap,
   Globe,
   Cpu,
   ArrowRight,
@@ -83,7 +80,7 @@ console.log(\`Load time: \${data.load_time}s\`);`,
 # Bulk scraping multiple URLs
 urls_to_scrape = [
     "https://example.com/page1",
-    "https://example.com/page2", 
+    "https://example.com/page2",
     "https://example.com/page3"
 ]
 
@@ -142,7 +139,7 @@ console.log(\`Total credits used: \${data.credits_used}\`);`
     },
     {
       name: "render_js",
-      type: "boolean", 
+      type: "boolean",
       required: false,
       description: "Execute JavaScript on the page before scraping.",
       example: "true"
@@ -150,7 +147,7 @@ console.log(\`Total credits used: \${data.credits_used}\`);`
     {
       name: "wait_for",
       type: "string",
-      required: false, 
+      required: false,
       description: "CSS selector or XPath to wait for before scraping.",
       example: '"#product-list"'
     },
@@ -179,7 +176,7 @@ console.log(\`Total credits used: \${data.credits_used}\`);`
     },
     {
       name: "text_content",
-      type: "string", 
+      type: "string",
       description: "Plain text content extracted from HTML.",
       example: '"Welcome to our product catalog..."'
     },
@@ -241,86 +238,68 @@ console.log(\`Total credits used: \${data.credits_used}\`);`
       title: "E-commerce Data",
       description: "Product details, pricing, inventory, reviews",
       icon: Database,
-      color: "text-blue-600"
     },
     {
-      title: "Lead Generation", 
+      title: "Lead Generation",
       description: "Contact information, company data, social profiles",
       icon: Globe,
-      color: "text-green-600"
     },
     {
       title: "Market Research",
       description: "Competitor analysis, market trends, industry data",
       icon: CheckCircle,
-      color: "text-purple-600"
     },
     {
       title: "Content Monitoring",
       description: "Brand mentions, news articles, social media",
       icon: Clock,
-      color: "text-orange-600"
     }
   ]
 
   return (
     <div className="max-w-none">
-      {/* Hero Section */}
-      <div className="mb-12">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="p-3 bg-green-100 rounded-xl">
-            <Code2 className="w-8 h-8 text-green-600" />
-          </div>
-          <div>
-            <h1 className="text-4xl font-bold text-[#17457c] mb-2">
-              Scrape API
-            </h1>
-            <p className="text-xl text-gray-600">
-              Enterprise web scraping that bypasses any protection
-            </p>
-          </div>
-        </div>
+      <div className="mb-10">
+        <div className="venym-meta mb-3">SCRAPE API</div>
+        <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-white mb-3 leading-[1.1]">
+          Scrape API
+        </h1>
+        <p className="text-[14px] text-white/55 leading-relaxed max-w-2xl mb-6">
+          Enterprise web scraping that bypasses any protection.
+        </p>
 
-        <div className="flex flex-wrap gap-4 mb-8">
-          <Link href="/docs/api/scrape/parameters">
-            <Button size="lg" className="bg-[#efa72d] hover:bg-[#efa72d]/90 text-white">
-              <Code2 className="w-4 h-4 mr-2" />
-              API Reference
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
+        <div className="flex flex-wrap gap-3 mb-6">
+          <Link href="/docs/api/scrape/parameters" className="venym-btn-primary">
+            <Code2 className="w-3.5 h-3.5 mr-1.5" />
+            API Reference
+            <ArrowRight className="w-3 h-3 ml-1.5" />
           </Link>
-          
-          <Link href="/docs/api/scrape/examples">
-            <Button variant="outline" size="lg" className="border-[#17457c] text-[#17457c] hover:bg-[#17457c] hover:text-white">
-              View Examples
-            </Button>
+
+          <Link href="/docs/api/scrape/examples" className="venym-btn-secondary">
+            View Examples
           </Link>
-          
-          <Link href="/docs/quickstart">
-            <Button variant="ghost" size="lg" className="text-gray-600 hover:text-[#17457c]">
-              Quick Start
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
+
+          <Link href="/docs/quickstart" className="venym-btn-ghost">
+            Quick Start
+            <ArrowRight className="w-3 h-3 ml-1.5" />
           </Link>
         </div>
 
         <Callout type="success" title="Enterprise-Grade Reliability">
-          Scrape handles the most challenging sites with 99.8% success rate, JavaScript rendering, 
-          and residential proxy rotation. Perfect for mission-critical data extraction.
+          Scrape handles the most challenging sites with 99.8% success rate, JavaScript rendering, and residential proxy rotation. Perfect for mission-critical data extraction.
         </Callout>
       </div>
 
-      {/* API Method */}
-      <div className="mb-16">
-        <APIMethod 
-          method="POST" 
+      <div className="mb-12">
+        <div className="venym-meta mb-3">01 · Endpoint</div>
+        <APIMethod
+          method="POST"
           endpoint="https://www.search.venym.io/api/v1/scrape"
           description="Scrape any website with enterprise-grade reliability and JavaScript support"
         />
 
-        <div className="mt-8">
-          <h3 className="text-lg font-semibold text-[#17457c] mb-4">Status Codes</h3>
-          <div className="grid gap-3 md:grid-cols-2">
+        <div className="mt-6">
+          <h3 className="text-lg font-semibold text-white mb-3">Status Codes</h3>
+          <div className="grid gap-2 md:grid-cols-2 border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
             <StatusCode code={200} description="Successfully scraped the target URL" />
             <StatusCode code={400} description="Invalid request parameters or malformed URL" />
             <StatusCode code={403} description="Target site blocked the request" />
@@ -331,112 +310,94 @@ console.log(\`Total credits used: \${data.credits_used}\`);`
         </div>
       </div>
 
-      {/* Quick Start */}
-      <div className="mb-16">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-4">Quick Start</h2>
-        <p className="text-gray-600 mb-6">
+      <div className="mb-12">
+        <div className="venym-meta mb-3">02 · Quick Start</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-3">Quick Start</h2>
+        <p className="text-[14px] text-white/55 leading-relaxed mb-6">
           Get started with Scrape in under 2 minutes. Simply provide a URL and get clean, structured data.
         </p>
-        
+
         <CodeBlock
           multiLanguage={quickExample}
           title="Basic scraping with JavaScript rendering"
         />
       </div>
 
-      {/* Core Features */}
-      <div className="mb-16">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Core Features</h2>
-        <div className="grid gap-6 md:grid-cols-2">
+      <div className="mb-12">
+        <div className="venym-meta mb-3">03 · Core Features</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Core Features</h2>
+        <div className="grid gap-4 md:grid-cols-2">
           {features.map((feature, index) => (
-            <Card key={index} className="h-full border-l-4 border-l-green-500">
-              <CardHeader>
-                <div className="flex items-center gap-3 mb-2">
-                  <feature.icon className="w-6 h-6 text-green-600" />
-                  <CardTitle className="text-lg">{feature.title}</CardTitle>
-                </div>
-                <p className="text-gray-600 text-sm">{feature.description}</p>
-              </CardHeader>
-              <CardContent className="pt-0">
-                <div className="space-y-2">
-                  {feature.benefits.map((benefit, idx) => (
-                    <div key={idx} className="flex items-center gap-2 text-sm">
-                      <CheckCircle className="w-4 h-4 text-green-500" />
-                      <span>{benefit}</span>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+            <div key={index} className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+              <div className="flex items-center gap-3 mb-2">
+                <feature.icon className="w-4 h-4 text-emerald-400/80" />
+                <span className="text-[15px] font-medium text-white">{feature.title}</span>
+              </div>
+              <p className="text-[13px] text-white/55 leading-relaxed mb-4">{feature.description}</p>
+              <div className="space-y-2">
+                {feature.benefits.map((benefit, idx) => (
+                  <div key={idx} className="flex items-center gap-2">
+                    <CheckCircle className="w-3.5 h-3.5 text-emerald-400/80" />
+                    <span className="text-[13px] text-white/70">{benefit}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           ))}
         </div>
       </div>
 
-      {/* Use Cases */}
-      <div className="mb-16">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Common Use Cases</h2>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      <div className="mb-12">
+        <div className="venym-meta mb-3">04 · Use Cases</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Common Use Cases</h2>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {useCases.map((useCase, index) => (
-            <Card key={index} className="text-center hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="mx-auto mb-3 p-3 bg-gray-100 rounded-full w-fit">
-                  <useCase.icon className={`w-6 h-6 ${useCase.color}`} />
-                </div>
-                <CardTitle className="text-lg">{useCase.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-gray-600">{useCase.description}</p>
-              </CardContent>
-            </Card>
+            <div key={index} className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5 text-center hover:border-white/[0.12] transition-colors">
+              <useCase.icon className="w-5 h-5 text-white/50 mx-auto mb-3" />
+              <h3 className="text-[14px] font-medium text-white mb-2">{useCase.title}</h3>
+              <p className="text-[12.5px] text-white/55">{useCase.description}</p>
+            </div>
           ))}
         </div>
       </div>
 
-      {/* Parameters Overview */}
-      <div className="mb-16">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Key Parameters</h2>
-        <ParameterTable 
-          parameters={basicParameters}
-          title="Essential Scrape Parameters"
-        />
-        
+      <div className="mb-12">
+        <div className="venym-meta mb-3">05 · Parameters</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Key Parameters</h2>
+        <ParameterTable parameters={basicParameters} title="Essential Scrape Parameters" />
+
         <div className="mt-6">
-          <Link href="/docs/api/scrape/parameters">
-            <Button variant="outline" className="w-full">
-              View Complete Parameter Reference
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
+          <Link href="/docs/api/scrape/parameters" className="venym-btn-secondary w-full justify-center">
+            View Complete Parameter Reference
+            <ArrowRight className="w-3 h-3 ml-1.5" />
           </Link>
         </div>
       </div>
 
-      {/* Response Format */}
-      <div className="mb-16">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Response Format</h2>
-        <ResponseTable 
-          fields={responseFields}
-          title="Scrape Response Fields"
-        />
+      <div className="mb-12">
+        <div className="venym-meta mb-3">06 · Response</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Response Format</h2>
+        <ResponseTable fields={responseFields} title="Scrape Response Fields" />
       </div>
 
-      {/* Bulk Scraping */}
-      <div className="mb-16">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Bulk Scraping</h2>
-        <p className="text-gray-600 mb-6">
+      <div className="mb-12">
+        <div className="venym-meta mb-3">07 · Bulk Scraping</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-3">Bulk Scraping</h2>
+        <p className="text-[14px] text-white/55 leading-relaxed mb-6">
           Process multiple URLs simultaneously with intelligent load balancing and error handling.
         </p>
-        
+
         <CodeBlock
           multiLanguage={bulkScraping}
           title="Bulk scraping multiple URLs"
         />
 
-        <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+        <div className="mt-6 p-4 border border-sky-400/20 bg-sky-400/[0.04] rounded-sm">
           <div className="flex items-start gap-3">
-            <CheckCircle className="w-5 h-5 text-blue-600 mt-0.5" />
+            <CheckCircle className="w-4 h-4 text-sky-400/80 mt-0.5" />
             <div>
-              <h4 className="font-semibold text-blue-900">Bulk Scraping Benefits</h4>
-              <ul className="text-sm text-blue-800 mt-2 space-y-1">
+              <h4 className="text-[14px] font-medium text-white">Bulk Scraping Benefits</h4>
+              <ul className="text-[13px] text-white/70 mt-2 space-y-1">
                 <li>• Process up to 100 URLs per request</li>
                 <li>• Intelligent concurrency control</li>
                 <li>• Automatic retry for failed requests</li>
@@ -447,106 +408,94 @@ console.log(\`Total credits used: \${data.credits_used}\`);`
         </div>
       </div>
 
-      {/* Performance Stats */}
-      <div className="mb-16">
-        <Card className="bg-gradient-to-r from-[#17457c] to-[#17457c]/90 text-white">
-          <CardContent className="p-8">
-            <div className="grid gap-8 md:grid-cols-4 text-center">
-              <div>
-                <div className="text-3xl font-bold text-[#efa72d] mb-2">99.8%</div>
-                <div className="text-sm opacity-90">Success Rate</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-[#efa72d] mb-2">0.8s</div>
-                <div className="text-sm opacity-90">Avg Response Time</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-[#efa72d] mb-2">50M+</div>
-                <div className="text-sm opacity-90">Pages Scraped</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-[#efa72d] mb-2">24/7</div>
-                <div className="text-sm opacity-90">Uptime</div>
-              </div>
+      <div className="mb-12">
+        <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-8">
+          <div className="grid gap-6 md:grid-cols-4 text-center">
+            <div>
+              <div className="text-3xl font-semibold text-white tabular-nums mb-2">99.8%</div>
+              <div className="text-[12px] text-white/50 font-mono uppercase tracking-[0.15em]">Success Rate</div>
             </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Best Practices */}
-      <div className="mb-16">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Best Practices</h2>
-        
-        <div className="grid gap-6 md:grid-cols-2">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-green-700">
-                <CheckCircle className="w-5 h-5" />
-                Recommended Practices
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div>
-                <strong>Use specific selectors:</strong>
-                <p className="text-sm text-gray-600">Wait for specific elements with wait_for parameter</p>
-              </div>
-              <div>
-                <strong>Enable JS rendering selectively:</strong>
-                <p className="text-sm text-gray-600">Only use render_js when necessary to save credits</p>
-              </div>
-              <div>
-                <strong>Handle failures gracefully:</strong>
-                <p className="text-sm text-gray-600">Implement proper error handling and retry logic</p>
-              </div>
-              <div>
-                <strong>Respect rate limits:</strong>
-                <p className="text-sm text-gray-600">Stay within your plan's concurrent request limits</p>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-orange-700">
-                <AlertTriangle className="w-5 h-5" />
-                Common Pitfalls
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div>
-                <strong>Scraping too frequently:</strong>
-                <p className="text-sm text-gray-600">Balance data freshness with rate limiting</p>
-              </div>
-              <div>
-                <strong>Ignoring robots.txt:</strong>
-                <p className="text-sm text-gray-600">Respect website policies and terms of service</p>
-              </div>
-              <div>
-                <strong>Not handling dynamic content:</strong>
-                <p className="text-sm text-gray-600">Use render_js for JavaScript-heavy sites</p>
-              </div>
-              <div>
-                <strong>Missing error handling:</strong>
-                <p className="text-sm text-gray-600">Always check status codes and handle failures</p>
-              </div>
-            </CardContent>
-          </Card>
+            <div>
+              <div className="text-3xl font-semibold text-white tabular-nums mb-2">0.8s</div>
+              <div className="text-[12px] text-white/50 font-mono uppercase tracking-[0.15em]">Avg Response Time</div>
+            </div>
+            <div>
+              <div className="text-3xl font-semibold text-white tabular-nums mb-2">50M+</div>
+              <div className="text-[12px] text-white/50 font-mono uppercase tracking-[0.15em]">Pages Scraped</div>
+            </div>
+            <div>
+              <div className="text-3xl font-semibold text-white tabular-nums mb-2">24/7</div>
+              <div className="text-[12px] text-white/50 font-mono uppercase tracking-[0.15em]">Uptime</div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Navigation */}
-      <div className="flex justify-between pt-8 border-t">
-        <Link href="/docs/api/search">
-          <Button variant="outline" className="flex items-center gap-2">
-            <ArrowRight className="w-4 h-4 rotate-180" />
-            Search API
-          </Button>
+      <div className="mb-12">
+        <div className="venym-meta mb-3">08 · Best Practices</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Best Practices</h2>
+
+        <div className="grid gap-4 md:grid-cols-2">
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+            <div className="flex items-center gap-2 mb-3">
+              <CheckCircle className="w-4 h-4 text-emerald-400/80" />
+              <span className="text-[15px] font-medium text-white">Recommended Practices</span>
+            </div>
+            <div className="space-y-3 text-[13px]">
+              <div>
+                <strong className="text-white">Use specific selectors:</strong>
+                <p className="text-white/55">Wait for specific elements with wait_for parameter</p>
+              </div>
+              <div>
+                <strong className="text-white">Enable JS rendering selectively:</strong>
+                <p className="text-white/55">Only use render_js when necessary to save credits</p>
+              </div>
+              <div>
+                <strong className="text-white">Handle failures gracefully:</strong>
+                <p className="text-white/55">Implement proper error handling and retry logic</p>
+              </div>
+              <div>
+                <strong className="text-white">Respect rate limits:</strong>
+                <p className="text-white/55">Stay within your plan's concurrent request limits</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+            <div className="flex items-center gap-2 mb-3">
+              <AlertTriangle className="w-4 h-4 text-amber-400/80" />
+              <span className="text-[15px] font-medium text-white">Common Pitfalls</span>
+            </div>
+            <div className="space-y-3 text-[13px]">
+              <div>
+                <strong className="text-white">Scraping too frequently:</strong>
+                <p className="text-white/55">Balance data freshness with rate limiting</p>
+              </div>
+              <div>
+                <strong className="text-white">Ignoring robots.txt:</strong>
+                <p className="text-white/55">Respect website policies and terms of service</p>
+              </div>
+              <div>
+                <strong className="text-white">Not handling dynamic content:</strong>
+                <p className="text-white/55">Use render_js for JavaScript-heavy sites</p>
+              </div>
+              <div>
+                <strong className="text-white">Missing error handling:</strong>
+                <p className="text-white/55">Always check status codes and handle failures</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex justify-between pt-6 border-t border-white/[0.06] flex-wrap gap-3">
+        <Link href="/docs/api/search" className="venym-btn-secondary">
+          <ArrowRight className="w-3 h-3 mr-1.5 rotate-180" />
+          Search API
         </Link>
-        <Link href="/docs/api/scrape/parameters">
-          <Button className="bg-[#efa72d] hover:bg-[#efa72d]/90 text-white flex items-center gap-2">
-            View Parameters
-            <ArrowRight className="w-4 h-4" />
-          </Button>
+        <Link href="/docs/api/scrape/parameters" className="venym-btn-primary">
+          View Parameters
+          <ArrowRight className="w-3 h-3 ml-1.5" />
         </Link>
       </div>
     </div>

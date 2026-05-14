@@ -1,16 +1,12 @@
-import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { 
-
-  GitCommit, 
-  Plus, 
-  Wrench, 
+import {
+  GitCommit,
+  Plus,
+  Wrench,
   Bug,
   AlertTriangle,
   Zap,
   Shield,
   Calendar
-
 } from 'lucide-react'
 
 export default function ChangelogPage() {
@@ -25,7 +21,7 @@ export default function ChangelogPage() {
           description: "Improved AI summarization with better source attribution and faster processing times. Now supports up to 50 sources per research query."
         },
         {
-          type: "feature", 
+          type: "feature",
           title: "New Language Support",
           description: "Added support for 12 additional languages including Arabic, Hindi, and Portuguese for both search and scraping operations."
         },
@@ -42,7 +38,7 @@ export default function ChangelogPage() {
       ]
     },
     {
-      version: "v2.2.1", 
+      version: "v2.2.1",
       date: "2025-01-08",
       type: "patch",
       changes: [
@@ -65,7 +61,7 @@ export default function ChangelogPage() {
     },
     {
       version: "v2.2.0",
-      date: "2025-01-01", 
+      date: "2025-01-01",
       type: "minor",
       changes: [
         {
@@ -93,7 +89,7 @@ export default function ChangelogPage() {
     {
       version: "v2.1.2",
       date: "2024-12-20",
-      type: "patch", 
+      type: "patch",
       changes: [
         {
           type: "fix",
@@ -118,7 +114,7 @@ export default function ChangelogPage() {
           description: "Fixed timeout issues for complex search queries that take longer to process."
         },
         {
-          type: "improvement", 
+          type: "improvement",
           title: "Documentation Updates",
           description: "Updated API documentation with more examples and clearer parameter descriptions."
         }
@@ -148,7 +144,7 @@ export default function ChangelogPage() {
     },
     {
       version: "v2.0.0",
-      date: "2024-12-01", 
+      date: "2024-12-01",
       type: "major",
       changes: [
         {
@@ -174,275 +170,207 @@ export default function ChangelogPage() {
     }
   ]
 
-  const getTypeIcon = (type: string) => {
+  const typeIcon = (type: string) => {
     switch (type) {
       case 'feature':
-        return <Plus className="w-4 h-4 text-green-600" />
+        return <Plus className="w-4 h-4 text-emerald-400/80" />
       case 'improvement':
-        return <Zap className="w-4 h-4 text-blue-600" />
+        return <Zap className="w-4 h-4 text-sky-400/80" />
       case 'fix':
-        return <Bug className="w-4 h-4 text-orange-600" />
+        return <Bug className="w-4 h-4 text-amber-400/80" />
       case 'security':
-        return <Shield className="w-4 h-4 text-purple-600" />
+        return <Shield className="w-4 h-4 text-violet-400/80" />
       case 'breaking':
-        return <AlertTriangle className="w-4 h-4 text-red-600" />
+        return <AlertTriangle className="w-4 h-4 text-rose-400/80" />
       default:
-        return <Wrench className="w-4 h-4 text-gray-600" />
+        return <Wrench className="w-4 h-4 text-white/50" />
     }
   }
 
-  const getTypeBadge = (type: string) => {
-    const styles = {
-      feature: "bg-green-100 text-green-800 hover:bg-green-100",
-      improvement: "bg-blue-100 text-blue-800 hover:bg-blue-100", 
-      fix: "bg-orange-100 text-orange-800 hover:bg-orange-100",
-      security: "bg-purple-100 text-purple-800 hover:bg-purple-100",
-      breaking: "bg-red-100 text-red-800 hover:bg-red-100"
+  const typePill = (type: string) => {
+    const tone: Record<string, string> = {
+      feature: "border-emerald-400/20 text-emerald-300/80",
+      improvement: "border-sky-400/20 text-sky-300/80",
+      fix: "border-amber-400/20 text-amber-300/80",
+      security: "border-violet-400/20 text-violet-300/80",
+      breaking: "border-rose-400/20 text-rose-300/80"
     }
-    
     return (
-      <Badge className={styles[type as keyof typeof styles] || "bg-gray-100 text-gray-800 hover:bg-gray-100"}>
+      <span className={`text-[10px] font-mono uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border ${tone[type] || 'border-white/10 text-white/60'}`}>
         {type.charAt(0).toUpperCase() + type.slice(1)}
-      </Badge>
+      </span>
     )
   }
 
-  const getVersionBadge = (type: string) => {
-    const styles = {
-      major: "bg-red-100 text-red-800 hover:bg-red-100",
-      minor: "bg-blue-100 text-blue-800 hover:bg-blue-100",
-      patch: "bg-green-100 text-green-800 hover:bg-green-100"
+  const versionPill = (type: string) => {
+    const tone: Record<string, string> = {
+      major: "border-rose-400/20 text-rose-300/80",
+      minor: "border-sky-400/20 text-sky-300/80",
+      patch: "border-emerald-400/20 text-emerald-300/80"
     }
-    
     return (
-      <Badge className={styles[type as keyof typeof styles]}>
+      <span className={`text-[10px] font-mono uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border ${tone[type] || 'border-white/10 text-white/60'}`}>
         {type.toUpperCase()}
-      </Badge>
+      </span>
     )
   }
 
   return (
     <div className="max-w-none">
-      {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="p-2 bg-gray-100 rounded-lg">
-            <GitCommit className="w-6 h-6 text-gray-600" />
-          </div>
-          <Badge className="bg-gray-100 text-gray-800 hover:bg-gray-100">
-            Changelog
-          </Badge>
-        </div>
-        
-        <h1 className="text-4xl font-bold text-[#17457c] mb-4">
+      <div className="mb-10">
+        <div className="venym-meta mb-3">CHANGELOG</div>
+        <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-white mb-3 leading-[1.1]">
           API Changelog
         </h1>
-        <p className="text-xl text-gray-600 leading-relaxed">
-          Track all changes, improvements, and new features in Venym Search APIs. 
-          Stay up to date with the latest releases and plan your integrations accordingly.
+        <p className="text-[14px] text-white/55 leading-relaxed max-w-2xl">
+          Track all changes, improvements, and new features in Venym Search APIs. Stay up to date with the latest releases and plan your integrations accordingly.
         </p>
       </div>
 
-      {/* Latest Release Highlight */}
       <div className="mb-12">
-        <Card className="border-l-4 border-l-[#efa72d] bg-gradient-to-r from-[#efa72d]/5 to-transparent">
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle className="flex items-center gap-3">
-                <Zap className="w-6 h-6 text-[#efa72d]" />
-                Latest Release: {releases[0].version}
-              </CardTitle>
-              <div className="flex items-center gap-2">
-                {getVersionBadge(releases[0].type)}
-                <Badge variant="outline" className="border-[#efa72d] text-[#efa72d]">
-                  Latest
-                </Badge>
-              </div>
+        <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+          <div className="px-6 py-4 border-b border-white/[0.06] flex items-center justify-between flex-wrap gap-3">
+            <div className="flex items-center gap-3">
+              <Zap className="w-5 h-5 text-amber-400/80" />
+              <span className="text-[16px] font-medium text-white">Latest Release: {releases[0].version}</span>
             </div>
-            <p className="text-gray-600">Released on {releases[0].date}</p>
-          </CardHeader>
-          <CardContent>
+            <div className="flex items-center gap-2">
+              {versionPill(releases[0].type)}
+              <span className="text-[10px] font-mono uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border border-amber-400/20 text-amber-300/80">
+                Latest
+              </span>
+            </div>
+          </div>
+          <div className="p-6">
+            <p className="text-[12.5px] font-mono text-white/40 mb-4">Released on {releases[0].date}</p>
             <div className="space-y-3">
               {releases[0].changes.map((change, index) => (
-                <div key={index} className="flex items-start gap-3 p-3 bg-white rounded-lg border">
-                  {getTypeIcon(change.type)}
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="font-medium text-gray-900">{change.title}</span>
-                      {getTypeBadge(change.type)}
+                <div key={index} className="flex items-start gap-3 p-3 border border-white/[0.06] rounded-sm">
+                  {typeIcon(change.type)}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1 flex-wrap">
+                      <span className="text-[14px] font-medium text-white">{change.title}</span>
+                      {typePill(change.type)}
                     </div>
-                    <p className="text-sm text-gray-600">{change.description}</p>
+                    <p className="text-[13px] text-white/55 leading-relaxed">{change.description}</p>
                   </div>
                 </div>
               ))}
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
 
-      {/* Release History */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Release History</h2>
-        
-        <div className="space-y-8">
+        <div className="venym-meta mb-3">01 · Release History</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Release History</h2>
+
+        <div className="space-y-4">
           {releases.slice(1).map((release, releaseIndex) => (
-            <Card key={releaseIndex}>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle className="flex items-center gap-3">
-                    <GitCommit className="w-5 h-5 text-gray-600" />
-                    {release.version}
-                  </CardTitle>
-                  <div className="flex items-center gap-3">
-                    {getVersionBadge(release.type)}
-                    <div className="flex items-center gap-2 text-sm text-gray-500">
-                      <Calendar className="w-4 h-4" />
-                      {release.date}
-                    </div>
+            <div key={releaseIndex} className="border border-white/[0.06] bg-white/[0.02] rounded-sm">
+              <div className="px-6 py-4 border-b border-white/[0.06] flex items-center justify-between flex-wrap gap-3">
+                <div className="flex items-center gap-3">
+                  <GitCommit className="w-4 h-4 text-white/50" />
+                  <span className="text-[15px] font-medium text-white">{release.version}</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  {versionPill(release.type)}
+                  <div className="flex items-center gap-1.5 text-[12px] font-mono text-white/40">
+                    <Calendar className="w-3 h-3" />
+                    {release.date}
                   </div>
                 </div>
-              </CardHeader>
-              <CardContent>
+              </div>
+              <div className="p-6">
                 <div className="space-y-3">
                   {release.changes.map((change, changeIndex) => (
-                    <div key={changeIndex} className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
-                      {getTypeIcon(change.type)}
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="font-medium text-gray-900">{change.title}</span>
-                          {getTypeBadge(change.type)}
+                    <div key={changeIndex} className="flex items-start gap-3 p-3 border border-white/[0.04] bg-white/[0.01] rounded-sm">
+                      {typeIcon(change.type)}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1 flex-wrap">
+                          <span className="text-[14px] font-medium text-white">{change.title}</span>
+                          {typePill(change.type)}
                         </div>
-                        <p className="text-sm text-gray-600">{change.description}</p>
+                        <p className="text-[13px] text-white/55 leading-relaxed">{change.description}</p>
                       </div>
                     </div>
                   ))}
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           ))}
         </div>
       </div>
 
-      {/* Legend */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Change Types</h2>
-        
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          <Card>
-            <CardContent className="p-4">
+        <div className="venym-meta mb-3">02 · Change Types</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Change Types</h2>
+
+        <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+          {[
+            { icon: <Plus className="w-4 h-4 text-emerald-400/80" />, type: 'feature', desc: 'New functionality and capabilities added to the API' },
+            { icon: <Zap className="w-4 h-4 text-sky-400/80" />, type: 'improvement', desc: 'Enhancements to existing features and performance optimizations' },
+            { icon: <Bug className="w-4 h-4 text-amber-400/80" />, type: 'fix', desc: 'Bug fixes and issue resolutions' },
+            { icon: <Shield className="w-4 h-4 text-violet-400/80" />, type: 'security', desc: 'Security improvements and vulnerability fixes' },
+            { icon: <AlertTriangle className="w-4 h-4 text-rose-400/80" />, type: 'breaking', desc: 'Changes that may require code modifications' },
+            { icon: <Wrench className="w-4 h-4 text-white/50" />, type: 'maintenance', desc: 'Infrastructure updates and maintenance' },
+          ].map((item) => (
+            <div key={item.type} className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-4">
               <div className="flex items-center gap-3 mb-2">
-                <Plus className="w-4 h-4 text-green-600" />
-                <Badge className="bg-green-100 text-green-800 hover:bg-green-100">Feature</Badge>
+                {item.icon}
+                {typePill(item.type)}
               </div>
-              <p className="text-sm text-gray-600">New functionality and capabilities added to the API</p>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3 mb-2">
-                <Zap className="w-4 h-4 text-blue-600" />
-                <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100">Improvement</Badge>
-              </div>
-              <p className="text-sm text-gray-600">Enhancements to existing features and performance optimizations</p>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3 mb-2">
-                <Bug className="w-4 h-4 text-orange-600" />
-                <Badge className="bg-orange-100 text-orange-800 hover:bg-orange-100">Fix</Badge>
-              </div>
-              <p className="text-sm text-gray-600">Bug fixes and issue resolutions</p>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3 mb-2">
-                <Shield className="w-4 h-4 text-purple-600" />
-                <Badge className="bg-purple-100 text-purple-800 hover:bg-purple-100">Security</Badge>
-              </div>
-              <p className="text-sm text-gray-600">Security improvements and vulnerability fixes</p>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3 mb-2">
-                <AlertTriangle className="w-4 h-4 text-red-600" />
-                <Badge className="bg-red-100 text-red-800 hover:bg-red-100">Breaking</Badge>
-              </div>
-              <p className="text-sm text-gray-600">Changes that may require code modifications</p>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3 mb-2">
-                <Wrench className="w-4 h-4 text-gray-600" />
-                <Badge className="bg-gray-100 text-gray-800 hover:bg-gray-100">Maintenance</Badge>
-              </div>
-              <p className="text-sm text-gray-600">Infrastructure updates and maintenance</p>
-            </CardContent>
-          </Card>
+              <p className="text-[13px] text-white/55 leading-relaxed">{item.desc}</p>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* Versioning Info */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Semantic Versioning</h2>
-        
-        <Card>
-          <CardContent className="p-6">
-            <p className="text-gray-600 mb-4">
-              Venym Search follows Semantic Versioning (SemVer) for all API releases:
-            </p>
-            
-            <div className="grid gap-4 md:grid-cols-3">
-              <div className="text-center p-4 bg-red-50 rounded-lg">
-                <div className="text-2xl font-bold text-red-600 mb-2">X.0.0</div>
-                <div className="font-semibold text-red-700">MAJOR</div>
-                <div className="text-sm text-gray-600 mt-1">Breaking changes</div>
-              </div>
-              
-              <div className="text-center p-4 bg-blue-50 rounded-lg">
-                <div className="text-2xl font-bold text-blue-600 mb-2">0.X.0</div>
-                <div className="font-semibold text-blue-700">MINOR</div>
-                <div className="text-sm text-gray-600 mt-1">New features, backward compatible</div>
-              </div>
-              
-              <div className="text-center p-4 bg-green-50 rounded-lg">
-                <div className="text-2xl font-bold text-green-600 mb-2">0.0.X</div>
-                <div className="font-semibold text-green-700">PATCH</div>
-                <div className="text-sm text-gray-600 mt-1">Bug fixes, backward compatible</div>
-              </div>
+        <div className="venym-meta mb-3">03 · Versioning</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Semantic Versioning</h2>
+
+        <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-6">
+          <p className="text-[14px] text-white/55 leading-relaxed mb-6">
+            Venym Search follows Semantic Versioning (SemVer) for all API releases:
+          </p>
+
+          <div className="grid gap-4 md:grid-cols-3">
+            <div className="text-center p-5 border border-rose-400/20 bg-rose-400/[0.03] rounded-sm">
+              <div className="text-2xl font-semibold text-rose-300/80 tabular-nums mb-2">X.0.0</div>
+              <div className="text-[10px] font-mono uppercase tracking-[0.2em] text-rose-300/80">MAJOR</div>
+              <div className="text-[12px] text-white/55 mt-2">Breaking changes</div>
             </div>
-          </CardContent>
-        </Card>
+
+            <div className="text-center p-5 border border-sky-400/20 bg-sky-400/[0.03] rounded-sm">
+              <div className="text-2xl font-semibold text-sky-300/80 tabular-nums mb-2">0.X.0</div>
+              <div className="text-[10px] font-mono uppercase tracking-[0.2em] text-sky-300/80">MINOR</div>
+              <div className="text-[12px] text-white/55 mt-2">New features, backward compatible</div>
+            </div>
+
+            <div className="text-center p-5 border border-emerald-400/20 bg-emerald-400/[0.03] rounded-sm">
+              <div className="text-2xl font-semibold text-emerald-300/80 tabular-nums mb-2">0.0.X</div>
+              <div className="text-[10px] font-mono uppercase tracking-[0.2em] text-emerald-300/80">PATCH</div>
+              <div className="text-[12px] text-white/55 mt-2">Bug fixes, backward compatible</div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Subscribe */}
-      <div className="bg-gradient-to-r from-[#17457c] to-[#17457c]/90 rounded-lg p-8 text-white text-center">
-        <h3 className="text-xl font-semibold mb-4">Stay Updated</h3>
-        <p className="mb-6 text-white/90">
+      <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-8 text-center">
+        <h3 className="text-xl font-semibold text-white mb-3">Stay Updated</h3>
+        <p className="text-[14px] text-white/55 leading-relaxed mb-6 max-w-xl mx-auto">
           Get notified about new releases, breaking changes, and important updates to Venym Search APIs.
         </p>
-        <div className="flex justify-center gap-4">
-          <a href="https://github.com/VENYM_SEARCH/api/releases" target="_blank" rel="noopener noreferrer">
-            <button className="bg-[#efa72d] hover:bg-[#efa72d]/90 text-white px-6 py-2 rounded-lg font-medium">
-              Watch on GitHub
-            </button>
+        <div className="flex justify-center gap-3 flex-wrap">
+          <a href="https://github.com/VENYM_SEARCH/api/releases" target="_blank" rel="noopener noreferrer" className="venym-btn-primary">
+            Watch on GitHub
           </a>
-          <a href="mailto:changelog@search.venym.io?subject=Subscribe to Changelog">
-            <button className="border border-white text-white hover:bg-white hover:text-[#17457c] px-6 py-2 rounded-lg font-medium">
-              Email Notifications
-            </button>
+          <a href="mailto:changelog@search.venym.io?subject=Subscribe to Changelog" className="venym-btn-secondary">
+            Email Notifications
           </a>
         </div>
       </div>
     </div>
   )
 }
-

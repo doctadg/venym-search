@@ -1,9 +1,6 @@
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { 
-  Search, 
+import {
+  Search,
   ArrowRight,
   BookOpen,
   Code,
@@ -103,7 +100,7 @@ export default function SearchAPIReferencePage() {
       example: '[{title: "...", link: "...", snippet: "...", domain: "...", published_date: "..."}]'
     },
     {
-      name: "scraped_content", 
+      name: "scraped_content",
       type: "array",
       description: "Array of scraped content from auto_scrape_top results (if enabled).",
       example: '[{url: "...", content: "...", contacts: [...], social: [...]}]'
@@ -122,7 +119,7 @@ export default function SearchAPIReferencePage() {
     },
     {
       name: "credits_used",
-      type: "integer", 
+      type: "integer",
       description: "Number of API credits consumed.",
       example: "15"
     },
@@ -142,40 +139,31 @@ export default function SearchAPIReferencePage() {
 
   return (
     <div className="max-w-none">
-      {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="p-2 bg-blue-100 rounded-lg">
-            <Search className="w-6 h-6 text-blue-600" />
-          </div>
-          <div>
-            <h1 className="text-3xl font-bold text-[#17457c]">Search API Reference</h1>
-            <p className="text-gray-600">Interactive API testing and complete reference documentation</p>
-          </div>
-        </div>
+      <div className="mb-10">
+        <div className="venym-meta mb-3">SEARCH API · REFERENCE</div>
+        <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-white mb-3 leading-[1.1]">
+          Search API Reference
+        </h1>
+        <p className="text-[14px] text-white/55 leading-relaxed max-w-2xl mb-6">
+          Interactive API testing and complete reference documentation.
+        </p>
 
-        <div className="flex gap-3 mb-6">
-          <Link href="/docs/api/search">
-            <Button variant="outline" size="sm">
-              <BookOpen className="w-4 h-4 mr-2" />
-              View Guide
-            </Button>
+        <div className="flex gap-3 mb-6 flex-wrap">
+          <Link href="/docs/api/search" className="venym-btn-secondary">
+            <BookOpen className="w-3.5 h-3.5 mr-1.5" />
+            View Guide
           </Link>
-          <Link href="/docs/api/search/examples">
-            <Button variant="outline" size="sm">
-              <Code className="w-4 h-4 mr-2" />
-              Examples
-            </Button>
+          <Link href="/docs/api/search/examples" className="venym-btn-secondary">
+            <Code className="w-3.5 h-3.5 mr-1.5" />
+            Examples
           </Link>
         </div>
 
         <Callout type="info" title="Interactive API Testing">
-          Test the Search API directly from this page with live examples. 
-          Replace the demo key with your actual API key for real results.
+          Test the Search API directly from this page with live examples. Replace the demo key with your actual API key for real results.
         </Callout>
       </div>
 
-      {/* API Tester */}
       <div className="mb-12">
         <APITester
           endpoint="https://www.search.venym.io/api/v1/search"
@@ -188,206 +176,128 @@ export default function SearchAPIReferencePage() {
         />
       </div>
 
-      {/* Response Schema */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Response Schema</h2>
-        <ResponseTable 
-          fields={responseFields}
-          title="Search Response Fields"
-        />
+        <div className="venym-meta mb-3">01 · Response Schema</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Response Schema</h2>
+        <ResponseTable fields={responseFields} title="Search Response Fields" />
       </div>
 
-      {/* Key Features */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Key Features</h2>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="flex items-center gap-2 text-[#17457c]">
-                <Zap className="w-5 h-5" />
-                Real-Time Search
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm space-y-2">
-              <div>• Live web search results</div>
-              <div>• Fresh content indexing</div>
-              <div>• Multiple search engines</div>
-              <div>• Instant result delivery</div>
-            </CardContent>
-          </Card>
+        <div className="venym-meta mb-3">02 · Features</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Key Features</h2>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+            <div className="flex items-center gap-2 mb-3">
+              <Zap className="w-4 h-4 text-amber-400/80" />
+              <span className="text-[14px] font-medium text-white">Real-Time Search</span>
+            </div>
+            <ul className="text-[13px] text-white/65 space-y-1.5">
+              <li>• Live web search results</li>
+              <li>• Fresh content indexing</li>
+              <li>• Multiple search engines</li>
+              <li>• Instant result delivery</li>
+            </ul>
+          </div>
 
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="flex items-center gap-2 text-[#17457c]">
-                <Globe className="w-5 h-5" />
-                Auto-Scraping
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm space-y-2">
-              <div>• Automatic content extraction</div>
-              <div>• Clean text processing</div>
-              <div>• Contact information</div>
-              <div>• Social media links</div>
-            </CardContent>
-          </Card>
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+            <div className="flex items-center gap-2 mb-3">
+              <Globe className="w-4 h-4 text-emerald-400/80" />
+              <span className="text-[14px] font-medium text-white">Auto-Scraping</span>
+            </div>
+            <ul className="text-[13px] text-white/65 space-y-1.5">
+              <li>• Automatic content extraction</li>
+              <li>• Clean text processing</li>
+              <li>• Contact information</li>
+              <li>• Social media links</li>
+            </ul>
+          </div>
 
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="flex items-center gap-2 text-[#17457c]">
-                <Search className="w-5 h-5" />
-                Smart Filtering
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm space-y-2">
-              <div>• Geographic targeting</div>
-              <div>• Language preferences</div>
-              <div>• Time-based filtering</div>
-              <div>• Content type selection</div>
-            </CardContent>
-          </Card>
+          <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+            <div className="flex items-center gap-2 mb-3">
+              <Search className="w-4 h-4 text-sky-400/80" />
+              <span className="text-[14px] font-medium text-white">Smart Filtering</span>
+            </div>
+            <ul className="text-[13px] text-white/65 space-y-1.5">
+              <li>• Geographic targeting</li>
+              <li>• Language preferences</li>
+              <li>• Time-based filtering</li>
+              <li>• Content type selection</li>
+            </ul>
+          </div>
         </div>
       </div>
 
-      {/* Error Codes */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Error Codes</h2>
-        <div className="space-y-3">
-          <Card className="border-l-4 border-l-green-500">
-            <CardContent className="pt-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <Badge className="bg-green-100 text-green-700 mb-2">200 OK</Badge>
-                  <p className="text-sm">Request successful, results returned</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-l-4 border-l-red-500">
-            <CardContent className="pt-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <Badge variant="destructive" className="mb-2">400 Bad Request</Badge>
-                  <p className="text-sm">Invalid query or parameters</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-l-4 border-l-orange-500">
-            <CardContent className="pt-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <Badge className="bg-orange-100 text-orange-700 mb-2">401 Unauthorized</Badge>
-                  <p className="text-sm">Invalid or missing API key</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-l-4 border-l-yellow-500">
-            <CardContent className="pt-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <Badge className="bg-yellow-100 text-yellow-700 mb-2">429 Too Many Requests</Badge>
-                  <p className="text-sm">Rate limit exceeded</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+        <div className="venym-meta mb-3">03 · Error Codes</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Error Codes</h2>
+        <div className="space-y-2">
+          {[
+            { code: '200 OK', tone: 'border-emerald-400/20 text-emerald-300/80', desc: 'Request successful, results returned' },
+            { code: '400 Bad Request', tone: 'border-rose-400/20 text-rose-300/80', desc: 'Invalid query or parameters' },
+            { code: '401 Unauthorized', tone: 'border-amber-400/20 text-amber-300/80', desc: 'Invalid or missing API key' },
+            { code: '429 Too Many Requests', tone: 'border-amber-400/20 text-amber-300/80', desc: 'Rate limit exceeded' }
+          ].map((row) => (
+            <div key={row.code} className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-4 flex items-center gap-4">
+              <span className={`text-[10px] font-mono uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border ${row.tone}`}>
+                {row.code}
+              </span>
+              <p className="text-[13px] text-white/70">{row.desc}</p>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* Usage Examples */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Common Use Cases</h2>
+        <div className="venym-meta mb-3">04 · Use Cases</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Common Use Cases</h2>
         <div className="grid gap-4 md:grid-cols-2">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">News Monitoring</CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm">
-              <p className="text-gray-600 mb-3">Track breaking news and industry updates</p>
-              <div className="bg-gray-50 p-3 rounded text-xs font-mono">
-                {`{
+          {[
+            { title: 'News Monitoring', desc: 'Track breaking news and industry updates', code: `{
   "query": "AI breakthrough news",
   "result_type": "news",
   "time_range": "24h",
   "max_results": 20
-}`}
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Lead Generation</CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm">
-              <p className="text-gray-600 mb-3">Find potential customers and contacts</p>
-              <div className="bg-gray-50 p-3 rounded text-xs font-mono">
-                {`{
+}` },
+            { title: 'Lead Generation', desc: 'Find potential customers and contacts', code: `{
   "query": "SaaS startup founders email",
   "auto_scrape_top": 5,
   "include_contacts": true,
   "include_social": true
-}`}
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Market Research</CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm">
-              <p className="text-gray-600 mb-3">Research competitors and market trends</p>
-              <div className="bg-gray-50 p-3 rounded text-xs font-mono">
-                {`{
+}` },
+            { title: 'Market Research', desc: 'Research competitors and market trends', code: `{
   "query": "enterprise software market 2025",
   "auto_scrape_top": 10,
   "time_range": "month",
   "max_results": 30
-}`}
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Content Discovery</CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm">
-              <p className="text-gray-600 mb-3">Find relevant content and resources</p>
-              <div className="bg-gray-50 p-3 rounded text-xs font-mono">
-                {`{
+}` },
+            { title: 'Content Discovery', desc: 'Find relevant content and resources', code: `{
   "query": "machine learning tutorials 2025",
   "result_type": "web",
   "language": "en",
   "max_results": 15
-}`}
-              </div>
-            </CardContent>
-          </Card>
+}` }
+          ].map((u) => (
+            <div key={u.title} className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+              <h3 className="text-[15px] font-medium text-white mb-2">{u.title}</h3>
+              <p className="text-[13px] text-white/55 mb-3">{u.desc}</p>
+              <pre className="bg-[#050505] border border-white/[0.06] p-3 rounded-sm text-[11.5px] font-mono text-white/70 overflow-x-auto">
+                {u.code}
+              </pre>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* Navigation */}
-      <div className="flex justify-between pt-8 border-t">
-        <Link href="/docs/api/search">
-          <Button variant="outline" className="flex items-center gap-2">
-            <ArrowRight className="w-4 h-4 rotate-180" />
-            Search Guide
-          </Button>
+      <div className="flex justify-between pt-6 border-t border-white/[0.06] flex-wrap gap-3">
+        <Link href="/docs/api/search" className="venym-btn-secondary">
+          <ArrowRight className="w-3 h-3 mr-1.5 rotate-180" />
+          Search Guide
         </Link>
-        <Link href="/docs/api-reference/scrape">
-          <Button className="bg-[#efa72d] hover:bg-[#efa72d]/90 text-white flex items-center gap-2">
-            Scrape API Reference
-            <ArrowRight className="w-4 h-4" />
-          </Button>
+        <Link href="/docs/api-reference/scrape" className="venym-btn-primary">
+          Scrape API Reference
+          <ArrowRight className="w-3 h-3 ml-1.5" />
         </Link>
       </div>
     </div>
   )
 }
-

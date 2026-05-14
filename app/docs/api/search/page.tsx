@@ -1,11 +1,8 @@
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { 
-  Search, 
-  Zap, 
-  Clock, 
+import {
+  Search,
+  Zap,
+  Clock,
   Globe,
   Users,
   ArrowRight,
@@ -106,7 +103,7 @@ console.log(\`Scraped \${data.scraped_content.length} pages\`);`,
       name: "include_social",
       type: "boolean",
       required: false,
-      default: "false", 
+      default: "false",
       description: "Discover social media profiles mentioned in results. Requires Builder plan or higher. Costs +5 credits.",
       example: "false"
     }
@@ -125,7 +122,7 @@ console.log(\`Scraped \${data.scraped_content.length} pages\`);`,
     },
     {
       name: "scraped_content",
-      type: "array", 
+      type: "array",
       description: "Content from automatically scraped pages (if auto_scrape_top was used)"
     },
     {
@@ -145,7 +142,7 @@ console.log(\`Scraped \${data.scraped_content.length} pages\`);`,
     },
     {
       name: "remaining_credits",
-      type: "integer", 
+      type: "integer",
       description: "Your remaining credit balance after this request"
     },
     {
@@ -172,7 +169,7 @@ console.log(\`Scraped \${data.scraped_content.length} pages\`);`,
     },
     {
       "title": "Crypto Market Analysis: BTC Long-term Outlook",
-      "link": "https://example.com/crypto-analysis", 
+      "link": "https://example.com/crypto-analysis",
       "snippet": "Technical analysis suggests Bitcoin is entering a new bull cycle...",
       "position": 2,
       "date": "2025-07-19"
@@ -225,70 +222,56 @@ console.log(\`Scraped \${data.scraped_content.length} pages\`);`,
 
   return (
     <div className="max-w-none">
-      {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="p-2 bg-blue-100 rounded-lg">
-            <Search className="w-6 h-6 text-blue-600" />
-          </div>
-          <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100">
-            Real-time Search
-          </Badge>
+      <div className="mb-10">
+        <div className="venym-meta mb-3 flex items-center gap-3">
+          <span>SEARCH API</span>
+          <span className="text-[10px] font-mono uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border border-sky-400/20 text-sky-300/80">
+            Real-time
+          </span>
         </div>
-        
-        <h1 className="text-4xl font-bold text-[#17457c] mb-4">
+        <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-white mb-3 leading-[1.1]">
           Search API
         </h1>
-        <p className="text-xl text-gray-600 leading-relaxed">
-          Real-time web search with automatic content extraction, contact discovery, 
-          and social profile detection. Get structured results from the latest web content.
+        <p className="text-[14px] text-white/55 leading-relaxed max-w-2xl">
+          Real-time web search with automatic content extraction, contact discovery, and social profile detection. Get structured results from the latest web content.
         </p>
       </div>
 
-      {/* Quick Stats */}
-      <div className="grid gap-4 md:grid-cols-4 mb-8">
-        <Card>
-          <CardContent className="p-4 text-center">
-            <Zap className="w-6 h-6 text-[#efa72d] mx-auto mb-2" />
-            <div className="text-2xl font-bold text-[#17457c]">17ms</div>
-            <div className="text-sm text-gray-600">Avg latency</div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4 text-center">
-            <Globe className="w-6 h-6 text-green-500 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-[#17457c]">99.3%</div>
-            <div className="text-sm text-gray-600">Success rate</div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4 text-center">
-            <Clock className="w-6 h-6 text-blue-500 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-[#17457c]">Real-time</div>
-            <div className="text-sm text-gray-600">Fresh results</div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4 text-center">
-            <Users className="w-6 h-6 text-purple-500 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-[#17457c]">1 credit</div>
-            <div className="text-sm text-gray-600">Starting cost</div>
-          </CardContent>
-        </Card>
+      <div className="grid gap-px bg-white/[0.06] border border-white/[0.06] rounded-sm overflow-hidden md:grid-cols-4 mb-12">
+        <div className="bg-[#080808] p-5 text-center">
+          <Zap className="w-4 h-4 text-amber-400/80 mx-auto mb-2" />
+          <div className="text-xl font-semibold text-white tabular-nums">17ms</div>
+          <div className="text-[12px] text-white/50 mt-1">Avg latency</div>
+        </div>
+        <div className="bg-[#080808] p-5 text-center">
+          <Globe className="w-4 h-4 text-emerald-400/80 mx-auto mb-2" />
+          <div className="text-xl font-semibold text-white tabular-nums">99.3%</div>
+          <div className="text-[12px] text-white/50 mt-1">Success rate</div>
+        </div>
+        <div className="bg-[#080808] p-5 text-center">
+          <Clock className="w-4 h-4 text-sky-400/80 mx-auto mb-2" />
+          <div className="text-xl font-semibold text-white">Real-time</div>
+          <div className="text-[12px] text-white/50 mt-1">Fresh results</div>
+        </div>
+        <div className="bg-[#080808] p-5 text-center">
+          <Users className="w-4 h-4 text-violet-400/80 mx-auto mb-2" />
+          <div className="text-xl font-semibold text-white">1 credit</div>
+          <div className="text-[12px] text-white/50 mt-1">Starting cost</div>
+        </div>
       </div>
 
-      {/* Quick Example */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Quick Example</h2>
+        <div className="venym-meta mb-3">01 · Quick Example</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Quick Example</h2>
         <CodeBlock
           multiLanguage={quickExample}
           title="Search with automatic content extraction"
         />
       </div>
 
-      {/* API Endpoint */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">API Endpoint</h2>
+        <div className="venym-meta mb-3">02 · Endpoint</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">API Endpoint</h2>
         <APIMethod
           method="POST"
           endpoint="/v1/search"
@@ -300,109 +283,60 @@ console.log(\`Scraped \${data.scraped_content.length} pages\`);`,
         </Callout>
       </div>
 
-      {/* Parameters */}
       <div className="mb-12">
         <ParameterTable parameters={parameters} />
       </div>
 
-      {/* Feature Access by Plan */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Feature Access by Plan</h2>
-        
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          <Card className="border-l-4 border-l-gray-400">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-lg">Free</CardTitle>
-              <Badge variant="secondary" className="w-fit">10 requests/hour</Badge>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <div className="flex items-center gap-2">
-                <CheckCircle className="w-4 h-4 text-green-500" />
-                <span className="text-sm">Basic search</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle className="w-4 h-4 text-green-500" />
-                <span className="text-sm">Auto-scraping</span>
-              </div>
-            </CardContent>
-          </Card>
+        <div className="venym-meta mb-3">03 · Plans</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Feature Access by Plan</h2>
 
-          <Card className="border-l-4 border-l-blue-500">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-lg">Starter</CardTitle>
-              <Badge className="w-fit bg-blue-100 text-blue-800 hover:bg-blue-100">1K requests/hour</Badge>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <div className="flex items-center gap-2">
-                <CheckCircle className="w-4 h-4 text-green-500" />
-                <span className="text-sm">Everything in Free</span>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {[
+            { name: 'Free', limit: '10 requests/hour', tone: 'border-white/10 text-white/60', features: ['Basic search', 'Auto-scraping'] },
+            { name: 'Starter', limit: '1K requests/hour', tone: 'border-sky-400/20 text-sky-300/80', features: ['Everything in Free', 'Contact extraction'] },
+            { name: 'Builder', limit: '5K requests/hour', tone: 'border-amber-400/20 text-amber-300/80', features: ['Everything in Starter', 'Social discovery'] },
+            { name: 'Unicorn', limit: '20K requests/hour', tone: 'border-violet-400/20 text-violet-300/80', features: ['All features', 'Priority processing'] },
+          ].map((plan) => (
+            <div key={plan.name} className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+              <div className="text-[15px] font-medium text-white mb-2">{plan.name}</div>
+              <span className={`text-[10px] font-mono uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border ${plan.tone} inline-block mb-4`}>
+                {plan.limit}
+              </span>
+              <div className="space-y-2">
+                {plan.features.map((f) => (
+                  <div key={f} className="flex items-center gap-2">
+                    <CheckCircle className="w-3.5 h-3.5 text-emerald-400/80" />
+                    <span className="text-[13px] text-white/70">{f}</span>
+                  </div>
+                ))}
               </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle className="w-4 h-4 text-green-500" />
-                <span className="text-sm">Contact extraction</span>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-l-4 border-l-[#efa72d]">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-lg">Builder</CardTitle>
-              <Badge className="w-fit bg-[#efa72d]/10 text-[#efa72d] hover:bg-[#efa72d]/10">5K requests/hour</Badge>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <div className="flex items-center gap-2">
-                <CheckCircle className="w-4 h-4 text-green-500" />
-                <span className="text-sm">Everything in Starter</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle className="w-4 h-4 text-green-500" />
-                <span className="text-sm">Social discovery</span>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-l-4 border-l-purple-500">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-lg">Unicorn</CardTitle>
-              <Badge className="w-fit bg-purple-100 text-purple-800 hover:bg-purple-100">20K requests/hour</Badge>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <div className="flex items-center gap-2">
-                <CheckCircle className="w-4 h-4 text-green-500" />
-                <span className="text-sm">All features</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle className="w-4 h-4 text-green-500" />
-                <span className="text-sm">Priority processing</span>
-              </div>
-            </CardContent>
-          </Card>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* Credit Calculation */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Credit Calculation</h2>
-        
-        <p className="text-gray-600 mb-6">
+        <div className="venym-meta mb-3">04 · Credits</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Credit Calculation</h2>
+
+        <p className="text-[14px] text-white/55 leading-relaxed mb-6">
           Search uses a flexible credit system based on the features you use. Here's how credits are calculated:
         </p>
 
-        <div className="space-y-4">
+        <div className="space-y-3">
           {creditExamples.map((example, index) => (
-            <Card key={index} className="border-l-4 border-l-[#efa72d]/50">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between mb-2">
-                  <h4 className="font-semibold text-gray-900">{example.description}</h4>
-                  <Badge className="bg-[#efa72d]/10 text-[#efa72d] hover:bg-[#efa72d]/10">
-                    {example.cost}
-                  </Badge>
-                </div>
-                <code className="text-sm bg-gray-100 p-2 rounded block text-gray-700">
-                  {example.example}
-                </code>
-              </CardContent>
-            </Card>
+            <div key={index} className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-4">
+              <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
+                <h4 className="text-[14px] font-medium text-white">{example.description}</h4>
+                <span className="text-[10px] font-mono uppercase tracking-[0.2em] px-2 py-0.5 rounded-sm border border-amber-400/20 text-amber-300/80">
+                  {example.cost}
+                </span>
+              </div>
+              <code className="text-[12px] font-mono bg-[#050505] border border-white/[0.06] text-white/70 p-2 rounded-sm block">
+                {example.example}
+              </code>
+            </div>
           ))}
         </div>
 
@@ -411,14 +345,14 @@ console.log(\`Scraped \${data.scraped_content.length} pages\`);`,
         </Callout>
       </div>
 
-      {/* Response Format */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Response Format</h2>
-        
+        <div className="venym-meta mb-3">05 · Response Format</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Response Format</h2>
+
         <ResponseTable fields={responseFields} />
 
         <div className="mt-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Example Success Response</h3>
+          <h3 className="text-lg font-semibold text-white mb-3">Example Success Response</h3>
           <CodeBlock
             code={successResponse}
             language="json"
@@ -427,11 +361,11 @@ console.log(\`Scraped \${data.scraped_content.length} pages\`);`,
         </div>
       </div>
 
-      {/* Status Codes */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Response Codes</h2>
-        
-        <div className="space-y-3">
+        <div className="venym-meta mb-3">06 · Status Codes</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Response Codes</h2>
+
+        <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5 space-y-1">
           <StatusCode code={200} description="Request successful" />
           <StatusCode code={400} description="Bad request - invalid parameters" />
           <StatusCode code={401} description="Unauthorized - invalid API key" />
@@ -442,45 +376,34 @@ console.log(\`Scraped \${data.scraped_content.length} pages\`);`,
         </div>
       </div>
 
-      {/* Rate Limits */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#17457c] mb-6">Rate Limits</h2>
-        
-        <div className="overflow-hidden rounded-lg border">
+        <div className="venym-meta mb-3">07 · Rate Limits</div>
+        <h2 className="text-2xl font-semibold tracking-tight text-white mb-6">Rate Limits</h2>
+
+        <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm overflow-hidden">
           <table className="w-full">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Plan</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Requests/Hour</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Requests/Minute</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Concurrent</th>
+            <thead>
+              <tr className="border-b border-white/[0.06]">
+                <th className="px-6 py-3 text-left text-[10px] font-mono uppercase tracking-[0.15em] text-white/40">Plan</th>
+                <th className="px-6 py-3 text-left text-[10px] font-mono uppercase tracking-[0.15em] text-white/40">Requests/Hour</th>
+                <th className="px-6 py-3 text-left text-[10px] font-mono uppercase tracking-[0.15em] text-white/40">Requests/Minute</th>
+                <th className="px-6 py-3 text-left text-[10px] font-mono uppercase tracking-[0.15em] text-white/40">Concurrent</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
-              <tr>
-                <td className="px-6 py-3 text-sm text-gray-900">Free</td>
-                <td className="px-6 py-3 text-sm text-gray-600">10</td>
-                <td className="px-6 py-3 text-sm text-gray-600">1</td>
-                <td className="px-6 py-3 text-sm text-gray-600">1</td>
-              </tr>
-              <tr>
-                <td className="px-6 py-3 text-sm text-gray-900">Starter</td>
-                <td className="px-6 py-3 text-sm text-gray-600">1,000</td>
-                <td className="px-6 py-3 text-sm text-gray-600">50</td>
-                <td className="px-6 py-3 text-sm text-gray-600">5</td>
-              </tr>
-              <tr>
-                <td className="px-6 py-3 text-sm text-gray-900">Builder</td>
-                <td className="px-6 py-3 text-sm text-gray-600">5,000</td>
-                <td className="px-6 py-3 text-sm text-gray-600">100</td>
-                <td className="px-6 py-3 text-sm text-gray-600">10</td>
-              </tr>
-              <tr>
-                <td className="px-6 py-3 text-sm text-gray-900">Unicorn</td>
-                <td className="px-6 py-3 text-sm text-gray-600">20,000</td>
-                <td className="px-6 py-3 text-sm text-gray-600">500</td>
-                <td className="px-6 py-3 text-sm text-gray-600">25</td>
-              </tr>
+            <tbody>
+              {[
+                ['Free', '10', '1', '1'],
+                ['Starter', '1,000', '50', '5'],
+                ['Builder', '5,000', '100', '10'],
+                ['Unicorn', '20,000', '500', '25']
+              ].map((row) => (
+                <tr key={row[0]} className="border-b border-white/[0.06] last:border-0 hover:bg-white/[0.02]">
+                  <td className="px-6 py-3 text-[13px] text-white/80">{row[0]}</td>
+                  <td className="px-6 py-3 text-[13px] text-white/65">{row[1]}</td>
+                  <td className="px-6 py-3 text-[13px] text-white/65">{row[2]}</td>
+                  <td className="px-6 py-3 text-[13px] text-white/65">{row[3]}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
@@ -490,47 +413,35 @@ console.log(\`Scraped \${data.scraped_content.length} pages\`);`,
         </Callout>
       </div>
 
-      {/* Next Steps */}
-      <div className="grid gap-6 md:grid-cols-2">
-        <Card className="border-l-4 border-l-[#efa72d]">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Search className="w-5 h-5 text-[#efa72d]" />
-              See More Examples
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-gray-600 mb-4">
-              Explore detailed implementation examples and use cases.
-            </p>
-            <Link href="/docs/api/search/examples">
-              <Button variant="outline" className="border-[#efa72d] text-[#efa72d] hover:bg-[#efa72d] hover:text-white">
-                View Examples
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-            </Link>
-          </CardContent>
-        </Card>
+      <div className="grid gap-4 md:grid-cols-2">
+        <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+          <div className="flex items-center gap-2 mb-3">
+            <Search className="w-4 h-4 text-amber-400/80" />
+            <span className="text-[15px] font-medium text-white">See More Examples</span>
+          </div>
+          <p className="text-[13px] text-white/55 leading-relaxed mb-4">
+            Explore detailed implementation examples and use cases.
+          </p>
+          <Link href="/docs/api/search/examples" className="venym-btn-secondary">
+            View Examples
+            <ArrowRight className="w-3 h-3 ml-1.5" />
+          </Link>
+        </div>
 
-        <Card className="border-l-4 border-l-[#17457c]">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <AlertTriangle className="w-5 h-5 text-[#17457c]" />
-              Other APIs
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-gray-600 mb-4">
-            </p>
-            <div className="flex gap-2">
-              <Link href="/docs/api/scrape">
-                <Button size="sm" variant="outline" className="border-[#17457c] text-[#17457c] hover:bg-[#17457c] hover:text-white">
-                  Scrape
-                </Button>
-              </Link>
-            </div>
-          </CardContent>
-        </Card>
+        <div className="border border-white/[0.06] bg-white/[0.02] rounded-sm p-5">
+          <div className="flex items-center gap-2 mb-3">
+            <AlertTriangle className="w-4 h-4 text-sky-400/80" />
+            <span className="text-[15px] font-medium text-white">Other APIs</span>
+          </div>
+          <p className="text-[13px] text-white/55 leading-relaxed mb-4">
+            Combine Search with our other endpoints.
+          </p>
+          <div className="flex gap-2">
+            <Link href="/docs/api/scrape" className="venym-btn-ghost">
+              Scrape
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   )
