@@ -33,6 +33,7 @@ function checkRateLimit(key: string): boolean {
 }
 
 const demoSchema = z.object({
+  api_type: z.enum(['search', 'scrape']),
   query: z.string().min(1, 'Query is required').max(200, 'Query too long'),
 })
 
@@ -178,7 +179,6 @@ export async function POST(request: NextRequest) {
         break
       case 'scrape':
         apiResponse = await getDemoScrapeResponse(validatedData.query)
-        break
         break
     }
 

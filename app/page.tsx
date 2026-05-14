@@ -156,7 +156,7 @@ const StatNumber = ({ value, delay = 0 }: { value: string; delay?: number }) => 
       initial={{ opacity: 0, y: 30 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
-      className="text-5xl md:text-[7.5rem] font-display font-medium leading-[0.85] tracking-tighter text-white"
+      className="text-5xl md:text-6xl lg:text-7xl font-display font-medium leading-[0.85] tracking-tighter text-white"
     >
       {value}
     </motion.div>
@@ -231,16 +231,16 @@ export default function VenymSearchLanding() {
 
         <div className="hidden md:flex gap-8 items-center">
           <Link href="/products/search" className="hover:text-white transition-colors">
-            [ SEARCH ]
+            SEARCH
           </Link>
           <Link href="/products/scrape" className="hover:text-white transition-colors">
-            [ SCRAPE ]
+            SCRAPE
           </Link>
           <Link href="/docs" className="hover:text-white transition-colors">
-            [ DOCS ]
+            DOCS
           </Link>
           <Link href="/pricing" className="hover:text-white transition-colors">
-            [ PRICING ]
+            PRICING
           </Link>
           {isSignedIn ? (
             <Link
@@ -339,22 +339,7 @@ export default function VenymSearchLanding() {
             {/* Background grid */}
             <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
 
-            {/* Status row */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 1 }}
-              className="absolute top-8 md:top-16 left-0 right-0 flex justify-between items-center px-6 md:px-12 z-20"
-            >
-              <span className="text-[9px] font-mono uppercase tracking-[0.5em] text-gray-700">
-                EST. MMXXV // VENYM LABS
-              </span>
-              <span className="hidden sm:inline text-[9px] font-mono uppercase tracking-[0.5em] text-gray-700">
-                INFRASTRUCTURE // 03
-              </span>
-            </motion.div>
-
-            <motion.div
+<motion.div
               style={{ scale: heroScale, opacity: heroOpacity }}
               className="relative z-10 flex flex-col items-center text-center px-4"
             >
@@ -365,16 +350,18 @@ export default function VenymSearchLanding() {
                 className="flex items-center gap-3 mb-8 md:mb-12"
               >
                 <div className="h-[1px] w-8 md:w-12 bg-white/20" />
-                <span className="text-[9px] md:text-[10px] font-mono text-gray-700 uppercase tracking-[0.5em]">
-                  Enterprise Search & Scraping Infrastructure
+                <span className="text-[9px] md:text-[10px] font-mono text-white/60 uppercase tracking-[0.5em] whitespace-nowrap">
+                  Web Search + Scrape API · For AI Agents
                 </span>
                 <div className="h-[1px] w-8 md:w-12 bg-white/20" />
               </motion.div>
 
-              <h1 className="text-[15vw] md:text-[13vw] leading-[0.82] font-display font-medium tracking-tighter text-white select-none">
-                VENYM
+              <h1 className="text-[14vw] md:text-[11.5vw] leading-[0.85] font-display font-medium tracking-tighter text-white select-none">
+                Search.
                 <br />
-                <span className="text-gray-700 italic font-light">search.</span>
+                Scrape.
+                <br />
+                <span className="text-gray-700 italic font-light">For AI agents.</span>
               </h1>
             </motion.div>
 
@@ -387,10 +374,10 @@ export default function VenymSearchLanding() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1, duration: 1 }}
-                className="text-sm md:text-lg font-sans font-light text-gray-500 leading-relaxed mb-8 max-w-xl text-center"
+                className="text-sm md:text-lg font-sans font-light text-gray-400 leading-relaxed mb-8 max-w-2xl text-center"
               >
-                Search, scrape, and synthesize the open web through a single API.
-                Built for agents, AI pipelines, and the systems they replace.
+                One endpoint. Eight engines. JS-rendered, anti-bot, citation-ready.
+                Drop into LangChain, MCP, or any agent loop in 30 seconds.
               </motion.p>
 
               <motion.div
@@ -440,7 +427,7 @@ export default function VenymSearchLanding() {
           <div className="px-6 py-6 border-r border-white/5">
             8 ENGINES // &lt;2s LATENCY
           </div>
-          <div className="px-6 py-6">API-FIRST INFRASTRUCTURE</div>
+          <div className="px-6 py-6">BUILT FOR AI AGENTS</div>
         </div>
 
         {/* ───────────── PRODUCTS — SCROLL-LOCKED ───────────── */}
@@ -690,11 +677,11 @@ export default function VenymSearchLanding() {
               </div>
               <h2 className="text-4xl md:text-[7rem] font-display font-medium leading-[0.85] text-white tracking-tighter mb-6">
                 Four subsystems. <br />
-                <span className="text-gray-700">One endpoint.</span>
+                <span className="text-gray-700 italic font-light">One agent endpoint.</span>
               </h2>
-              <p className="text-gray-500 font-sans font-light text-base md:text-xl max-w-2xl leading-relaxed">
-                Routing, evasion, synthesis, governance. Each subsystem is autonomous,
-                independently scalable, and exposed through a single uniform API.
+              <p className="text-gray-400 font-sans font-light text-base md:text-xl max-w-2xl leading-relaxed">
+                Routing, evasion, synthesis, governance. Built so your agent never sees
+                a blocked page, a stale cache, or an unscoped credential.
               </p>
             </motion.div>
           </div>
@@ -782,13 +769,13 @@ export default function VenymSearchLanding() {
                 </span>
               </div>
               <h2 className="text-4xl md:text-[5.5rem] font-display font-medium leading-[0.85] tracking-tighter mb-6">
-                Drops into <br />
-                <span className="text-gray-700 italic font-light">every stack.</span>
+                Plugs into <br />
+                <span className="text-gray-700 italic font-light">every agent stack.</span>
               </h2>
-              <p className="text-gray-500 font-sans font-light text-base md:text-lg max-w-2xl leading-relaxed">
-                Native SDKs for Python and TypeScript. First-class adapters for LangChain,
-                LlamaIndex, n8n, Zapier, Make. The Venym endpoints look like any HTTP API —
-                because they are.
+              <p className="text-gray-400 font-sans font-light text-base md:text-lg max-w-2xl leading-relaxed">
+                Native SDKs for Python and TypeScript. First-class tools for LangChain,
+                LlamaIndex, OpenAI tool-calls, and the MCP protocol. Wire it into n8n,
+                Zapier, Make, Pipedream. The endpoints look like any HTTP API — because they are.
               </p>
             </motion.div>
 
@@ -947,8 +934,8 @@ export default function VenymSearchLanding() {
               transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
               className="text-4xl md:text-[9rem] font-display font-medium leading-[0.8] mb-12 md:mb-20 tracking-tighter max-w-5xl"
             >
-              Start building. <br />
-              <span className="text-gray-700 italic font-light">free.</span>
+              Ship your agent. <br />
+              <span className="text-gray-700 italic font-light">today.</span>
             </motion.h3>
 
             <motion.p
@@ -956,10 +943,10 @@ export default function VenymSearchLanding() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 1, delay: 0.2 }}
-              className="text-gray-500 font-sans font-light text-base md:text-lg max-w-xl mb-12 md:mb-16 leading-relaxed"
+              className="text-gray-400 font-sans font-light text-base md:text-lg max-w-xl mb-12 md:mb-16 leading-relaxed"
             >
-              100 free credits on signup. No card. No expiry. Hit any endpoint and watch
-              what your old scrapers were missing.
+              100 free credits on signup. No card. No expiry. Wire Venym into your
+              agent loop and watch it read the web like a human.
             </motion.p>
 
             <motion.div
