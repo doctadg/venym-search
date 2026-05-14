@@ -335,19 +335,19 @@ export default function VenymSearchLanding() {
           <AnimatedLine direction="vertical" className="right-[8%] opacity-20" delay={0.5} origin="bottom" />
           <AnimatedLine direction="horizontal" className="bottom-0" delay={0.9} origin="left" />
 
-          <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden">
+          <div className="sticky top-0 h-[calc(100vh-3.875rem)] md:h-[calc(100vh-4.875rem)] w-full flex flex-col items-center justify-between overflow-hidden pt-8 md:pt-12 pb-8 md:pb-10">
             {/* Background grid */}
             <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
 
-<motion.div
+            <motion.div
               style={{ scale: heroScale, opacity: heroOpacity }}
-              className="relative z-10 flex flex-col items-center text-center px-4"
+              className="relative z-10 flex flex-col items-center text-center px-4 w-full max-w-[1600px]"
             >
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6, duration: 1 }}
-                className="flex items-center gap-3 mb-8 md:mb-12"
+                className="flex items-center gap-3 mb-6 md:mb-10"
               >
                 <div className="h-[1px] w-8 md:w-12 bg-white/20" />
                 <span className="text-[9px] md:text-[10px] font-mono text-white/60 uppercase tracking-[0.5em] whitespace-nowrap">
@@ -356,7 +356,7 @@ export default function VenymSearchLanding() {
                 <div className="h-[1px] w-8 md:w-12 bg-white/20" />
               </motion.div>
 
-              <h1 className="text-[14vw] md:text-[11.5vw] leading-[0.85] font-display font-medium tracking-tighter text-white select-none">
+              <h1 className="text-[clamp(3rem,11vw,9.5rem)] leading-[0.88] font-display font-medium tracking-tighter text-white select-none">
                 Search.
                 <br />
                 Scrape.
@@ -368,7 +368,7 @@ export default function VenymSearchLanding() {
             {/* Sub-hero */}
             <motion.div
               style={{ opacity: heroSubOpacity, y: heroSubY }}
-              className="absolute bottom-12 md:bottom-24 left-0 right-0 flex flex-col items-center px-6 z-10"
+              className="relative flex flex-col items-center px-6 z-10 w-full"
             >
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
