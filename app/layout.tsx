@@ -68,7 +68,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ClerkProvider dynamic>
+        <ClerkProvider>
           {children}
           <Toaster />
         </ClerkProvider>

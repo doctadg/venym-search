@@ -75,13 +75,6 @@ const data = await res.json();`,
       href: '/docs/api/scrape',
       credits: '5 cr / req',
     },
-    {
-      id: 'API-03',
-      method: 'POST',
-      description: 'One call: search the web, scrape top results, synthesize with AI. Research, automated.',
-      icon: Database,
-      credits: '10 cr / req',
-    },
   ]
 
   const integrations = [

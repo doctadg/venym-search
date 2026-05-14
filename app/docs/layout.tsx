@@ -66,10 +66,6 @@ const navigation: NavigationItem[] = [
           { title: 'Examples', href: '/docs/api/scrape/examples' },
         ],
       },
-      {
-        children: [
-        ],
-      },
     ],
   },
   {
