@@ -11,7 +11,7 @@ import {
   AnimatePresence,
   useInView,
 } from 'framer-motion'
-import { Cpu, Network, Boxes } from 'lucide-react'
+import { Cpu, Network, Boxes, Search, FileText, ArrowRight } from 'lucide-react'
 import ApiDemo from '@/components/api-demo'
 
 /* ─────────────────────────────────────────────────────────────
@@ -60,6 +60,11 @@ const PRODUCTS = [
     title: 'Search,',
     suffix: 'merged.',
     tagline: 'Venym Engine // 01',
+    href: '/products/search',
+    endpoint: 'POST /api/v1/search',
+    credits: '2 credits / request',
+    bestFor: 'Live web lookups, research agents, RAG freshness, monitoring.',
+    outputShape: 'Ranked JSON results — title, URL, snippet, source engine.',
     description:
       'Eight engines queried in parallel. Deduped, ranked, and merged in under two seconds. One endpoint replaces every brittle scraper you built last quarter.',
     metrics: ['8 ENGINES // PARALLEL', 'SUB-2s LATENCY', '2 CREDITS / REQ'],
@@ -74,12 +79,16 @@ const PRODUCTS = [
     title: 'Scrape,',
     suffix: 'unblocked.',
     tagline: 'Venym Engine // 02',
+    href: '/products/scrape',
+    endpoint: 'POST /api/v1/scrape',
+    credits: '5 credits / request',
+    bestFor: 'JS-heavy pages, blocked sites, structured extraction, crawls.',
+    outputShape: 'Clean markdown + structured JSON — text, links, tables.',
     description:
       'Headless browser rendering, anti-bot evasion, CAPTCHA bypass, residential proxies. If a human can load it, Scrape can extract it.',
     metrics: ['JS-RENDERED', 'ANTI-BOT // CAPTCHA', '5 CREDITS / REQ'],
     pipeline: ['URL', 'RENDER', 'EVADE', 'EXTRACT', 'MARKDOWN'],
   },
-
 ]
 
 const CAPABILITIES = [
@@ -105,13 +114,13 @@ const CAPABILITIES = [
   },
   {
     id: '03',
-    codename: 'SYNTHESIZER',
-    class: 'CLASS::COGNITION',
+    codename: 'NORMALIZER',
+    class: 'CLASS::SHAPE',
     status: 'OPERATIONAL',
     description:
-      'Frontier model orchestration with citation enforcement. Every claim traces back to a source. Structured outputs, schema-conformant, ready to drop into your pipeline.',
-    metrics: ['CITATION-ENFORCED', 'SCHEMA OUTPUT', 'MULTI-MODEL'],
-    output: 'SOURCES → STRUCTURED ANSWER',
+      'Raw HTML and engine payloads become one predictable shape. Clean markdown, schema-conformant JSON, deduped and ranked. The same response contract every time, ready to drop into your pipeline.',
+    metrics: ['MARKDOWN + JSON', 'SCHEMA-STABLE', 'DEDUPED // RANKED'],
+    output: 'RAW PAGES → STRUCTURED JSON',
   },
   {
     id: '04',
@@ -139,9 +148,37 @@ const INTEGRATIONS = [
 
 const STATS = [
   { val: '8', label: 'BACKBONE ENGINES' },
-  { val: '<2s', label: 'AVG LATENCY' },
-  { val: '99.9%', label: 'UPTIME SLA' },
-  { val: '50M+', label: 'CALLS / MONTH' },
+  { val: '<2s', label: 'SEARCH LATENCY' },
+  { val: '2', label: 'UNIFIED APIS' },
+  { val: '100', label: 'FREE CREDITS' },
+]
+
+const PATHS = [
+  {
+    id: '01',
+    icon: Search,
+    label: 'I need live web search',
+    title: 'Find current sources fast.',
+    body: 'Use Search when your agent needs fresh results, citations, competitor pages, news, docs, or market context.',
+    href: '/products/search',
+    endpoint: '/api/v1/search',
+  },
+  {
+    id: '02',
+    icon: FileText,
+    label: 'I need page extraction',
+    title: 'Turn URLs into clean text.',
+    body: 'Use Scrape when you already have a URL and need rendered content, markdown, links, metadata, or structured extraction.',
+    href: '/products/scrape',
+    endpoint: '/api/v1/scrape',
+  },
+]
+
+const WORKFLOW = [
+  ['REQUEST', 'Send a query or URL from your app, agent, workflow, or backend.'],
+  ['ROUTE / RENDER', 'Search fans out across engines. Scrape renders pages like a browser.'],
+  ['NORMALIZE', 'Venym cleans noise, merges duplicates, and prepares consistent payloads.'],
+  ['RETURN', 'Your app gets JSON, sources, markdown, metadata, and usage accounting.'],
 ]
 
 /* ─────────────────────────────────────────────────────────────
@@ -357,11 +394,11 @@ export default function VenymSearchLanding() {
               </motion.div>
 
               <h1 className="text-[clamp(3rem,11vw,9.5rem)] leading-[0.88] font-display font-medium tracking-tighter text-white select-none">
-                Search.
+                Web data.
                 <br />
-                Scrape.
+                Clean enough
                 <br />
-                <span className="text-gray-700 italic font-light">For AI agents.</span>
+                <span className="text-gray-700 italic font-light">for agents.</span>
               </h1>
             </motion.div>
 
@@ -376,8 +413,8 @@ export default function VenymSearchLanding() {
                 transition={{ delay: 1, duration: 1 }}
                 className="text-sm md:text-lg font-sans font-light text-gray-400 leading-relaxed mb-8 max-w-2xl text-center"
               >
-                One endpoint. Eight engines. JS-rendered, anti-bot, citation-ready.
-                Drop into LangChain, MCP, or any agent loop in 30 seconds.
+                Search and scrape APIs for AI agents, data products, and internal tools.
+                Choose live web discovery, page extraction, or both — without running brittle browser infrastructure.
               </motion.p>
 
               <motion.div
@@ -390,13 +427,13 @@ export default function VenymSearchLanding() {
                   href={isSignedIn ? '/dashboard' : '/signup'}
                   className="px-8 py-4 bg-white text-black text-[10px] font-mono uppercase tracking-[0.3em] font-bold hover:bg-gray-200 transition-colors"
                 >
-                  [ GET API KEY ]
+                  [ START BUILDING ]
                 </Link>
                 <Link
                   href="/docs"
                   className="px-8 py-4 border border-white/10 text-white text-[10px] font-mono uppercase tracking-[0.3em] hover:bg-white/5 transition-all"
                 >
-                  [ READ THE DOCS ]
+                  [ VIEW DOCS ]
                 </Link>
               </motion.div>
 
@@ -408,7 +445,7 @@ export default function VenymSearchLanding() {
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-green-500/70" />
                 <span className="text-[9px] font-mono text-green-500/60 uppercase tracking-[0.4em]">
-                  ● API OPERATIONAL // 50M+ CALLS / MO
+                  ● API OPERATIONAL // SEARCH + SCRAPE LIVE
                 </span>
               </motion.div>
             </motion.div>
@@ -425,10 +462,119 @@ export default function VenymSearchLanding() {
             STATUS: OPERATIONAL
           </div>
           <div className="px-6 py-6 border-r border-white/5">
-            8 ENGINES // &lt;2s LATENCY
+            2 ENDPOINTS // SEARCH + SCRAPE
           </div>
           <div className="px-6 py-6">BUILT FOR AI AGENTS</div>
         </div>
+
+        {/* ───────────── GUIDED ENTRY ───────────── */}
+        <section className="relative bg-background border-b border-white/5 py-16 md:py-24">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end mb-10 md:mb-14">
+              <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                className="lg:col-span-7"
+              >
+                <div className="flex items-center gap-4 mb-7">
+                  <div className="w-12 h-[1px] bg-white/20" />
+                  <span className="text-[10px] font-mono text-gray-800 uppercase tracking-[0.6em]">
+                    Start Here // Guided Path
+                  </span>
+                </div>
+                <h2 className="text-4xl md:text-[5.5rem] font-display font-medium leading-[0.85] tracking-tighter text-white">
+                  Pick the job. <br />
+                  <span className="text-gray-700 italic font-light">Hit the endpoint.</span>
+                </h2>
+              </motion.div>
+              <motion.p
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.1 }}
+                className="lg:col-span-5 text-gray-400 font-sans font-light text-base md:text-lg leading-relaxed"
+              >
+                Venym Search is intentionally simple: one API for discovering pages, one API for reading them. Start with the path that matches what your product needs.
+              </motion.p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+              {PATHS.map((path, index) => {
+                const Icon = path.icon
+                return (
+                  <motion.div
+                    key={path.id}
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.75, delay: index * 0.08 }}
+                    className="group border border-white/5 bg-white/[0.015] hover:bg-white/[0.03] hover:border-white/10 transition-all duration-500"
+                  >
+                    <Link href={path.href} className="block p-6 md:p-8 h-full">
+                      <div className="flex items-center justify-between mb-12">
+                        <div className="flex items-center gap-3">
+                          <span className="text-[9px] font-mono text-gray-800">[{path.id}]</span>
+                          <span className="text-[9px] font-mono uppercase tracking-[0.35em] text-gray-600">
+                            {path.label}
+                          </span>
+                        </div>
+                        <Icon className="h-5 w-5 text-white/45" strokeWidth={1.25} />
+                      </div>
+                      <h3 className="text-2xl md:text-4xl font-display font-medium tracking-tight text-white mb-5">
+                        {path.title}
+                      </h3>
+                      <p className="text-sm md:text-base font-sans font-light text-gray-400 leading-relaxed max-w-xl mb-8">
+                        {path.body}
+                      </p>
+                      <div className="flex items-center justify-between border-t border-white/5 pt-5">
+                        <code className="text-[10px] font-mono text-white/45">{path.endpoint}</code>
+                        <span className="flex items-center gap-2 text-[9px] font-mono uppercase tracking-[0.3em] text-white/50 group-hover:text-white transition-colors">
+                          Open <ArrowRight className="h-3 w-3" />
+                        </span>
+                      </div>
+                    </Link>
+                  </motion.div>
+                )
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* ───────────── HOW IT WORKS ───────────── */}
+        <section className="relative bg-background border-b border-white/5 py-16 md:py-24">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-8">
+            <div className="flex items-center gap-4 mb-10">
+              <div className="w-12 h-[1px] bg-white/20" />
+              <span className="text-[10px] font-mono text-gray-800 uppercase tracking-[0.6em]">
+                Request Lifecycle // 01
+              </span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-4 border border-white/5 bg-white/[0.01]">
+              {WORKFLOW.map(([label, body], index) => (
+                <motion.div
+                  key={label}
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.65, delay: index * 0.06 }}
+                  className={`relative p-6 md:p-7 ${index < WORKFLOW.length - 1 ? 'border-b md:border-b-0 md:border-r border-white/5' : ''}`}
+                >
+                  <span className="text-[9px] font-mono text-gray-800 block mb-8">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <h3 className="text-sm font-mono uppercase tracking-[0.28em] text-white/70 mb-4">
+                    {label}
+                  </h3>
+                  <p className="text-sm font-sans font-light text-gray-500 leading-relaxed">
+                    {body}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
 
         {/* ───────────── PRODUCTS — SCROLL-LOCKED ───────────── */}
         <section
@@ -440,7 +586,7 @@ export default function VenymSearchLanding() {
             <div className="w-full md:w-1/4 relative h-[26vh] md:h-full flex flex-col justify-end p-8 md:p-12 bg-background border-b md:border-b-0 md:border-r border-white/5">
               <div className="mb-6 md:mb-10">
                 <span className="text-[10px] font-mono uppercase tracking-[0.4em] text-gray-700">
-                  Product Surface
+                  Choose Your Endpoint
                 </span>
               </div>
               {PRODUCTS.map((item, index) => {
@@ -539,7 +685,7 @@ export default function VenymSearchLanding() {
                       {item.description}
                     </p>
 
-                    <div className="flex flex-wrap gap-2 md:gap-3 mb-8 md:mb-10">
+                    <div className="flex flex-wrap gap-2 md:gap-3 mb-6">
                       {item.metrics.map((m, i) => (
                         <div
                           key={i}
@@ -551,6 +697,21 @@ export default function VenymSearchLanding() {
                           </span>
                         </div>
                       ))}
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-3xl mb-8 md:mb-10">
+                      <div className="border border-white/5 bg-white/[0.015] p-4">
+                        <span className="text-[8px] font-mono text-gray-800 uppercase tracking-[0.35em] block mb-2">
+                          Endpoint
+                        </span>
+                        <code className="text-xs md:text-sm font-mono text-white/55">{item.endpoint}</code>
+                      </div>
+                      <div className="border border-white/5 bg-white/[0.015] p-4">
+                        <span className="text-[8px] font-mono text-gray-800 uppercase tracking-[0.35em] block mb-2">
+                          Returns
+                        </span>
+                        <span className="text-xs md:text-sm font-mono text-white/45">{item.outputShape}</span>
+                      </div>
                     </div>
 
                     <div className="hidden md:block border border-white/5 bg-white/[0.01] px-6 py-4 max-w-3xl">
@@ -575,9 +736,15 @@ export default function VenymSearchLanding() {
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-6 mt-8 md:mt-12">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 mt-8 md:mt-12">
+                      <Link
+                        href={item.href}
+                        className="inline-flex w-fit items-center gap-3 px-5 py-3 border border-white/10 text-[9px] font-mono uppercase tracking-[0.3em] text-white/70 hover:text-white hover:bg-white/5 transition-all"
+                      >
+                        Open product <ArrowRight className="h-3 w-3" />
+                      </Link>
                       <div className="h-[1px] w-12 bg-white/10" />
-                      <span className="text-[9px] font-mono uppercase tracking-[0.5em] text-gray-700">
+                      <span className="text-[9px] font-mono uppercase tracking-[0.35em] text-gray-700">
                         {item.tagline}
                       </span>
                     </div>
@@ -601,16 +768,15 @@ export default function VenymSearchLanding() {
               <div className="flex items-center gap-4 mb-8">
                 <div className="w-12 h-[1px] bg-white/20" />
                 <span className="text-[10px] font-mono text-gray-800 uppercase tracking-[0.6em]">
-                  Live Endpoint // 02
+                  Developer Quickstart // 03
                 </span>
               </div>
               <h2 className="text-4xl md:text-[6rem] font-display font-medium leading-[0.85] tracking-tighter mb-6">
-                Hit the API. <br />
-                <span className="text-gray-700 italic font-light">Right now.</span>
+                Test the shape. <br />
+                <span className="text-gray-700 italic font-light">Then ship it.</span>
               </h2>
               <p className="text-gray-500 font-sans font-light text-base md:text-xl max-w-2xl leading-relaxed">
-                No signup. No card. Run a real query against production infrastructure
-                and see the response in your browser.
+                Start with the live demo, then copy the request pattern into your app. The product is the API contract: predictable input, clean output, metered usage.
               </p>
             </motion.div>
 
@@ -635,7 +801,7 @@ export default function VenymSearchLanding() {
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="hidden sm:inline text-[9px] font-mono text-gray-700">
-                    api.venym.io
+                    search.venym.io
                   </span>
                   <span className="text-[8px] md:text-[9px] font-mono uppercase tracking-[0.2em] px-2 py-1 border border-green-500/20 text-green-500/60 bg-green-500/5">
                     OPERATIONAL
@@ -653,7 +819,7 @@ export default function VenymSearchLanding() {
                 </span>
                 <div className="flex-1 h-[1px] bg-white/5 min-w-[16px]" />
                 <span className="text-[9px] font-mono text-white/40 whitespace-nowrap">
-                  REQUEST → AUTH → ROUTE → ENGINE → MERGE → RESPONSE
+                  REQUEST → AUTH → ROUTE / RENDER → NORMALIZE → RESPONSE
                 </span>
               </div>
             </motion.div>
@@ -672,16 +838,15 @@ export default function VenymSearchLanding() {
               <div className="flex items-center gap-4 mb-10">
                 <div className="w-12 h-[1px] bg-white/20" />
                 <span className="text-[10px] font-mono text-gray-800 uppercase tracking-[0.6em]">
-                  System Architecture // 03
+                  Infrastructure Layer // 04
                 </span>
               </div>
               <h2 className="text-4xl md:text-[7rem] font-display font-medium leading-[0.85] text-white tracking-tighter mb-6">
-                Four subsystems. <br />
-                <span className="text-gray-700 italic font-light">One agent endpoint.</span>
+                Boring plumbing. <br />
+                <span className="text-gray-700 italic font-light">Handled.</span>
               </h2>
               <p className="text-gray-400 font-sans font-light text-base md:text-xl max-w-2xl leading-relaxed">
-                Routing, evasion, synthesis, governance. Built so your agent never sees
-                a blocked page, a stale cache, or an unscoped credential.
+                Routing, extraction, normalization, and usage controls handled behind a clean API so your team can build the product instead of babysitting scrapers.
               </p>
             </motion.div>
           </div>
@@ -765,7 +930,7 @@ export default function VenymSearchLanding() {
               <div className="flex items-center gap-4 mb-8">
                 <div className="w-12 h-[1px] bg-white/20" />
                 <span className="text-[10px] font-mono text-gray-800 uppercase tracking-[0.6em]">
-                  Integration Mesh // 04
+                  Integration Surface // 05
                 </span>
               </div>
               <h2 className="text-4xl md:text-[5.5rem] font-display font-medium leading-[0.85] tracking-tighter mb-6">
@@ -773,9 +938,7 @@ export default function VenymSearchLanding() {
                 <span className="text-gray-700 italic font-light">every agent stack.</span>
               </h2>
               <p className="text-gray-400 font-sans font-light text-base md:text-lg max-w-2xl leading-relaxed">
-                Native SDKs for Python and TypeScript. First-class tools for LangChain,
-                LlamaIndex, OpenAI tool-calls, and the MCP protocol. Wire it into n8n,
-                Zapier, Make, Pipedream. The endpoints look like any HTTP API — because they are.
+                Use it from Python, TypeScript, serverless functions, agent tools, workflow runners, or a plain backend. The integration surface is just HTTP plus typed SDKs.
               </p>
             </motion.div>
 
@@ -818,7 +981,7 @@ export default function VenymSearchLanding() {
               <div className="flex items-center gap-6 mt-6 md:mt-8 pt-6 border-t border-white/5">
                 <div className="h-[1px] w-12 bg-white/10" />
                 <span className="text-[9px] font-mono uppercase tracking-[0.5em] text-gray-700">
-                  REST // GRPC // PYTHON // TYPESCRIPT
+                  REST // PYTHON // TYPESCRIPT // WEBHOOKS
                 </span>
               </div>
             </motion.div>
@@ -828,17 +991,17 @@ export default function VenymSearchLanding() {
                 {
                   icon: Cpu,
                   label: 'AGENT FRAMEWORKS',
-                  body: 'Drop-in tool definitions for LangChain, LlamaIndex, OpenAI tool-calls, and the MCP protocol.',
+                  body: 'Wrap the endpoints as tools for LangChain, LlamaIndex, OpenAI tool-calls, or MCP servers.',
                 },
                 {
                   icon: Network,
                   label: 'WORKFLOW ORCHESTRATORS',
-                  body: 'Native nodes for n8n, Zapier, Make, Pipedream. Wire scraping into business pipelines.',
+                  body: 'Call the API from n8n, Zapier, Make, Pipedream, queues, cron jobs, or serverless functions.',
                 },
                 {
                   icon: Boxes,
                   label: 'NATIVE SDKs',
-                  body: 'Typed clients for Python and TypeScript. Streaming, retries, rate-limit handling included.',
+                  body: 'Typed clients for Python and TypeScript, plus plain REST for any stack that speaks HTTP.',
                 },
               ].map((c, i) => {
                 const Icon = c.icon
@@ -878,12 +1041,12 @@ export default function VenymSearchLanding() {
               <div className="flex items-center gap-4 mb-8">
                 <div className="w-12 h-[1px] bg-white/20" />
                 <span className="text-[10px] font-mono text-gray-800 uppercase tracking-[0.6em]">
-                  Operational Telemetry // 05
+                  Product Facts // 06
                 </span>
               </div>
               <h2 className="text-3xl md:text-[5rem] font-display font-medium leading-[0.85] tracking-tighter">
-                Numbers from <br />
-                <span className="text-gray-700 italic font-light">production.</span>
+                Simple pricing. <br />
+                <span className="text-gray-700 italic font-light">Clear surface.</span>
               </h2>
             </motion.div>
 
@@ -923,7 +1086,7 @@ export default function VenymSearchLanding() {
             >
               <div className="w-12 h-[1px] bg-white/20" />
               <span className="text-[10px] font-mono text-gray-800 uppercase tracking-[0.6em]">
-                Commencement // 06
+                Start Building // 07
               </span>
             </motion.div>
 
