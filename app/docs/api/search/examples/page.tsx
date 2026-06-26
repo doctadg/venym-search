@@ -23,7 +23,7 @@ export default function SearchExamplesPage() {
 # Basic search with minimal parameters
 response = requests.post(
     "https://www.search.venym.io/api/v1/search",
-    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_API_KEY_key_here"},
+    headers={"Authorization": "Bearer " + "sk_live_64_HEX_CHARS_key_here"},
     json={
         "query": "Python web scraping libraries 2025",
         "max_results": 10
@@ -48,7 +48,7 @@ async function basicSearch() {
       max_results: 10
     },
     {
-      headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_API_KEY_key_here' }
+      headers: { 'Authorization": "Bearer': 'sk_live_64_HEX_CHARS_key_here' }
     }
   );
   console.log(\`Found \${response.data.search_results.length} results\`);
@@ -56,7 +56,7 @@ async function basicSearch() {
 
 basicSearch();`,
     bash: `curl -X POST https://www.search.venym.io/api/v1/search \\
-  -H "Authorization": "Bearer: sk_live_YOUR_API_KEY_API_KEY_key_here" \\
+  -H "Authorization": "Bearer: sk_live_64_HEX_CHARS_key_here" \\
   -H "Content-Type: application/json" \\
   -d '{
     "query": "Python web scraping libraries 2025",
@@ -69,7 +69,7 @@ basicSearch();`,
 
 response = requests.post(
     "https://www.search.venym.io/api/v1/search",
-    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_API_KEY_key_here"},
+    headers={"Authorization": "Bearer " + "sk_live_64_HEX_CHARS_key_here"},
     json={
         "query": "AI breakthrough artificial intelligence",
         "max_results": 15,
@@ -96,7 +96,7 @@ async function searchRecentNews() {
       language: 'en'
     },
     {
-      headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_API_KEY_key_here' }
+      headers: { 'Authorization": "Bearer': 'sk_live_64_HEX_CHARS_key_here' }
     }
   );
   console.log(\`Found \${response.data.total_results} total news articles\`);
@@ -110,7 +110,7 @@ searchRecentNews();`
 
 response = requests.post(
     "https://www.search.venym.io/api/v1/search",
-    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_API_KEY_key_here"},
+    headers={"Authorization": "Bearer " + "sk_live_64_HEX_CHARS_key_here"},
     json={
         "query": "SaaS startup founders email contact",
         "max_results": 20,
@@ -161,7 +161,7 @@ async function generateLeads() {
       country: 'US'
     },
     {
-      headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_API_KEY_key_here' }
+      headers: { 'Authorization": "Bearer': 'sk_live_64_HEX_CHARS_key_here' }
     }
   );
 
@@ -197,7 +197,7 @@ all_results = []
 for query in competitors:
     response = requests.post(
         "https://www.search.venym.io/api/v1/search",
-        headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_API_KEY_key_here"},
+        headers={"Authorization": "Bearer " + "sk_live_64_HEX_CHARS_key_here"},
         json={
             "query": query,
             "max_results": 15,
@@ -231,7 +231,7 @@ price_data = []
 for product_query in products_to_monitor:
     response = requests.post(
         "https://www.search.venym.io/api/v1/search",
-        headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_API_KEY_key_here"},
+        headers={"Authorization": "Bearer " + "sk_live_64_HEX_CHARS_key_here"},
         json={
             "query": product_query + " site:amazon.com OR site:bestbuy.com OR site:target.com",
             "max_results": 10,

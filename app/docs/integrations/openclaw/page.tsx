@@ -162,7 +162,7 @@ cp -r integrations/openclaw/skills/VENYM_SEARCH \\
   ~/.openclaw/workspace/skills/
 
 # Set your API key
-export VENYM_SEARCH_API_KEY="sk_live_YOUR_API_KEY_API_KEY_key_here"
+export VENYM_SEARCH_API_KEY="sk_live_64_HEX_CHARS_key_here"
 
 # Make scripts executable
 chmod +x ~/.openclaw/workspace/skills/VENYM_SEARCH/scripts/*.sh

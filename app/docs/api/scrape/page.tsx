@@ -26,7 +26,7 @@ export default function ScrapeAPIPage() {
 
 response = requests.post(
     "https://www.search.venym.io/api/v1/scrape",
-    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_API_KEY_key_here"},
+    headers={"Authorization": "Bearer " + "sk_live_64_HEX_CHARS_key_here"},
     json={
         "url": "https://example.com/products",
         "render_js": True,
@@ -54,7 +54,7 @@ const response = await axios.post(
     follow_redirects: true
   },
   {
-    headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_API_KEY_key_here' }
+    headers: { 'Authorization": "Bearer': 'sk_live_64_HEX_CHARS_key_here' }
   }
 );
 
@@ -63,7 +63,7 @@ console.log(\`Scraped \${data.content.length} characters\`);
 console.log(\`Found \${data.links.length} links\`);
 console.log(\`Load time: \${data.load_time}s\`);`,
     bash: `curl -X POST https://www.search.venym.io/api/v1/scrape \\
-  -H "Authorization": "Bearer: sk_live_YOUR_API_KEY_API_KEY_key_here" \\
+  -H "Authorization": "Bearer: sk_live_64_HEX_CHARS_key_here" \\
   -H "Content-Type: application/json" \\
   -d '{
     "url": "https://example.com/products",
@@ -86,7 +86,7 @@ urls_to_scrape = [
 
 response = requests.post(
     "https://www.search.venym.io/api/v1/scrape/bulk",
-    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_API_KEY_key_here"},
+    headers={"Authorization": "Bearer " + "sk_live_64_HEX_CHARS_key_here"},
     json={
         "urls": urls_to_scrape,
         "render_js": True,
@@ -119,7 +119,7 @@ const response = await axios.post(
     extract_schema: true
   },
   {
-    headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_API_KEY_key_here' }
+    headers: { 'Authorization": "Bearer': 'sk_live_64_HEX_CHARS_key_here' }
   }
 );
 

@@ -15,14 +15,14 @@ import { APIMethod } from '../../components/APIMethod'
 export default function RESTAPIPage() {
 
   const authExample = `# Authentication Header
-Authorization: Bearer sk_live_YOUR_API_KEY_API_KEY_api_key_here
+Authorization: Bearer sk_live_64_HEX_CHARS_api_key_here
 
 # Alternative format (if your client doesn't support Bearer)
-Authorization: sk_live_YOUR_API_KEY_API_KEY_api_key_here`
+Authorization: sk_live_64_HEX_CHARS_api_key_here`
 
   const swiftSearchExample = {
     curl: `curl -X POST https://www.search.venym.io/api/v1/search \\
-  -H "Authorization: Bearer sk_live_YOUR_API_KEY_API_KEY_key" \\
+  -H "Authorization: Bearer sk_live_64_HEX_CHARS_key" \\
   -H "Content-Type: application/json" \\
   -d '{
     "query": "latest AI developments 2025",
@@ -35,7 +35,7 @@ Authorization: sk_live_YOUR_API_KEY_API_KEY_api_key_here`
 
 response = requests.post(
     "https://www.search.venym.io/api/v1/search",
-    headers={"Authorization": "Bearer sk_live_YOUR_API_KEY_API_KEY_key"},
+    headers={"Authorization": "Bearer sk_live_64_HEX_CHARS_key"},
     json={
         "query": "latest AI developments 2025",
         "max_results": 10,
@@ -49,7 +49,7 @@ data = response.json()`,
     javascript: `const response = await fetch('https://www.search.venym.io/api/v1/search', {
   method: 'POST',
   headers: {
-    'Authorization': 'Bearer sk_live_YOUR_API_KEY_API_KEY_key',
+    'Authorization': 'Bearer sk_live_64_HEX_CHARS_key',
     'Content-Type': 'application/json'
   },
   body: JSON.stringify({
@@ -66,7 +66,7 @@ const data = await response.json();`
 
   const scrapeForgeExample = {
     curl: `curl -X POST https://www.search.venym.io/api/v1/scrape \\
-  -H "Authorization: Bearer sk_live_YOUR_API_KEY_API_KEY_key" \\
+  -H "Authorization: Bearer sk_live_64_HEX_CHARS_key" \\
   -H "Content-Type: application/json" \\
   -d '{
     "url": "https://example.com/article",
@@ -77,7 +77,7 @@ const data = await response.json();`
   }'`,
     python: `response = requests.post(
     "https://www.search.venym.io/api/v1/scrape",
-    headers={"Authorization": "Bearer sk_live_YOUR_API_KEY_API_KEY_key"},
+    headers={"Authorization": "Bearer sk_live_64_HEX_CHARS_key"},
     json={
         "url": "https://example.com/article",
         "extract_options": ["title", "text", "links", "images"],
@@ -89,7 +89,7 @@ const data = await response.json();`
     javascript: `const response = await fetch('https://www.search.venym.io/api/v1/scrape', {
   method: 'POST',
   headers: {
-    'Authorization': 'Bearer sk_live_YOUR_API_KEY_API_KEY_key',
+    'Authorization': 'Bearer sk_live_64_HEX_CHARS_key',
     'Content-Type': 'application/json'
   },
   body: JSON.stringify({
@@ -175,7 +175,7 @@ const data = await response.json();`
         <div className="mt-6 p-5 border border-white/[0.06] bg-white/[0.02] rounded-sm">
           <h4 className="text-[14px] font-medium text-white mb-2">Important Notes:</h4>
           <ul className="text-[13px] text-white/65 space-y-1.5">
-            <li>• Your API key starts with <code className="px-1.5 py-0.5 text-[12.5px] font-mono bg-white/[0.04] border border-white/[0.06] text-white/80 rounded-sm">sk_live_YOUR_API_KEY_API_KEY</code> for production</li>
+            <li>• Your API key starts with <code className="px-1.5 py-0.5 text-[12.5px] font-mono bg-white/[0.04] border border-white/[0.06] text-white/80 rounded-sm">sk_live_64_HEX_CHARS</code> for production</li>
             <li>• Keep your API key secure and never expose it in client-side code</li>
             <li>• Use environment variables to store your API key</li>
             <li>• API keys are tied to your account and billing plan</li>

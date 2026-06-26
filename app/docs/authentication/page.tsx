@@ -19,7 +19,7 @@ export default function AuthenticationPage() {
     python: `import requests
 
 # Your API key from the dashboard
-API_KEY = "sk_live_YOUR_API_KEY_API_KEY"
+API_KEY = "sk_live_64_HEX_CHARS"
 
 # Include API key in headers
 headers = {
@@ -42,7 +42,7 @@ elif response.status_code == 200:
     javascript: `const axios = require('axios');
 
 // Your API key from the dashboard
-const API_KEY = 'sk_live_YOUR_API_KEY_API_KEY';
+const API_KEY = 'sk_live_64_HEX_CHARS';
 
 // Include API key in headers
 const config = {
@@ -68,7 +68,7 @@ try {
   }
 }`,
     bash: `# Your API key from the dashboard
-API_KEY="sk_live_YOUR_API_KEY_API_KEY"
+API_KEY="sk_live_64_HEX_CHARS"
 
 # Include API key in header
 curl -X POST https://www.search.venym.io/api/v1/search \\
@@ -120,7 +120,7 @@ const config = {
   headers: { 'Authorization': \`Bearer \$\{API_KEY\}\` }
 };`,
     bash: `# .env file
-VENYM_SEARCH_API_KEY=sk_live_YOUR_API_KEY_API_KEY_key_here
+VENYM_SEARCH_API_KEY=sk_live_64_HEX_CHARS_key_here
 
 # Load in script
 source .env
@@ -219,7 +219,7 @@ curl -H "Authorization: Bearer $VENYM_SEARCH_API_KEY" \\
             <div className="flex items-center justify-between flex-wrap gap-3">
               <div>
                 <p className="text-[14px] text-white/65">Navigate to your dashboard and create a new API key</p>
-                <p className="text-[12.5px] text-white/40 mt-1">Keys start with <code className="px-1.5 py-0.5 text-[12.5px] font-mono bg-white/[0.04] border border-white/[0.06] text-white/80 rounded-sm">sk_live_YOUR_API_KEY_API_KEY</code></p>
+                <p className="text-[12.5px] text-white/40 mt-1">Keys start with <code className="px-1.5 py-0.5 text-[12.5px] font-mono bg-white/[0.04] border border-white/[0.06] text-white/80 rounded-sm">sk_live_64_HEX_CHARS</code></p>
               </div>
               <Link href="/dashboard" className="venym-btn-secondary">
                 Go to Dashboard
@@ -242,7 +242,7 @@ curl -H "Authorization: Bearer $VENYM_SEARCH_API_KEY" \\
           <div>
             <h3 className="text-lg font-semibold text-white mb-3">Header Format</h3>
             <CodeBlock
-              code="Authorization: Bearer sk_live_YOUR_API_KEY_API_KEY_key_here"
+              code="Authorization: Bearer sk_live_64_HEX_CHARS_key_here"
               language="bash"
               title="Required Authentication Header"
             />
@@ -403,7 +403,7 @@ curl -H "Authorization: Bearer $VENYM_SEARCH_API_KEY" \\
 
         <CodeBlock
           code={`curl -X POST https://www.search.venym.io/api/v1/search \\
-  -H "Authorization: Bearer YOUR_API_KEY_HERE" \\
+  -H "Authorization: Bearer VENYM_SEARCH_API_KEY_HERE" \\
   -H "Content-Type: application/json" \\
   -d '{"query": "test", "max_results": 1}'`}
           language="bash"

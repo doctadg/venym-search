@@ -23,7 +23,7 @@ export default function ScrapeExamplesPage() {
 
 response = requests.post(
     "https://www.search.venym.io/api/v1/scrape",
-    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_API_KEY_key_here"},
+    headers={"Authorization": "Bearer " + "sk_live_64_HEX_CHARS_key_here"},
     json={
         "url": "https://example-news.com/articles",
         "render_js": False,
@@ -52,7 +52,7 @@ async function scrapeStaticContent() {
       proxy_country: 'US'
     },
     {
-      headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_API_KEY_key_here' }
+      headers: { 'Authorization": "Bearer': 'sk_live_64_HEX_CHARS_key_here' }
     }
   );
   console.log(response.data);
@@ -66,7 +66,7 @@ scrapeStaticContent();`
 
 response = requests.post(
     "https://www.search.venym.io/api/v1/scrape",
-    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_API_KEY_key_here"},
+    headers={"Authorization": "Bearer " + "sk_live_64_HEX_CHARS_key_here"},
     json={
         "url": "https://spa-ecommerce.com/products",
         "render_js": True,
@@ -105,7 +105,7 @@ async function scrapeSPAContent() {
       proxy_type: 'residential'
     },
     {
-      headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_API_KEY_key_here' }
+      headers: { 'Authorization": "Bearer': 'sk_live_64_HEX_CHARS_key_here' }
     }
   );
   console.log(response.data);
@@ -125,7 +125,7 @@ product_urls = [
 
 response = requests.post(
     "https://www.search.venym.io/api/v1/scrape/bulk",
-    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_API_KEY_key_here"},
+    headers={"Authorization": "Bearer " + "sk_live_64_HEX_CHARS_key_here"},
     json={
         "urls": product_urls,
         "render_js": True,
@@ -168,7 +168,7 @@ async function bulkScrapeProducts() {
       proxy_type: 'residential'
     },
     {
-      headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_API_KEY_key_here' }
+      headers: { 'Authorization": "Bearer': 'sk_live_64_HEX_CHARS_key_here' }
     }
   );
 
@@ -183,7 +183,7 @@ bulkScrapeProducts();`
 
 login_response = requests.post(
     "https://www.search.venym.io/api/v1/scrape",
-    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_API_KEY_key_here"},
+    headers={"Authorization": "Bearer " + "sk_live_64_HEX_CHARS_key_here"},
     json={
         "url": "https://secure-site.com/login",
         "render_js": True,
@@ -203,7 +203,7 @@ if 'set_cookies' in login_data:
 
 protected_response = requests.post(
     "https://www.search.venym.io/api/v1/scrape",
-    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_API_KEY_key_here"},
+    headers={"Authorization": "Bearer " + "sk_live_64_HEX_CHARS_key_here"},
     json={
         "url": "https://secure-site.com/dashboard",
         "render_js": True,
@@ -229,7 +229,7 @@ async function scrapeWithAuthentication() {
       }
     },
     {
-      headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_API_KEY_key_here' }
+      headers: { 'Authorization": "Bearer': 'sk_live_64_HEX_CHARS_key_here' }
     }
   );
 
@@ -250,7 +250,7 @@ async function scrapeWithAuthentication() {
       extract_meta: true
     },
     {
-      headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_API_KEY_key_here' }
+      headers: { 'Authorization": "Bearer': 'sk_live_64_HEX_CHARS_key_here' }
     }
   );
 

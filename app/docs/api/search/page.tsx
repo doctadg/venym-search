@@ -22,7 +22,7 @@ export default function SearchPage() {
 
 response = requests.post(
     "https://www.search.venym.io/api/v1/search",
-    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_API_KEY_key_here"},
+    headers={"Authorization": "Bearer " + "sk_live_64_HEX_CHARS_key_here"},
     json={
         "query": "Bitcoin price 2025",
         "max_results": 10,
@@ -49,7 +49,7 @@ const response = await axios.post(
     include_social: false
   },
   {
-    headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_API_KEY_key_here' }
+    headers: { 'Authorization": "Bearer': 'sk_live_64_HEX_CHARS_key_here' }
   }
 );
 
@@ -57,7 +57,7 @@ const data = response.data;
 console.log(\`Found \${data.search_results.length} results\`);
 console.log(\`Scraped \${data.scraped_content.length} pages\`);`,
     bash: `curl -X POST https://www.search.venym.io/api/v1/search \\
-  -H "Authorization": "Bearer: sk_live_YOUR_API_KEY_API_KEY_key_here" \\
+  -H "Authorization": "Bearer: sk_live_64_HEX_CHARS_key_here" \\
   -H "Content-Type: application/json" \\
   -d '{
     "query": "Bitcoin price 2025",

@@ -20,7 +20,7 @@ export default function QuickStartPage() {
     python: `import requests
 
 # Replace with your actual API key from the dashboard
-API_KEY = "sk_live_YOUR_API_KEY_API_KEY_key_here"
+API_KEY = "sk_live_64_HEX_CHARS_key_here"
 
 response = requests.post(
     "https://www.search.venym.io/api/v1/search",
@@ -54,7 +54,7 @@ else:
 
 
 // Replace with your actual API key from the dashboard
-const API_KEY = 'sk_live_YOUR_API_KEY_API_KEY_key_here';
+const API_KEY = 'sk_live_64_HEX_CHARS_key_here';
 
 async function searchWeb() {
   try {
@@ -92,7 +92,7 @@ async function searchWeb() {
 
 searchWeb();`,
     bash: `# Replace with your actual API key from the dashboard
-API_KEY="sk_live_YOUR_API_KEY_API_KEY_key_here"
+API_KEY="sk_live_64_HEX_CHARS_key_here"
 
 curl -X POST https://www.search.venym.io/api/v1/search \
   -H "Authorization: Bearer $API_KEY" \
@@ -106,7 +106,7 @@ curl -X POST https://www.search.venym.io/api/v1/search \
   const scrapeCode = {
     python: `import requests
 
-API_KEY = "sk_live_YOUR_API_KEY_API_KEY_key_here"
+API_KEY = "sk_live_64_HEX_CHARS_key_here"
 
 # Scrape a specific webpage
 response = requests.post(
@@ -190,7 +190,7 @@ console.log(\`Content length: \$\{data.primary_content.text.length\} characters\
             </div>
             <div className="flex items-center gap-3">
               <CheckCircle className="w-4 h-4 text-emerald-400/80 flex-shrink-0" />
-              <span className="text-[14px] text-white/70">Click "Generate API Key" → Copy your key (starts with <code className="px-1.5 py-0.5 text-[12.5px] font-mono bg-white/[0.04] border border-white/[0.06] text-white/80 rounded-sm">sk_live_YOUR_API_KEY_API_KEY</code>)</span>
+              <span className="text-[14px] text-white/70">Click "Generate API Key" → Copy your key (starts with <code className="px-1.5 py-0.5 text-[12.5px] font-mono bg-white/[0.04] border border-white/[0.06] text-white/80 rounded-sm">sk_live_64_HEX_CHARS</code>)</span>
             </div>
             <div className="flex items-center gap-3">
               <CheckCircle className="w-4 h-4 text-emerald-400/80 flex-shrink-0" />

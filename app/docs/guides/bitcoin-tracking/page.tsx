@@ -226,7 +226,7 @@ if __name__ == "__main__":
     main()`
 
   const envExample = `# .env
-VENYM_SEARCH_API_KEY=sk_live_YOUR_API_KEY_API_KEY_key_here
+VENYM_SEARCH_API_KEY=sk_live_64_HEX_CHARS_key_here
 
 # Monitoring Settings
 CHECK_INTERVAL_MINUTES=30

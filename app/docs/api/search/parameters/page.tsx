@@ -47,7 +47,7 @@ export default function SearchParametersPage() {
 
 response = requests.post(
     "https://www.search.venym.io/api/v1/search",
-    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_API_KEY_key_here"},
+    headers={"Authorization": "Bearer " + "sk_live_64_HEX_CHARS_key_here"},
     json={
         "query": "latest AI developments"
     }
@@ -55,7 +55,7 @@ response = requests.post(
     javascript: `const response = await fetch('https://www.search.venym.io/api/v1/search', {
   method: 'POST',
   headers: {
-    'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_API_KEY_key_here',
+    'Authorization": "Bearer': 'sk_live_64_HEX_CHARS_key_here',
     'Content-Type': 'application/json'
   },
   body: JSON.stringify({
@@ -63,7 +63,7 @@ response = requests.post(
   })
 });`,
     bash: `curl -X POST https://www.search.venym.io/api/v1/search \\
-  -H "Authorization": "Bearer: sk_live_YOUR_API_KEY_API_KEY_key_here" \\
+  -H "Authorization": "Bearer: sk_live_64_HEX_CHARS_key_here" \\
   -H "Content-Type: application/json" \\
   -d '{
     "query": "latest AI developments"
@@ -75,7 +75,7 @@ response = requests.post(
 
 response = requests.post(
     "https://www.search.venym.io/api/v1/search",
-    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_API_KEY_key_here"},
+    headers={"Authorization": "Bearer " + "sk_live_64_HEX_CHARS_key_here"},
     json={
         "query": "enterprise SaaS startups 2025",
         "max_results": 20,
@@ -92,7 +92,7 @@ response = requests.post(
     javascript: `const response = await fetch('https://www.search.venym.io/api/v1/search', {
   method: 'POST',
   headers: {
-    'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_API_KEY_key_here',
+    'Authorization": "Bearer': 'sk_live_64_HEX_CHARS_key_here',
     'Content-Type': 'application/json'
   },
   body: JSON.stringify({
@@ -109,7 +109,7 @@ response = requests.post(
   })
 });`,
     bash: `curl -X POST https://www.search.venym.io/api/v1/search \\
-  -H "Authorization": "Bearer: sk_live_YOUR_API_KEY_API_KEY_key_here" \\
+  -H "Authorization": "Bearer: sk_live_64_HEX_CHARS_key_here" \\
   -H "Content-Type: application/json" \\
   -d '{
     "query": "enterprise SaaS startups 2025",

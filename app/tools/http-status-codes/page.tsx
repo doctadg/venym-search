@@ -278,7 +278,7 @@ export default function HttpStatusCodesPage() {
           <div className="rounded-lg bg-gray-900 p-4">
             <pre className="text-xs text-green-400 font-mono overflow-x-auto">
               <code>{`curl -X POST https://search.venym.io/api/v1/scrape \\
-  -H "Authorization: Bearer YOUR_API_KEY" \\
+  -H "Authorization: Bearer VENYM_SEARCH_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{"url": "https://example.com", "method": "HEAD"}'
 

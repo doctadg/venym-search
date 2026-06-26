@@ -439,7 +439,7 @@ export default function OnboardingPage() {
                 <div className="p-5">
                   <pre className="bg-white/[0.03] border border-white/[0.08] rounded-sm p-3 font-mono text-[11px] text-white/70 overflow-x-auto whitespace-pre-wrap">
 {`curl -X POST ${apis[selectedApi].endpoint} \\
-  -H "x-api-key: ${showApiKey ? apiKey : "YOUR_API_KEY"}" \\
+  -H "x-api-key: ${showApiKey ? apiKey : "VENYM_SEARCH_API_KEY"}" \\
   -H "Content-Type: application/json" \\
   -d '{"query": "${apis[selectedApi].example.query}"}'`}
                   </pre>

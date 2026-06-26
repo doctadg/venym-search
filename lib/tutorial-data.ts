@@ -18,7 +18,7 @@ export const tutorials: Tutorial[] = [
     readingTime: 8,
     steps: [
       { title: 'Set up your API key', content: 'Sign up at search.venym.io and get your API key from the dashboard.' },
-      { title: 'Make your first scrape request', content: 'Use the Scrape endpoint to extract product data from any Amazon page.', code: `import Venym Search from 'VENYM_SEARCH';\nconst client = new Venym Search('sk_live_YOUR_API_KEY');\nconst result = await client.scrape({\n  url: 'https://www.amazon.com/dp/B0BSHF7WHW',\n  extract: { title: 'h1#title', price: '.a-price .a-offscreen', rating: '#acrPopover' }\n});` },
+      { title: 'Make your first scrape request', content: 'Use the Scrape endpoint to extract product data from any Amazon page.', code: `import Venym Search from 'VENYM_SEARCH';\nconst client = new Venym Search('sk_live_64_HEX_CHARS');\nconst result = await client.scrape({\n  url: 'https://www.amazon.com/dp/B0BSHF7WHW',\n  extract: { title: 'h1#title', price: '.a-price .a-offscreen', rating: '#acrPopover' }\n});` },
       { title: 'Parse and store the data', content: 'Extract structured fields from the response and save to your database.' },
       { title: 'Set up monitoring', content: 'Schedule regular scrapes to track price changes over time.' }
     ]
@@ -32,7 +32,7 @@ export const tutorials: Tutorial[] = [
     readingTime: 10,
     steps: [
       { title: 'Define competitor URLs', content: 'Create a list of competitor product pages to monitor.' },
-      { title: 'Set up scheduled scraping', content: 'Use Scrape to extract prices on a schedule.', code: `const response = await fetch('https://search.venym.io/api/v1/scrape', {\n  method: 'POST',\n  headers: { 'Authorization': 'Bearer sk_live_YOUR_API_KEY', 'Content-Type': 'application/json' },\n  body: JSON.stringify({ url: competitorUrl, extract: { price: '.price' } })\n});` },
+      { title: 'Set up scheduled scraping', content: 'Use Scrape to extract prices on a schedule.', code: `const response = await fetch('https://search.venym.io/api/v1/scrape', {\n  method: 'POST',\n  headers: { 'Authorization': 'Bearer sk_live_64_HEX_CHARS', 'Content-Type': 'application/json' },\n  body: JSON.stringify({ url: competitorUrl, extract: { price: '.price' } })\n});` },
       { title: 'Build a price comparison dashboard', content: 'Display price trends and alerts when competitors change pricing.' },
       { title: 'Set up notifications', content: 'Get alerts via Slack, email, or webhooks when prices drop.' }
     ]
@@ -74,7 +74,7 @@ export const tutorials: Tutorial[] = [
     readingTime: 6,
     steps: [
       { title: 'Install the SDK', content: 'Install the Venym Search Python package.', code: `pip install VENYM_SEARCH` },
-      { title: 'Initialize the client', content: 'Set up your API key and make your first search.', code: `from VENYM_SEARCH import Venym Search\nclient = Venym Search(api_key="sk_live_YOUR_API_KEY")\nresults = client.search(query="latest AI developments", max_results=10)` },
+      { title: 'Initialize the client', content: 'Set up your API key and make your first search.', code: `from VENYM_SEARCH import Venym Search\nclient = Venym Search(api_key="sk_live_64_HEX_CHARS")\nresults = client.search(query="latest AI developments", max_results=10)` },
       { title: 'Process results', content: 'Loop through search results and extract the data you need.', code: `for result in results['search_results']:\n    print(f"{result['title']} - {result['url']}")` },
       { title: 'Build a search tool', content: 'Wrap it in a CLI tool or web app for easy access.' }
     ]
@@ -88,7 +88,7 @@ export const tutorials: Tutorial[] = [
     readingTime: 10,
     steps: [
       { title: 'Understand the architecture', content: 'AI agents need web access to answer questions about current events, data, and more.' },
-      { title: 'Create a search tool', content: 'Build a tool wrapper that your AI agent can call.', code: `def web_search(query: str) -> str:\n    client = Venym Search(api_key="sk_live_YOUR_API_KEY")\n    results = client.search(query=query, max_results=5)\n    return "\\n".join([r["snippet"] for r in results["search_results"]])` },
+      { title: 'Create a search tool', content: 'Build a tool wrapper that your AI agent can call.', code: `def web_search(query: str) -> str:\n    client = Venym Search(api_key="sk_live_64_HEX_CHARS")\n    results = client.search(query=query, max_results=5)\n    return "\\n".join([r["snippet"] for r in results["search_results"]])` },
       { title: 'Integrate with your agent', content: 'Register the tool with LangChain, CrewAI, or your custom agent framework.' },
       { title: 'Add caching and rate limiting', content: 'Optimize API usage with intelligent caching.' }
     ]

@@ -28,7 +28,7 @@ export default function JavaScriptSDKPage() {
 
 
 const client = new Venym Search({
-  apiKey: 'sk_live_YOUR_API_KEY_API_KEY_key_here',
+  apiKey: 'sk_live_64_HEX_CHARS_key_here',
   // baseURL: 'https://www.search.venym.io/api/v1', // default
 });`
 

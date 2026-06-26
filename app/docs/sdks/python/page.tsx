@@ -26,7 +26,7 @@ pip install --upgrade git+https://github.com/doctadg/VENYM_SEARCH-python.git`
   const quickStartCode = `from VENYM_SEARCH import Venym Search
 
 # Initialize client with your API key
-client = Venym Search(api_key="sk_live_YOUR_API_KEY_API_KEY_key_here")
+client = Venym Search(api_key="sk_live_64_HEX_CHARS_key_here")
 
 # Search: Real-time web search
 search_results = client.venym_search(
@@ -56,12 +56,12 @@ print(f"Content length: {len(scraped_data.text)}")`
 
 # Basic configuration with API key
 client = Venym Search(
-    api_key="sk_live_YOUR_API_KEY_API_KEY_key_here"
+    api_key="sk_live_64_HEX_CHARS_key_here"
 )
 
 # Full configuration
 client = Venym Search(
-    api_key="sk_live_YOUR_API_KEY_API_KEY_key_here",
+    api_key="sk_live_64_HEX_CHARS_key_here",
     base_url="https://www.search.venym.io/api/v1",
     timeout=30,
 )
@@ -125,7 +125,7 @@ for result in batch_results:
 from VENYM_SEARCH import AsyncVenym Search
 
 async def main():
-    client = AsyncVenym Search(api_key="sk_live_YOUR_API_KEY_API_KEY_key_here")
+    client = AsyncVenym Search(api_key="sk_live_64_HEX_CHARS_key_here")
 
     try:
         results = await client.venym_search("Python async tutorial")
@@ -145,7 +145,7 @@ asyncio.run(main())`
   const errorHandlingCode = `from VENYM_SEARCH import Venym Search
 from VENYM_SEARCH.exceptions import VenymSearchError, AuthenticationError, RateLimitError
 
-client = Venym Search(api_key="sk_live_YOUR_API_KEY_API_KEY_key_here")
+client = Venym Search(api_key="sk_live_64_HEX_CHARS_key_here")
 
 try:
     results = client.venym_search("test query")

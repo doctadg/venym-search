@@ -30,7 +30,7 @@ export default function MCPIntegrationPage() {
       "command": "npx",
       "args": ["@VENYM_SEARCH/mcp-server"],
       "env": {
-        "VENYM_SEARCH_API_KEY": "sk_live_YOUR_API_KEY_API_KEY_key_here"
+        "VENYM_SEARCH_API_KEY": "sk_live_64_HEX_CHARS_key_here"
       }
     }
   }
@@ -42,7 +42,7 @@ export default function MCPIntegrationPage() {
       "VENYM_SEARCH": {
         "command": "VENYM_SEARCH-mcp",
         "env": {
-          "VENYM_SEARCH_API_KEY": "sk_live_YOUR_API_KEY_API_KEY_key_here"
+          "VENYM_SEARCH_API_KEY": "sk_live_64_HEX_CHARS_key_here"
         }
       }
     }
@@ -179,7 +179,7 @@ export default function MCPIntegrationPage() {
               <h3 className="text-lg font-semibold text-white mb-3">Configure API Key</h3>
               <CodeBlock
                 language="bash"
-                code="export VENYM_SEARCH_API_KEY=sk_live_YOUR_API_KEY_API_KEY_key_here"
+                code="export VENYM_SEARCH_API_KEY=sk_live_64_HEX_CHARS_key_here"
                 title="Set environment variable"
               />
               <p className="text-[13px] text-white/55 mt-3">

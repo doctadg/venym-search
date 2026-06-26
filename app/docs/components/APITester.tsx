@@ -53,7 +53,7 @@ export function APITester({
   description,
   parameters,
   exampleRequest = {},
-  demoApiKey = "demo_sk_test_YOUR_API_KEY_API_KEY",
+  demoApiKey = "demo_sk_test_64_HEX_CHARS",
 }: APITesterProps) {
   const [apiKey, setApiKey] = useState(demoApiKey)
   const [formData, setFormData] = useState(exampleRequest)

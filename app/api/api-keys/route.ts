@@ -14,9 +14,9 @@ const deleteKeySchema = z.object({
 
 // Generate a secure API key
 function generateApiKey(): string {
-  const prefix = 'sk_live_YOUR_API_KEY'
-  const randomBytes = crypto.randomBytes(32).toString('hex')
-  return prefix + randomBytes
+  // Never include placeholder text in real keys. Format stays Stripe-like for
+  // compatibility with existing docs/examples: sk_live_<64 hex chars>.
+  return `sk_live_${crypto.randomBytes(32).toString('hex')}`
 }
 
 export async function GET(request: NextRequest) {

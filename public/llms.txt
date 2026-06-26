@@ -24,7 +24,7 @@ Multi-source AI research. Search, scrape top results, and synthesize findings in
 2. Get your API key from the dashboard
 3. Make your first request:
    curl -X POST https://search.venym.io/api/v1/swiftsearch \
-     -H "Authorization: Bearer YOUR_API_KEY" \
+     -H "Authorization: Bearer VENYM_SEARCH_API_KEY" \
      -H "Content-Type: application/json" \
      -d '{"query": "your search query"}'
 

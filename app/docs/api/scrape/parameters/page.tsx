@@ -68,7 +68,7 @@ export default function ScrapeParametersPage() {
 
 response = requests.post(
     "https://www.search.venym.io/api/v1/scrape",
-    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_API_KEY_key_here"},
+    headers={"Authorization": "Bearer " + "sk_live_64_HEX_CHARS_key_here"},
     json={
         "url": "https://example.com/products",
         "render_js": False,
@@ -85,11 +85,11 @@ const response = await axios.post(
     extract_links: true
   },
   {
-    headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_API_KEY_key_here' }
+    headers: { 'Authorization": "Bearer': 'sk_live_64_HEX_CHARS_key_here' }
   }
 );`,
     bash: `curl -X POST https://www.search.venym.io/api/v1/scrape \\
-  -H "Authorization": "Bearer: sk_live_YOUR_API_KEY_API_KEY_key_here" \\
+  -H "Authorization": "Bearer: sk_live_64_HEX_CHARS_key_here" \\
   -H "Content-Type: application/json" \\
   -d '{
     "url": "https://example.com/products",
@@ -103,7 +103,7 @@ const response = await axios.post(
 
 response = requests.post(
     "https://www.search.venym.io/api/v1/scrape",
-    headers={"Authorization": "Bearer " + "sk_live_YOUR_API_KEY_API_KEY_key_here"},
+    headers={"Authorization": "Bearer " + "sk_live_64_HEX_CHARS_key_here"},
     json={
         "url": "https://spa-example.com/dashboard",
         "render_js": True,
@@ -136,7 +136,7 @@ const response = await axios.post(
     screenshot: true
   },
   {
-    headers: { 'Authorization": "Bearer': 'sk_live_YOUR_API_KEY_API_KEY_key_here' }
+    headers: { 'Authorization": "Bearer': 'sk_live_64_HEX_CHARS_key_here' }
   }
 );`
   }

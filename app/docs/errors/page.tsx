@@ -46,7 +46,7 @@ def make_api_request(endpoint, data, max_retries=3):
     """
     Make API request with comprehensive error handling
     """
-    API_KEY = "sk_live_YOUR_API_KEY_API_KEY_key_here"
+    API_KEY = "sk_live_64_HEX_CHARS_key_here"
     base_url = "https://www.search.venym.io/api/v1"
 
     for attempt in range(max_retries):
@@ -176,7 +176,7 @@ class InsufficientCreditsError extends VenymSearchError {
 }
 
 async function makeApiRequest(endpoint, data, maxRetries = 3) {
-  const API_KEY = 'sk_live_YOUR_API_KEY_API_KEY_key_here';
+  const API_KEY = 'sk_live_64_HEX_CHARS_key_here';
   const baseURL = 'https://www.search.venym.io/api/v1';
 
   for (let attempt = 0; attempt < maxRetries; attempt++) {
@@ -286,7 +286,7 @@ example();`,
     bash: `#!/bin/bash
 
 # Venym Search API error handling script
-API_KEY="sk_live_YOUR_API_KEY_API_KEY_key_here"
+API_KEY="sk_live_64_HEX_CHARS_key_here"
 BASE_URL="https://www.search.venym.io/api/v1"
 MAX_RETRIES=3
 
