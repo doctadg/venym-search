@@ -394,7 +394,7 @@ export default function Dashboard() {
           <Link href="/" className="flex items-center gap-3 shrink-0">
             <div className="w-7 h-7 relative">
               <Image
-                src="/venym.png"
+                src="/venym-logo.svg"
                 alt="Venym Search"
                 width={28}
                 height={28}

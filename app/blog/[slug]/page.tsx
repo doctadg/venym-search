@@ -112,7 +112,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       url: "https://search.venym.io",
       logo: {
         "@type": "ImageObject",
-        url: "https://search.venym.io/logo.png"
+        url: "https://search.venym.io/venym-logo.png"
       }
     },
     mainEntityOfPage: {

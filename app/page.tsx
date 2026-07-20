@@ -2,6 +2,7 @@
 
 import React, { useRef, useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useUser } from '@clerk/nextjs'
 import {
   motion,
@@ -259,7 +260,14 @@ export default function VenymSearchLanding() {
         style={{ opacity: logoOpacity }}
         className="w-full flex justify-between items-center px-5 md:px-8 py-4 md:py-6 text-[9px] md:text-xs uppercase tracking-[0.2em] font-mono text-gray-500 bg-background/95 backdrop-blur-md z-50 sticky top-0 border-b border-white/5"
       >
-        <Link href="/" className="flex items-center gap-3">
+        <Link href="/" className="group flex items-center gap-3" aria-label="Venym Search home">
+          <motion.span
+            whileHover={{ scale: 1.06, rotate: 1 }}
+            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="relative block h-8 w-8 shrink-0 overflow-hidden"
+          >
+            <Image src="/venym-logo.svg" alt="" fill priority className="object-contain" />
+          </motion.span>
           <span className="text-white font-bold tracking-[0.3em] text-sm md:text-base">
             VENYM
           </span>

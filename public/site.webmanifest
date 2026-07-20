@@ -8,8 +8,8 @@
   "theme_color": "#050505",
   "icons": [
     {
-      "src": "/venym.png",
-      "sizes": "any",
+      "src": "/venym-logo.png",
+      "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     }

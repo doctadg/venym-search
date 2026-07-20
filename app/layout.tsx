@@ -58,6 +58,10 @@ export const metadata: Metadata = {
     },
   },
   manifest: '/site.webmanifest',
+  icons: {
+    icon: '/venym-logo.svg',
+    apple: '/venym-logo.png',
+  },
 }
 
 export default function RootLayout({
@@ -83,7 +87,7 @@ export default function RootLayout({
                 "@type": "Organization",
                 name: "Venym",
                 url: "https://search.venym.io",
-                logo: "https://search.venym.io/logo.png",
+                logo: "https://search.venym.io/venym-logo.png",
                 description: "Web search and scrape API built for AI agents. One endpoint, eight engines, JS-rendered, citation-ready.",
                 sameAs: [],
               },
